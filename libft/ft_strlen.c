@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 22:56:03 by tc                #+#    #+#             */
-/*   Updated: 2024/10/15 19:59:00 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/11 17:12:22 by yidemir           #+#    #+#             */
+/*   Updated: 2024/10/15 19:59:56 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+size_t	ft_strlen(const char *s)
 {
-	if (c > 255)
-		c = 0;
-	while (len--)
-	{
-		(*(char *)b) = c;
-		b++;
-	}
-	return (b);
+	int	length;
+
+	length = 0;
+	while (*s++)
+		length++;
+	return (length);
 }

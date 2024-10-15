@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 22:56:03 by tc                #+#    #+#             */
-/*   Updated: 2024/10/15 19:59:00 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/11 16:25:45 by yidemir           #+#    #+#             */
+/*   Updated: 2024/10/11 16:42:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-
-void	*ft_memset(void *b, int c, size_t len)
+int	ft_isalnum(int c)
 {
-	if (c > 255)
-		c = 0;
-	while (len--)
-	{
-		(*(char *)b) = c;
-		b++;
-	}
-	return (b);
+	int	is_upper;
+	int	is_lower;
+	int	is_alpha;
+	int	is_digit;
+
+	is_upper = (c >= 65 && c <= 90);
+	is_lower = (c >= 97 && c <= 122);
+	is_alpha = (is_upper || is_lower);
+	is_digit = (c >= 48 && c <= 57);
+	return (is_alpha || is_digit);
 }

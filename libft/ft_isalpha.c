@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 22:56:03 by tc                #+#    #+#             */
-/*   Updated: 2024/10/15 19:59:00 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/11 16:07:50 by yidemir           #+#    #+#             */
+/*   Updated: 2024/10/11 16:20:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-
-void	*ft_memset(void *b, int c, size_t len)
+int	ft_isalpha(int c)
 {
-	if (c > 255)
-		c = 0;
-	while (len--)
-	{
-		(*(char *)b) = c;
-		b++;
-	}
-	return (b);
+	int	is_upper;
+	int	is_lower;
+
+	is_upper = (c >= 65 && c <= 90);
+	is_lower = (c >= 97 && c <= 122);
+	return (is_upper || is_lower);
 }
