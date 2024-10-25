@@ -1,25 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy_test.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 19:01:10 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/24 13:18:57 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/23 19:46:04 by yidemir           #+#    #+#             */
+/*   Updated: 2024/10/25 15:14:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <string.h>
+#include <stdio.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	size_t	i;
+	unsigned int	i;
 
 	i = 0;
-	if (c > 255)
-		c = 0;
-	while (i < len)
-		((char *)b)[i++] = c;
-	return (b);
+	while (i < n)
+	{
+		((char *) dst)[i] = ((char *) src)[i];
+		i++;
+	}
+	return (dst);
+}
+
+int	main(void)
+{
+	char	dest[20];
+
+	ft_memcpy(dest, "Hello, World!", 14);
+
+	printf("Copied data: %s\n", dest);
+
+	return (0);
 }

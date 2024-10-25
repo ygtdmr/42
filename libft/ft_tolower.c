@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 19:01:10 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/24 13:18:57 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/24 16:21:42 by yidemir           #+#    #+#             */
+/*   Updated: 2024/10/24 16:28:59 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+int	ft_tolower(int c)
 {
-	size_t	i;
+	int	is_upper;
 
-	i = 0;
-	if (c > 255)
-		c = 0;
-	while (i < len)
-		((char *)b)[i++] = c;
-	return (b);
+	is_upper = (c >= 65 && c <= 90);
+	if (is_upper)
+		return (c + 32);
+	else
+		return (c);
 }

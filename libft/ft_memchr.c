@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 19:01:10 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/24 13:18:57 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/24 18:40:43 by yidemir           #+#    #+#             */
+/*   Updated: 2024/10/24 18:45:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	size_t	i;
+	char	*bs;
 
-	i = 0;
+	bs = (char *) s;
 	if (c > 255)
-		c = 0;
-	while (i < len)
-		((char *)b)[i++] = c;
-	return (b);
+		c -= 256;
+	while (n--)
+	{
+		if (*bs == c)
+			return (bs);
+		bs++;
+	}
+	return (0);
 }

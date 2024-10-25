@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_memcmp_test.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 19:01:10 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/24 13:18:57 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/24 18:50:52 by yidemir           #+#    #+#             */
+/*   Updated: 2024/10/24 22:26:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <string.h>
+#include <stdio.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	size_t	i;
+	unsigned char	*bs1;
+	unsigned char	*bs2;
 
-	i = 0;
-	if (c > 255)
-		c = 0;
-	while (i < len)
-		((char *)b)[i++] = c;
-	return (b);
+	bs1 = (unsigned char *) s1;
+	bs2 = (unsigned char *) s2;
+	while (n--)
+	{
+		if (*bs1 > *bs2)
+			return (1);
+		if (*bs1++ < *bs2++)
+			return (-1);
+	}
+	return (0);
+}
+
+int	main(void)
+{
+	printf("result=%i\n", ft_memcmp("Helloa", "Hellod", 19));
 }

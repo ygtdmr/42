@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy_test.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 17:12:22 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/23 19:01:21 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/24 13:48:38 by yidemir           #+#    #+#             */
+/*   Updated: 2024/10/24 14:46:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <string.h>
+#include <stdio.h>
 
 size_t	ft_strlen(const char *s)
 {
@@ -20,4 +21,29 @@ size_t	ft_strlen(const char *s)
 	while (*s++)
 		length++;
 	return (length);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	lsrc;
+
+	lsrc = ft_strlen(src);
+	if (dstsize)
+	{
+		while (*src && ((dstsize--) - 1))
+			*dst++ = *src++;
+		*dst = '\0';
+	}
+	return (lsrc);
+}
+
+int	main(void)
+{
+	char	dest[10];
+	size_t	size;
+
+
+	size = strlcpy(dest, "Hello World!", 0);
+
+	printf("result=%s\nsize=%zu\n", dest, size);
 }
