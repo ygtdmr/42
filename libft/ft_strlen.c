@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 17:12:22 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/23 19:01:21 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/10/29 10:36:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 size_t	ft_strlen(const char *s)
 {
-	int	length;
+	int	l;
 
-	length = 0;
+	l = 0;
 	while (*s++)
-		length++;
-	return (length);
+		l++;
+	return (l);
 }

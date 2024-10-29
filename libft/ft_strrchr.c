@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:32:15 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/24 17:20:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/10/25 22:44:52 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strrchr(const char *s, int c)
 			ls = ((char *)s);
 		s++;
 	}
-	if (c == '\0')
+	if (c == 0)
 		return ((char *)s);
 	return (ls);
 }

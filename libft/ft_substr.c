@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 14:38:02 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/25 22:44:52 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/25 22:16:38 by yidemir           #+#    #+#             */
+/*   Updated: 2024/10/25 22:43:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t	lsrc;
+	char	*ss;
+	size_t	flen;
 
-	lsrc = ft_strlen(src);
-	if (dstsize)
+	if (!s)
+		return (0);
+	if (start >= ft_strlen(s))
+		return ((char *) ft_calloc(1, sizeof(char)));
+	if (len > (ft_strlen(s) - start))
+		len = ft_strlen(s) - start;
+	flen = len;
+	ss = (char *) ft_calloc(len + 1, sizeof(char));
+	if (!ss)
+		return (0);
+	s += start;
+	while (*s && len)
 	{
-		while (*src && ((dstsize--) - 1))
-			*dst++ = *src++;
-		*dst = 0;
+		*ss++ = *s++;
+		len--;
 	}
-	return (lsrc);
+	return (ss - (flen - len));
 }
