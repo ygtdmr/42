@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:30:02 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/30 23:57:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/01 23:33:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,27 @@
 static int	splitlen(char const *s, char c)
 {
 	int	l;
-	int	isc;
+	int	is_sep;
 
-	if (!s)
-		return (0);
 	l = 0;
-	isc = 1;
+	is_sep = 1;
+	if (!s || !*s)
+		return (0);
 	while (*s)
 	{
 		if (*s != c)
-			isc = 0;
-		if (*s == c && *(s + 1) != c && *(s + 1) != 0 && !isc)
 		{
-			isc = 1;
-			l++;
+			if (is_sep)
+			{
+				l++;
+				is_sep = 0;
+			}
 		}
+		else
+			is_sep = 1;
 		s++;
 	}
-	return (l + 1);
+	return (l);
 }
 
 static int	strclen(char const *s, char c)

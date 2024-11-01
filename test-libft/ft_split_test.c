@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 13:31:02 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/30 23:46:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/01 23:11:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	splitlen(char const *s, char c)
 	int	l;
 	int	isc;
 
-	if (!s)
+	if (!s || !*s)
 		return (0);
 	l = 0;
 	isc = 1;
@@ -134,7 +134,7 @@ int	main(void)
 {
 	char	**sp;
 
-	sp = ft_split("  tripouille   42  r    ", ' ');
-	printf("result=%s\n", sp[1]);
+	sp = ft_split("", 'g');
+	printf("result=%s\n", sp[2]);
 	return (0);
 }

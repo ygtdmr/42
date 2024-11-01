@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 11:18:44 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/01 22:26:09 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/02 00:16:13 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		nnode = ft_lstnew(f(lst->content));
 		if (!nnode)
 		{
-			while (nlst)
-			{
-				del(nlst->content);
-				nlst = nlst->next;
-			}
-			free(nlst);
+			ft_lstclear(&nlst, del);
 			return (0);
 		}
 		ft_lstadd_back(&nlst, nnode);
