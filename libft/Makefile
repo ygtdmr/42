@@ -6,33 +6,39 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:33:55 by yigit             #+#    #+#              #
-#    Updated: 2024/11/01 12:26:28 by yidemir          ###   ########.fr        #
+#    Updated: 2024/11/02 01:09:10 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
+AR = ar -rcs
+RM = rm -f
 FLAGS = -Wall -Wextra -Werror
 
 BONUS_SRC = $(shell find ft_lst*.c)
 BONUS_OBJ = $(patsubst %.c, %.o, $(BONUS_SRC))
 
-SRC = $(shell find ft_*.c)
+SRC = $(shell find ft_*.c ! -name "ft_lst*.c")
 OBJ = $(patsubst %.c, %.o, $(SRC))
 NAME = libft.a
 
-$(NAME):
-	$(CC) $(FLAGS) -c $(SRC)
-	ar -rcs $(NAME) $(OBJ)
+%.o: %.c
+	$(CC) $(FLAGS) -c $< -o $@
+
+$(NAME): $(OBJ)
+	$(AR) $(NAME) $(OBJ)
+
+bonus: $(BONUS_OBJ)
+	$(AR) $(NAME) $(BONUS_OBJ)
+
+clean:
+	@$(RM) $(OBJ) $(BONUS_OBJ)
 
 all: $(NAME)
 
-bonus:	
-	$(CC) $(FLAGS) -c $(BONUS_SRC)
-	ar -rcs $(NAME) $(BONUS_OBJ)
-re: clean fclean all
+fclean: clean
+	@$(RM) $(NAME)
 
-clean:
-	rm -f $(shell find ft_*.o)
+re: fclean all
 
-fclean:
-	rm -f $(NAME)
+.PHONY: all, clean, fclean, re
