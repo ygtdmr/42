@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 00:47:59 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/01 00:50:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/01 22:04:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
+	if (!lst)
+		return ;
 	f(lst->content);
 	if (lst->next)
 		ft_lstiter(lst->next, f);

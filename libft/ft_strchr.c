@@ -6,21 +6,22 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:32:15 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/25 22:44:52 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/01 20:53:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 char	*ft_strchr(const char *s, int c)
 {
-	if (c > 255)
-		return ((char *)s);
-	while (*s)
+	char	ch;
+
+	ch = (char) c;
+	while (*s != 0)
 	{
-		if (*s == c)
+		if (*s == ch)
 			return ((char *)s);
 		s++;
 	}
-	if (c == 0)
-		return ((char *)s);
+	if (ch == 0)
+		return ((char *) s);
 	return (0);
 }

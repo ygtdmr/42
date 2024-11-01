@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:50:26 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/31 17:58:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/01 21:16:40 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,12 @@ char	*ft_itoa(int n)
 	int		isn;
 
 	if (n == -2147483648)
-	{
-		s = ft_calloc(12, sizeof(char));
-		ft_strlcpy(s, "-2147483648", 12);
-		return (s);
-	}
+		return (ft_strdup("-2147483648"));
 	ln = ilen(n);
 	isn = n < 0;
 	s = ft_calloc(ln + isn + 1, sizeof(char));
+	if (!s)
+		return (0);
 	if (isn)
 	{
 		n *= -1;

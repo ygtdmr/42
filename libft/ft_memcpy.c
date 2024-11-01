@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 22:20:24 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/01 12:39:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/01 21:54:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	size_t	i;
 
-	if (dst == 0 || src == 0)
-		return (dst);
+	if (dst == 0 && src == 0)
+		return (0);
 	i = 0;
 	while (i < n)
 	{

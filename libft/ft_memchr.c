@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 18:40:43 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/01 12:39:10 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/01 21:56:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void	*ft_memchr(const void *s, int c, size_t n)
 {
 	char	*bs;
+	char	ch;
 
 	bs = (char *) s;
-	if (c > 255)
-		c -= 256;
+	ch = (char) c;
 	while (n--)
 	{
-		if (*bs == c)
+		if (*bs == ch)
 			return (bs);
 		bs++;
 	}
