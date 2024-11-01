@@ -6,20 +6,18 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 19:01:10 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/25 21:18:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/01 13:09:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
 void	*ft_memset(void *b, int c, size_t len)
 {
-	size_t	flen;
+	void	*fb;
 
-	flen = len;
-	if (c > 255)
-		c = 0;
+	fb = b;
 	while (len--)
 		*((char *)b++) = c;
-	return (b - flen);
+	return (fb);
 }

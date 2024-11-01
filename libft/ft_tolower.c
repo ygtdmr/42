@@ -6,11 +6,9 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 16:21:42 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/24 16:28:59 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/01 12:44:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "libft.h"
 
 int	ft_tolower(int c)
 {

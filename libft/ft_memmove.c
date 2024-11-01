@@ -6,17 +6,30 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:44:50 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/24 13:32:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/01 13:55:46 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stddef.h>
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	if (dst == 0 || src == 0)
-		return (dst);
-	while (len--)
-		((char *) dst)[len] = ((const char *) src)[len];
+	char		*cdst;
+	const char	*csrc;
+
+	cdst = (char *) dst;
+	csrc = (const char *) src;
+	if (!src && !dst)
+		return (0);
+	if (cdst < csrc)
+	{
+		while (len--)
+			*cdst++ = *csrc++;
+	}
+	else
+	{
+		while (len--)
+			cdst[len] = csrc[len];
+	}
 	return (dst);
 }

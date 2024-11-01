@@ -6,52 +6,45 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:14:39 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/29 10:36:35 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/01 16:06:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlent(const char *s, char const *set)
+static int	ft_char_in_set(char c, char const *set)
 {
-	char const	*fset;
-	int			l;
+	size_t	i;
 
-	l = 0;
-	fset = set;
-	while (*s++ && *s != *set++)
+	i = 0;
+	while (set[i])
 	{
-		l++;
-		set = fset;
+		if (set[i] == c)
+			return (1);
+		i++;
 	}
-	return (l);
+	return (0);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char const	*fset;
-	char		*fcs;
-	char		*cs;
-	int			t;
+	char	*str;
+	size_t	i;
+	size_t	start;
+	size_t	end;
 
-	if (!s1 || !set)
-		return (0);
-	cs = ft_calloc((ft_strlent(s1, set) + 1), sizeof(char));
-	if (!cs)
-		return (0);
-	fset = set;
-	fcs = cs;
-	while (*s1++)
-	{
-		t = 0;
-		set = fset;
-		while (*set)
-		{
-			if (*(s1 - 1) == *set++)
-				t = 1;
-		}
-		if (!t)
-			*cs++ = *(s1 - 1);
-	}
-	return (fcs);
+	start = 0;
+	while (s1[start] && ft_char_in_set(s1[start], set))
+		start++;
+	end = ft_strlen(s1);
+	while (end > start && ft_char_in_set(s1[end - 1], set))
+		end--;
+	str = (char *) malloc(sizeof(*s1) * (end - start + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (start < end)
+		str[i++] = s1[start++];
+	str[i] = 0;
+	return (str);
 }

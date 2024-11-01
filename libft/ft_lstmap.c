@@ -1,20 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 18:58:04 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/01 12:19:33 by yidemir          ###   ########.fr       */
+/*   Created: 2024/11/01 11:18:44 by yidemir           #+#    #+#             */
+/*   Updated: 2024/11/01 12:20:11 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	while (*s)
-		write(fd, s++, 1);
-	write(fd, "\n", 1);
+	t_list	*nlst;
+	t_list	*nnode;
+
+	nlst = 0;
+	while (lst)
+	{
+		nnode = ft_lstnew(f(lst->content));
+		if (!nnode)
+		{
+			while (nlst)
+			{
+				del(nlst->content);
+				nlst = nlst->next;
+			}
+			free(nlst);
+			return (0);
+		}
+		ft_lstadd_back(&nlst, nnode);
+		lst = lst->next;
+	}
+	return (nlst);
 }

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:32:35 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/25 22:44:52 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/01 14:22:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 
 	lsrc = ft_strlen(src);
 	ldst = ft_strlen(dst);
-	if (dstsize && dstsize >= ldst)
+	if (dstsize && dstsize != (ldst + 1) && dstsize > ldst)
 	{
 		ldcat = dstsize - 1;
 		if (ldcat > ldst)
