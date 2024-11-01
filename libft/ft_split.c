@@ -1,65 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_test.c                                    :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 13:31:02 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/30 23:46:39 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/30 23:30:02 by yidemir           #+#    #+#             */
+/*   Updated: 2024/10/30 23:57:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
-size_t	ft_strlen(const char *s)
-{
-	int	l;
-
-	l = 0;
-	while (*s++)
-		l++;
-	return (l);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	lsrc;
-
-	lsrc = ft_strlen(src);
-	if (dstsize)
-	{
-		while (*src && ((dstsize--) - 1))
-			*dst++ = *src++;
-		*dst = 0;
-	}
-	return (lsrc);
-}
-
-void	*ft_memset(void *b, int c, size_t len)
-{
-	size_t	flen;
-
-	flen = len;
-	if (c > 255)
-		c = 0;
-	while (len--)
-		*((char *)b++) = c;
-	return (b - flen);
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*p;
-
-	p = malloc(count * size);
-	if (p)
-		ft_memset(p, 0, count * size);
-	return (p);
-}
+#include "libft.h"
 
 static int	splitlen(char const *s, char c)
 {
@@ -118,7 +69,7 @@ char	**ft_split(char const *s, char c)
 		if (*s == c && s++)
 			continue ;
 		lssplt = strclen(s, c);
-		sp[isplt] = ft_calloc(lssplt + 1, sizeof(char));
+		sp[isplt] = (char *) ft_calloc(lssplt + 1, sizeof(char));
 		if (!sp[isplt])
 		{
 			free_split(sp, lsplt);
@@ -128,13 +79,4 @@ char	**ft_split(char const *s, char c)
 		s += lssplt;
 	}
 	return (sp);
-}
-
-int	main(void)
-{
-	char	**sp;
-
-	sp = ft_split("  tripouille   42  r    ", ' ');
-	printf("result=%s\n", sp[1]);
-	return (0);
 }

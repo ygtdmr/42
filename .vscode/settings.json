@@ -12,6 +12,9 @@
 		"cstring": "cpp",
 		"ctime": "cpp",
 		"cwchar": "cpp",
-		"limits.h": "c"
+		"limits.h": "c",
+		"climits": "c",
+		"stddef.h": "c",
+		"unistd.h": "c"
 	}
 }

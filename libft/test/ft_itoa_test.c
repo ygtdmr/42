@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_test.c                                    :+:      :+:    :+:   */
+/*   ft_itoa_test.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 13:31:02 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/30 23:46:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/10/31 17:57:54 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 size_t	ft_strlen(const char *s)
 {
@@ -61,80 +60,52 @@ void	*ft_calloc(size_t count, size_t size)
 	return (p);
 }
 
-static int	splitlen(char const *s, char c)
+static int	ilen(int i)
 {
 	int	l;
-	int	isc;
 
-	if (!s)
-		return (0);
 	l = 0;
-	isc = 1;
-	while (*s)
+	if (i < 0)
+		i *= -1;
+	while (i >= 10)
 	{
-		if (*s != c)
-			isc = 0;
-		if (*s == c && *(s + 1) != c && *(s + 1) != 0 && !isc)
-		{
-			isc = 1;
-			l++;
-		}
-		s++;
+		i /= 10;
+		l++;
 	}
 	return (l + 1);
 }
 
-static int	strclen(char const *s, char c)
+char	*ft_itoa(int n)
 {
-	int	l;
+	char	*s;
+	int		ln;
+	int		isn;
 
-	l = 0;
-	while (*s != c && *s++)
-		l++;
-	return (l);
-}
-
-static void	free_split(char **sp, int lsp)
-{
-	while (lsp--)
-		free(sp[lsp]);
-	free(sp);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	char	**sp;
-	int		isplt;
-	int		lsplt;
-	int		lssplt;
-
-	isplt = 0;
-	lsplt = splitlen(s, c) + 1;
-	sp = (char **) ft_calloc(lsplt, sizeof(char *));
-	if (!sp)
-		return (0);
-	while (*s)
+	if (n == -2147483648)
 	{
-		if (*s == c && s++)
-			continue ;
-		lssplt = strclen(s, c);
-		sp[isplt] = ft_calloc(lssplt + 1, sizeof(char));
-		if (!sp[isplt])
-		{
-			free_split(sp, lsplt);
-			return (0);
-		}
-		ft_strlcpy(sp[isplt++], s, lssplt + 1);
-		s += lssplt;
+		s = ft_calloc(12, sizeof(char));
+		ft_strlcpy(s, "-2147483648", 12);
+		return (s);
 	}
-	return (sp);
+
+	ln = ilen(n);
+	isn = n < 0;
+	s = ft_calloc(ln + isn + 1, sizeof(char));
+	if (isn)
+	{
+		n *= -1;
+		*s = 45;
+	}
+	while (ln)
+	{
+		*(s + (isn + --ln)) = 48 + (n % 10);
+		n /= 10;
+	}
+	return (s);
 }
 
 int	main(void)
 {
-	char	**sp;
-
-	sp = ft_split("  tripouille   42  r    ", ' ');
-	printf("result=%s\n", sp[1]);
+	printf("result=%s\n", ft_itoa(-2147483648));
 	return (0);
 }
