@@ -6,11 +6,11 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:33:55 by yigit             #+#    #+#              #
-#    Updated: 2024/11/02 01:09:10 by yidemir          ###   ########.fr        #
+#    Updated: 2024/11/02 14:01:15 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = gcc
+CC = cc
 AR = ar -rcs
 RM = rm -f
 FLAGS = -Wall -Wextra -Werror

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 18:58:04 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/01 12:19:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/02 13:42:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	while (*s)
+	while (*s != 0)
 		write(fd, s++, 1);
 	write(fd, "\n", 1);
 }

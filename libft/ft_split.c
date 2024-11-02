@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:30:02 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/01 23:33:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/02 13:46:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static int	splitlen(char const *s, char c)
 
 	l = 0;
 	is_sep = 1;
-	if (!s || !*s)
+	if (!s || *s == 0)
 		return (0);
-	while (*s)
+	while (*s != 0)
 	{
 		if (*s != c)
 		{
@@ -43,7 +43,7 @@ static int	strclen(char const *s, char c)
 	int	l;
 
 	l = 0;
-	while (*s != c && *s++)
+	while (*s != c && *(s++) != 0)
 		l++;
 	return (l);
 }
@@ -67,7 +67,7 @@ char	**ft_split(char const *s, char c)
 	sp = (char **) ft_calloc(lsplt, sizeof(char *));
 	if (!sp)
 		return (0);
-	while (*s)
+	while (*s != 0)
 	{
 		if (*s == c && s++)
 			continue ;

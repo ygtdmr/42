@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 10:31:38 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/27 10:31:55 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/02 13:47:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	sj = (char *) malloc((ls1 + ls2 + 1) * sizeof(char));
 	if (!sj)
 		return (0);
-	while (*s1)
+	while (*s1 != 0)
 		*sj++ = *s1++;
-	while (*s2)
+	while (*s2 != 0)
 		*sj++ = *s2++;
 	*sj = 0;
 	return (sj - (ls1 + ls2));
