@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcmp_test.c                                   :+:      :+:    :+:   */
+/*   memset.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 18:50:52 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/24 22:26:24 by yidemir          ###   ########.fr       */
+/*   Created: 2024/11/03 15:51:17 by yidemir           #+#    #+#             */
+/*   Updated: 2024/11/03 17:16:56 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stdio.h>
-
-int	ft_memcmp(const void *s1, const void *s2, size_t n)
-{
-	unsigned char	*bs1;
-	unsigned char	*bs2;
-
-	bs1 = (unsigned char *) s1;
-	bs2 = (unsigned char *) s2;
-	while (n--)
-	{
-		if (*bs1 > *bs2)
-			return (1);
-		if (*bs1++ < *bs2++)
-			return (-1);
-	}
-	return (0);
-}
+#include ".test.h"
+#include "../libft/libft.h"
 
 int	main(void)
 {
-	printf("result=%i\n", ft_memcmp("Helloa", "Hellod", 19));
+
+	int i[] = {1, 2, 3};
+
+
+
+	ft_memset(i, 201, 1);
+	ft_memset(((void*) i) + 1, 255, 3);
+
+printf("result=%i\n", i[0]);
+
+	return (0);
 }

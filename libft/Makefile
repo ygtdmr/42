@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:33:55 by yigit             #+#    #+#              #
-#    Updated: 2024/11/02 14:01:15 by yidemir          ###   ########.fr        #
+#    Updated: 2024/11/03 16:04:50 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,30 +15,74 @@ AR = ar -rcs
 RM = rm -f
 FLAGS = -Wall -Wextra -Werror
 
-BONUS_SRC = $(shell find ft_lst*.c)
-BONUS_OBJ = $(patsubst %.c, %.o, $(BONUS_SRC))
+BONUS_SRC = ft_lstadd_back_bonus.c \
+			ft_lstadd_front_bonus.c \
+			ft_lstclear_bonus.c \
+			ft_lstdelone_bonus.c \
+			ft_lstiter_bonus.c \
+			ft_lstlast_bonus.c \
+			ft_lstmap_bonus.c \
+			ft_lstnew_bonus.c \
+			ft_lstsize_bonus.c
 
-SRC = $(shell find ft_*.c ! -name "ft_lst*.c")
-OBJ = $(patsubst %.c, %.o, $(SRC))
+BONUS_OBJ = $(BONUS_SRC:.c=.o)
+
+SRC =		ft_strlen.c \
+			ft_memmove.c \
+			ft_memcpy.c \
+			ft_strlcpy.c \
+			ft_strlcat.c \
+			ft_isalpha.c \
+			ft_isdigit.c \
+			ft_isalnum.c \
+			ft_isascii.c \
+			ft_isprint.c \
+			ft_memset.c \
+			ft_bzero.c \
+			ft_toupper.c \
+			ft_tolower.c \
+			ft_strchr.c \
+			ft_strrchr.c \
+			ft_strncmp.c \
+			ft_memchr.c \
+			ft_memcmp.c \
+			ft_strnstr.c \
+			ft_atoi.c \
+			ft_calloc.c \
+			ft_strdup.c \
+			ft_substr.c \
+			ft_strjoin.c \
+			ft_strtrim.c \
+			ft_split.c \
+			ft_itoa.c \
+			ft_strmapi.c \
+			ft_striteri.c \
+			ft_putchar_fd.c \
+			ft_putstr_fd.c \
+			ft_putendl_fd.c \
+			ft_putnbr_fd.c
+
+OBJ = $(SRC:.c=.o)
 NAME = libft.a
-
-%.o: %.c
-	$(CC) $(FLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
 	$(AR) $(NAME) $(OBJ)
 
-bonus: $(BONUS_OBJ)
-	$(AR) $(NAME) $(BONUS_OBJ)
+$(OBJ): $(SRC)
+	$(CC) $(FLAGS) -c $(SRC)
 
-clean:
-	@$(RM) $(OBJ) $(BONUS_OBJ)
+$(BONUS_OBJ): $(BONUS_SRC)
+	$(CC) $(FLAGS) -c $(BONUS_SRC)
 
 all: $(NAME)
 
-fclean: clean
-	@$(RM) $(NAME)
+clean:
+	$(RM) $(OBJ) $(BONUS_OBJ)
+
+fclean:
+	$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re
+bonus: $(BONUS_OBJ)
+	$(AR) $(NAME) $(BONUS_OBJ)

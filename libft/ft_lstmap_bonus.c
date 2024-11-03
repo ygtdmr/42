@@ -1,41 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero_test.c                                    :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 19:46:04 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/23 21:48:08 by yidemir          ###   ########.fr       */
+/*   Created: 2024/11/01 11:18:44 by yidemir           #+#    #+#             */
+/*   Updated: 2024/11/03 11:26:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stdio.h>
+#include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	int	i;
+	t_list	*nlst;
+	t_list	*nnode;
+	void	*ncontent;
 
-	i = 0;
-	if (c > 255)
-		c = 0;
-	while (i < len)
-		((char *)b)[i++] = c;
-	return (b);
-}
-
-int	main(void)
-{
-	char	s[32];
-
-	ft_memset(s, 'A', 32);
-
-	printf("result is: %s\n", s);
-
-	ft_memset(s, 'B', 4);
-
-	printf("result is: %s\n", s);
-
-	return (0);
+	nlst = 0;
+	while (lst)
+	{
+		ncontent = f(lst->content);
+		nnode = ft_lstnew(ncontent);
+		if (!nnode)
+		{
+			del(ncontent);
+			ft_lstclear(&nlst, del);
+			return (0);
+		}
+		ft_lstadd_back(&nlst, nnode);
+		lst = lst->next;
+	}
+	return (nlst);
 }

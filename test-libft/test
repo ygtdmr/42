@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cc "$1.c" -L../libft/ -lft && ./a.out
+rm a.out
