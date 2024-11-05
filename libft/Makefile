@@ -6,26 +6,14 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:33:55 by yigit             #+#    #+#              #
-#    Updated: 2024/11/03 16:04:50 by yidemir          ###   ########.fr        #
+#    Updated: 2024/11/04 17:35:55 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+NAME = libft.a
 CC = cc
-AR = ar -rcs
-RM = rm -f
-FLAGS = -Wall -Wextra -Werror
-
-BONUS_SRC = ft_lstadd_back_bonus.c \
-			ft_lstadd_front_bonus.c \
-			ft_lstclear_bonus.c \
-			ft_lstdelone_bonus.c \
-			ft_lstiter_bonus.c \
-			ft_lstlast_bonus.c \
-			ft_lstmap_bonus.c \
-			ft_lstnew_bonus.c \
-			ft_lstsize_bonus.c
-
-BONUS_OBJ = $(BONUS_SRC:.c=.o)
+CFLAGS = -Wall -Wextra -Werror
+AR = ar -rc
 
 SRC =		ft_strlen.c \
 			ft_memmove.c \
@@ -63,26 +51,33 @@ SRC =		ft_strlen.c \
 			ft_putnbr_fd.c
 
 OBJ = $(SRC:.c=.o)
-NAME = libft.a
+
+BONUS_SRC = ft_lstadd_back_bonus.c \
+			ft_lstadd_front_bonus.c \
+			ft_lstclear_bonus.c \
+			ft_lstdelone_bonus.c \
+			ft_lstiter_bonus.c \
+			ft_lstlast_bonus.c \
+			ft_lstmap_bonus.c \
+			ft_lstnew_bonus.c \
+			ft_lstsize_bonus.c
+
+BONUS_OBJ = $(BONUS_SRC:.c=.o)
+
+all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(AR) $(NAME) $(OBJ)
 
-$(OBJ): $(SRC)
-	$(CC) $(FLAGS) -c $(SRC)
-
-$(BONUS_OBJ): $(BONUS_SRC)
-	$(CC) $(FLAGS) -c $(BONUS_SRC)
-
-all: $(NAME)
-
+bonus: $(BONUS_OBJ)
+	$(AR) $(NAME) $(BONUS_OBJ)
+	
 clean:
 	$(RM) $(OBJ) $(BONUS_OBJ)
 
-fclean:
+fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
 
-bonus: $(BONUS_OBJ)
-	$(AR) $(NAME) $(BONUS_OBJ)
+.PHONY: all bonus clean fclean re

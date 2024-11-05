@@ -1,6 +1,0 @@
-some shel lines
-
-gcc ft_bzero_test.c -L.. -lft
-
--L is selects library folder path
--l<words-after-lib-word> selects library file
