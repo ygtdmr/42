@@ -2,4 +2,5 @@
 *.o
 *.out
 *.a
+*.pdf
 .DS_Store

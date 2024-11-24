@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cc "$1.c" -Wall -Wextra -Werror -L../libft/ -lft && ./a.out
+cc "$1.c" -Wall -Wextra -Werror -L../libft/ -lft -L../ft_printf/ -lftprintf && ./a.out
 rm a.out
