@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 22:09:27 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/02 11:08:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/03 21:54:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_printf(const char *f, ...)
 {
 	va_list	args;
-	int	l;
+	int		l;
 	int		ispf;
 	int		eorl;
 
@@ -30,18 +30,11 @@ int	ft_printf(const char *f, ...)
 			f += ispf;
 		}
 		else
-		{
-			eorl = ft_putchr(*f);
-			f++;
-		}
+			eorl = ft_putchr(*f++);
 		if (eorl == -1)
-		{
-			return(-1);
-			va_end(args);
-		}
+			return (va_end(args), -1);
 		else
 			l += eorl;
 	}
-	va_end(args);
-	return (l);
+	return (va_end(args), l);
 }

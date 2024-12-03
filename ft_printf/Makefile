@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:33:55 by yigit             #+#    #+#              #
-#    Updated: 2024/12/02 12:04:25 by yidemir          ###   ########.fr        #
+#    Updated: 2024/12/03 21:57:10 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ AR = ar -rc
 
 SRC =	ft_ispf.c \
 		ft_ispfe_bonus.c \
-		ft_isprint.c \
 		ft_printf.c \
 		ft_putbase.c \
 		ft_putchr.c \

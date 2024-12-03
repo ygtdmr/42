@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 22:00:45 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/03 18:34:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/03 21:57:22 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int		ft_putllong(signed long long n);
 int		ft_putint(int n);
 int		ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, int n);
-int		ft_isprint(int c);
 int		ft_putptr(void *p);
 
 #endif
