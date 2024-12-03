@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putbase.c                                       :+:      :+:    :+:   */
+/*   ft_putptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 20:18:09 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/03 18:42:07 by yidemir          ###   ########.fr       */
+/*   Created: 2024/12/02 12:04:56 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/03 18:34:59 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putbase(char *b, size_t v, int ise)
+int	ft_putptr(void *p)
 {
-	int		l;
-	size_t	lb;
+	int l;
 
-	l = 0;
-	lb = ft_strlen(b);
-	if (v >= lb && ise == 0)
-		ise = ft_putbase(b, v / lb, ise);
-	if (ise == -1)
+	l = ft_putstr("0x");
+	if (l == -1)
 		return (-1);
-	l += ise;
-	ise = ft_putchr(b[v % lb]);
-	if (ise == -1)
-		return (-1);
-	return (l + ise);
+	if (p)
+		l += ft_putbase("0123456789abcdef", (size_t) p, 0);
+	else
+		l += ft_putchr('0');
+	return (l);
 }

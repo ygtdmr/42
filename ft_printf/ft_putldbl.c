@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putdbl.c                                        :+:      :+:    :+:   */
+/*   ft_putldbl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/24 14:17:39 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/24 15:53:19 by yidemir          ###   ########.fr       */
+/*   Created: 2024/11/27 16:43:37 by yidemir           #+#    #+#             */
+/*   Updated: 2024/11/30 14:13:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-static size_t	putdi(int n)
+static int	putdi(int n)
 {
-	int		d;
-	size_t	l;
+	int	d;
+	int	l;
 
 	l = 0;
 	if (n >= 10)
 		l += putdi(n / 10);
 	d = 48 + (n % 10);
-	return (l + write(1, &d, 1));
+	return (l + ft_putchr(d));
 }
 
 static double	dblrnd(double d, int dfl)
@@ -34,27 +34,29 @@ static double	dblrnd(double d, int dfl)
 	return (d + r);
 }
 
-size_t	ft_putdbl(double d, int dfl)
+int	ft_putldbl(long double d, int dfl)
 {
 	double	f;
 	char	fc;
 	int		di;
-	size_t	l;
+	int		l;
 
 	l = 0;
 	if (d < 0)
 	{
 		d *= -1;
-		l += write(1, "-", 1);
+		l += ft_putchr(45);
 	}
 	di = (int) d;
 	f = dblrnd((d - di), dfl);
-	l += putdi(di) + write(1, ".", 1);
+	l += putdi(di);
+	if (dfl > 0)
+		l += ft_putchr(46);
 	while (dfl--)
 	{
 		f *= 10;
 		fc = 48 + ((int) f);
-		l += write(1, &fc, 1);
+		l += ft_putchr(fc);
 		f -= (int)f;
 	}
 	return (l);

@@ -6,15 +6,15 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 17:12:22 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/24 14:20:29 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/30 14:04:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
-	size_t	l;
+	int	l;
 
 	l = 0;
 	while (*s++)

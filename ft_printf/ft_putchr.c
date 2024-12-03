@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 21:32:24 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/24 14:23:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/11/30 14:19:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-size_t	ft_putchr(char c)
+int	ft_putchr(char c)
 {
 	return (write(1, &c, 1));
 }

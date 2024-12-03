@@ -6,34 +6,41 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 22:09:27 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/24 14:22:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/02 11:08:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-size_t	ft_printf(const char *f, ...)
+int	ft_printf(const char *f, ...)
 {
 	va_list	args;
-	size_t	l;
-	int		i;
+	int	l;
 	int		ispf;
+	int		eorl;
 
 	l = 0;
-	i = 0;
 	va_start(args, f);
-	while (f[i])
+	while (*f)
 	{
-		ispf = ft_ispf(&f[i]);
+		ispf = ft_ispf(f);
 		if (ispf)
 		{
-			write(1, f, i);
-			l += ft_putf(&f[i], args);
-			f += i + ispf;
-			i = 0;
+			eorl = ft_putf(f, args, l);
+			f += ispf;
 		}
-		if (!f[++i])
-			l += ft_putstr(f);
+		else
+		{
+			eorl = ft_putchr(*f);
+			f++;
+		}
+		if (eorl == -1)
+		{
+			return(-1);
+			va_end(args);
+		}
+		else
+			l += eorl;
 	}
 	va_end(args);
 	return (l);

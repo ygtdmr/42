@@ -5,28 +5,58 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 19:33:53 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/24 16:01:20 by yidemir          ###   ########.fr       */
+/*   Created: 2024/11/26 22:34:56 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/03 18:19:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-size_t	ft_putint(int n)
+static int	countd(int n)
 {
-	int		d;
+	int	d;
+
+	d = 1;
+	while (n >= 10)
+	{
+		d++;
+		n /= 10;
+	}
+	return (d);
+}
+
+static int	putfree(char *s)
+{
 	int		l;
 
-	l = 0;
+	l = ft_putstr(s);
+	free(s);
+	return (l);
+}
+
+int	ft_putint(int n)
+{
+	int		ls;
+	int		isn;
+	char	*s;
+
 	if (n == -2147483648)
 		return (ft_putstr("-2147483648"));
-	if (n < 0)
+	isn = n < 0;
+	if (isn)
+		n = -n;
+	ls = countd(n) + isn;
+	s = (char *) malloc((ls + 1) * sizeof(char));
+	if (!s)
+		return (-1);
+	s[ls] = 0;
+	while (ls--)
 	{
-		l += ft_putchr(45);
-		n *= -1;
+		if (ls == 0 && isn)
+			s[0] = 45;
+		else
+			s[ls] = 48 + (n % 10);
+		n /= 10;
 	}
-	if (n >= 10)
-		l += ft_putint(n / 10);
-	d = 48 + (n % 10);
-	return (l + ft_putchr(d));
+	return (putfree(s));
 }
