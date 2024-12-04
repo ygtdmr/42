@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:33:55 by yigit             #+#    #+#              #
-#    Updated: 2024/12/03 21:57:10 by yidemir          ###   ########.fr        #
+#    Updated: 2024/12/04 19:31:25 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ SRC =	ft_ispf.c \
 		ft_putchr.c \
 		ft_putldbl.c \
 		ft_putf.c \
-		ft_putllong.c \
 		ft_putptr.c \
 		ft_putint.c \
 		ft_putsci.c \
@@ -33,9 +32,9 @@ SRC =	ft_ispf.c \
 
 OBJ = $(SRC:.c=.o)
 
-#BONUS_SRC = test.c \
+BONUS_SRC = ft_ispfe_bonus.c \
 
-#BONUS_OBJ = $(BONUS_SRC:.c=.o)
+BONUS_OBJ = $(BONUS_SRC:.c=.o)
 
 all: $(NAME)
 
@@ -47,7 +46,7 @@ $(NAME): $(OBJ)
 	
 clean:
 	$(RM) $(OBJ)
-#	$(RM) $(OBJ) $(BONUS_OBJ)
+	$(RM) $(OBJ) $(BONUS_OBJ)
 
 fclean: clean
 	$(RM) $(NAME)
