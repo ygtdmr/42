@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 21:32:24 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/30 14:50:50 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/11 17:12:22 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/04 20:18:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_putstr(const char *s)
+size_t	ft_strlen(const char *s)
 {
-	if (s)
-		return (write(1, s, ft_strlen(s)));
-	else
-		return (write(1, "(null)", 6));
+	size_t	l;
+
+	l = 0;
+	while (*s++)
+		l++;
+	return (l);
 }

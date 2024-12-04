@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchr.c                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 21:32:24 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/30 14:19:12 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/23 19:01:10 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/04 22:38:52 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_putchr(char c)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	return (write(1, &c, 1));
+	void	*fb;
+
+	fb = b;
+	while (len--)
+		*((char *)b++) = c;
+	return (fb);
 }

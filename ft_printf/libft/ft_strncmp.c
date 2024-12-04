@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putsci.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/25 12:51:22 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/28 21:59:51 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/24 18:25:19 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/04 20:17:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-int	ft_putsci(double dbl, int isupe)
+int	ft_strncmp(const char *s1, const char *s2, int n)
 {
-	int	e;
+	unsigned char	c1;
+	unsigned char	c2;
 
-	e = 0;
-	if (dbl != 0)
+	while (n--)
 	{
-		while (dbl >= 10.0)
-		{
-			dbl /= 10.0;
-			e++;
-		}
-		while (dbl < 1.0)
-		{
-			dbl *= 10.0;
-			e--;
-		}
+		c1 = *s1++;
+		c2 = *s2++;
+		if (!c1 && !c2)
+			break ;
+		if (!c1)
+			return (-1);
+		if (!c2)
+			return (1);
+		if (c1 > c2)
+			return (1);
+		if (c1 < c2)
+			return (-1);
 	}
-	return (ft_printf("%f%c%d", dbl, 'e' - (isupe * 32), e));
+	return (0);
 }

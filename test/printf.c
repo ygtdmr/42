@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 22:19:23 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/04 19:50:38 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/04 23:38:29 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 #include "../ft_printf/ft_printf.h"
 
 
+
 int	main(void)
 {
-	printf("|%3.4d|\n", 12);
-	printf("|%20.3s|\n", "test");
-	printf("|%-20.5x|\n", 128);
-
-	return (0);
 	// printf("|%010d|\n", 42);
 	// printf("|%#x|\n", 42);
 	// printf("|%.0f|\n", 429.4);
@@ -38,10 +34,17 @@ int	main(void)
 
 	// printf("value is=%c str=%s main\n", 't', "test string");
 	// ft_printf("value is=%c str=%s main\n", 't', "test string");
-	// int i;
-	// i = 10;
-	// printf("(original)	pointer is=%p\n", &i);
-	// ft_printf("		pointer is=%p\n", &i);
+
+	int l = printf("%x\n", 0);
+	//ft_printf(" %c %c %c ", '0', 0, '1');
+	printf("l=%i\n", l);
+
+	return (0);
+
+	int i;
+	i = 10;
+	printf("(original)	pointer is=%p\n", &i);
+	ft_printf("		pointer is=%p\n", &i);
 
 
 
@@ -52,7 +55,7 @@ int	main(void)
 	printf("(original)	int number is with d=%d, with i=%i\n", 512, 512);
 	ft_printf("		int number is with d=%d, with i=%i\n", 512, 512);
 
-	return (0);
+	//return (0);
 
 	//printf("(original)	long number is with d=%li,\n", -128L);
 	

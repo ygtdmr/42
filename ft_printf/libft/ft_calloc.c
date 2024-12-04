@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 17:12:22 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/30 14:04:24 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/25 15:01:05 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/04 22:37:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_strlen(const char *s)
+void	*ft_calloc(size_t count, size_t size)
 {
-	int	l;
+	void	*p;
 
-	l = 0;
-	while (*s++)
-		l++;
-	return (l);
+	p = malloc(count * size);
+	if (p)
+		ft_bzero(p, count * size);
+	return (p);
 }

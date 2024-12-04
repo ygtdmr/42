@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ispfe_bonus.c                                   :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 23:46:31 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/24 14:33:53 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/25 16:31:47 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/04 20:20:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_ispfe(const char *s)
-{
-	char	c;
+#include "libft.h"
 
-	if (*s == 37)
-		s++;
-	c = *s;
-	while ((c >= 48 && c <= 57) || c == '.' || c == '-')
-		c = *++s;
-	return (c == 'd' || c == 'f');
+char	*ft_strdup(const char *s1)
+{
+	char	*sc;
+	size_t	lsc;
+
+	lsc = ft_strlen(s1);
+	sc = malloc((lsc + 1) * sizeof(char));
+	if (!sc)
+		return (0);
+	while (*s1 != 0)
+		*sc++ = *s1++;
+	*sc = 0;
+	return (sc - lsc);
 }
