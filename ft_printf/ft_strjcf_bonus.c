@@ -1,40 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_strjcf_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 22:09:27 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/06 01:33:49 by yidemir          ###   ########.fr       */
+/*   Created: 2024/12/06 01:02:18 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/06 22:23:22 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *f, ...)
+char	*ft_strjcf(char c, char *s2, int end)
 {
-	va_list	args;
-	int		l;
-	int		ispf;
-	int		eorl;
+	char	*sc;
+	char	*temp;
 
-	l = 0;
-	va_start(args, f);
-	while (*f)
-	{
-		ispf = ft_ispformat(f);
-		if (ispf)
-		{
-			eorl = ft_rpformat(f, args);
-			f += ispf;
-		}
-		else
-			eorl = write(1, f++, 1);
-		if (eorl == -1)
-			return (va_end(args), -1);
-		else
-			l += eorl;
-	}
-	return (va_end(args), l);
+	sc = ft_calloc(2, sizeof(char));
+	*sc = c;
+	if (end)
+		temp = ft_strjoin(s2, sc);
+	else
+		temp = ft_strjoin(sc, s2);
+	free(sc);
+	free(s2);
+	return (temp);
 }

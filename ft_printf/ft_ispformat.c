@@ -1,40 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_ispformat.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 22:09:27 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/06 01:33:49 by yidemir          ###   ########.fr       */
+/*   Created: 2024/12/05 19:38:39 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/05 19:38:40 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *f, ...)
+int	ft_ispformat(const char *s)
 {
-	va_list	args;
 	int		l;
-	int		ispf;
-	int		eorl;
+	int		isf;
 
-	l = 0;
-	va_start(args, f);
-	while (*f)
-	{
-		ispf = ft_ispformat(f);
-		if (ispf)
-		{
-			eorl = ft_rpformat(f, args);
-			f += ispf;
-		}
-		else
-			eorl = write(1, f++, 1);
-		if (eorl == -1)
-			return (va_end(args), -1);
-		else
-			l += eorl;
-	}
-	return (va_end(args), l);
+	if (*s != '%')
+		return (0);
+	l = 1 + ft_ispflag(s);
+	s += l;
+	isf = ft_strchr("cspdiuxX%", *s) != 0;
+	if (isf)
+		return (l + isf);
+	else
+		return (0);
 }

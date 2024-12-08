@@ -6,13 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 16:15:05 by yidemir           #+#    #+#             */
-/*   Updated: 2024/11/03 22:48:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/05 22:05:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
 

@@ -1,40 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 22:09:27 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/06 01:33:49 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/24 16:32:15 by yidemir           #+#    #+#             */
+/*   Updated: 2024/11/01 20:53:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-int	ft_printf(const char *f, ...)
+char	*ft_strchr(const char *s, int c)
 {
-	va_list	args;
-	int		l;
-	int		ispf;
-	int		eorl;
+	char	ch;
 
-	l = 0;
-	va_start(args, f);
-	while (*f)
+	ch = (char) c;
+	while (*s != 0)
 	{
-		ispf = ft_ispformat(f);
-		if (ispf)
-		{
-			eorl = ft_rpformat(f, args);
-			f += ispf;
-		}
-		else
-			eorl = write(1, f++, 1);
-		if (eorl == -1)
-			return (va_end(args), -1);
-		else
-			l += eorl;
+		if (*s == ch)
+			return ((char *)s);
+		s++;
 	}
-	return (va_end(args), l);
+	if (ch == 0)
+		return ((char *) s);
+	return (0);
 }

@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ispf.c                                          :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 23:46:31 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/03 22:39:13 by yidemir          ###   ########.fr       */
+/*   Created: 2024/12/05 21:50:27 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/05 22:08:45 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include ".test.h"
 
-int	ft_ispf(const char *s)
+int	main(void)
 {
-	char	c;
+	char buffer[128];
 
-	c = *s;
-	if (c == 37)
-		s++;
-	else
-		return (0);
-	return (
-		c == 'd' || c == 'i' || c == 'u' || c == 'f' || \
-		c == 'e' || c == 'E' || c == 'g' || c == 'G' || \
-		c == 'c' || c == 'c' || c == 'p' || c == 'n' || \
-		c == 'x' || c == 'X' || c == 'o' || c == '%'
-	);
+	int fd = open("test.txt", O_RDONLY);
+	read(fd, buffer, sizeof(buffer));
+	buffer[11] = 0;
+	test(TEST_STR, 1, buffer);
+
+	return (0);
 }

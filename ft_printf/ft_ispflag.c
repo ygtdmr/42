@@ -1,40 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_ispflag.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 22:09:27 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/06 01:33:49 by yidemir          ###   ########.fr       */
+/*   Created: 2024/12/05 19:09:28 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/06 01:24:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *f, ...)
+int	ft_ispflag(const char *s)
 {
-	va_list	args;
-	int		l;
-	int		ispf;
-	int		eorl;
+	int	l;
 
 	l = 0;
-	va_start(args, f);
-	while (*f)
-	{
-		ispf = ft_ispformat(f);
-		if (ispf)
-		{
-			eorl = ft_rpformat(f, args);
-			f += ispf;
-		}
-		else
-			eorl = write(1, f++, 1);
-		if (eorl == -1)
-			return (va_end(args), -1);
-		else
-			l += eorl;
-	}
-	return (va_end(args), l);
+	while (ft_strchr("0123456789+-.# ", *++s) != 0)
+		l++;
+	return (l);
 }

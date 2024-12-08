@@ -1,40 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 22:09:27 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/06 01:33:49 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/11 16:22:31 by yidemir           #+#    #+#             */
+/*   Updated: 2024/11/01 12:36:59 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-int	ft_printf(const char *f, ...)
+int	ft_isdigit(int c)
 {
-	va_list	args;
-	int		l;
-	int		ispf;
-	int		eorl;
-
-	l = 0;
-	va_start(args, f);
-	while (*f)
-	{
-		ispf = ft_ispformat(f);
-		if (ispf)
-		{
-			eorl = ft_rpformat(f, args);
-			f += ispf;
-		}
-		else
-			eorl = write(1, f++, 1);
-		if (eorl == -1)
-			return (va_end(args), -1);
-		else
-			l += eorl;
-	}
-	return (va_end(args), l);
+	return (c >= 48 && c <= 57);
 }

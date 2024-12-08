@@ -6,20 +6,26 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 22:19:23 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/04 23:38:29 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/08 11:51:52 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include ".test.h"
+#include <limits.h>
 #include "../ft_printf/ft_printf.h"
-
-
 
 int	main(void)
 {
-	// printf("|%010d|\n", 42);
+	
+	ft_printf("42%18.10d42" ,1614718879);
+	// ft_printf("%-38p%--.31i" ,(void*)4772992227276040767lu,-1118940749);
+	// ft_printf("\n");
+	// printf("%-38p%--.31i" ,(void*)4772992227276040767lu,-1118940749);
+
 	// printf("|%#x|\n", 42);
 	// printf("|%.0f|\n", 429.4);
+
+	return (0);
 
 	//printf(" %s", "");
 	//printf(" %lx ", __LONG_MAX__);
@@ -35,11 +41,8 @@ int	main(void)
 	// printf("value is=%c str=%s main\n", 't', "test string");
 	// ft_printf("value is=%c str=%s main\n", 't', "test string");
 
-	int l = printf("%x\n", 0);
-	//ft_printf(" %c %c %c ", '0', 0, '1');
-	printf("l=%i\n", l);
-
-	return (0);
+	
+	
 
 	int i;
 	i = 10;

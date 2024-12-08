@@ -1,40 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 22:09:27 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/06 01:33:49 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/25 14:06:18 by yidemir           #+#    #+#             */
+/*   Updated: 2024/10/25 14:06:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_printf(const char *f, ...)
+int	ft_atoi(const char *str)
 {
-	va_list	args;
-	int		l;
-	int		ispf;
-	int		eorl;
+	int	s;
+	int	r;
 
-	l = 0;
-	va_start(args, f);
-	while (*f)
+	s = 1;
+	r = 0;
+	while (*str == 32 || *str == 9 || (*str >= 10 && *str <= 13))
+		str++;
+	if (*str == 45)
+		s = -1;
+	if (*str == 45 || *str == 43)
+		str++;
+	while (ft_isdigit(*str))
 	{
-		ispf = ft_ispformat(f);
-		if (ispf)
-		{
-			eorl = ft_rpformat(f, args);
-			f += ispf;
-		}
-		else
-			eorl = write(1, f++, 1);
-		if (eorl == -1)
-			return (va_end(args), -1);
-		else
-			l += eorl;
+		if (r > 0)
+			r *= 10;
+		r += (*str - 48);
+		str++;
 	}
-	return (va_end(args), l);
+	return (r * s);
 }

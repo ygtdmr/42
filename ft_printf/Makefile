@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:33:55 by yigit             #+#    #+#              #
-#    Updated: 2024/12/04 23:46:39 by yidemir          ###   ########.fr        #
+#    Updated: 2024/12/08 10:35:22 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,11 @@ AR = ar -rc
 
 SRC =	ft_base.c \
 		ft_baseptr.c \
-		ft_ispf.c \
-		ft_renderf.c \
+		ft_ispformat.c \
+		ft_ispflag.c \
+		ft_rpformat.c \
 		ft_printf.c \
+		libft/ft_atoi.c \
 		libft/ft_strlen.c \
 		libft/ft_bzero.c \
 		libft/ft_strncmp.c \
@@ -28,10 +30,18 @@ SRC =	ft_base.c \
 		libft/ft_itoa.c \
 		libft/ft_strjoin.c \
 		libft/ft_memset.c \
+		libft/ft_strchr.c \
+		libft/ft_isdigit.c \
+		libft/ft_substr.c \
+		ft_rpflag_bonus.c \
+		ft_getpflag_bonus.c \
+		ft_strjcf_bonus.c \
 
 OBJ = $(SRC:.c=.o)
 
-BONUS_SRC = ft_ispfe_bonus.c \
+BONUS_SRC = ft_rpflag_bonus.c \
+			ft_getpflag_bonus.c \
+			ft_strjcf_bonus.c \
 
 BONUS_OBJ = $(BONUS_SRC:.c=.o)
 
@@ -40,7 +50,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(AR) $(NAME) $(OBJ)
 
-#bonus: $(BONUS_OBJ)
+bonus: all
 #	$(AR) $(NAME) $(BONUS_OBJ)
 	
 clean:
