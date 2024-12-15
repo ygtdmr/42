@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:45:38 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/15 16:31:06 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/15 17:07:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	strisnl(char *s)
 	return (0);
 }
 
-char *get_next_line(int fd)
+char *get_next_line (int fd)
 {
 	static char	*buffer;
 	char		*fbuffer;

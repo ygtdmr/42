@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:54:02 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/15 15:56:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/15 16:56:56 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static size_t	ft_strlen(char *s)
+size_t	ft_strlen(char *s)
 {
 	size_t	l;
 
@@ -38,7 +38,7 @@ char	*gnl_readmem(int fd)
 	int		rb;
 
 	rb = read(fd, bf, BUFFER_SIZE);
-	if(rb <= 0)
+	if (rb <= 0)
 		return (0);
 	bf[rb] = 0;
 	bfmem = (char *) malloc(rb * sizeof(char));
@@ -62,5 +62,5 @@ char	*gnl_line(char *bf, char c)
 	ns[lbf + 1] = 0;
 	if (bf)
 		free(bf);
-	return(ns);
+	return (ns);
 }
