@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:54:02 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/15 16:56:56 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/15 17:50:06 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*gnl_readmem(int fd)
 	if (rb <= 0)
 		return (0);
 	bf[rb] = 0;
-	bfmem = (char *) malloc(rb * sizeof(char));
+	bfmem = (char *) malloc((rb + 1) * sizeof(char));
 	if (!bfmem)
 		return (0);
 	gnl_strcpy(bfmem, bf);

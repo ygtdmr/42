@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 22:19:23 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/15 17:05:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/15 17:11:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 int	main(void)
 {
-	int fd = open("text.txt", O_RDONLY);
+	int fd = open("test.txt", O_RDONLY);
 
+	test(TEST_STR, 1, get_next_line(fd));
 	test(TEST_STR, 1, get_next_line(fd));
 	test(TEST_STR, 1, get_next_line(fd));
 	test(TEST_STR, 1, get_next_line(fd));
