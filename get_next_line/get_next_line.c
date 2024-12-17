@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:45:38 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/15 17:46:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/17 16:23:27 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,39 +16,42 @@
 # define BUFFER_SIZE 4096
 #endif
 
-static int	strisnl(char *s)
+static int		strlstc(char *s, char c)
 {
-	while (s && *s)
+	while (s && s++)
 	{
-		if (*s++ == '\n')
+		if (*s == c)
 			return (1);
 	}
 	return (0);
 }
 
-char *get_next_line (int fd)
+char	*get_next_line(int fd)
 {
-	static char	*buffer;
-	static char	*fbf;
+	static char	bf[BUFFER_SIZE + 1];
+	static int	bfi;
+	int			bfl;
 	char		*s;
 
+	printf("bf=|%s|\n", bf);
+	bfl = gnl_readbf(fd, bf, &bfi, 0);
+	if (bfl < 1)
+		return (0);
 	s = 0;
-	if (!buffer)
-		buffer = gnl_readmem(fd);
-	if (!fbf)
-		fbf = buffer;
-	while (buffer && !strisnl(s))
+	while (!strlstc(s, '\n') && bfl > 0)
 	{
-		if(!*buffer)
+		if (bf[bfi] == '\n' || !bf[bfi])
 		{
-			free(fbf);
-			buffer = gnl_readmem(fd);
-			if (!buffer)
-				break ;
-			fbf = buffer;
+			if (bfl > 0)
+				s = gnl_readline(s, bf, bfi + (bf[bfi] == '\n'));
+			else if (bfl == -1)
+			{
+				free(s);
+				return (0);
+			}
+			bfl = gnl_readbf(fd, bf, &bfi, bfl);
 		}
-		else
-			s = gnl_line(s, *buffer++);
+		bfi++;
 	}
 	return (s);
 }
