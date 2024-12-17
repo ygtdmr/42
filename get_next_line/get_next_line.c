@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:45:38 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/17 16:23:27 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/17 22:22:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,30 @@
 # define BUFFER_SIZE 4096
 #endif
 
-static int		strlstc(char *s, char c)
-{
-	while (s && s++)
-	{
-		if (*s == c)
-			return (1);
-	}
-	return (0);
-}
-
 char	*get_next_line(int fd)
 {
 	static char	bf[BUFFER_SIZE + 1];
-	static int	bfi;
-	int			bfl;
 	char		*s;
 
-	printf("bf=|%s|\n", bf);
-	bfl = gnl_readbf(fd, bf, &bfi, 0);
-	if (bfl < 1)
+	if (fd == -1 || BUFFER_SIZE <= 0)
+		return (0);
+	if (!*bf && read(fd, bf, BUFFER_SIZE) == -1)
 		return (0);
 	s = 0;
-	while (!strlstc(s, '\n') && bfl > 0)
+	while (!gnl_strlc(s, '\n') && *bf)
 	{
-		if (bf[bfi] == '\n' || !bf[bfi])
+		s = gnl_strmerge(s, gnl_bftostr(bf));
+		gnl_bfmv(bf);
+		if ((!*bf && read(fd, bf, BUFFER_SIZE) == -1))
 		{
-			if (bfl > 0)
-				s = gnl_readline(s, bf, bfi + (bf[bfi] == '\n'));
-			else if (bfl == -1)
-			{
-				free(s);
-				return (0);
-			}
-			bfl = gnl_readbf(fd, bf, &bfi, bfl);
+			free(s);
+			return (0);
 		}
-		bfi++;
+	}
+	if (s && !*s)
+	{
+		free(s);
+		return (0);
 	}
 	return (s);
 }

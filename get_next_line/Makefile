@@ -6,13 +6,13 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:33:55 by yigit             #+#    #+#              #
-#    Updated: 2024/12/17 16:15:25 by yidemir          ###   ########.fr        #
+#    Updated: 2024/12/17 22:11:44 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libgetnextline.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=10
+CFLAGS = -Wall -Wextra -Werror -D BUFFER_SIZE=42
 AR = ar -rc
 
 SRC =	get_next_line.c \
