@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:45:08 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/17 20:23:46 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/18 13:16:55 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdio.h>
 
 char	*get_next_line(int fd);
-char	gnl_strlc(char *s, char c);
+char	gnl_strfnl(char *s);
 char	*gnl_strmerge(char *dst, char *src);
 char	*gnl_bftostr(char *bf);
 void	gnl_bfmv(char *bf);

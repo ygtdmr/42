@@ -6,17 +6,17 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:54:02 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/17 22:09:13 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/18 13:59:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	gnl_strlc(char *s, char c)
+char	gnl_strfnl(char *s)
 {
 	while (s && *s)
 	{
-		if (*s++ == c)
+		if (*s++ == '\n')
 			return (1);
 	}
 	return (0);
@@ -27,8 +27,6 @@ char	*gnl_bftostr(char *bf)
 	char	*s;
 	int		l;
 
-	if (!bf)
-		return (0);
 	l = 0;
 	while (bf[l])
 	{
@@ -53,14 +51,8 @@ void	gnl_bfmv(char *bf)
 	ic = 0;
 	while (bf[i])
 	{
-		if (bf[i] == '\n')
-		{
-			bf[i++] = 0;
+		if (bf[i++] == '\n')
 			break ;
-		}
-		else
-			bf[i] = 0;
-		i++;
 	}
 	while (bf[i])
 		bf[ic++] = bf[i++];
@@ -78,9 +70,7 @@ char	*gnl_strmerge(char *dst, char *src)
 	lsrc = 0;
 	while (dst && dst[ldst])
 		ldst++;
-	if (!ldst)
-		return (src);
-	while (src[lsrc])
+	while (src && src[lsrc])
 		lsrc++;
 	tmp = (char *) malloc((ldst + lsrc + 1) * sizeof(char));
 	if (tmp)
@@ -91,7 +81,9 @@ char	*gnl_strmerge(char *dst, char *src)
 		while (ldst--)
 			tmp[ldst] = dst[ldst];
 	}
-	free(src);
-	free(dst);
+	if (dst)
+		free(dst);
+	if (src)
+		free(src);
 	return (tmp);
 }

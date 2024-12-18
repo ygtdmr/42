@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 21:45:38 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/17 22:22:30 by yidemir          ###   ########.fr       */
+/*   Updated: 2024/12/18 14:02:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ char	*get_next_line(int fd)
 	if (!*bf && read(fd, bf, BUFFER_SIZE) == -1)
 		return (0);
 	s = 0;
-	while (!gnl_strlc(s, '\n') && *bf)
+	while (!gnl_strfnl(s) && *bf)
 	{
 		s = gnl_strmerge(s, gnl_bftostr(bf));
 		gnl_bfmv(bf);
-		if ((!*bf && read(fd, bf, BUFFER_SIZE) == -1))
+		if (!gnl_strfnl(s) && (!*bf && read(fd, bf, BUFFER_SIZE) == -1))
 		{
 			free(s);
 			return (0);
