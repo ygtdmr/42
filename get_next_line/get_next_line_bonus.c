@@ -10,23 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
-	static char	bf[BUFFER_SIZE + 1];
+	static char	bf[1024][BUFFER_SIZE + 1];
 	char		*s;
 
 	if (fd == -1 || BUFFER_SIZE <= 0)
 		return (0);
-	if (!*bf && read(fd, bf, BUFFER_SIZE) == -1)
+	if (!*bf[fd] && read(fd, bf[fd], BUFFER_SIZE) == -1)
 		return (0);
 	s = 0;
-	while (!gnl_strfnl(s) && *bf)
+	while (!gnl_strfnl(s) && *bf[fd])
 	{
-		s = gnl_strmerge(s, gnl_bftostr(bf));
-		gnl_bfmv(bf);
-		if (!gnl_strfnl(s) && (!*bf && read(fd, bf, BUFFER_SIZE) == -1))
+		s = gnl_strmerge(s, gnl_bftostr(bf[fd]));
+		gnl_bfmv(bf[fd]);
+		if (!gnl_strfnl(s) && (!*bf[fd] && read(fd, bf[fd], BUFFER_SIZE) == -1))
 		{
 			if (s)
 				free(s);

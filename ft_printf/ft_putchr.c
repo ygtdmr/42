@@ -1,34 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_putchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 18:25:19 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/04 20:17:43 by yidemir          ###   ########.fr       */
+/*   Created: 2024/11/23 21:32:24 by yidemir           #+#    #+#             */
+/*   Updated: 2024/11/30 14:19:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strncmp(const char *s1, const char *s2, int n)
-{
-	unsigned char	c1;
-	unsigned char	c2;
+#include "ft_printf.h"
 
-	while (n--)
-	{
-		c1 = *s1++;
-		c2 = *s2++;
-		if (!c1 && !c2)
-			break ;
-		if (!c1)
-			return (-1);
-		if (!c2)
-			return (1);
-		if (c1 > c2)
-			return (1);
-		if (c1 < c2)
-			return (-1);
-	}
-	return (0);
+int	ft_putchr(char c)
+{
+	return (write(1, &c, 1));
 }

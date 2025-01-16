@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ispformat.c                                     :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/05 19:38:39 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/05 19:38:40 by yidemir          ###   ########.fr       */
+/*   Created: 2024/12/05 21:45:08 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/19 19:37:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
-int	ft_ispformat(const char *s)
-{
-	int		l;
-	int		isf;
+# include <unistd.h>
+# include <stdlib.h>
 
-	if (*s != '%')
-		return (0);
-	l = 1 + ft_ispflag(s);
-	s += l;
-	isf = ft_strchr("cspdiuxX%", *s) != 0;
-	if (isf)
-		return (l + isf);
-	else
-		return (0);
-}
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 4096
+# endif
+
+char	*get_next_line(int fd);
+char	gnl_strfnl(char *s);
+char	*gnl_strmerge(char *dst, char *src);
+char	*gnl_bftostr(char *bf);
+void	gnl_bfmv(char *bf);
+
+#endif

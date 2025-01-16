@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_putbase.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 14:06:18 by yidemir           #+#    #+#             */
-/*   Updated: 2024/10/25 14:06:34 by yidemir          ###   ########.fr       */
+/*   Created: 2024/11/23 20:18:09 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/03 18:42:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_atoi(const char *str)
+int	ft_putbase(char *b, size_t v, int ise)
 {
-	int	s;
-	int	r;
+	int		l;
+	size_t	lb;
 
-	s = 1;
-	r = 0;
-	while (*str == 32 || *str == 9 || (*str >= 10 && *str <= 13))
-		str++;
-	if (*str == 45)
-		s = -1;
-	if (*str == 45 || *str == 43)
-		str++;
-	while (ft_isdigit(*str))
-	{
-		if (r > 0)
-			r *= 10;
-		r += (*str - 48);
-		str++;
-	}
-	return (r * s);
+	l = 0;
+	lb = ft_strlen(b);
+	if (v >= lb && ise == 0)
+		ise = ft_putbase(b, v / lb, ise);
+	if (ise == -1)
+		return (-1);
+	l += ise;
+	ise = ft_putchr(b[v % lb]);
+	if (ise == -1)
+		return (-1);
+	return (l + ise);
 }

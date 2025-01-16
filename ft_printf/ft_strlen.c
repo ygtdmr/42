@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ispflag.c                                       :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/05 19:09:28 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/06 01:24:36 by yidemir          ###   ########.fr       */
+/*   Created: 2024/10/11 17:12:22 by yidemir           #+#    #+#             */
+/*   Updated: 2024/11/30 14:04:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-int	ft_ispflag(const char *s)
+int	ft_strlen(const char *s)
 {
 	int	l;
 
 	l = 0;
-	while (ft_strchr("0123456789+-.# ", *++s) != 0)
+	while (*s++)
 		l++;
 	return (l);
 }

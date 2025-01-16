@@ -1,4 +1,0 @@
-#!/bin/bash
-
-cc "$1.c" -Wall -Wextra -Werror -L../get_next_line/ -lgetnextline && ./a.out
-rm a.out

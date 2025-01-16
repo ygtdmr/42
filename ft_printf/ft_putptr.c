@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_putptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 22:19:23 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/18 13:03:12 by yidemir          ###   ########.fr       */
+/*   Created: 2024/12/02 12:04:56 by yidemir           #+#    #+#             */
+/*   Updated: 2024/12/03 21:54:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include ".test.h"
-#include "../get_next_line/get_next_line.h"
+#include "ft_printf.h"
 
-int	main(void)
+int	ft_putptr(void *p)
 {
-	int fd = open("test.txt", O_RDONLY);
-	static char s[16];
+	int	l;
 
-	printf("r=%s", get_next_line(fd));
-	read(fd, s, 16);
-	printf("s=%s\n", s);
-
-	return (0);
+	if (!p)
+		return (ft_putstr("(nil)"));
+	l = ft_putstr("0x");
+	if (l == -1)
+		return (-1);
+	l += ft_putbase("0123456789abcdef", (size_t) p, 0);
+	return (l);
 }
