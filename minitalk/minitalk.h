@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putbase.c                                       :+:      :+:    :+:   */
+/*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 20:18:09 by yidemir           #+#    #+#             */
-/*   Updated: 2024/12/03 18:42:07 by yidemir          ###   ########.fr       */
+/*   Created: 2025/01/22 01:12:32 by yidemir           #+#    #+#             */
+/*   Updated: 2025/01/26 19:47:06 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#ifndef MINITALK_H
+#define MINITALK_H
 
-int	ft_putbase(char *b, size_t v, int ise)
-{
-	int		l;
-	size_t	lb;
+#include <signal.h>
+#include <unistd.h>
+#include <stdlib.h>
 
-	l = 0;
-	lb = ft_strlen(b);
-	if (v >= lb && ise == 0)
-		ise = ft_putbase(b, v / lb, ise);
-	if (ise == -1)
-		return (-1);
-	l += ise;
-	ise = ft_putchr(b[v % lb]);
-	if (ise == -1)
-		return (-1);
-	return (l + ise);
-}
+#endif
