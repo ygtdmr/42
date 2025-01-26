@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 22:48:32 by yidemir           #+#    #+#             */
-/*   Updated: 2025/01/26 21:05:05 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/01/26 20:35:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 void	ft_putnbr_fd(int n, int fd)
 {
@@ -32,11 +32,13 @@ void	ft_putnbr_fd(int n, int fd)
 	write(fd, &d, 1);
 }
 
-static void	handle_sig(int sig)
+static void	handle_sig(int sig, siginfo_t *info, void *context)
 {
 	static unsigned char	byte;
 	static int				lbit;
 
+	if (!context)
+		return ;
 	if (sig == SIGUSR1)
 		byte |= (1 << lbit);
 	lbit++;
@@ -44,16 +46,25 @@ static void	handle_sig(int sig)
 		return ;
 	write(1, &byte, 1);
 	if (!byte)
+	{
 		write(1, "\n", 1);
+		if (kill(info->si_pid, SIGUSR1) == -1)
+			exit(1);
+	}
 	lbit = 0;
 	byte = 0;
 }
 
 int	main(void)
 {
-	if (signal(SIGUSR1, handle_sig) == SIG_ERR)
+	struct sigaction	sa;
+
+	sa.sa_sigaction = handle_sig;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	if (sigaction(SIGUSR1, &sa, 0) == -1)
 		return (1);
-	if (signal(SIGUSR2, handle_sig) == SIG_ERR)
+	if (sigaction(SIGUSR2, &sa, 0) == -1)
 		return (1);
 	ft_putnbr_fd(getpid(), 1);
 	write(1, "\n", 1);

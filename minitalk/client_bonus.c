@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 00:46:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/01/26 21:01:07 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/01/26 21:10:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 static pid_t	g_pid;
 
@@ -74,14 +74,29 @@ static void	send_message(char *s)
 	}
 }
 
+static void	handle_verify(int sig, siginfo_t *info, void *context)
+{
+	if (sig == SIGUSR1 && info->si_pid != g_pid && context)
+		return ;
+	write(1, "Message is verified.\n", 21);
+	g_pid = 0;
+}
+
 int	main(int argc, char *argv[])
 {
+	struct sigaction	sa;
+
 	if (argc != 3)
 	{
 		write(1, "Usage: ./client <PID> <message>\n", 32);
 		return (1);
 	}
+	sa.sa_sigaction = handle_verify;
+	if (sigaction(SIGUSR1, &sa, 0) == -1)
+		return (1);
 	g_pid = ft_atoi(argv[1]);
 	send_message(argv[2]);
+	while (g_pid)
+		sleep(1);
 	return (0);
 }
