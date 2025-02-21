@@ -97,7 +97,7 @@ int	args_to_stack(int argc, char **argv, t_stack **s)
 		*nbr = ft_atoi(*argv++);
 		stack_add_back(s, ns);
 	}
-	if(!repeat_nbr(*s))
+	if (!repeat_nbr(*s))
 		return (0);
 	return (1);
 }

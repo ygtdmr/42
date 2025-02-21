@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:12:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/21 18:18:55 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/02/21 18:40:28 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,21 @@ static void	mv_action(t_stack **sa, t_stack **sb, int na, int nb)
 	}
 }
 
-void	nbr_mv_b(t_stack **sa, t_stack **sb, int na, int nb)
+void	nbr_mv_b(t_stack **sa, t_stack **sb)
 {
-	while (!(*sa && *(*sa)->nbr == na) || !(*sb && *(*sb)->nbr == nb))
-		mv_action(sa, sb, na, nb);
+	int	na;
+	int	nb;
+
+	while (stack_size(*sa) > 3)
+	{
+		if (stack_size(*sb) >= 2)
+		{
+			nbr_set(*sa, *sb, &na, &nb);
+			while (!(*sa && *(*sa)->nbr == na) || !(*sb && *(*sb)->nbr == nb))
+				mv_action(sa, sb, na, nb);
+		}
+		do_action("pb", sa, sb);
+	}
 }
 
 void	nbr_mv_a(t_stack **sa, t_stack **sb)

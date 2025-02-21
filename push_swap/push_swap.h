@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 15:33:24 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/21 18:19:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/02/21 18:37:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ void	do_action(char *a, t_stack **sa, t_stack **sb);
 int		*nbr_next(t_stack *s, int *nbr);
 int		*nbr_max(t_stack *s);
 int		*nbr_prev(t_stack *s, int *nbr);
-void	nbr_mv_b(t_stack **sa, t_stack **sb, int na, int nb);
+void	nbr_mv_b(t_stack **sa, t_stack **sb);
 void	nbr_mv_a(t_stack **sa, t_stack **sb);
 int		nbr_mv_side(t_stack *stack, int nbr);
-void	nbr_set(t_stack *sa, t_stack *sb, int **na, int **nb);
-
-void	stack_view(char *msg, t_stack *s);
+void	nbr_set(t_stack *sa, t_stack *sb, int *na, int *nb);

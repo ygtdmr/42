@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 21:05:58 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/21 18:19:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/02/21 18:40:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,9 @@ static void	stack_sml_sort(t_stack **sa)
 static void	stack_big_sort(t_stack **sa)
 {
 	t_stack	*sb;
-	int		*na;
-	int		*nb;
 
 	sb = 0;
-	while (stack_size(*sa) > 3)
-	{
-		nbr_set(*sa, sb, &na, &nb);
-		if (stack_size(sb) >= 2)
-			nbr_mv_b(sa, &sb, *na, *nb);
-		do_action("pb", sa, &sb);
-	}
+	nbr_mv_b(sa, &sb);
 	nbr_mv_a(sa, &sb);
 	stack_clear(&sb, free);
 }
