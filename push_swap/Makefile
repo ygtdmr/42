@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:33:55 by yigit             #+#    #+#              #
-#    Updated: 2025/02/21 02:05:46 by yidemir          ###   ########.fr        #
+#    Updated: 2025/02/21 14:05:01 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC =		src/libft/ft_strlen.c \
 			src/stack_last.c \
 			src/stack_new.c \
 			src/stack_size.c \
+			src/stack_sorted.c \
 			src/args_to_list.c \
 			src/stack_action.c \
 			src/do_action.c \
@@ -50,6 +51,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(AR) $(NAME).a $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(NAME).c $(NAME).a
+	$(RM) $(NAME).a
 
 clean:
 	$(RM) $(OBJ)

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 19:12:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/21 02:05:34 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/02/21 18:18:55 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,13 @@ void	nbr_mv_b(t_stack **sa, t_stack **sb, int na, int nb)
 		mv_action(sa, sb, na, nb);
 }
 
-static int	sa_sorted(t_stack *s)
-{
-	while (s->next)
-	{
-		if (*s->nbr > *s->next->nbr)
-			return (0);
-		s = s->next;
-	}
-	return (1);
-}
-
 void	nbr_mv_a(t_stack **sa, t_stack **sb)
 {
-	while (!sa_sorted(*sa))
+	while (!stack_sorted(*sa))
 	{
 		if (*(*sa)->nbr > *(*sa)->next->nbr)
 			do_action("sa", sa, 0);
-		if (!sa_sorted(*sa))
+		if (!stack_sorted(*sa))
 			do_action("rra", sa, 0);
 	}
 	while (*sb)

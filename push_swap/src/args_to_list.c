@@ -12,7 +12,7 @@
 
 #include "../push_swap.h"
 
-static void	repeat_nbr(t_stack *s)
+static int	repeat_nbr(t_stack *s)
 {
 	t_stack	*tmp;
 
@@ -22,75 +22,82 @@ static void	repeat_nbr(t_stack *s)
 		while (tmp)
 		{
 			if (*tmp->nbr == *s->nbr)
-			{
-				write(2, "Error\n", 6);
-				exit(1);
-			}
+				return (0);
 			tmp = tmp->next;
 		}
 		s = s->next;
 	}
+	return (1);
 }
 
-static void	check_nbr(char *src)
+static int	check_nbr(char *src)
 {
 	char	*tmp;
+	char	*nbr;
 
 	tmp = src;
+	if (*src == '+' || *src == '-')
+		src++;
 	while (*src)
 	{
-		if (!(*src >= 48 && *src <= 57) && (*src != '+' && *src != '-'))
-		{
-			write(2, "Error\n", 6);
-			exit(1);
-		}
+		if (!(*src >= 48 && *src <= 57))
+			return (0);
 		src++;
 	}
-	if (!ft_strnstr(tmp, ft_itoa(ft_atoi(tmp)), ft_strlen(tmp)))
+	nbr = ft_itoa(ft_atoi(tmp));
+	if (!ft_strnstr(tmp, nbr, ft_strlen(tmp)))
 	{
-		write(2, "Error\n", 6);
-		exit(1);
+		free(nbr);
+		return (0);
 	}
+	free(nbr);
+	return (1);
 }
 
-static t_stack	*str_to_stack(char *str)
+static int	str_to_stack(char *str, t_stack **s)
 {
-	t_stack	*stack;
 	char	**splt;
 	int		lsplt;
+	int		status;
 
 	splt = ft_split(str, ' ');
 	lsplt = 0;
 	while (splt[lsplt])
 		lsplt++;
-	stack = args_to_stack(lsplt, splt);
+	status = args_to_stack(lsplt, splt, s);
+	while (lsplt--)
+		free(splt[lsplt]);
 	free(splt);
-	return (stack);
+	if (!status)
+		stack_clear(s, free);
+	return (status);
 }
 
-t_stack	*args_to_stack(int argc, char **argv)
+int	args_to_stack(int argc, char **argv, t_stack **s)
 {
-	t_stack	*s;
+	t_stack	*ns;
 	int		*nbr;
 
-	s = 0;
+	*s = 0;
 	while (argc--)
 	{
 		if (ft_strchr(*argv, ' '))
 		{
-			stack_add_back(&s, str_to_stack(*argv++));
+			if (!str_to_stack(*argv++, &ns))
+				return (0);
+			stack_add_back(s, ns);
 			continue ;
 		}
-		check_nbr(*argv);
-		nbr = (int *) malloc(sizeof(int *));
-		if (!nbr)
-		{
-			stack_clear(&s, free);
+		if (!check_nbr(*argv))
 			return (0);
-		}
+		nbr = (int *) malloc(sizeof(int));
+		ns = stack_new(nbr);
+		if (!nbr || !ns)
+			return (0);
 		*nbr = ft_atoi(*argv++);
-		stack_add_back(&s, stack_new(nbr));
+		stack_add_back(s, ns);
 	}
-	repeat_nbr(s);
-	return (s);
+	if(!repeat_nbr(*s))
+		return (0);
+	return (1);
 }

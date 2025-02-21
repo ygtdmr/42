@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_clear.c                                      :+:      :+:    :+:   */
+/*   stack_sorted.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/01 00:38:05 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/21 16:20:29 by yidemir          ###   ########.fr       */
+/*   Created: 2025/02/21 14:02:20 by yidemir           #+#    #+#             */
+/*   Updated: 2025/02/21 14:02:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	stack_clear(t_stack **s, void (*del)(void*))
+int	stack_sorted(t_stack *s)
 {
-	if (!s || !*s)
-		return ;
-	if ((*s)->nbr != 0)
-		del((*s)->nbr);
-	if ((*s)->next)
-		stack_clear(&(*s)->next, del);
-	free(*s);
-	*s = 0;
+	while (s->next)
+	{
+		if (*s->nbr > *s->next->nbr)
+			return (0);
+		s = s->next;
+	}
+	return (1);
 }
