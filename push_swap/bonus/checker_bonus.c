@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   checker_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 21:05:58 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/24 21:13:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/02/24 21:26:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "checker_bonus.h"
 
 static int	stack_error(t_stack **sa, t_stack **sb)
 {
@@ -20,30 +20,22 @@ static int	stack_error(t_stack **sa, t_stack **sb)
 	return (1);
 }
 
-static void	stack_sml_sort(t_stack **sa, t_stack **sb)
+static int	check(t_stack **sa, t_stack **sb)
 {
-	while (stack_size(*sa) >= 3)
-	{
-		while ((*sa)->nbr != nbr_next(*sa, 0))
-		{
-			if (nbr_mv_side(*sa, *nbr_next(*sa, 0)))
-				do_action("ra", sa, 0);
-			else
-				do_action("rra", sa, 0);
-		}
-		do_action("pb", sa, sb);
-	}
-	if (*(*sa)->nbr > *(*sa)->next->nbr)
-		do_action("sa", sa, 0);
-	while (*sb)
-		do_action("pa", sa, sb);
-}
+	char	**acl;
+	int		i;
 
-static void	stack_big_sort(t_stack **sa, t_stack **sb)
-{
-	nbr_mv_b(sa, sb);
-	nbr_mv_a(sa, sb);
-	stack_clear(sb, free);
+	acl = get_actions();
+	if (!acl || !*acl)
+		exit(stack_error(sa, sb));
+	i = 0;
+	while (acl[i])
+		stack_action(acl[i++], sa, sb);
+	i = 0;
+	while (acl[i])
+		free(acl[i++]);
+	free(acl);
+	return (stack_sorted(*sa));
 }
 
 int	main(int argc, char **argv)
@@ -56,13 +48,10 @@ int	main(int argc, char **argv)
 		return (0);
 	if (!args_to_stack(argc - 1, argv + 1, &sa))
 		return (stack_error(&sa, &sb));
-	if (!stack_sorted(sa))
-	{
-		if (stack_size(sa) > 5)
-			stack_big_sort(&sa, &sb);
-		else
-			stack_sml_sort(&sa, &sb);
-	}
+	if (check(&sa, &sb))
+		write (1, "OK\n", 3);
+	else
+		write (1, "KO\n", 3);
 	stack_clear(&sa, free);
 	stack_clear(&sb, free);
 	return (0);

@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_add_front.c                                  :+:      :+:    :+:   */
+/*   checker_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 22:55:07 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/24 20:49:30 by yidemir          ###   ########.fr       */
+/*   Created: 2025/02/23 15:44:02 by yidemir           #+#    #+#             */
+/*   Updated: 2025/02/24 22:16:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	stack_add_front(t_stack **s, t_stack *n)
-{
-	if (n)
-	{
-		n->next = *s;
-		*s = n;
-	}
-}
+char	*str_realloc(char *dst, char *src, size_t lsrc);
+char	**get_actions(void);

@@ -6,14 +6,17 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:33:55 by yigit             #+#    #+#              #
-#    Updated: 2025/02/21 14:05:01 by yidemir          ###   ########.fr        #
+#    Updated: 2025/02/24 22:18:57 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = push_swap
+NAME_BONUS = checker
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-AR = ar -rc
+
+SRC_BONUS =	bonus/checker_bonus.c \
+			bonus/checker_utils_bonus.c
 
 SRC =		src/libft/ft_strlen.c \
 			src/libft/ft_strlcpy.c \
@@ -42,22 +45,26 @@ SRC =		src/libft/ft_strlen.c \
 			src/nbr_max.c \
 			src/nbr_mv_side.c \
 			src/nbr_mv.c \
-			src/nbr_set.c \
+			src/nbr_set.c
 
 OBJ = $(SRC:.c=.o)
+OBJ_BONUS = $(SRC_BONUS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(AR) $(NAME).a $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(NAME).c $(NAME).a
-	$(RM) $(NAME).a
+bonus: $(NAME_BONUS)
+
+$(NAME): $(OBJ) $(NAME).c
+	$(CC) $(CFLAGS) $(OBJ) $(NAME).c -o $(NAME)
+
+$(NAME_BONUS): $(OBJ) $(OBJ_BONUS)
+	$(CC) $(CFLAGS) $(OBJ) $(OBJ_BONUS) -o $(NAME_BONUS)
 
 clean:
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(OBJ_BONUS)
 
 fclean: clean
-	$(RM) $(NAME) $(NAME).a
+	$(RM) $(NAME) $(NAME_BONUS)
 
 re: fclean all
 

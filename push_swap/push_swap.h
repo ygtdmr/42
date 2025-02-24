@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 15:33:24 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/21 18:37:09 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/02/24 22:27:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	stack_add_back(t_stack **s, t_stack *n);
 void	stack_delone(t_stack *s, void (*del)(void*));
 int		stack_size(t_stack *s);
 int		stack_sorted(t_stack *s);
+int		stack_action(char *a, t_stack **sa, t_stack **sb);
 
 int		args_to_stack(int argc, char **argv, t_stack **s);
-int		stack_action(char *a, t_stack **sa, t_stack **sb);
 void	do_action(char *a, t_stack **sa, t_stack **sb);
 int		*nbr_next(t_stack *s, int *nbr);
 int		*nbr_max(t_stack *s);
