@@ -49,7 +49,10 @@ static void	handle_sig(int sig, siginfo_t *info, void *context)
 	{
 		write(1, "\n", 1);
 		if (kill(info->si_pid, SIGUSR1) == -1)
+		{
+			write(1, "Error when send signal.\n", 24);
 			exit(1);
+		}
 	}
 	lbit = 0;
 	byte = 0;
@@ -61,7 +64,6 @@ int	main(void)
 
 	sa.sa_sigaction = handle_sig;
 	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGUSR1, &sa, 0) == -1)
 		return (1);
 	if (sigaction(SIGUSR2, &sa, 0) == -1)

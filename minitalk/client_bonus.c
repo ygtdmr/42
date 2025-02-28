@@ -86,15 +86,16 @@ int	main(int argc, char *argv[])
 {
 	struct sigaction	sa;
 
-	if (argc != 3)
+	g_pid = ft_atoi(argv[1]);
+	if (!g_pid || argc != 3)
 	{
 		write(1, "Usage: ./client <PID> <message>\n", 32);
 		return (1);
 	}
 	sa.sa_sigaction = handle_verify;
+	sa.sa_flags = SA_SIGINFO;
 	if (sigaction(SIGUSR1, &sa, 0) == -1)
 		return (1);
-	g_pid = ft_atoi(argv[1]);
 	send_message(argv[2]);
 	while (g_pid)
 		sleep(1);
