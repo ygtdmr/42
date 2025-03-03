@@ -12,7 +12,7 @@
 
 #include "../push_swap.h"
 
-t_stack	*stack_new(int *nbr)
+t_stack	*stack_new(int nbr)
 {
 	t_stack	*lst;
 

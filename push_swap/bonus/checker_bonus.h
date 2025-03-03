@@ -10,7 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#ifndef CHECKER_BONUS_H
+# define CHECKER_BONUS_H
+
+# include "../push_swap.h"
 
 char	*str_realloc(char *dst, char *src, size_t lsrc);
 char	**get_actions(void);
+
+#endif

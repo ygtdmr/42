@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 21:05:58 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/24 21:26:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/01 00:48:54 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static int	stack_error(t_stack **sa, t_stack **sb)
 {
 	write(2, "Error\n", 6);
-	stack_clear(sa, free);
-	stack_clear(sb, free);
+	stack_clear(sa);
+	stack_clear(sb);
 	return (1);
 }
 
@@ -52,7 +52,7 @@ int	main(int argc, char **argv)
 		write (1, "OK\n", 3);
 	else
 		write (1, "KO\n", 3);
-	stack_clear(&sa, free);
-	stack_clear(&sb, free);
+	stack_clear(&sa);
+	stack_clear(&sb);
 	return (0);
 }

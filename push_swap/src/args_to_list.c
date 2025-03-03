@@ -21,7 +21,7 @@ static int	repeat_nbr(t_stack *s)
 		tmp = s->next;
 		while (tmp)
 		{
-			if (*tmp->nbr == *s->nbr)
+			if (tmp->nbr == s->nbr)
 				return (0);
 			tmp = tmp->next;
 		}
@@ -69,18 +69,19 @@ static int	str_to_stack(char *str, t_stack **s)
 		free(splt[lsplt]);
 	free(splt);
 	if (!status)
-		stack_clear(s, free);
+		stack_clear(s);
 	return (status);
 }
 
 int	args_to_stack(int argc, char **argv, t_stack **s)
 {
 	t_stack	*ns;
-	int		*nbr;
 
 	*s = 0;
 	while (argc--)
 	{
+		if (!ft_strlen(*argv) && *argv++)
+			continue ;
 		if (ft_strchr(*argv, ' '))
 		{
 			if (!str_to_stack(*argv++, &ns))
@@ -90,11 +91,9 @@ int	args_to_stack(int argc, char **argv, t_stack **s)
 		}
 		if (!check_nbr(*argv))
 			return (0);
-		nbr = (int *) malloc(sizeof(int));
-		ns = stack_new(nbr);
-		if (!nbr || !ns)
+		ns = stack_new(ft_atoi(*argv++));
+		if (!ns)
 			return (0);
-		*nbr = ft_atoi(*argv++);
 		stack_add_back(s, ns);
 	}
 	if (!repeat_nbr(*s))

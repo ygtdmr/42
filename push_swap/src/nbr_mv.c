@@ -33,13 +33,13 @@ static void	mv_action(t_stack **sa, t_stack **sb, int na, int nb)
 
 	aa = 0;
 	ab = 0;
-	if (!(*sa && *(*sa)->nbr == na) && nbr_mv_side(*sa, na))
+	if (!(*sa && (*sa)->nbr == na) && nbr_mv_side(*sa, na))
 		aa = "ra";
-	else if (!(*sa && *(*sa)->nbr == na))
+	else if (!(*sa && (*sa)->nbr == na))
 		aa = "rra";
-	if (!(*sb && *(*sb)->nbr == nb) && nbr_mv_side(*sb, nb))
+	if (!(*sb && (*sb)->nbr == nb) && nbr_mv_side(*sb, nb))
 		ab = "rb";
-	else if (!(*sb && *(*sb)->nbr == nb))
+	else if (!(*sb && (*sb)->nbr == nb))
 		ab = "rrb";
 	if (mv_str_in(aa, "ra") && mv_str_in(ab, "rb"))
 		do_action("rr", sa, sb);
@@ -64,7 +64,7 @@ void	nbr_mv_b(t_stack **sa, t_stack **sb)
 		if (stack_size(*sb) >= 2)
 		{
 			nbr_set(*sa, *sb, &na, &nb);
-			while (!(*sa && *(*sa)->nbr == na) || !(*sb && *(*sb)->nbr == nb))
+			while (!(*sa && (*sa)->nbr == na) || !(*sb && (*sb)->nbr == nb))
 				mv_action(sa, sb, na, nb);
 		}
 		do_action("pb", sa, sb);
@@ -75,20 +75,20 @@ void	nbr_mv_a(t_stack **sa, t_stack **sb)
 {
 	while (!stack_sorted(*sa))
 	{
-		if (*(*sa)->nbr > *(*sa)->next->nbr)
+		if ((*sa)->nbr > (*sa)->next->nbr)
 			do_action("sa", sa, 0);
 		if (!stack_sorted(*sa))
 			do_action("rra", sa, 0);
 	}
 	while (*sb)
 	{
-		while (nbr_next(*sa, (*sb)->nbr) != (*sa)->nbr)
+		while (nbr_next(*sa, &(*sb)->nbr) != (*sa)->nbr)
 			do_action("rra", sa, 0);
 		do_action("pa", sa, sb);
 	}
 	while ((*sa)->nbr != nbr_next(*sa, 0))
 	{
-		if (nbr_mv_side(*sa, *nbr_next(*sa, 0)))
+		if (nbr_mv_side(*sa, nbr_next(*sa, 0)))
 			do_action("ra", sa, 0);
 		else
 			do_action("rra", sa, 0);

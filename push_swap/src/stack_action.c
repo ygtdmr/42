@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:50:34 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/24 20:49:30 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/01 00:38:56 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,12 @@
 static int	ac_push(t_stack **from, t_stack **to)
 {
 	t_stack	*tmp;
-	int		*nbr;
 
 	if (!*from)
 		return (0);
-	nbr = (int *) malloc(sizeof(int *));
-	if (!nbr)
-	{
-		write(2, "Error\n", 6);
-		exit(1);
-	}
-	*nbr = *(*from)->nbr;
-	stack_add_front(to, stack_new(nbr));
+	stack_add_front(to, stack_new((*from)->nbr));
 	tmp = (*from)->next;
-	stack_delone((*from), free);
+	free(*from);
 	*(from) = tmp;
 	return (1);
 }
@@ -39,9 +31,9 @@ static int	ac_swap(t_stack *s)
 
 	if (stack_size(s) <= 1)
 		return (0);
-	tmp = *s->nbr;
-	*s->nbr = *s->next->nbr;
-	*s->next->nbr = tmp;
+	tmp = s->nbr;
+	s->nbr = s->next->nbr;
+	s->next->nbr = tmp;
 	return (1);
 }
 
@@ -51,13 +43,13 @@ static int	ac_rotate(t_stack *s)
 
 	if (stack_size(s) <= 1)
 		return (0);
-	tmp = *s->nbr;
+	tmp = s->nbr;
 	while (s->next)
 	{
-		*s->nbr = *s->next->nbr;
+		s->nbr = s->next->nbr;
 		s = s->next;
 	}
-	*s->nbr = tmp;
+	s->nbr = tmp;
 	return (1);
 }
 
@@ -68,12 +60,12 @@ static int	ac_reverse_rotate(t_stack *s)
 
 	if (stack_size(s) <= 1)
 		return (0);
-	tmp_c = *s->nbr;
-	*s->nbr = *stack_last(s)->nbr;
+	tmp_c = s->nbr;
+	s->nbr = stack_last(s)->nbr;
 	while (s->next)
 	{
-		tmp_n = *s->next->nbr;
-		*s->next->nbr = tmp_c;
+		tmp_n = s->next->nbr;
+		s->next->nbr = tmp_c;
 		tmp_c = tmp_n;
 		s = s->next;
 	}

@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/23 14:33:55 by yigit             #+#    #+#              #
-#    Updated: 2025/02/24 22:18:57 by yidemir          ###   ########.fr        #
+#    Updated: 2025/03/01 00:40:34 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,13 +32,12 @@ SRC =		src/libft/ft_strlen.c \
 			src/stack_add_back.c \
 			src/stack_add_front.c \
 			src/stack_clear.c \
-			src/stack_delone.c \
 			src/stack_last.c \
 			src/stack_new.c \
 			src/stack_size.c \
 			src/stack_sorted.c \
-			src/args_to_list.c \
 			src/stack_action.c \
+			src/args_to_list.c \
 			src/do_action.c \
 			src/nbr_next.c \
 			src/nbr_prev.c \

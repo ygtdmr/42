@@ -17,8 +17,6 @@ int	stack_size(t_stack *s)
 	int		l;
 
 	l = 0;
-	if (!s)
-		return (0);
 	while (s)
 	{
 		l++;

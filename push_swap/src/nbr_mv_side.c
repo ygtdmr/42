@@ -19,7 +19,7 @@ int	nbr_mv_side(t_stack *stack, int nbr)
 	tmp = stack;
 	while (tmp)
 	{
-		if (*tmp->nbr == nbr)
+		if (tmp->nbr == nbr)
 			break ;
 		tmp = tmp->next;
 	}

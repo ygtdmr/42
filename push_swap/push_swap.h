@@ -6,16 +6,19 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 15:33:24 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/24 22:27:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/03 13:18:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
+
+# include <unistd.h>
+# include <stdlib.h>
 
 typedef struct s_stack
 {
-	int				*nbr;
+	int				nbr;
 	struct s_stack	*next;
 }	t_stack;
 
@@ -31,22 +34,23 @@ char	*ft_strdup(const char *s1);
 void	*ft_memset(void *b, int c, size_t len);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
-t_stack	*stack_new(int *nbr);
+t_stack	*stack_new(int nbr);
 t_stack	*stack_last(t_stack *s);
-void	stack_clear(t_stack **s, void (*del)(void*));
+void	stack_clear(t_stack **s);
 void	stack_add_front(t_stack **s, t_stack *n);
 void	stack_add_back(t_stack **s, t_stack *n);
-void	stack_delone(t_stack *s, void (*del)(void*));
 int		stack_size(t_stack *s);
 int		stack_sorted(t_stack *s);
 int		stack_action(char *a, t_stack **sa, t_stack **sb);
 
 int		args_to_stack(int argc, char **argv, t_stack **s);
 void	do_action(char *a, t_stack **sa, t_stack **sb);
-int		*nbr_next(t_stack *s, int *nbr);
-int		*nbr_max(t_stack *s);
-int		*nbr_prev(t_stack *s, int *nbr);
+int		nbr_next(t_stack *s, int *nbr);
+int		nbr_max(t_stack *s);
+int		nbr_prev(t_stack *s, int nbr);
 void	nbr_mv_b(t_stack **sa, t_stack **sb);
 void	nbr_mv_a(t_stack **sa, t_stack **sb);
 int		nbr_mv_side(t_stack *stack, int nbr);
 void	nbr_set(t_stack *sa, t_stack *sb, int *na, int *nb);
+
+#endif

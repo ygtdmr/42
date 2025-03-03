@@ -12,14 +12,12 @@
 
 #include "../push_swap.h"
 
-void	stack_clear(t_stack **s, void (*del)(void*))
+void	stack_clear(t_stack **s)
 {
 	if (!s || !*s)
 		return ;
-	if ((*s)->nbr != 0)
-		del((*s)->nbr);
 	if ((*s)->next)
-		stack_clear(&(*s)->next, del);
+		stack_clear(&(*s)->next);
 	free(*s);
 	*s = 0;
 }

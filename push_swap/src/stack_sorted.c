@@ -14,9 +14,9 @@
 
 int	stack_sorted(t_stack *s)
 {
-	while (s->next)
+	while (s && s->next)
 	{
-		if (*s->nbr > *s->next->nbr)
+		if (s->nbr > s->next->nbr)
 			return (0);
 		s = s->next;
 	}

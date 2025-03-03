@@ -20,19 +20,19 @@ static int	valid_action(char *ac)
 	if (ft_strlen(ac) == 2)
 	{
 		v = ft_strnstr(ac, "sa", 2) != 0;
-		v = v || ft_strnstr(ac, "sb", 2) != 0;
-		v = v || ft_strnstr(ac, "ss", 2) != 0;
-		v = v || ft_strnstr(ac, "pa", 2) != 0;
-		v = v || ft_strnstr(ac, "pb", 2) != 0;
-		v = v || ft_strnstr(ac, "ra", 2) != 0;
-		v = v || ft_strnstr(ac, "rb", 2) != 0;
-		v = v || ft_strnstr(ac, "rr", 2) != 0;
+		v = (v || ft_strnstr(ac, "sb", 2) != 0);
+		v = (v || ft_strnstr(ac, "ss", 2) != 0);
+		v = (v || ft_strnstr(ac, "pa", 2) != 0);
+		v = (v || ft_strnstr(ac, "pb", 2) != 0);
+		v = (v || ft_strnstr(ac, "ra", 2) != 0);
+		v = (v || ft_strnstr(ac, "rb", 2) != 0);
+		v = (v || ft_strnstr(ac, "rr", 2) != 0);
 	}
 	else if (ft_strlen(ac) == 3)
 	{
 		v = ft_strnstr(ac, "rra", 3) != 0;
-		v = v || ft_strnstr(ac, "rrb", 3) != 0;
-		v = v || ft_strnstr(ac, "rrr", 3) != 0;
+		v = (v || ft_strnstr(ac, "rrb", 3) != 0);
+		v = (v || ft_strnstr(ac, "rrr", 3) != 0);
 	}
 	return (v);
 }

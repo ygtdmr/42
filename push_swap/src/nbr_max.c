@@ -12,15 +12,15 @@
 
 #include "../push_swap.h"
 
-int	*nbr_max(t_stack *s)
+int	nbr_max(t_stack *s)
 {
-	int	*m;
+	int	m;
 
 	m = s->nbr;
 	while (s->next)
 	{
 		s = s->next;
-		if (*m < *s->nbr)
+		if (m < s->nbr)
 			m = s->nbr;
 	}
 	return (m);
