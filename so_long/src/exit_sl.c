@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_map.c                                          :+:      :+:    :+:   */
+/*   exit_sl.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 00:06:10 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/06 17:35:17 by yidemir          ###   ########.fr       */
+/*   Created: 2025/03/06 15:21:09 by yidemir           #+#    #+#             */
+/*   Updated: 2025/03/06 16:31:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long.h"
 
-char	**get_map(t_sldata *sld, int mfd)
+int exit_sl(t_sldata *sld)
 {
-	char	**map;
-	int		i;
-	int		il;
-
-	i = 0;
-	il = 0;
-	map = malloc(sizeof(char *) * sld->mh);
-	while(i < sld->mh)
-	{
-		il = 0;
-		map[i] = get_next_line(mfd);
-		while (map[i][il] && map[i][il] != '\n')
-		{
-			if (map[i][il] == 'P')
-				sld->pc = init_pc(il, i);
-			il++;
-		}
-		i++;
-	}
-	return (map);
+	while (sld->mh)
+		free(sld->map[--sld->mh]);
+	free(sld->map);
+	mlx_destroy_window(sld->mlx, sld->win);
+	mlx_loop_end(sld->mlx);
+	return (0);
 }

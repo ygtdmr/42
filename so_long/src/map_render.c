@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:11:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/03 14:29:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/06 17:42:48 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,18 @@ void	*get_img(t_sldata *sld, char c)
 	return (mlx_xpm_file_to_image(sld->mlx, path, &w, &h));
 }
 
+void	redraw_img(t_sldata *sld, char c, int x, int y)
+{
+	void	*img;
+
+	img = get_img(sld, c);
+	mlx_put_image_to_window(sld->mlx, sld->win, img, x * 64, y * 64);
+	mlx_destroy_image(sld->mlx, img);
+}
+
 void	map_render(t_sldata *sld)
 {
-	char	*img;
+	void	*img;
 	int		iw;
 	int		ih;
 	
@@ -48,6 +57,7 @@ void	map_render(t_sldata *sld)
 		{
 			img = get_img(sld, sld->map[ih][iw]);
 			mlx_put_image_to_window(sld->mlx, sld->win, img, iw * 64, ih * 64);
+			mlx_destroy_image(sld->mlx, img);
 			iw++;
 		}
 		ih++;

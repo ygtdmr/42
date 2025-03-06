@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:23:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/04 18:39:40 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/06 15:52:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	map_verifiy(t_sldata *sld, int mfd)
 		player += (ft_strchr(line, 'P') != 0);
 		sld->col += (ft_strchr(line, 'C') != 0);
 		sld->exit += (ft_strchr(line, 'E') != 0);
+		free(line);
 		line = get_next_line(mfd);
 		if (line)
 			end_wall = all_wall(line);
