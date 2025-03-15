@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_keyhook.c                                   :+:      :+:    :+:   */
+/*   handle_keyhook_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 18:45:32 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/15 14:54:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/15 14:30:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long_bonus.h"
 
 static int	handle_action(t_sldata *sld, int x, int y)
 {
+	void	*img_exit_1;
+
 	if (sld->map[y][x] == 'E')
 	{
 		if (sld->col == 0)
@@ -21,7 +23,14 @@ static int	handle_action(t_sldata *sld, int x, int y)
 		return (0);
 	}
 	if (sld->map[y][x] == 'C')
+	{
 		sld->col--;
+		if (!sld->col)
+		{
+			img_exit_1 = get_img(sld, "images/exit_1.xpm", 0);
+			redraw_img(sld, img_exit_1, sld->pe.x, sld->pe.y);
+		}
+	}
 	return (1);
 }
 
@@ -29,6 +38,8 @@ static int	do_action(t_sldata *sld, int x, int y)
 {
 	if (sld->map[y][x] == '1' || !handle_action(sld, x, y))
 		return (0);
+	if (sld->map[y][x] == 'N')
+		return (exit_sl(sld, "Game over!\n"));
 	redraw_img(sld, get_img(sld, 0, '0'), sld->pp.x, sld->pp.y);
 	sld->map[sld->pp.y][sld->pp.x] = '0';
 	sld->map[y][x] = 'P';
@@ -39,9 +50,18 @@ static int	do_action(t_sldata *sld, int x, int y)
 
 static void	view_count(t_sldata *sld)
 {
-	ft_putstr_fd("Move count: ", 1);
-	ft_putnbr_fd(sld->mvc, 1);
-	ft_putchar_fd('\n', 1);
+	char	*s;
+	char	*smvc;
+
+	smvc = ft_itoa(sld->mvc);
+	s = ft_strjoin("Move count: ", smvc);
+	redraw_img(sld, get_img(sld, 0, '1'), 0, 0);
+	redraw_img(sld, get_img(sld, 0, '1'), 1, 0);
+	mlx_string_put(sld->mlx, sld->win, 8, 16, 0xffffff, s);
+	write(1, s, ft_strlen(s));
+	write(1, "\n", 1);
+	free(s);
+	free(smvc);
 }
 
 int	handle_keyhook(int code, t_sldata *sld)
@@ -61,9 +81,9 @@ int	handle_keyhook(int code, t_sldata *sld)
 		status = do_action(sld, sld->pp.x + 1, sld->pp.y);
 	if (status)
 	{
+		do_anim_player(sld, code);
 		sld->mvc++;
 		view_count(sld);
-		redraw_img(sld, get_img(sld, 0, 'P'), sld->pp.x, sld->pp.y);
 	}
 	return (0);
 }

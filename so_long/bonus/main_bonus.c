@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:01:25 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/14 13:25:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/15 15:10:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long_bonus.h"
 
 int	str_clen(char *s, char c)
 {
@@ -70,6 +70,9 @@ int	main(int argc, char **argv)
 	mlx_hook(sld.win, 17, 0, close_window, &sld);
 	mlx_key_hook(sld.win, handle_keyhook, &sld);
 	map_render(&sld);
+	mlx_string_put(sld.mlx, sld.win, 8, 16, 0xffffff, "Move count: 0");
+	sld.el = enemy_init(&sld);
+	mlx_loop_hook(sld.mlx, enemy_handle, &sld);
 	mlx_loop(sld.mlx);
 	mlx_destroy_window(sld.mlx, sld.win);
 	mlx_destroy_display(sld.mlx);

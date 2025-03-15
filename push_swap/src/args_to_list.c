@@ -78,17 +78,10 @@ int	args_to_stack(int argc, char **argv, t_stack **s)
 	t_stack	*ns;
 
 	*s = 0;
+	if (argc == 1 && ft_strchr(*argv, ' '))
+		return (str_to_stack(*argv, s));
 	while (argc--)
 	{
-		if (!ft_strlen(*argv) && *argv++)
-			continue ;
-		if (ft_strchr(*argv, ' '))
-		{
-			if (!str_to_stack(*argv++, &ns))
-				return (0);
-			stack_add_back(s, ns);
-			continue ;
-		}
 		if (!check_nbr(*argv))
 			return (0);
 		ns = stack_new(ft_atoi(*argv++));

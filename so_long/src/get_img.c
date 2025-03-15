@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_sl.c                                          :+:      :+:    :+:   */
+/*   get_img.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 15:21:09 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/14 13:25:30 by yidemir          ###   ########.fr       */
+/*   Created: 2025/03/15 14:50:45 by yidemir           #+#    #+#             */
+/*   Updated: 2025/03/15 14:50:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-int	exit_sl(t_sldata *sld, char *msg)
+void	*get_img(t_sldata *sld, char *path, char c)
 {
-	while (sld->mh)
-		free(sld->map[--sld->mh]);
-	free(sld->map);
-	mlx_loop_end(sld->mlx);
-	if (msg)
-		write(1, msg, ft_strlen(msg));
-	return (0);
+	int		w;
+	int		h;
+
+	w = 64;
+	h = 64;
+	if (!path)
+	{
+		if (c == '1')
+			path = "images/wall.xpm";
+		else if (c == '0')
+			path = "images/fs.xpm";
+		else if (c == 'C')
+			path = "images/col.xpm";
+		else if (c == 'E')
+			path = "images/exit_0.xpm";
+		else if (c == 'P')
+			path = "images/player.xpm";
+	}
+	return (mlx_xpm_file_to_image(sld->mlx, path, &w, &h));
 }

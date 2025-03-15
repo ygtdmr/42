@@ -20,22 +20,33 @@ static int	stack_error(t_stack **sa, t_stack **sb)
 	return (1);
 }
 
-static int	check(t_stack **sa, t_stack **sb)
+static void	check(t_stack **sa, t_stack **sb)
 {
 	char	**acl;
+	char	*acs;
 	int		i;
 
-	acl = get_actions();
-	if (!acl || !*acl)
+	acl = 0;
+	acs = get_actions();
+	if (acs && (*acs == '\n' || (ft_strnstr(acs, "\n\n", ft_strlen(acs)) != 0)))
+	{
+		free(acs);
 		exit(stack_error(sa, sb));
+	}
+	if (acs)
+	{
+		acl = ft_split(acs, '\n');
+		free(acs);
+	}
+	if (acl && !valid_actions(acl))
+	{
+		clear_actions(acl);
+		exit(stack_error(sa, sb));
+	}
 	i = 0;
-	while (acl[i])
+	while (acl && acl[i])
 		stack_action(acl[i++], sa, sb);
-	i = 0;
-	while (acl[i])
-		free(acl[i++]);
-	free(acl);
-	return (stack_sorted(*sa));
+	clear_actions(acl);
 }
 
 int	main(int argc, char **argv)
@@ -44,14 +55,18 @@ int	main(int argc, char **argv)
 	t_stack	*sb;
 
 	sb = 0;
-	if (argc == 1)
+	if (argc < 2)
 		return (0);
-	if (!args_to_stack(argc - 1, argv + 1, &sa))
+	if (!args_to_stack(--argc, ++argv, &sa))
 		return (stack_error(&sa, &sb));
-	if (check(&sa, &sb))
-		write (1, "OK\n", 3);
-	else
-		write (1, "KO\n", 3);
+	if (stack_size(sa))
+	{
+		check(&sa, &sb);
+		if (stack_sorted(sa) && !stack_size(sb))
+			write (1, "OK\n", 3);
+		else
+			write (1, "KO\n", 3);
+	}
 	stack_clear(&sa);
 	stack_clear(&sb);
 	return (0);

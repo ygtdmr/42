@@ -58,10 +58,10 @@ int	main(int argc, char **argv)
 	t_stack	*sa;
 	t_stack	*sb;
 
-	sb = 0;
-	if (argc == 1)
+	if (argc < 2)
 		return (0);
-	if (!args_to_stack(argc - 1, argv + 1, &sa))
+	sb = 0;
+	if (!args_to_stack(--argc, ++argv, &sa))
 		return (stack_error(&sa, &sb));
 	if (!stack_sorted(sa))
 	{

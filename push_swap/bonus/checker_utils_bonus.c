@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "checker_bonus.h"
+#include <stdio.h>
 
 static int	valid_action(char *ac)
 {
@@ -37,7 +38,7 @@ static int	valid_action(char *ac)
 	return (v);
 }
 
-static char	**valid_actions(char **splt)
+char	**valid_actions(char **splt)
 {
 	int	i;
 
@@ -45,13 +46,7 @@ static char	**valid_actions(char **splt)
 	while (splt[i])
 	{
 		if (!valid_action(splt[i]))
-		{
-			i = 0;
-			while (splt[i])
-				free(splt[i++]);
-			free(splt);
 			return (0);
-		}
 		i++;
 	}
 	return (splt);
@@ -78,9 +73,22 @@ char	*str_realloc(char *dst, char *src, size_t lsrc)
 	return (s);
 }
 
-char	**get_actions(void)
+void	clear_actions(char **acl)
 {
-	char	**acl;
+	int	i;
+
+	if (!acl)
+		return ;
+	i = 0;
+	if (acl && !acl[i])
+		free(acl[i]);
+	while (acl[i])
+		free(acl[i++]);
+	free(acl);
+}
+
+char	*get_actions(void)
+{
 	char	*acs;
 	char	bf[5];
 	int		bfl;
@@ -94,9 +102,5 @@ char	**get_actions(void)
 		bf[bfl] = 0;
 		acs = str_realloc(acs, bf, bfl);
 	}
-	if (!acs)
-		return (0);
-	acl = ft_split(acs, '\n');
-	free(acs);
-	return (valid_actions(acl));
+	return (acs);
 }

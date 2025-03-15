@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   init_p.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 12:45:19 by yigit             #+#    #+#             */
-/*   Updated: 2025/02/24 20:49:30 by yidemir          ###   ########.fr       */
+/*   Created: 2025/03/06 16:59:35 by yidemir           #+#    #+#             */
+/*   Updated: 2025/03/10 11:23:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../push_swap.h"
+#include "../so_long.h"
 
-void	ft_bzero(void *s, size_t n)
+t_slp	init_p(int x, int y)
 {
-	ft_memset(s, 0, n);
+	t_slp	slpc;
+
+	slpc.x = x;
+	slpc.y = y;
+	return (slpc);
 }

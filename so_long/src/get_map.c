@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:06:10 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/06 17:35:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/10 18:23:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/so_long.h"
+#include "../so_long.h"
 
 char	**get_map(t_sldata *sld, int mfd)
 {
@@ -21,14 +21,16 @@ char	**get_map(t_sldata *sld, int mfd)
 	i = 0;
 	il = 0;
 	map = malloc(sizeof(char *) * sld->mh);
-	while(i < sld->mh)
+	while (i < sld->mh)
 	{
 		il = 0;
 		map[i] = get_next_line(mfd);
 		while (map[i][il] && map[i][il] != '\n')
 		{
 			if (map[i][il] == 'P')
-				sld->pc = init_pc(il, i);
+				sld->pp = init_p(il, i);
+			else if (map[i][il] == 'E')
+				sld->pe = init_p(il, i);
 			il++;
 		}
 		i++;

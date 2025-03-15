@@ -16,6 +16,8 @@
 # include "../push_swap.h"
 
 char	*str_realloc(char *dst, char *src, size_t lsrc);
-char	**get_actions(void);
+char	*get_actions(void);
+void	clear_actions(char **acl);
+char	**valid_actions(char **splt);
 
 #endif

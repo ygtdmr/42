@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_add_front.c                                  :+:      :+:    :+:   */
+/*   isvc_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 22:55:07 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/24 20:49:30 by yidemir          ###   ########.fr       */
+/*   Created: 2025/03/15 14:44:22 by yidemir           #+#    #+#             */
+/*   Updated: 2025/03/15 15:50:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
-
-void	stack_add_front(t_stack **s, t_stack *n)
+int	isvc(char *line)
 {
-	if (n)
+	int	isac;
+
+	while (*line && *line != '\n')
 	{
-		n->next = *s;
-		*s = n;
+		isac = *line == '0';
+		isac = (isac || (*line == '1'));
+		isac = (isac || (*line == 'C'));
+		isac = (isac || (*line == 'E'));
+		isac = (isac || (*line == 'P'));
+		isac = (isac || (*line == 'N'));
+		if (!isac)
+			return (0);
+		line++;
 	}
+	return (1);
 }

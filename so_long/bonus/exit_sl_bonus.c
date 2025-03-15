@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_size.c                                       :+:      :+:    :+:   */
+/*   exit_sl_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 23:06:07 by yidemir           #+#    #+#             */
-/*   Updated: 2025/02/24 20:49:30 by yidemir          ###   ########.fr       */
+/*   Created: 2025/03/06 15:21:09 by yidemir           #+#    #+#             */
+/*   Updated: 2025/03/15 15:09:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
+#include "so_long_bonus.h"
 
-int	stack_size(t_stack *s)
+int	exit_sl(t_sldata *sld, char *msg)
 {
-	int		l;
-
-	l = 0;
-	while (s)
-	{
-		l++;
-		s = s->next;
-	}
-	return (l);
+	while (sld->mh)
+		free(sld->map[--sld->mh]);
+	free(sld->map);
+	ft_lstclear(&sld->el, free);
+	mlx_loop_end(sld->mlx);
+	if (msg)
+		write(1, msg, ft_strlen(msg));
+	return (0);
 }

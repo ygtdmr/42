@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:02:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/06 18:58:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/15 15:48:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,24 @@
 # define KEY_DOWN	65364
 # define KEY_LEFT	65361
 
-# include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <errno.h>
-# include "../lib/mlx/mlx.h"
-# include "../lib/libft/libft.h"
-# include "../lib/get_next_line/get_next_line.h"
+# include "lib/libft/libft.h"
+# include "lib/get_next_line/get_next_line.h"
+# include "lib/minilibx-linux/mlx.h"
 
-typedef struct s_slc
+typedef struct s_slva
+{
+	int	cc;
+	int	ise;
+	int	isp;
+}	t_slva;
+
+typedef struct s_slp
 {
 	int	x;
 	int	y;
-}	t_slc;
+}	t_slp;
 
 typedef struct s_sldata
 {
@@ -47,17 +52,21 @@ typedef struct s_sldata
 	int		mw;
 	int		mh;
 	int		col;
-	int		exit;
 	int		mvc;
-	t_slc	pc;
+	t_slp	pp;
+	t_slp	pe;
 }	t_sldata;
 
+int		str_clen(char *s, char c);
+int		isvc(char *line);
 int		map_verifiy(t_sldata *sld, int mfd);
 void	map_render(t_sldata *sld);
-void	redraw_img(t_sldata *sld, char c, int x, int y);
+void	redraw_img(t_sldata *sld, void *img, int x, int y);
+void	*get_img(t_sldata *sld, char *path, char c);
 char	**get_map(t_sldata *sld, int mfd);
 int		handle_keyhook(int code, t_sldata *sld);
-int		exit_sl(t_sldata *sld);
-t_slc	init_pc(int x, int y);
+int		exit_sl(t_sldata *sld, char *msg);
+t_slp	init_p(int x, int y);
+int		map_verify_path(t_sldata *sld, char **map);
 
 #endif
