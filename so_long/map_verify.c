@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:23:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/15 16:17:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/16 17:51:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long.h"
 
 static int	all_wall(char *line)
 {
@@ -47,7 +47,7 @@ static int	map_width(char *line)
 	return (w);
 }
 
-int	map_verifiy(t_sldata *sld, int mfd)
+void	map_verifiy(t_sldata *sld, int mfd)
 {
 	char		*line;
 	int			end_wall;
@@ -57,8 +57,10 @@ int	map_verifiy(t_sldata *sld, int mfd)
 	lp = 0;
 	le = 0;
 	line = get_next_line(mfd);
-	if (!line || !all_wall(line))
-		return (free(line), 0);
+	if (!line)
+		exit_sl(sld, "Error: map file is empty.\n", 1);
+	if (!all_wall(line))
+		(free(line), exit_sl(sld, "Error: map first line must be wall\n", 1));
 	sld->mw = map_width(line);
 	while (line)
 	{
@@ -73,5 +75,12 @@ int	map_verifiy(t_sldata *sld, int mfd)
 		if (line)
 			end_wall = all_wall(line);
 	}
-	return (sld->col && end_wall && lp == 1 && le == 1);
+	if (!end_wall)
+		exit_sl(sld, "Error: map last line must be wall\n", 1);
+	if (lp != 1)
+		exit_sl(sld, "Error: player count shuld be 1\n", 1);
+	if (le != 1)
+		exit_sl(sld, "Error: exit count shuld be 1\n", 1);
+	if (!sld->col)
+		exit_sl(sld, "Error: col must greather than 0\n", 1);
 }

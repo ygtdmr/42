@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:01:25 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/15 15:10:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/16 17:33:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static int	verify_filename(char *s)
 
 static int	close_window(t_sldata *sld)
 {
-	return (exit_sl(sld, 0));
+	exit_sl(sld, 0, 0);
+	return (0);
 }
 
 int	main(int argc, char **argv)

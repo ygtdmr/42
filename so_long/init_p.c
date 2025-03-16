@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_sl.c                                          :+:      :+:    :+:   */
+/*   init_p.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 15:21:09 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/14 13:25:30 by yidemir          ###   ########.fr       */
+/*   Created: 2025/03/06 16:59:35 by yidemir           #+#    #+#             */
+/*   Updated: 2025/03/10 11:23:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long.h"
 
-int	exit_sl(t_sldata *sld, char *msg)
+t_slp	init_p(int x, int y)
 {
-	while (sld->mh)
-		free(sld->map[--sld->mh]);
-	free(sld->map);
-	mlx_loop_end(sld->mlx);
-	if (msg)
-		write(1, msg, ft_strlen(msg));
-	return (0);
+	t_slp	slpc;
+
+	slpc.x = x;
+	slpc.y = y;
+	return (slpc);
 }

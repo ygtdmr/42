@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 09:52:32 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/15 15:23:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/16 17:13:29 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long.h"
 
 static void	scan_map(t_slva *va, char **map, int x, int y)
 {

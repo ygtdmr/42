@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:11:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/15 14:51:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/16 17:13:29 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long.h"
 
 void	redraw_img(t_sldata *sld, void *img, int x, int y)
 {

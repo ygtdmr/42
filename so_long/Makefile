@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/03/15 15:49:14 by yidemir          ###   ########.fr        #
+#    Updated: 2025/03/16 17:15:56 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,26 +14,26 @@ NAME	=		so_long
 CC		= 		cc
 CFLAGS	=		-Wall -Wextra -Werror
 
-SRC		=		lib/get_next_line/get_next_line.c \
-				lib/get_next_line/get_next_line_utils.c \
-				src/isvc.c \
-				src/map_verify.c \
-				src/map_verify_path.c \
-				src/get_img.c \
-				src/map_render.c \
-				src/get_map.c \
-				src/exit_sl.c \
-				src/init_p.c \
-				src/handle_keyhook.c \
-				src/main.c
+SRC		=		get_next_line/get_next_line.c \
+				get_next_line/get_next_line_utils.c \
+				isvc.c \
+				map_verify.c \
+				map_verify_path.c \
+				get_img.c \
+				map_render.c \
+				get_map.c \
+				exit_sl.c \
+				init_p.c \
+				handle_keyhook.c \
+				main.c
 
-SRC_BONUS	=	lib/get_next_line/get_next_line.c \
-				lib/get_next_line/get_next_line_utils.c \
-				src/map_verify.c \
-				src/map_verify_path.c \
-				src/map_render.c \
-				src/get_map.c \
-				src/init_p.c \
+SRC_BONUS	=	get_next_line/get_next_line.c \
+				get_next_line/get_next_line_utils.c \
+				map_verify.c \
+				map_verify_path.c \
+				map_render.c \
+				get_map.c \
+				init_p.c \
 				bonus/exit_sl_bonus.c \
 				bonus/get_img_bonus.c \
 				bonus/isvc_bonus.c \
@@ -45,32 +45,28 @@ SRC_BONUS	=	lib/get_next_line/get_next_line.c \
 OBJ			=	$(SRC:.c=.o)
 OBJ_BONUS	=	$(SRC_BONUS:.c=.o)
 
-all:		$(NAME)
+all:			$(NAME)
 
-$(NAME):	libft libmlx $(OBJ)
-	$(CC) $(OBJ) lib/libft/libft.a lib/minilibx-linux/libmlx.a -lXext -lX11 -o $(NAME)
+$(NAME):		$(OBJ)
+	make -C libft && make -C minilibx-linux
+	$(CC) $(OBJ) libft/libft.a minilibx-linux/libmlx.a -lXext -lX11 -o $(NAME)
 
-bonus:		libft libmlx $(OBJ_BONUS)
-	$(CC) $(OBJ_BONUS) lib/libft/libft.a lib/minilibx-linux/libmlx.a -lXext -lX11 -o bonus/$(NAME)
+bonus:			bonus/$(NAME)
 
-libft:
-	make -C lib/libft
-	make bonus -C lib/libft
-
-libmlx:
-	if [ ! -d "lib/minilibx-linux" ]; then git clone https://github.com/42paris/minilibx-linux.git lib/minilibx-linux; fi
-	make -C lib/minilibx-linux
+bonus/$(NAME):	$(OBJ_BONUS)
+	make all bonus -C libft && make -C minilibx-linux
+	$(CC) $(OBJ_BONUS) libft/libft.a minilibx-linux/libmlx.a -lXext -lX11 -o bonus/$(NAME)
 
 clean:
 	$(RM) $(OBJ)
 	$(RM) $(OBJ_BONUS)
-	make clean -C lib/libft
+	make clean -C libft
 
 fclean:		clean
 	$(RM) $(NAME)
 	$(RM) bonus/$(NAME)
-	make fclean -C lib/libft
-	if [ -d "lib/minilibx-linux" ]; then make clean -C lib/minilibx-linux; fi
+	make fclean -C libft
+	make clean -C minilibx-linux
 
 re:			fclean all
 

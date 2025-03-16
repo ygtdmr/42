@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:15:54 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/15 15:45:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/16 17:32:11 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static int	enemy_control(t_sldata *sld, t_enemy *enemy)
 	else if (!enemy->side && (sld->map[ep.y][ep.x - 1] == '0'))
 		enemy->p.x--;
 	else if (enemy->side && (sld->map[ep.y][ep.x + 1] == 'P'))
-		return (exit_sl(sld, "Game over!\n"));
+		exit_sl(sld, "Game over!\n", 0);
 	else if (!enemy->side && (sld->map[ep.y][ep.x - 1] == 'P'))
-		return (exit_sl(sld, "Game over!\n"));
+		exit_sl(sld, "Game over!\n", 0);
 	else
 		enemy->side = !enemy->side;
 	do_anim_enemy(sld, enemy);

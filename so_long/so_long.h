@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:02:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/15 15:48:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/16 17:30:40 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 
 # include <unistd.h>
 # include <fcntl.h>
-# include "lib/libft/libft.h"
-# include "lib/get_next_line/get_next_line.h"
-# include "lib/minilibx-linux/mlx.h"
+# include "libft/libft.h"
+# include "get_next_line/get_next_line.h"
+# include "minilibx-linux/mlx.h"
 
 typedef struct s_slva
 {
@@ -65,7 +65,7 @@ void	redraw_img(t_sldata *sld, void *img, int x, int y);
 void	*get_img(t_sldata *sld, char *path, char c);
 char	**get_map(t_sldata *sld, int mfd);
 int		handle_keyhook(int code, t_sldata *sld);
-int		exit_sl(t_sldata *sld, char *msg);
+void	exit_sl(t_sldata *sld, char *msg, int code);
 t_slp	init_p(int x, int y);
 int		map_verify_path(t_sldata *sld, char **map);
 

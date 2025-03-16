@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 18:45:32 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/15 14:30:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/16 17:32:46 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	handle_action(t_sldata *sld, int x, int y)
 	if (sld->map[y][x] == 'E')
 	{
 		if (sld->col == 0)
-			return (exit_sl(sld, "Good job!\n"));
+			exit_sl(sld, "Good job!\n", 0);
 		return (0);
 	}
 	if (sld->map[y][x] == 'C')
@@ -27,7 +27,7 @@ static int	handle_action(t_sldata *sld, int x, int y)
 		sld->col--;
 		if (!sld->col)
 		{
-			img_exit_1 = get_img(sld, "images/exit_1.xpm", 0);
+			img_exit_1 = get_img(sld, "textures/exit_1.xpm", 0);
 			redraw_img(sld, img_exit_1, sld->pe.x, sld->pe.y);
 		}
 	}
@@ -39,7 +39,7 @@ static int	do_action(t_sldata *sld, int x, int y)
 	if (sld->map[y][x] == '1' || !handle_action(sld, x, y))
 		return (0);
 	if (sld->map[y][x] == 'N')
-		return (exit_sl(sld, "Game over!\n"));
+		exit_sl(sld, "Game over!\n", 0);
 	redraw_img(sld, get_img(sld, 0, '0'), sld->pp.x, sld->pp.y);
 	sld->map[sld->pp.y][sld->pp.x] = '0';
 	sld->map[y][x] = 'P';
@@ -70,7 +70,7 @@ int	handle_keyhook(int code, t_sldata *sld)
 
 	status = 0;
 	if (code == KEY_ESC)
-		exit_sl(sld, 0);
+		exit_sl(sld, 0, 0);
 	else if (code == KEY_W || code == KEY_UP)
 		status = do_action(sld, sld->pp.x, sld->pp.y - 1);
 	else if (code == KEY_S || code == KEY_DOWN)

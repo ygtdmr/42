@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 00:06:10 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/10 18:23:05 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/16 17:13:29 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long.h"
 
 char	**get_map(t_sldata *sld, int mfd)
 {

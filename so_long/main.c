@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:01:25 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/14 13:25:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/16 17:40:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long.h"
 
 int	str_clen(char *s, char c)
 {
@@ -20,12 +20,6 @@ int	str_clen(char *s, char c)
 	while (*s++)
 		i += (*s == c);
 	return (i);
-}
-
-static int	sl_error(void)
-{
-	write(2, "Error\n", 6);
-	return (1);
 }
 
 static int	verify_filename(char *s)
@@ -48,7 +42,8 @@ static int	verify_filename(char *s)
 
 static int	close_window(t_sldata *sld)
 {
-	return (exit_sl(sld, 0));
+	exit_sl(sld, 0, 0);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -56,14 +51,11 @@ int	main(int argc, char **argv)
 	t_sldata	sld;
 
 	if (argc == 1)
-		return (sl_error());
+		exit_sl(0, "Error: map path should be not empty.\n", 1);
 	ft_memset(&sld, 0, sizeof(sld));
-	if (!map_verifiy(&sld, open(argv[1], O_RDONLY)))
-		return (sl_error());
-	if (!verify_filename(argv[1]))
-		return (sl_error());
-	if (!map_verify_path(&sld, get_map(&sld, open(argv[1], O_RDONLY))))
-		return (sl_error());
+	map_verifiy(&sld, open(argv[1], O_RDONLY));
+	verify_filename(argv[1]);
+	map_verify_path(&sld, get_map(&sld, open(argv[1], O_RDONLY)));
 	sld.map = get_map(&sld, open(argv[1], O_RDONLY));
 	sld.mlx = mlx_init();
 	sld.win = mlx_new_window(sld.mlx, sld.mw * 64, sld.mh * 64, "push_swap");
@@ -71,8 +63,5 @@ int	main(int argc, char **argv)
 	mlx_key_hook(sld.win, handle_keyhook, &sld);
 	map_render(&sld);
 	mlx_loop(sld.mlx);
-	mlx_destroy_window(sld.mlx, sld.win);
-	mlx_destroy_display(sld.mlx);
-	free(sld.mlx);
 	return (0);
 }
