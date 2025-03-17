@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:01:25 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/16 17:40:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/18 00:49:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,12 @@ int	main(int argc, char **argv)
 
 	if (argc == 1)
 		exit_sl(0, "Error: map path should be not empty.\n", 1);
+	else if (argc > 2)
+		exit_sl(0, "Error: only enter one arguments\n", 1);
 	ft_memset(&sld, 0, sizeof(sld));
-	map_verifiy(&sld, open(argv[1], O_RDONLY));
 	verify_filename(argv[1]);
-	map_verify_path(&sld, get_map(&sld, open(argv[1], O_RDONLY)));
+	map_verifiy(&sld, open(argv[1], O_RDONLY));
+	// map_verify_path(&sld, get_map(&sld, open(argv[1], O_RDONLY)));
 	sld.map = get_map(&sld, open(argv[1], O_RDONLY));
 	sld.mlx = mlx_init();
 	sld.win = mlx_new_window(sld.mlx, sld.mw * 64, sld.mh * 64, "push_swap");

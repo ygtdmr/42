@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/03/16 17:15:56 by yidemir          ###   ########.fr        #
+#    Updated: 2025/03/17 14:16:26 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,15 +47,23 @@ OBJ_BONUS	=	$(SRC_BONUS:.c=.o)
 
 all:			$(NAME)
 
+# $(NAME):		$(OBJ)
+# 	make -C libft && make -C minilibx-linux
+# 	$(CC) $(OBJ) libft/libft.a minilibx-linux/libmlx.a -lXext -lX11 -o $(NAME)
+
 $(NAME):		$(OBJ)
 	make -C libft && make -C minilibx-linux
-	$(CC) $(OBJ) libft/libft.a minilibx-linux/libmlx.a -lXext -lX11 -o $(NAME)
+	$(CC) $(OBJ) libft/libft.a minilibx-linux/libmlx.a -framework OpenGL -framework AppKit -o $(NAME)
 
 bonus:			bonus/$(NAME)
 
+# bonus/$(NAME):	$(OBJ_BONUS)
+# 	make all bonus -C libft && make -C minilibx-linux
+# 	$(CC) $(OBJ_BONUS) libft/libft.a minilibx-linux/libmlx.a -lXext -lX11 -o bonus/$(NAME)
+
 bonus/$(NAME):	$(OBJ_BONUS)
 	make all bonus -C libft && make -C minilibx-linux
-	$(CC) $(OBJ_BONUS) libft/libft.a minilibx-linux/libmlx.a -lXext -lX11 -o bonus/$(NAME)
+	$(CC) $(OBJ_BONUS) libft/libft.a minilibx-linux/libmlx.a -framework OpenGL -framework AppKit -o bonus/$(NAME)
 
 clean:
 	$(RM) $(OBJ)

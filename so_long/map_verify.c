@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:23:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/16 17:51:19 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/18 01:11:28 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,40 +47,57 @@ static int	map_width(char *line)
 	return (w);
 }
 
-void	map_verifiy(t_sldata *sld, int mfd)
+static void init_data(t_sldata *sld, int mfd, t_slverify *slvfy)
 {
-	char		*line;
-	int			end_wall;
-	int			lp;
-	int			le;
+	char	*line;
+	int		end_wall;
 
-	lp = 0;
-	le = 0;
 	line = get_next_line(mfd);
-	if (!line)
-		exit_sl(sld, "Error: map file is empty.\n", 1);
-	if (!all_wall(line))
-		(free(line), exit_sl(sld, "Error: map first line must be wall\n", 1));
+	slvfy->is_map_empty = !line;
+	if (slvfy->is_map_empty)
+		return ;
+	slvfy->is_border_wall = all_wall(line);
 	sld->mw = map_width(line);
 	while (line)
 	{
 		sld->mh++;
-		if (sld->mw != map_width(line) || !isvc(line) || !se_wall(line))
-			return (free(line), 0);
-		lp += str_clen(line, 'P');
-		le += str_clen(line, 'E');
+		slvfy->is_same_width = slvfy->is_same_width && sld->mw == map_width(line);
+		slvfy->is_valid_char = slvfy->is_valid_char && isvc(line);
+		slvfy->is_border_wall = slvfy->is_border_wall && se_wall(line);
+		slvfy->l_player += str_clen(line, 'P');
+		slvfy->l_exit += str_clen(line, 'E');
 		sld->col += str_clen(line, 'C');
 		free(line);
 		line = get_next_line(mfd);
 		if (line)
 			end_wall = all_wall(line);
 	}
-	if (!end_wall)
-		exit_sl(sld, "Error: map last line must be wall\n", 1);
-	if (lp != 1)
-		exit_sl(sld, "Error: player count shuld be 1\n", 1);
-	if (le != 1)
-		exit_sl(sld, "Error: exit count shuld be 1\n", 1);
-	if (!sld->col)
-		exit_sl(sld, "Error: col must greather than 0\n", 1);
+	slvfy->is_border_wall = slvfy->is_border_wall && end_wall;
+}
+
+void	map_verifiy(t_sldata *sld, int mfd)
+{
+	t_slverify	slvfy;
+
+	ft_memset(&slvfy, 0, sizeof(slvfy));
+	slvfy.is_same_width = 1;
+	slvfy.is_valid_char = 1;
+	slvfy.is_border_wall = 1;
+	init_data(sld, mfd, &slvfy);
+	if (mfd == -1)
+		exit_sl(sld, "Error: map file not found.\n", 1);
+	else if (slvfy.is_map_empty)
+		exit_sl(sld, "Error: map file is empty.\n", 1);
+	else if (!slvfy.is_valid_char)
+		exit_sl(sld, "Error: invalid character exists in the map.\n", 1);
+	else if (!slvfy.is_same_width)
+		exit_sl(sld, "Error: width of map lines are not equal.\n", 1);
+	else if (!slvfy.is_border_wall)
+		exit_sl(sld, "Error: map border must be wall.\n", 1);
+	else if (slvfy.l_player != 1)
+		exit_sl(sld, "Error: player count shuld be 1.\n", 1);
+	else if (slvfy.l_exit != 1)
+		exit_sl(sld, "Error: exit count shuld be 1.\n", 1);
+	else if (sld->col == 0)
+		exit_sl(sld, "Error: col must greather than 0.\n", 1);
 }
