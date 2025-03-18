@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   isvc.c                                             :+:      :+:    :+:   */
+/*   get_default_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/15 14:44:22 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/15 15:50:08 by yidemir          ###   ########.fr       */
+/*   Created: 2025/03/18 12:53:56 by yidemir           #+#    #+#             */
+/*   Updated: 2025/03/18 12:54:40 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	isvc(char *line)
+char	*get_default_path(char c)
 {
-	int	isac;
-
-	while (*line && *line != '\n')
-	{
-		isac = *line == '0';
-		isac = (isac || (*line == '1'));
-		isac = (isac || (*line == 'C'));
-		isac = (isac || (*line == 'E'));
-		isac = (isac || (*line == 'P'));
-		if (!isac)
-			return (0);
-		line++;
-	}
-	return (1);
+	if (c == '1')
+		return ("textures/wall.xpm");
+	else if (c == '0')
+		return ("textures/fs.xpm");
+	else if (c == 'C')
+		return ("textures/col.xpm");
+	else if (c == 'E')
+		return ("textures/exit_0.xpm");
+	else if (c == 'P')
+		return ("textures/player.xpm");
+	return (0);
 }

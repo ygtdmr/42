@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 09:52:32 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/16 17:13:29 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/18 14:21:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	scan_map(t_slva *va, char **map, int x, int y)
+static void	scan_map(t_slverify_path *va, char **map, int x, int y)
 {
 	if (map[y][x] != 'X' && map[y][x] != '1')
 	{
@@ -37,10 +37,10 @@ static void	scan_map(t_slva *va, char **map, int x, int y)
 		scan_map(va, map, x - 1, y);
 }
 
-int	map_verify_path(t_sldata *sld, char **map)
+void	map_verify_path(t_sldata *sld, char **map)
 {
-	t_slva	va;
-	int		imh;
+	t_slverify_path	va;
+	int				imh;
 
 	ft_memset(&va, 0, sizeof(va));
 	scan_map(&va, map, sld->pp.x, sld->pp.y);
@@ -48,5 +48,6 @@ int	map_verify_path(t_sldata *sld, char **map)
 	while (imh < sld->mh)
 		free(map[imh++]);
 	free(map);
-	return (va.cc == sld->col && va.ise && va.isp);
+	if (!(va.cc == sld->col && va.ise && va.isp))
+		exit_sl(sld, "Error: game is not playable to this map.\n", 1);
 }

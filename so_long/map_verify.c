@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 14:23:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/18 01:11:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/18 14:20:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@ static int	se_wall(char *line)
 	int	start;
 	int	end;
 
-	start = *line == '1';
-	while (*line && *line != '\n')
-		line++;
-	end = *(line - 1) == '1';
-	return (start && end);
+	if (*line != '\n')
+	{
+		start = *line == '1';
+		while (*line && *line != '\n')
+			line++;
+		end = *(line - 1) == '1';
+		return (start && end);
+	}
+	return (0);
 }
 
 static int	map_width(char *line)
@@ -47,7 +51,7 @@ static int	map_width(char *line)
 	return (w);
 }
 
-static void init_data(t_sldata *sld, int mfd, t_slverify *slvfy)
+static void	init_data(t_sldata *sld, int mfd, t_slverify *slvfy)
 {
 	char	*line;
 	int		end_wall;
@@ -61,9 +65,9 @@ static void init_data(t_sldata *sld, int mfd, t_slverify *slvfy)
 	while (line)
 	{
 		sld->mh++;
-		slvfy->is_same_width = slvfy->is_same_width && sld->mw == map_width(line);
-		slvfy->is_valid_char = slvfy->is_valid_char && isvc(line);
-		slvfy->is_border_wall = slvfy->is_border_wall && se_wall(line);
+		slvfy->is_same_w = (slvfy->is_same_w && sld->mw == map_width(line));
+		slvfy->is_valid_char = (slvfy->is_valid_char && is_valid_char(line));
+		slvfy->is_border_wall = (slvfy->is_border_wall && se_wall(line));
 		slvfy->l_player += str_clen(line, 'P');
 		slvfy->l_exit += str_clen(line, 'E');
 		sld->col += str_clen(line, 'C');
@@ -72,7 +76,7 @@ static void init_data(t_sldata *sld, int mfd, t_slverify *slvfy)
 		if (line)
 			end_wall = all_wall(line);
 	}
-	slvfy->is_border_wall = slvfy->is_border_wall && end_wall;
+	slvfy->is_border_wall = (slvfy->is_border_wall && end_wall);
 }
 
 void	map_verifiy(t_sldata *sld, int mfd)
@@ -80,7 +84,7 @@ void	map_verifiy(t_sldata *sld, int mfd)
 	t_slverify	slvfy;
 
 	ft_memset(&slvfy, 0, sizeof(slvfy));
-	slvfy.is_same_width = 1;
+	slvfy.is_same_w = 1;
 	slvfy.is_valid_char = 1;
 	slvfy.is_border_wall = 1;
 	init_data(sld, mfd, &slvfy);
@@ -90,7 +94,7 @@ void	map_verifiy(t_sldata *sld, int mfd)
 		exit_sl(sld, "Error: map file is empty.\n", 1);
 	else if (!slvfy.is_valid_char)
 		exit_sl(sld, "Error: invalid character exists in the map.\n", 1);
-	else if (!slvfy.is_same_width)
+	else if (!slvfy.is_same_w)
 		exit_sl(sld, "Error: width of map lines are not equal.\n", 1);
 	else if (!slvfy.is_border_wall)
 		exit_sl(sld, "Error: map border must be wall.\n", 1);

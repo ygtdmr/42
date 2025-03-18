@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   isvc_bonus.c                                       :+:      :+:    :+:   */
+/*   strclen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/15 14:44:22 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/15 15:50:03 by yidemir          ###   ########.fr       */
+/*   Created: 2025/03/18 13:10:38 by yidemir           #+#    #+#             */
+/*   Updated: 2025/03/18 13:10:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	isvc(char *line)
+int	str_clen(char *s, char c)
 {
-	int	isac;
+	int	i;
 
-	while (*line && *line != '\n')
-	{
-		isac = *line == '0';
-		isac = (isac || (*line == '1'));
-		isac = (isac || (*line == 'C'));
-		isac = (isac || (*line == 'E'));
-		isac = (isac || (*line == 'P'));
-		isac = (isac || (*line == 'N'));
-		if (!isac)
-			return (0);
-		line++;
-	}
-	return (1);
+	i = 0;
+	while (*s++)
+		i += (*s == c);
+	return (i);
 }

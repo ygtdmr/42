@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:02:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/16 17:30:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/18 13:48:22 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_slva
 	int	cc;
 	int	ise;
 	int	isp;
-}	t_slva;
+}	t_slverify_path;
 
 typedef struct s_slp
 {
@@ -66,16 +66,20 @@ typedef struct s_enemy
 }	t_enemy;
 
 int		str_clen(char *s, char c);
-int		isvc(char *line);
+int		is_valid_char(char *line);
 int		map_verifiy(t_sldata *sld, int mfd);
 void	map_render(t_sldata *sld);
 void	redraw_img(t_sldata *sld, void *img, int x, int y);
 void	*get_img(t_sldata *sld, char *path, char c);
+char	*get_default_path(char c);
 char	**get_map(t_sldata *sld, int mfd);
 int		handle_keyhook(int code, t_sldata *sld);
 void	exit_sl(t_sldata *sld, char *msg, int code);
 t_slp	init_p(int x, int y);
 int		map_verify_path(t_sldata *sld, char **map);
+void	file_verify(char *s);
+int		str_clen(char *s, char c);
+void	verify_default_images(t_sldata *sld);
 
 void	do_anim_player(t_sldata *sld, int code);
 void	do_anim_enemy(t_sldata *sld, t_enemy *enemy);
