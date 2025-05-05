@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_history.c                                      :+:      :+:    :+:   */
+/*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/04 13:49:01 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/04 14:16:36 by yidemir          ###   ########.fr       */
+/*   Created: 2025/05/04 15:04:23 by yidemir           #+#    #+#             */
+/*   Updated: 2025/05/05 16:42:54 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef TEST_H
+# define TEST_H
 
-void	add_history(char *line)
-{
-	(void) line;
-}
+# include "../minishell.h"
+
+void	print_tokens(char *line);
+
+#endif

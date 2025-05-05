@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/04 16:02:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/05 16:32:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,13 @@ static void	lstadd_back_tok(t_token **lst, t_token *new)
 	nlst->next = new;
 }
 
-static void  add_tok(t_token **lst, char *value, t_toktype type)
+static void	add_tok(t_token **lst, char *value, t_toktype type)
 {
 	t_token	*new;
 
 	new = malloc(sizeof(*new));
 	if (!new)
-	{
-		write(2, "malloc error\n", 13);
-		exit(1);
-	}
+		return ;
 	new->value = value;
 	new->type = type;
 	new->next = 0;
@@ -47,7 +44,7 @@ static void  add_tok(t_token **lst, char *value, t_toktype type)
 
 static int	match_tok(char **line, char *needle)
 {
-	int	lneedle;
+	size_t	lneedle;
 
 	lneedle = ft_strlen(needle);
 	if (ft_strnstr(*line, needle, lneedle))
@@ -58,30 +55,44 @@ static int	match_tok(char **line, char *needle)
 	return (0);
 }
 
-t_token *lexer(char *line)
+void	lstclear_tok(t_token **lst)
 {
-	t_token *head;
+	t_token	*ilst;
+
+	if (!lst)
+		return ;
+	ilst = *lst;
+	if (!ilst)
+		return ;
+	if (ilst->value != 0)
+		free(ilst->value);
+	if (ilst->next)
+		lstclear_tok(&ilst->next);
+	free(ilst);
+	*lst = 0;
+}
+
+t_token	*lexer(char *line)
+{
+	t_token	*head;
 
 	head = 0;
 	while (*line)
 	{
-		if (*line == ' ')
-		{
-			line++;
+		if (match_tok(&line, " "))
 			continue ;
-		}
 		if (match_tok(&line, "|"))
 			add_tok(&head, ft_strdup("|"), T_PIPE);
-		else if (match_tok(&line, "<"))
-			add_tok(&head, ft_strdup("<"), T_REDIR_IN);
-		else if (match_tok(&line, ">"))
-			add_tok(&head, ft_strdup(">"), T_REDIR_OUT);
 		else if (match_tok(&line, ">>"))
 			add_tok(&head, ft_strdup(">>"), T_REDIR_APND);
 		else if (match_tok(&line, "<<"))
 			add_tok(&head, ft_strdup("<<"), T_HEREDOC);
+		else if (match_tok(&line, "<"))
+			add_tok(&head, ft_strdup("<"), T_REDIR_IN);
+		else if (match_tok(&line, ">"))
+			add_tok(&head, ft_strdup(">"), T_REDIR_OUT);
 		else
 			add_tok(&head, grab_word(&line), T_WORD);
 	}
-	return head;
+	return (head);
 }

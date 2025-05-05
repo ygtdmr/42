@@ -6,15 +6,17 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:04:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/04 15:58:19 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/05 17:01:13 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
+# include <stdio.h>
 # include <stdlib.h>
-# include "libft.h"
+# include <unistd.h>
+# include "libft/libft.h"
 
 typedef enum e_toktype {
 	T_WORD,
@@ -31,5 +33,10 @@ typedef struct s_token
 	t_toktype		type;
 	struct s_token	*next;
 }	t_token;
+
+char	*sanitize_escape(char *line);
+char	*grab_word(char **line);
+void	lstclear_tok(t_token **lst);
+t_token	*lexer(char *line);
 
 #endif

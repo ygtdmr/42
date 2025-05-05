@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/05/04 14:18:05 by yidemir          ###   ########.fr        #
+#    Updated: 2025/05/05 17:04:17 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,10 @@ CC		= 	cc
 CFLAGS	=	-Wall -Wextra -Werror
 
 SRC		=	minishell.c \
-			add_history.c
+			lexer.c \
+			grab_word.c \
+			sanitize_escape.c \
+			test/print_tokens.c
 
 OBJ		=	$(SRC:.c=.o)
 

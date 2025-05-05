@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/04 15:12:10 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/05 17:30:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ int	main(void)
 			break ;
 		}
 		if (*line)
-			add_history(line);
+		{
+			// add_history(line);
+			print_tokens(line);
+		}
 		free(line);
 	}
 	return (0);
