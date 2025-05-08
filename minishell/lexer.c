@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/05 16:32:10 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/08 18:41:58 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	add_tok(t_token **lst, char *value, t_toktype type)
 	lstadd_back_tok(lst, new);
 }
 
-static int	match_tok(char **line, char *needle)
+static int	mch_tok(char **line, char *needle)
 {
 	size_t	lneedle;
 
@@ -72,27 +72,27 @@ void	lstclear_tok(t_token **lst)
 	*lst = 0;
 }
 
-t_token	*lexer(char *line)
+t_token	*lexer(char *line, t_shell *shell)
 {
 	t_token	*head;
 
 	head = 0;
 	while (*line)
 	{
-		if (match_tok(&line, " "))
+		if (mch_tok(&line, " ") || mch_tok(&line, "\t") || mch_tok(&line, "\n"))
 			continue ;
-		if (match_tok(&line, "|"))
+		if (mch_tok(&line, "|"))
 			add_tok(&head, ft_strdup("|"), T_PIPE);
-		else if (match_tok(&line, ">>"))
+		else if (mch_tok(&line, ">>"))
 			add_tok(&head, ft_strdup(">>"), T_REDIR_APND);
-		else if (match_tok(&line, "<<"))
+		else if (mch_tok(&line, "<<"))
 			add_tok(&head, ft_strdup("<<"), T_HEREDOC);
-		else if (match_tok(&line, "<"))
+		else if (mch_tok(&line, "<"))
 			add_tok(&head, ft_strdup("<"), T_REDIR_IN);
-		else if (match_tok(&line, ">"))
+		else if (mch_tok(&line, ">"))
 			add_tok(&head, ft_strdup(">"), T_REDIR_OUT);
 		else
-			add_tok(&head, grab_word(&line), T_WORD);
+			add_tok(&head, expand(grab_word(&line), shell), T_WORD);
 	}
 	return (head);
 }

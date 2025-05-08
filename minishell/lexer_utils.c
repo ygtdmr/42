@@ -1,27 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   grab_word.c                                        :+:      :+:    :+:   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:05:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/05 17:28:56 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/08 21:34:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static int	is_metachar(char *s)
+int	is_varchar(char c, size_t index)
+{
+	if (index == 0)
+		return (ft_isalpha(c) || c == '_');
+	else
+		return (ft_isalnum(c) || c == '_');
+}
+
+int	is_metachar(char *s)
 {
 	return (
 		*s == ' ' || \
+		*s == '\t' || \
+		*s == '\n' || \
 		*s == '<' || \
 		(*s == '<' && *(s + 1) == '<') || \
 		*s == '>' || \
 		(*s == '>' && *(s + 1) == '>') || \
 		*s == '|'
 	);
+}
+
+char	*str_lrealloc(char *dest, char *src, size_t length)
+{
+	char	*s;
+	size_t	l_s;
+	size_t	i;
+
+	i = 0;
+	if (dest)
+		l_s = ft_strlen(dest) + length;
+	else
+		l_s = length;
+	s = ft_calloc(l_s + 1, sizeof(char));
+	while (dest && dest[i])
+	{
+		s[i] = dest[i];
+		i++;
+	}
+	while (*src && length--)
+		s[i++] = *src++;
+	if (dest)
+		free(dest);
+	return (s);
 }
 
 char	*grab_word(char **line)

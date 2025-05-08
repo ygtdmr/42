@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:58:26 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/05 17:31:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/08 00:44:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ char	*sanitize_escape(char *line)
 
 	fpline = line;
 	lsntz = (ft_strlen(line) - len_escpace(line));
-	sntz = malloc(lsntz + 1);
-	sntz[lsntz] = 0;
+	sntz = ft_calloc(lsntz + 1, sizeof(char));
 	i = 0;
 	while (i < lsntz)
 	{
