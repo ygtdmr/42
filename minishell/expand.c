@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 00:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/09 00:05:23 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/09 16:30:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,22 @@ static void	var_append(char **raw, char **out, t_shell *sh)
 	size_t	length;
 
 	length = 0;
+	(*raw)++;
 	if (**raw == '?' && *raw++)
 		var = ft_itoa(sh->last_status);
 	else
 	{
 		while (is_varchar((*raw)[length], length))
 			length++;
-		var_name = ft_calloc(length, sizeof(char));
-		ft_strlcpy(var_name, *raw, length + 1);
-		var = getenv(var_name);
-		free(var_name);
+		if (length > 0)
+		{
+			var_name = ft_calloc(length + 1, sizeof(char));
+			ft_strlcpy(var_name, *raw, length + 1);
+			var = getenv(var_name);
+			free(var_name);
+		}
+		else
+			var = "$";
 		*raw += length;
 	}
 	if (var)
@@ -41,16 +47,17 @@ static void	dq_append(char **raw, char **out, t_shell *sh)
 	size_t	length;
 
 	length = 1;
-	while ((*raw)[length] != '\"')
+	while ((*raw)[length] && (*raw)[length] != '\"')
 	{
 		if ((*raw)[length] == '$')
 		{
 			*out = str_lrealloc(*out, *raw, length);
-			*raw += (length + 1);
+			*raw += length;
 			length = 0;
 			var_append(raw, out, sh);
 		}
-		length += (1 + (*raw)[length] == '\\'); // fix this issue
+		else
+			length += 1 + ((*raw)[length] == '\\');
 	}
 	*out = str_lrealloc(*out, *raw, ++length);
 	*raw += length;
@@ -61,7 +68,7 @@ static void	sq_append(char **raw, char **out)
 	size_t	length;
 
 	length = 1;
-	while ((*raw)[length] != '\'')
+	while ((*raw)[length] && (*raw)[length] != '\'')
 		length++;
 	*out = str_lrealloc(*out, *raw, ++length);
 	*raw += length;
@@ -75,12 +82,12 @@ static void	raw_append(char **raw, char **out)
 	while (
 		(*raw)[length] && \
 		(
-			(*raw)[length] != '\'' || \
-			(*raw)[length] != '\"' || \
+			(*raw)[length] != '\'' && \
+			(*raw)[length] != '\"' && \
 			(*raw)[length] != '$'
 		)
 	)
-		length++;
+		length += 1 + ((*raw)[length] == '\\');
 	*out = str_lrealloc(*out, *raw, length);
 	*raw += length;
 }
@@ -94,7 +101,9 @@ char	*expand(char *raw, t_shell *sh)
 	out = 0;
 	while (*raw)
 	{
-		if (*raw == '$' && raw++)
+		if (*raw == '\\')
+			raw_append(&raw, &out);
+		else if (*raw == '$')
 			var_append(&raw, &out, sh);
 		else if (*raw == '\"')
 			dq_append(&raw, &out, sh);

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/08 21:19:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/09 12:41:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	main(void)
 {
 	t_shell	sh;
 
+	printf("shell_pid %d\n", getpid());
 	ft_bzero(&sh, sizeof(sh));
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/08 18:41:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/09 16:09:48 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void	add_tok(t_token **lst, char *value, t_toktype type)
 {
 	t_token	*new;
 
+	if (!value)
+		return ;
 	new = malloc(sizeof(*new));
 	if (!new)
 		return ;
