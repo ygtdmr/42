@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.h                                             :+:      :+:    :+:   */
+/*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:04:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/28 11:45:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:12:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEST_H
-# define TEST_H
+#ifndef PARSE_H
+# define PARSE_H
 
-# include <stdio.h>
-# include "../minishell.h"
-# include "../lexer.h"
-# include "../env_list.h"
+# include "minishell.h"
 
-void	print_envp(t_shell *sh);
-void	print_tokens(t_shell *sh);
+size_t	char_len(char c, char *str);
+int		is_varchar(char c, size_t index);
+char	*str_lrealloc(char *dest, char *src, size_t length);
+char	*parse(char *raw, t_shell *sh);
 
 #endif

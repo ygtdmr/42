@@ -1,24 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.h                                             :+:      :+:    :+:   */
+/*   env_list.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/04 15:04:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/28 11:45:20 by yidemir          ###   ########.fr       */
+/*   Created: 2025/05/28 11:42:19 by yidemir           #+#    #+#             */
+/*   Updated: 2025/05/28 13:00:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEST_H
-# define TEST_H
+#include "minishell.h"
 
-# include <stdio.h>
-# include "../minishell.h"
-# include "../lexer.h"
-# include "../env_list.h"
-
-void	print_envp(t_shell *sh);
-void	print_tokens(t_shell *sh);
-
-#endif
+void	clear_env_list(t_env **head);
+t_env	*env_list(char **envp);

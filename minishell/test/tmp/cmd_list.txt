@@ -1,0 +1,3 @@
+cc ../../libft/libft.a main.c && leaks -atExit -- ./a.out && rm a.out
+
+env -i ./program

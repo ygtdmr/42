@@ -6,78 +6,87 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:05:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/08 21:34:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:54:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-int	is_varchar(char c, size_t index)
-{
-	if (index == 0)
-		return (ft_isalpha(c) || c == '_');
-	else
-		return (ft_isalnum(c) || c == '_');
-}
-
-int	is_metachar(char *s)
-{
-	return (
-		*s == ' ' || \
-		*s == '\t' || \
-		*s == '\n' || \
-		*s == '<' || \
-		(*s == '<' && *(s + 1) == '<') || \
-		*s == '>' || \
-		(*s == '>' && *(s + 1) == '>') || \
-		*s == '|'
-	);
-}
-
-char	*str_lrealloc(char *dest, char *src, size_t length)
+void	str_lclean(char **dest, size_t length)
 {
 	char	*s;
-	size_t	l_s;
-	size_t	i;
 
-	i = 0;
-	if (dest)
-		l_s = ft_strlen(dest) + length;
-	else
-		l_s = length;
-	s = ft_calloc(l_s + 1, sizeof(char));
-	while (dest && dest[i])
+	if (!length)
+		return ;
+	if (!(*dest)[length])
 	{
-		s[i] = dest[i];
-		i++;
+		free(*dest);
+		*dest = 0;
+		return ;
 	}
-	while (*src && length--)
-		s[i++] = *src++;
-	if (dest)
-		free(dest);
-	return (s);
+	s = ft_strdup((*dest) + length);
+	free(*dest);
+	*dest = s;
 }
 
-char	*grab_word(char **line)
+int	mch_str(char **dest, char *needle)
 {
-	size_t	length;
-	char	quote;
+	size_t	lneedle;
 
-	length = 0;
-	quote = 0;
-	while ((*line)[length])
+	lneedle = ft_strlen(needle);
+	if (ft_strnstr(*dest, needle, lneedle))
 	{
-		if ((*line)[length] == '\"' || (*line)[length] == '\'')
-		{
-			if (quote == 0)
-				quote = (*line)[length];
-			else if (quote == (*line)[length])
-				quote = 0;
-		}
-		if (quote == 0 && is_metachar(*line + length))
-			break ;
-		length += 1 + ((*line)[length] == '\\');
+		str_lclean(dest, lneedle);
+		return (1);
 	}
-	*line += length;
-	return (ft_substr(*line - length, 0, length));
+	return (0);
+}
+
+void	add_tok(t_token **head, t_token *new)
+{
+	t_token	*nlst;
+
+	if (!new)
+		return ;
+	if (!*head)
+	{
+		*head = new;
+		return ;
+	}
+	nlst = *head;
+	while (nlst->next)
+		nlst = nlst->next;
+	nlst->next = new;
+}
+
+void	new_tok(t_token	**head, char *value, t_toktype type)
+{
+	t_token	*new;
+
+	if (!value)
+		return ;
+	new = malloc(sizeof(*new));
+	if (!new)
+		return ;
+	new->value = value;
+	new->type = type;
+	new->next = 0;
+	add_tok(head, new);
+}
+
+void	clear_tok(t_token **head)
+{
+	t_token	*token;
+
+	if (!head)
+		return ;
+	token = *head;
+	if (!token)
+		return ;
+	if (token->value)
+		free(token->value);
+	if (token->next)
+		clear_tok(&token->next);
+	free(token);
+	*head = 0;
 }

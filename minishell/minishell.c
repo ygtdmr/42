@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/09 12:41:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/28 20:32:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ static void	shell_loop(t_shell *sh)
 		}
 		if (*line)
 		{
-			// add_history(line);
-			print_tokens(line, sh);
+			lexer(&line, sh);
+			print_tokens(sh);
+			clear_tok(&sh->token_head);
 		}
-		free(line);
 	}
 }
 
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
 	t_shell	sh;
 
@@ -53,6 +53,9 @@ int	main(void)
 	ft_bzero(&sh, sizeof(sh));
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
+	sh.env_head = env_list(envp);
 	shell_loop(&sh);
+	clear_env_list(&sh.env_head);
+	clear_tok(&sh.token_head);
 	return (0);
 }

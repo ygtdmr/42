@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/05/08 21:25:43 by yidemir          ###   ########.fr        #
+#    Updated: 2025/05/28 12:13:25 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,14 @@ CC		= 	cc
 CFLAGS	=	-Wall -Wextra -Werror
 
 SRC		=	minishell.c \
+			env_list.c \
 			lexer.c \
 			lexer_utils.c \
-			expand.c \
+			grab_word.c \
+			parse.c \
+			parse_utils.c \
 			sanitize_escape.c \
-			test/print_tokens.c
+			test/print.c
 
 all:		$(NAME)
 
