@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:05:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/28 12:54:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/29 14:14:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	new_tok(t_token	**head, char *value, t_toktype type)
 
 	if (!value)
 		return ;
-	new = malloc(sizeof(*new));
+	new = malloc(sizeof(t_token));
 	if (!new)
 		return ;
 	new->value = value;

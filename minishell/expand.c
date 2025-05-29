@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   expand.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include "parse.h"
+#include "expand.h"
 
 static void	var_append(char **raw, char **out, t_shell *sh)
 {
@@ -92,7 +92,7 @@ static void	raw_append(char **raw, char **out)
 	str_lclean(raw, length);
 }
 
-char	*parse(char *raw, t_shell *sh)
+char	*expand(char *raw, t_shell *sh)
 {
 	char	*out;
 

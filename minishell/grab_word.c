@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:21:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/28 18:23:30 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/29 11:29:15 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include "parse.h"
+#include "expand.h"
 
 static int	is_metachar(char *s)
 {

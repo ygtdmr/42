@@ -6,45 +6,21 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:18:11 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/28 13:00:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/29 18:30:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	add_env(t_env **head, t_env *new)
+static char	*env_key(char *env)
 {
-	t_env	*env;
+	char	*key;
+	size_t	length;
 
-	if (!new)
-		return ;
-	if (!*head)
-	{
-		*head = new;
-		return ;
-	}
-	env = *head;
-	while (env->next)
-		env = env->next;
-	env->next = new;
-}
-
-void	new_enw(t_env **head, char *value)
-{
-	t_env	*new;
-	char	**dict;
-
-	if (!value)
-		return ;
-	new = malloc(sizeof(*new));
-	if (!new)
-		return ;
-	dict = ft_split(value, '=');
-	new->key = dict[0];
-	new->value = dict[1];
-	new->next = 0;
-	free(dict);
-	add_env(head, new);
+	length = ft_strlen(env) - ft_strlen(ft_strchr(env, '='));
+	key = ft_calloc(length + 1, sizeof(char));
+	ft_strlcpy(key, env, length + 1);
+	return (key);
 }
 
 void	clear_env_list(t_env **head)
@@ -66,12 +42,37 @@ void	clear_env_list(t_env **head)
 	*head = 0;
 }
 
+static void	add_env(t_env **head, char *value)
+{
+	t_env	*last_head;
+	t_env	*new;
+
+	if (!(head && value))
+		return ;
+	last_head = 0;
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return ;
+	new->key = env_key(value);
+	new->value = ft_strdup(ft_strchr(value, '=') + 1);
+	new->next = 0;
+	if (*head)
+	{
+		last_head = *head;
+		while (last_head->next)
+			last_head = last_head->next;
+		last_head->next = new;
+	}
+	else
+		*head = new;
+}
+
 t_env	*env_list(char **envp)
 {
 	t_env	*head;
 
 	head = 0;
 	while (envp && *envp)
-		new_enw(&head, *envp++);
+		add_env(&head, *envp++);
 	return (head);
 }

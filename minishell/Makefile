@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/05/28 12:13:25 by yidemir          ###   ########.fr        #
+#    Updated: 2025/05/29 11:29:15 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,8 @@ SRC		=	minishell.c \
 			lexer.c \
 			lexer_utils.c \
 			grab_word.c \
-			parse.c \
-			parse_utils.c \
+			expand.c \
+			expand_utils.c \
 			sanitize_escape.c \
 			test/print.c
 

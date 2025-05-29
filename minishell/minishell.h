@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/28 19:59:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/29 14:40:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ typedef enum e_toktype
 {
 	T_WORD,
 	T_PIPE,
-	T_CMD_SEP,
 	T_REDIR_IN,
 	T_REDIR_OUT,
 	T_REDIR_APND,
@@ -44,14 +43,28 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_redir
+{
+	int				type;
+	char			*file;
+	struct s_redir	*next;
+}	t_redir;
+
+typedef struct s_cmd
+{
+    char			**argv;
+    t_redir			*redir;
+    struct s_cmd	*next;
+}	t_cmd;
+
 typedef struct s_shell
 {
-	t_env	*env_head;
 	t_token	*token_head;
+	t_cmd	*cmd_head;
+	t_env	*env_head;
 	char	**envp_dup;
-	int		last_status;
-	int		interactive;
 	char	*cwd;
+	int		last_status;
 }	t_shell;
 
 #endif

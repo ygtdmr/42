@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   expand.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 16:34:15 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/29 17:07:07 by yidemir          ###   ########.fr       */
+/*   Created: 2025/05/04 15:04:23 by yidemir           #+#    #+#             */
+/*   Updated: 2025/05/28 12:12:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <readline/readline.h>
+#ifndef expand_H
+# define expand_H
 
-int main(void) {	
-    return 0;
-}
+# include "minishell.h"
+
+size_t	char_len(char c, char *str);
+int		is_varchar(char c, size_t index);
+char	*str_lrealloc(char *dest, char *src, size_t length);
+char	*expand(char *raw, t_shell *sh);
+
+#endif
