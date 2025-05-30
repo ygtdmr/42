@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/29 14:40:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/29 23:39:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_env
 
 typedef struct s_redir
 {
-	int				type;
+	t_toktype		type;
 	char			*file;
 	struct s_redir	*next;
 }	t_redir;
@@ -53,7 +53,7 @@ typedef struct s_redir
 typedef struct s_cmd
 {
     char			**argv;
-    t_redir			*redir;
+    t_redir			*redir_head;
     struct s_cmd	*next;
 }	t_cmd;
 
@@ -66,5 +66,7 @@ typedef struct s_shell
 	char	*cwd;
 	int		last_status;
 }	t_shell;
+
+void	syntax_err(char *near);
 
 #endif

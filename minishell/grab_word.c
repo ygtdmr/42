@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:21:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/29 11:29:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/29 22:26:22 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,6 @@ static int	is_metachar(char *s)
 	);
 }
 
-static void	next_rw(t_shell *sh, char **line, char type)
-{
-	char	*next_line;
-
-	if (type == '\"')
-		next_line = readline("dquote> ");
-	else
-		next_line = readline("quote> ");
-	if (!next_line)
-		return ;
-	*line = str_lrealloc(*line, "\n", 1);
-	*line = str_lrealloc(*line, next_line, ft_strlen(next_line));
-	free(next_line);
-}
-
 static	size_t	read_word(t_shell *sh, char **line)
 {
 	char	quote;
@@ -60,12 +45,7 @@ static	size_t	read_word(t_shell *sh, char **line)
 		}
 		if (quote == 0 && is_metachar(*line + length))
 			break ;
-		length += ((*line)[length] == '\\') + 1;
-	}
-	if (quote != 0)
-	{
-		next_rw(sh, line, quote);
-		return (read_word(sh, line));
+		length++;
 	}
 	return (length);
 }

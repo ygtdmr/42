@@ -47,7 +47,7 @@ static void	dq_append(char **raw, char **out, t_shell *sh)
 	size_t	length;
 
 	length = 0;
-	while ((*raw)[length] != '\"')
+	while ((*raw)[length] && (*raw)[length] != '\"')
 	{
 		if ((*raw)[length] == '$')
 		{
@@ -57,10 +57,10 @@ static void	dq_append(char **raw, char **out, t_shell *sh)
 			var_append(raw, out, sh);
 		}
 		else
-			length += 1 + ((*raw)[length] == '\\');
+			length++;
 	}
 	*out = str_lrealloc(*out, *raw, length);
-	str_lclean(raw, length + 1);
+	str_lclean(raw, length + ((*raw)[length] == '\"'));
 }
 
 static void	sq_append(char **raw, char **out, t_shell *sh)
@@ -68,10 +68,10 @@ static void	sq_append(char **raw, char **out, t_shell *sh)
 	size_t	length;
 
 	length = 0;
-	while ((*raw)[length] != '\'')
+	while ((*raw)[length] && (*raw)[length] != '\'')
 		length++;
 	*out = str_lrealloc(*out, *raw, length);
-	str_lclean(raw, length + 1);
+	str_lclean(raw, length + ((*raw)[length] == '\''));
 }
 
 static void	raw_append(char **raw, char **out)
@@ -87,7 +87,7 @@ static void	raw_append(char **raw, char **out)
 			(*raw)[length] != '$'
 		)
 	)
-		length += 1 + ((*raw)[length] == '\\');
+		length++;
 	*out = str_lrealloc(*out, *raw, length);
 	str_lclean(raw, length);
 }
@@ -99,9 +99,7 @@ char	*expand(char *raw, t_shell *sh)
 	out = 0;
 	while (raw)
 	{
-		if (*raw == '\\')
-			raw_append(&raw, &out);
-		else if (*raw == '$')
+		if (*raw == '$')
 			var_append(&raw, &out, sh);
 		else if (mch_str(&raw, "\""))
 			dq_append(&raw, &out, sh);

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:04:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/28 11:45:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/29 23:52:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@
 
 void	print_envp(t_shell *sh);
 void	print_tokens(t_shell *sh);
+void	print_cmd(t_shell *sh);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:18:11 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/29 18:30:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/29 21:53:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,6 @@ static char	*env_key(char *env)
 	key = ft_calloc(length + 1, sizeof(char));
 	ft_strlcpy(key, env, length + 1);
 	return (key);
-}
-
-void	clear_env_list(t_env **head)
-{
-	t_env	*env;
-
-	if (!head)
-		return ;
-	env = *head;
-	if (!env)
-		return ;
-	if (env->key)
-		free(env->key);
-	if (env->value)
-		free(env->value);
-	if (env->next)
-		clear_env_list(&env->next);
-	free(env);
-	*head = 0;
 }
 
 static void	add_env(t_env **head, char *value)
@@ -65,6 +46,25 @@ static void	add_env(t_env **head, char *value)
 	}
 	else
 		*head = new;
+}
+
+void	clear_env_list(t_env **head)
+{
+	t_env	*env;
+
+	if (!head)
+		return ;
+	env = *head;
+	if (!env)
+		return ;
+	if (env->key)
+		free(env->key);
+	if (env->value)
+		free(env->value);
+	if (env->next)
+		clear_env_list(&env->next);
+	free(env);
+	*head = 0;
 }
 
 t_env	*env_list(char **envp)
