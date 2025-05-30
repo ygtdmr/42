@@ -1,24 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   executer_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 14:09:04 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/30 21:15:40 by yidemir          ###   ########.fr       */
+/*   Created: 2025/05/30 21:14:37 by yidemir           #+#    #+#             */
+/*   Updated: 2025/05/30 21:16:37 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
-
-# include "minishell.h"
-
-void	argv_push(char ***dest, char *src);
-void	redir_push(t_redir **head, t_token **token);
-void	parser(t_shell *sh);
-void	clear_cmd(t_cmd **head);
-t_cmd	*new_cmd(t_cmd **head);
-
-#endif
+#include "executer.h"

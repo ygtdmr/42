@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/30 17:13:24 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/30 21:36:11 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,9 @@
 #include "parser.h"
 #include "test/test.h"
 
-int	g_signum;
-
 static void	handle_sigint(int signum)
 {
-	g_signum = signum;
-	write(1, "\n", 1);
+	ft_putchar_fd('\n', 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -35,14 +32,13 @@ static void	shell_loop(t_shell *sh)
 		line = readline("minishell$ ");
 		if (!line)
 		{
-			write(1, "exit\n", 5);
+			ft_putendl_fd("exit", 1);
 			break ;
 		}
 		if (*line)
 		{
-			lexer(&line, sh);
+			lexer(sh, &line);
 			parser(sh);
-			// print_tokens(sh);
 			print_cmd(sh);
 			clear_cmd(&sh->cmd_head);
 			clear_tok(&sh->token_head);

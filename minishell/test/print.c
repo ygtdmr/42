@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:30:16 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/30 14:58:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/30 21:36:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ void	print_cmd(t_shell *sh)
 		j = 0;
 		printf("cmd[%d]:\n", i);
 		printf("\targv\t= [");
-		while(cmd->argv && cmd->argv[j])
+		while (cmd->argv && cmd->argv[j])
 			printf("\"%s\", ", cmd->argv[j++]);
 		printf("]\n\tredir\t= {");
 		redir = cmd->redir_head;
-		while(redir)
+		while (redir)
 		{
 			printf("[type=%d, file=%s], ", redir->type, redir->file);
 			redir = redir->next;

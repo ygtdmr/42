@@ -6,13 +6,15 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:34:15 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/29 17:07:07 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/30 22:01:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <readline/readline.h>
 
-int main(void) {	
-    return 0;
+int	main(void)
+{
+	
+	return (0);
 }

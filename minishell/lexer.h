@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:04:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/28 17:55:04 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/30 21:29:04 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	str_lclean(char **dest, size_t length);
 void	new_tok(t_token	**head, char *value, t_toktype type);
 void	clear_tok(t_token **head);
 void	add_tok(t_token **head, t_token *new);
-char	*grab_word(t_shell *sh, char **line);
-void	lexer(char **line, t_shell *sh);
+void	lexer(t_shell *sh, char **line);
 
 #endif

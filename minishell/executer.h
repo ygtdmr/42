@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   executer.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 14:09:04 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/30 21:15:40 by yidemir          ###   ########.fr       */
+/*   Created: 2025/05/30 21:14:54 by yidemir           #+#    #+#             */
+/*   Updated: 2025/05/30 21:16:18 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef EXECUTER_H
+# define EXECUTER_H
 
 # include "minishell.h"
 
-void	argv_push(char ***dest, char *src);
-void	redir_push(t_redir **head, t_token **token);
-void	parser(t_shell *sh);
-void	clear_cmd(t_cmd **head);
-t_cmd	*new_cmd(t_cmd **head);
+void	executer(t_shell *sh);
 
 #endif

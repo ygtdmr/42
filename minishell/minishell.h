@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/30 17:14:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/30 21:34:27 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
-    char			**argv;
-    t_redir			*redir_head;
-    struct s_cmd	*next;
+	char			**argv;
+	t_redir			*redir_head;
+	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_shell
