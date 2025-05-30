@@ -25,7 +25,7 @@ static void	var_append(char **raw, char **out, t_shell *sh)
 		var = ft_itoa(sh->last_status);
 	else
 	{
-		while (is_varchar((*raw)[length], length))
+		while (*raw && is_varchar((*raw)[length], length))
 			length++;
 		if (length > 0)
 		{
@@ -55,6 +55,8 @@ static void	dq_append(char **raw, char **out, t_shell *sh)
 			str_lclean(raw, length);
 			length = 0;
 			var_append(raw, out, sh);
+			if (!*raw)
+				return ;
 		}
 		else
 			length++;

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:21:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/29 22:26:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:16:40 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@ static int	is_metachar(char *s)
 		(*s == '>' && *(s + 1) == '>') || \
 		*s == '|'
 	);
+}
+
+static int	quote_error(t_shell *sh, char **line)
+{
+	ft_putendl_fd("Syntax error: Unterminated quoted string", 2);
+	free(*line);
+	*line = 0;
+	clear_tok(&sh->token_head);
+	return (0);
 }
 
 static	size_t	read_word(t_shell *sh, char **line)
@@ -47,6 +56,8 @@ static	size_t	read_word(t_shell *sh, char **line)
 			break ;
 		length++;
 	}
+	if (quote)
+		return (quote_error(sh, line));
 	return (length);
 }
 

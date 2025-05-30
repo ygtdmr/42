@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:08:51 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/30 00:03:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/30 15:35:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	argv_push(char ***dest, char *src)
 	char	**argv;
 	int		i;
 
-	i = 1;
+	i = 0;
 	while (*dest && (*dest)[i])
 		i++;
-	argv = ft_calloc(++i, sizeof(char *));
+	argv = ft_calloc(i + 2, sizeof(char *));
 	i = 0;
 	while (*dest && (*dest)[i])
 	{
@@ -33,7 +33,7 @@ void	argv_push(char ***dest, char *src)
 	*dest = argv;
 }
 
-void	redir_push(t_redir **head, t_token token)
+void	redir_push(t_redir **head, t_token **token)
 {
 	t_redir	*redir;
 	t_redir	*new;
@@ -41,8 +41,9 @@ void	redir_push(t_redir **head, t_token token)
 	new = malloc(sizeof(t_redir));
 	if (!new)
 		return ;
-	new->file = token.value;
-	new->type = token.type;
+	new->type = (*token)->type;
+	new->file = (*token)->next->value;
+	*token = (*token)->next;
 	new->next = 0;
 	if (!*head)
 		*head = new;
@@ -59,7 +60,6 @@ static void	clear_redir(t_redir *redir)
 {
 	if (!redir)
 		return ;
-	free(redir->file);
 	clear_redir(redir->next);
 	free(redir);
 }
@@ -75,8 +75,6 @@ void	clear_cmd(t_cmd **head)
 	cmd = *head;
 	if (!cmd)
 		return ;
-	while (cmd->argv[i])
-		free(cmd->argv[i++]);
 	free(cmd->argv);
 	clear_redir(cmd->redir_head);
 	if (cmd->next)

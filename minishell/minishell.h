@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/29 23:39:07 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:14:53 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,5 @@ typedef struct s_shell
 	char	*cwd;
 	int		last_status;
 }	t_shell;
-
-void	syntax_err(char *near);
 
 #endif

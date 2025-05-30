@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:41 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/29 23:57:18 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:42:38 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,49 @@ static	int	is_redir(int type)
 	);
 }
 
+static int	syntax_err(char *near)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token '", 2);
+	if (near)
+		ft_putstr_fd(near, 2);
+	else
+		ft_putstr_fd("newline", 2);
+	ft_putstr_fd("'\n", 2);
+	return (0);
+}
+
+static	int	check_err(t_token *token)
+{
+	if (token->type == T_WORD)
+		return (1);
+	if (!token->next)
+		return (syntax_err(0));
+	else if (token->next->type != T_WORD)
+		return (syntax_err(token->value));
+	return (1);
+}
+
 void	parser(t_shell *sh)
 {
 	t_token	*token;
 	t_cmd	*cmd;
 
 	token = sh->token_head;
+	if (!token)
+		return ;
+	if (token->type == T_PIPE)
+		return ((void) syntax_err(token->value));
 	cmd = new_cmd(&sh->cmd_head);
-	if (token->type == T_PIPE || is_redir(token->type))
-		return (syntax_err(token->value));
 	while (token)
 	{
+		if (!check_err(token))
+			return (clear_cmd(&sh->cmd_head));
 		if (token->type == T_WORD)
 			argv_push(&cmd->argv, token->value);
 		else if(is_redir(token->type))
-		{
-			if (!token->next || token->next->type != T_WORD)
-				return (syntax_err(token->value), clear_cmd(&sh->cmd_head));
-			redir_push(&cmd->redir_head, *token);
-		}
+			redir_push(&cmd->redir_head, &token);
 		else if (token->type == T_PIPE)
-        {
-            if (!token->next || token->next->type == T_PIPE)
-				return (syntax_err(token->value), clear_cmd(&sh->cmd_head));
 			cmd = new_cmd(&sh->cmd_head);
-        }
 		token = token->next;
 	}
 }
