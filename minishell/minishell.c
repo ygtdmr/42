@@ -6,13 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/30 21:36:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/07 14:11:04 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
 #include "parser.h"
+#include "executer.h"
 #include "test/test.h"
 
 static void	handle_sigint(int signum)
@@ -39,7 +40,7 @@ static void	shell_loop(t_shell *sh)
 		{
 			lexer(sh, &line);
 			parser(sh);
-			print_cmd(sh);
+			executer(sh);
 			clear_cmd(&sh->cmd_head);
 			clear_tok(&sh->token_head);
 		}
