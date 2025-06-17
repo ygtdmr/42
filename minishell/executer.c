@@ -6,62 +6,73 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/07 14:05:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/16 22:06:54 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-static void	execute(t_shell *sh, t_cmd *cmd, int *pipefd, int fd)
+static void 	exec_error(char	*msg, char *var)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(msg, 2);
+	if (var)
+		ft_putstr_fd(var, 2);
+	ft_putchar_fd('\n', 2);
+}
+
+static void	execute(t_shell *sh, char **argv, int *pipefd, int readfd)
 {
 	pid_t	pid;
-	int		status;
 
 	pid = fork();
 	if (pid == 0)
 	{
 		if (pipefd)
 		{
-			dup2(pipefd[fd], fd);
+			dup2(pipefd[0], 0);
+			dup2(pipefd[1], 1);
 			close(pipefd[0]);
 			close(pipefd[1]);
 		}
-        execve(path_resolve(cmd->argv[0]), cmd->argv, 0);
-		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putstr_fd(cmd->argv[0], 2);
-		ft_putchar_fd('\n', 2);
+		if (readfd != -1)
+		{
+			dup2(readfd, 0);
+			close(readfd);
+		}
+        execve(path_resolve(argv[0]), argv, 0);
+		exec_error("command not found: ", argv[0]);
 	}
 	else if (pid > 0)
-	{
-		waitpid(pid, &status, 0);
-		sh->last_status = status;
-	}
+		waitpid(pid, &sh->last_status, 0);
 	else
-		ft_putendl_fd("minishell: fork error", 2);
+		exec_error("fork error", 0);
 }
 
 void	executer(t_shell *sh)
 {
 	int		pipefd[2];
+	int		readfd;
 	t_cmd	*cmd;
 
+	readfd = -1;
 	cmd = sh->cmd_head;
 	while (cmd)
 	{
 		if (cmd->next)
 		{
 			if (pipe(pipefd) == -1)
-				return (ft_putendl_fd("minishell: pipe error", 2));
-			execute(sh, cmd, pipefd, 1);
-			execute(sh, cmd->next, pipefd, 0);
-			close(pipefd[0]);
+				exec_error("pipe error", 0);
+			execute(sh, cmd->argv, pipefd, readfd);
 			close(pipefd[1]);
-			cmd = cmd->next;
+			if (readfd != -1)
+				close(readfd);
+			readfd = pipefd[0];
 		}
 		else
-		{
-			execute(sh, cmd, 0, 0);
-			break ;
-		}
+			execute(sh, cmd->argv, 0, readfd);
+		cmd = cmd->next;
 	}
+	if (readfd != -1)
+		close(readfd);
 }
