@@ -17,6 +17,7 @@
 # include <signal.h>
 # include <unistd.h>
 # include <readline/readline.h>
+# include <sys/wait.h>
 # include "libft/libft.h"
 
 typedef enum e_toktype

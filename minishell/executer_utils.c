@@ -17,25 +17,27 @@ char	*path_resolve(char *file)
 {
 	char	**paths;
 	char	*abs_path;
+	int		i;
 
 	if (access(file, X_OK) == 0)
 		return (ft_strdup(file));
+	i = 0;
 	abs_path = 0;
 	paths = ft_split(getenv("PATH"), ':');
-	while (paths && *paths)
+	while (paths && paths[i])
 	{
-		abs_path = ft_strdup(*paths);
-		abs_path = str_lrealloc(abs_path, "/", 1);
+		abs_path = str_lrealloc(ft_strdup(paths[i]), "/", 1);
 		abs_path = str_lrealloc(abs_path, file, ft_strlen(file));
 		if (access(abs_path, X_OK) == 0)
 		{
-			while (paths && *paths)
-				free(*paths++);
+			while (paths && paths[i])
+				free(paths[i++]);
 			free(paths);
 			return (abs_path);
 		}
 		free(abs_path);
-		free(*paths++);
+		free(paths[i++]);
 	}
+	free(paths);
 	return (0);
 }
