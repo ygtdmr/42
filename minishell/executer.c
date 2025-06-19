@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/16 22:06:54 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/19 18:11:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 
-static void 	exec_error(char	*msg, char *var)
+static void	exec_error(char	*msg, char *var)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(msg, 2);
@@ -21,10 +21,43 @@ static void 	exec_error(char	*msg, char *var)
 	ft_putchar_fd('\n', 2);
 }
 
+static void	built_in_or_exec(t_shell *sh, char *path, char **argv)
+{
+	if (!is_built_in(path))
+		execve(path_resolve(argv[0]), argv, 0);
+	else if (str_match(path, "echo"))
+		bi_echo(argv);
+	else if (str_match(path, "pwd"))
+		bi_pwd(argv);
+	else
+		exit(0);
+}
+
+static void	built_in_before_exec(t_shell *sh, t_cmd **cmd)
+{
+	int		is_run;
+	char	**argv;
+
+	if ((*cmd)->next)
+		return ;
+	is_run = 1;
+	argv = (*cmd)->argv;
+	if (str_match(argv[0], "cd"))
+		bi_cd(argv);
+	if (str_match(argv[0], "exit"))
+		bi_exit(sh);
+	else
+		is_run = 0;
+	if (is_run)
+		(*cmd) = 0;
+}
+
 static void	execute(t_shell *sh, char **argv, int *pipefd, int readfd)
 {
 	pid_t	pid;
 
+	if (!path_exists(sh, argv[0]))
+		return (exec_error("command not found: ", argv[0]));
 	pid = fork();
 	if (pid == 0)
 	{
@@ -40,8 +73,7 @@ static void	execute(t_shell *sh, char **argv, int *pipefd, int readfd)
 			dup2(readfd, 0);
 			close(readfd);
 		}
-        execve(path_resolve(argv[0]), argv, 0);
-		exec_error("command not found: ", argv[0]);
+		built_in_or_exec(sh, argv[0], argv);
 	}
 	else if (pid > 0)
 		waitpid(pid, &sh->last_status, 0);
@@ -57,6 +89,7 @@ void	executer(t_shell *sh)
 
 	readfd = -1;
 	cmd = sh->cmd_head;
+	built_in_before_exec(sh, &cmd);
 	while (cmd)
 	{
 		if (cmd->next)

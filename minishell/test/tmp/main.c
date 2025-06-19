@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:34:15 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/16 20:59:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/19 18:06:18 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 int main() {
-	free(0);
-	return 0;
+	printf("gives an error\n");
+	return (1);
 }
 
