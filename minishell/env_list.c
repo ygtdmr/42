@@ -6,22 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:18:11 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/19 18:36:19 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/20 05:14:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*env_key(char *env)
-{
-	char	*key;
-	size_t	length;
-
-	length = ft_strlen(env) - ft_strlen(ft_strchr(env, '='));
-	key = ft_calloc(length + 1, sizeof(char));
-	ft_strlcpy(key, env, length + 1);
-	return (key);
-}
+#include "executer.h"
 
 static void	add_env(t_env **head, char *value)
 {
@@ -48,56 +38,52 @@ static void	add_env(t_env **head, char *value)
 		*head = new;
 }
 
-void	clear_env_list(t_env **head)
+static char	*env_key(char *src)
 {
-	t_env	*env;
-
-	if (!head)
-		return ;
-	env = *head;
-	if (!env)
-		return ;
-	if (env->key)
-		free(env->key);
-	if (env->value)
-		free(env->value);
-	if (env->next)
-		clear_env_list(&env->next);
-	free(env);
-	*head = 0;
-}
-
-t_env	*env_list(char **envp)
-{
-	t_env	*head;
-
-	head = 0;
-	while (envp && *envp)
-		add_env(&head, *envp++);
-	return (head);
-}
-
-char	**envl_to_envp(t_env *env_list)
-{
-	t_env	*list;
+	char	*key;
 	size_t	length;
-	char	**envp;
-	char	**f_envp;
 
-	list = env_list;
-	length = 0;
-	while (list)
+	length = ft_strlen(src) - ft_strlen(ft_strchr(src, '='));
+	key = ft_calloc(length + 1, sizeof(char));
+	ft_strlcpy(key, src, length + 1);
+	return (key);
+}
+
+static size_t env_len(char **envp)
+{
+	size_t	len;
+
+	len = 0;
+	while (envp[len])
+		len++;
+	return (len);
+}
+
+char	*env_set(char **envp, char *src, int unset)
+{
+	size_t	i;
+	char	*key;
+	char	*tmp_key;
+	char	**env_dup;
+
+	i = 0;
+	key = env_key(src);
+	env_dup = ft_calloc((env_len(envp) - unset) + 1, sizeof(char *));
+	while (envp[i])
 	{
-		length++;
-		list = list->next;
+		tmp_key = env_key(envp[i]);
+		if (str_match(tmp_key, key) && unset)
+		{
+			env_dup[i] = ft_strdup(envp[i + 1]);
+			i += 2;
+		}
+		else
+		{
+			env_dup[i] = ft_strdup(envp[i]);
+			i++;
+		}
+		free(tmp_key);
 	}
-	envp = ft_calloc(length + 1, sizeof(char *));
-	f_envp = envp;
-	list = env_list;
-	while (list)
-	{
-		*envp = str
-		list = list->next;
-	}
-	return (f_envp);
+	free(key);
+	return (env_dup);
 }

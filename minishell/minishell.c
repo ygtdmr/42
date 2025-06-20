@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/07 14:11:04 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/19 15:20:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	main(int ac, char **av, char **envp)
 	ft_bzero(&sh, sizeof(sh));
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	sh.env_head = env_list(envp);
+	sh.envp = env_set(envp, 0, 0);
 	shell_loop(&sh);
-	clear_env_list(&sh.env_head);
+	clear_env_list(&sh.envp);
 	return (0);
 }

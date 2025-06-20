@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/02 10:29:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/19 15:15:21 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,6 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
-
 typedef struct s_redir
 {
 	t_toktype		type;
@@ -62,7 +55,7 @@ typedef struct s_shell
 {
 	t_token	*token_head;
 	t_cmd	*cmd_head;
-	t_env	*env_head;
+	char	**envp;
 	char	**env;
 	char	*cwd;
 	int		last_status;
