@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:30:16 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/30 21:36:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:18:04 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,3 @@ void	print_cmd(t_shell *sh)
 	}
 }
 
-void	print_envp(t_shell *sh)
-{
-	t_env	*env;
-
-	env = sh->env_head;
-	while (env)
-	{
-		printf("%s=%s\n", env->key, env->value);
-		env = env->next;
-	}
-}

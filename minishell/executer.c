@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/19 18:11:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:32:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ static void	exec_error(char	*msg, char *var)
 static void	built_in_or_exec(t_shell *sh, char *path, char **argv)
 {
 	if (!is_built_in(path))
-		execve(path_resolve(argv[0]), argv, 0);
+		execve(path_resolve(argv[0]), argv, sh->env);
 	else if (str_match(path, "echo"))
 		bi_echo(argv);
 	else if (str_match(path, "pwd"))
 		bi_pwd(argv);
+	else if (str_match(path, "env"))
+		bi_env(sh->env);
 	else
 		exit(0);
 }

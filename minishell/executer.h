@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:54 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/19 18:00:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:37:56 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ void	bi_echo(char **argv);
 void	bi_pwd(char **argv);
 void	bi_cd(char **argv);
 void	bi_exit(t_shell *sh);
+void	bi_env(char **env);
 
 #endif

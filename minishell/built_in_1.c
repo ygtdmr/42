@@ -1,15 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in.c                                         :+:      :+:    :+:   */
+/*   built_in_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:54:42 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/19 18:01:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:30:38 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env_list.h"
 #include "executer.h"
 #include "lexer.h"
 #include "parser.h"
@@ -53,9 +54,17 @@ void	bi_pwd(char **argv)
 	exit(0);
 }
 
+void	bi_env(char **env)
+{
+	while (*env)
+		ft_putendl_fd(*(env++), 1);
+	exit(0);
+}
+
 void	bi_exit(t_shell *sh)
 {
 	clear_cmd(&sh->cmd_head);
 	clear_tok(&sh->token_head);
+	clear_env(sh->env);
 	exit(0);
 }

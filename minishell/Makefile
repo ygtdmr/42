@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/06/19 15:09:15 by yidemir          ###   ########.fr        #
+#    Updated: 2025/06/20 14:31:49 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC		=	minishell.c \
 			expand.c \
 			parser_utils.c \
 			parser.c \
-			built_in.c \
+			built_in_1.c \
 			executer_utils.c \
 			executer.c \
 			test/print.c

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/19 15:15:21 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:17:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ typedef struct s_shell
 {
 	t_token	*token_head;
 	t_cmd	*cmd_head;
-	char	**envp;
 	char	**env;
-	char	*cwd;
 	int		last_status;
 }	t_shell;
 
