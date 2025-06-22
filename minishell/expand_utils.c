@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:16 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:15:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 18:25:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,15 @@ int	is_varchar(char c, size_t index)
 		return (ft_isalpha(c) || c == '_');
 	else
 		return (ft_isalnum(c) || c == '_');
+}
+
+int	compile_status(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	else if (WIFSTOPPED(status))
+		return (128 + WSTOPSIG(status));
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:54 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:28:32 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 19:16:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 
 void	executer(t_shell *sh);
 char	*path_resolve(char *file);
-int		path_exists(t_shell *sh, char *file);
+int		path_validate(t_shell *sh, char *file);
+void	exec_error(char	*msg, char *var);
 int		is_built_in(char *file);
 void	bi_echo(char **argv);
 void	bi_pwd(char **argv);

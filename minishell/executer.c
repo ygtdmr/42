@@ -6,21 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:20:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 19:16:13 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 #include "str_utils.h"
-
-static void	exec_error(char	*msg, char *var)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(msg, 2);
-	if (var)
-		ft_putstr_fd(var, 2);
-	ft_putchar_fd('\n', 2);
-}
 
 static void	built_in_or_exec(t_shell *sh, char *path, char **argv)
 {
@@ -41,7 +32,7 @@ static void	built_in_before_exec(t_shell *sh, t_cmd **cmd)
 	int		is_run;
 	char	**argv;
 
-	if ((*cmd)->next)
+	if (!(*cmd) || (*cmd)->next)
 		return ;
 	is_run = 1;
 	argv = (*cmd)->argv;
@@ -63,8 +54,8 @@ static void	execute(t_shell *sh, char **argv, int *pipefd, int readfd)
 {
 	pid_t	pid;
 
-	if (!path_exists(sh, argv[0]))
-		return (exec_error("command not found: ", argv[0]));
+	if (!path_validate(sh, argv[0]))
+		return ;
 	pid = fork();
 	if (pid == 0)
 	{

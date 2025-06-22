@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 14:34:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:26:19 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 17:54:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,11 @@ void	bi_unset(t_shell *sh, char **argv)
 	while (argv[i])
 	{
 		tmp_env = sh->env;
-		sh->env = env_set(tmp_env, argv[i], 1);
-		clear_env(tmp_env);
+		if (env_var_exists(tmp_env, argv[i]))
+		{
+			sh->env = env_set(tmp_env, argv[i], 1);
+			clear_env(tmp_env);
+		}
 		i++;
 	}
 }

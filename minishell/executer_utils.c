@@ -6,41 +6,22 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:20:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 19:16:55 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
 #include "executer.h"
 #include "expand.h"
 #include "str_utils.h"
 
-char	*path_resolve(char *file)
+void	exec_error(char	*msg, char *var)
 {
-	char	**paths;
-	char	*abs_path;
-	int		i;
-
-	if (access(file, X_OK) == 0)
-		return (ft_strdup(file));
-	i = 0;
-	abs_path = 0;
-	paths = ft_split(getenv("PATH"), ':');
-	while (paths && paths[i])
-	{
-		abs_path = str_lrealloc(ft_strdup(paths[i]), "/", 1);
-		abs_path = str_lrealloc(abs_path, file, ft_strlen(file));
-		if (access(abs_path, X_OK) == 0)
-		{
-			while (paths && paths[i])
-				free(paths[i++]);
-			free(paths);
-			return (abs_path);
-		}
-		free(abs_path);
-		free(paths[i++]);
-	}
-	free(paths);
-	return (0);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(msg, 2);
+	if (var)
+		ft_putstr_fd(var, 2);
+	ft_putchar_fd('\n', 2);
 }
 
 int	is_built_in(char *file)
@@ -58,7 +39,36 @@ int	is_built_in(char *file)
 	);
 }
 
-int	path_exists(t_shell *sh, char *file)
+char	*path_resolve(char *file)
+{
+	char	**paths;
+	char	*abs_path;
+	int		i;
+
+	if (open(file, O_RDONLY) != -1)
+		return (ft_strdup(file));
+	i = 0;
+	abs_path = 0;
+	paths = ft_split(getenv("PATH"), ':');
+	while (paths && paths[i])
+	{
+		abs_path = str_lrealloc(ft_strdup(paths[i]), "/", 1);
+		abs_path = str_lrealloc(abs_path, file, ft_strlen(file));
+		if (open(abs_path, O_RDONLY) != -1)
+		{
+			while (paths && paths[i])
+				free(paths[i++]);
+			free(paths);
+			return (abs_path);
+		}
+		free(abs_path);
+		free(paths[i++]);
+	}
+	free(paths);
+	return (0);
+}
+
+static int	path_exists(t_shell *sh, char *file)
 {
 	char	*path;
 
@@ -73,6 +83,40 @@ int	path_exists(t_shell *sh, char *file)
 			return (1);
 		}
 	}
-	sh->last_status = 127;
+	sh->last_status = 127 << 8;
 	return (0);
+}
+
+static int	path_executable(t_shell *sh, char *file)
+{
+	char	*path;
+
+	if (is_built_in(file))
+		return (1);
+	if (getenv("PATH"))
+	{
+		path = path_resolve(file);
+		if (access(path, X_OK) == 0)
+		{
+			free(path);
+			return (1);
+		}
+	}
+	sh->last_status = 126 << 8;
+	return (0);
+}
+
+int	path_validate(t_shell *sh, char *file)
+{
+	if (!path_exists(sh, file))
+	{
+		exec_error("command not found: ", file);
+		return (0);
+	}
+	if (!path_executable(sh, file))
+	{
+		exec_error("permission denied: ", file);
+		return (0);
+	}
+	return (1);
 }
