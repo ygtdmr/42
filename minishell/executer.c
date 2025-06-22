@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/20 14:32:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/21 10:47:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ static void	built_in_before_exec(t_shell *sh, t_cmd **cmd)
 	argv = (*cmd)->argv;
 	if (str_match(argv[0], "cd"))
 		bi_cd(argv);
+	if (str_match(argv[0], "export"))
+		bi_export(sh, argv);
+	if (str_match(argv[0], "unset"))
+		bi_unset(sh, argv);
 	if (str_match(argv[0], "exit"))
 		bi_exit(sh);
 	else

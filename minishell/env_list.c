@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:18:11 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/20 14:50:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/21 10:53:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	**env_append(char **env, char *src)
 		i++;
 	}
 	if (src)
-		env_dup[i] = src;
+		env_dup[i] = ft_strdup(src);
 	return (env_dup);
 }
 
