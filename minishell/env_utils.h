@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   env_utils.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/04 15:04:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:35:13 by yidemir          ###   ########.fr       */
+/*   Created: 2025/05/28 11:42:19 by yidemir           #+#    #+#             */
+/*   Updated: 2025/06/22 16:28:48 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef ENV_UTILS_H
+# define ENV_UTILS_H
 
-# include "minishell.h"
+# include "libft/libft.h"
 
-void	new_tok(t_token	**head, char *value, t_toktype type);
-void	clear_tok(t_token **head);
-void	add_tok(t_token **head, t_token *new);
-void	lexer(t_shell *sh, char **line);
+char	**env_append(char **env, char *src);
+char	**env_set(char **env, char *src, int unset);
+int		env_var_exists(char **env, char *src);
+void	clear_env(char **env);
 
 #endif

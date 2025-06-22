@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/20 14:24:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:30:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include "executer.h"
-#include "env_list.h"
+#include "env_utils.h"
 #include "test/test.h"
 
 static void	handle_sigint(int signum)

@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:54:42 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/20 14:30:38 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:26:28 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_list.h"
-#include "executer.h"
+#include "env_utils.h"
+#include "str_utils.h"
 #include "lexer.h"
 #include "parser.h"
 
@@ -37,7 +37,7 @@ void	bi_cd(char **argv)
 {
 	if (argv[1])
 		chdir(argv[1]);
-	else if(getenv("HOME"))
+	else if (getenv("HOME"))
 		chdir(getenv("HOME"));
 }
 
@@ -45,7 +45,7 @@ void	bi_pwd(char **argv)
 {
 	char	*cwd;
 
-	cwd = getcwd(0,0);
+	cwd = getcwd(0, 0);
 	if (cwd)
 	{
 		ft_putendl_fd(cwd, 1);

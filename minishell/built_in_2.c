@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 14:34:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/21 10:52:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:26:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "env_list.h"
+#include "env_utils.h"
 #include "executer.h"
 
 void	bi_export(t_shell *sh, char	**argv)
@@ -32,7 +32,7 @@ void	bi_export(t_shell *sh, char	**argv)
 	}
 }
 
-void	bi_unset(t_shell *sh, char  **argv)
+void	bi_unset(t_shell *sh, char **argv)
 {
 	int		i;
 	char	**tmp_env;

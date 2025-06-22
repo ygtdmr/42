@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:16 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/30 21:35:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:15:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,4 @@ int	is_varchar(char c, size_t index)
 		return (ft_isalpha(c) || c == '_');
 	else
 		return (ft_isalnum(c) || c == '_');
-}
-
-char	*str_lrealloc(char *dest, char *src, size_t length)
-{
-	char	*out;
-	size_t	l_out;
-	size_t	i_out;
-	size_t	i_src;
-
-	i_out = 0;
-	i_src = 0;
-	if (dest)
-		l_out = ft_strlen(dest) + length;
-	else
-		l_out = length;
-	out = ft_calloc(l_out + 1, sizeof(char));
-	while (dest && dest[i_out])
-	{
-		out[i_out] = dest[i_out];
-		i_out++;
-	}
-	while (src && *src && i_src < length)
-		out[i_out++] = src[i_src++];
-	if (dest)
-		free(dest);
-	return (out);
 }

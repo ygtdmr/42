@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_list.h                                         :+:      :+:    :+:   */
+/*   str_utils.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 11:42:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/20 14:50:44 by yidemir          ###   ########.fr       */
+/*   Created: 2025/06/22 16:14:09 by yidemir           #+#    #+#             */
+/*   Updated: 2025/06/22 16:35:27 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_LIST_H
-# define ENV_LIST_H
+#ifndef STR_UTILS_H
+# define STR_UTILS_H
 
-#include "minishell.h"
+# include "libft/libft.h"
 
-char	**env_append(char **env, char *src);
-char	**env_set(char **env, char *src, int unset);
-int		env_var_exists(char **env, char *src);
-void	clear_env(char **env);
+int		str_match(char *dest, char *src);
+char	*str_lrealloc(char *dest, char *src, size_t length);
+void	str_lclean(char **dest, size_t length);
+int		str_mc(char **dest, char *needle);
 
 #endif

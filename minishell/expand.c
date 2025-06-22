@@ -6,12 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/30 21:35:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:36:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "expand.h"
+#include "str_utils.h"
 
 static void	var_append(char **raw, char **out, t_shell *sh)
 {
@@ -21,7 +22,7 @@ static void	var_append(char **raw, char **out, t_shell *sh)
 
 	length = 0;
 	str_lclean(raw, 1);
-	if (mch_str(raw, "?"))
+	if (str_mc(raw, "?"))
 		var = ft_itoa(sh->last_status);
 	else
 	{
@@ -103,9 +104,9 @@ char	*expand(char *raw, t_shell *sh)
 	{
 		if (*raw == '$')
 			var_append(&raw, &out, sh);
-		else if (mch_str(&raw, "\""))
+		else if (str_mc(&raw, "\""))
 			dq_append(&raw, &out, sh);
-		else if (mch_str(&raw, "\'"))
+		else if (str_mc(&raw, "\'"))
 			sq_append(&raw, &out, sh);
 		else
 			raw_append(&raw, &out);

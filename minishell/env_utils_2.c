@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   env_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/04 15:04:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:35:13 by yidemir          ###   ########.fr       */
+/*   Created: 2025/06/22 16:23:36 by yidemir           #+#    #+#             */
+/*   Updated: 2025/06/22 16:23:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#include "env_utils.h"
 
-# include "minishell.h"
+void	clear_env(char **env)
+{
+	size_t	i;
 
-void	new_tok(t_token	**head, char *value, t_toktype type);
-void	clear_tok(t_token **head);
-void	add_tok(t_token **head, t_token *new);
-void	lexer(t_shell *sh, char **line);
-
-#endif
+	i = 0;
+	while (env[i])
+		free(env[i++]);
+	free(env);
+}

@@ -6,12 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/20 13:18:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:20:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 #include "expand.h"
+#include "str_utils.h"
 
 char	*path_resolve(char *file)
 {
@@ -40,15 +41,6 @@ char	*path_resolve(char *file)
 	}
 	free(paths);
 	return (0);
-}
-
-int	str_match(char *dest, char *src)
-{
-	char	*s;
-	if (!(dest && src))
-		return (0);
-	s = ft_strnstr(dest, src, ft_strlen(dest));
-	return (s && (ft_strlen(dest) == ft_strlen(src)));
 }
 
 int	is_built_in(char *file)

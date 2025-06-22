@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_list.c                                         :+:      :+:    :+:   */
+/*   env_utils_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:18:11 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/21 10:53:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:23:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_list.h"
+#include "env_utils.h"
 #include "minishell.h"
-#include "executer.h"
+#include "str_utils.h"
 
 static char	*env_key(char *src)
 {
 	char	*key;
 	size_t	length;
 
-	length = ft_strlen(src) - ft_strlen(ft_strchr(src, '='));
+	if (ft_strchr(src, '='))
+		length = ft_strlen(src) - ft_strlen(ft_strchr(src, '='));
+	else
+		length = ft_strlen(src);
 	key = ft_calloc(length + 1, sizeof(char));
 	ft_strlcpy(key, src, length + 1);
 	return (key);
@@ -57,31 +60,23 @@ int	env_var_exists(char **env, char *src)
 	return (0);
 }
 
-void	clear_env(char **env)
-{
-	size_t	i;
-
-	i = 0;
-	while (env[i])
-		free(env[i++]);
-	free(env);
-}
-
 char	**env_append(char **env, char *src)
 {
 	size_t	i;
 	size_t	len;
 	char	**env_dup;
+	int		src_has_val;
 
 	i = 0;
 	len = env_len(env);
-	env_dup = ft_calloc(len + (src != 0) + 1, sizeof(char *));
+	src_has_val = (src && ft_strchr(src, '='));
+	env_dup = ft_calloc(len + src_has_val + 1, sizeof(char *));
 	while (env[i])
 	{
 		env_dup[i] = ft_strdup(env[i]);
 		i++;
 	}
-	if (src)
+	if (src_has_val)
 		env_dup[i] = ft_strdup(src);
 	return (env_dup);
 }
@@ -101,9 +96,7 @@ char	**env_set(char **env, char *src, int unset)
 		tmp_key = env_key(env[i]);
 		if (str_match(tmp_key, key))
 		{
-			if (unset)
-				env_dup[i] = ft_strdup(env[i + 1]);
-			else
+			if (!unset && ft_strchr(src, '='))
 				env_dup[i] = src;
 		}
 		else

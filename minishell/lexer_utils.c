@@ -6,43 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:05:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/30 14:36:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:35:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-void	str_lclean(char **dest, size_t length)
-{
-	char	*s;
-
-	if (!length)
-		return ;
-	if (!(*dest)[length])
-	{
-		free(*dest);
-		*dest = 0;
-		return ;
-	}
-	s = ft_strdup((*dest) + length);
-	free(*dest);
-	*dest = s;
-}
-
-int	mch_str(char **dest, char *needle)
-{
-	size_t	lneedle;
-
-	if (!*dest)
-		return (0);
-	lneedle = ft_strlen(needle);
-	if (ft_strnstr(*dest, needle, lneedle))
-	{
-		str_lclean(dest, lneedle);
-		return (1);
-	}
-	return (0);
-}
 
 void	add_tok(t_token **head, t_token *new)
 {

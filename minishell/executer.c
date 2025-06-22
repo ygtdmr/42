@@ -6,11 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/21 10:47:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:20:15 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
+#include "str_utils.h"
 
 static void	exec_error(char	*msg, char *var)
 {

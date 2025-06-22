@@ -6,12 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/05/30 21:28:47 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:36:37 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "expand.h"
+#include "str_utils.h"
 
 static int	is_metachar(char *s)
 {
@@ -67,17 +68,17 @@ void	lexer(t_shell *sh, char **line)
 {
 	while (*line)
 	{
-		if (mch_str(line, " ") || mch_str(line, "\t") || mch_str(line, "\n"))
+		if (str_mc(line, " ") || str_mc(line, "\t") || str_mc(line, "\n"))
 			continue ;
-		if (mch_str(line, "|"))
+		if (str_mc(line, "|"))
 			new_tok(&sh->token_head, ft_strdup("|"), T_PIPE);
-		else if (mch_str(line, "<<"))
+		else if (str_mc(line, "<<"))
 			new_tok(&sh->token_head, ft_strdup("<<"), T_HEREDOC);
-		else if (mch_str(line, ">>"))
+		else if (str_mc(line, ">>"))
 			new_tok(&sh->token_head, ft_strdup(">>"), T_REDIR_APND);
-		else if (mch_str(line, "<"))
+		else if (str_mc(line, "<"))
 			new_tok(&sh->token_head, ft_strdup("<"), T_REDIR_IN);
-		else if (mch_str(line, ">"))
+		else if (str_mc(line, ">"))
 			new_tok(&sh->token_head, ft_strdup(">"), T_REDIR_OUT);
 		else
 			new_tok(&sh->token_head, expand(grab_word(sh, line), sh), T_WORD);

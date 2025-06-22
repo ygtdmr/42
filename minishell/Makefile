@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/06/21 10:45:15 by yidemir          ###   ########.fr        #
+#    Updated: 2025/06/22 16:30:19 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,13 +15,15 @@ CC		= 	cc
 CFLAGS	=	-Wall -Wextra -Werror
 
 SRC		=	minishell.c \
-			env_list.c \
+			str_utils.c \
 			lexer_utils.c \
 			lexer.c \
 			expand_utils.c \
 			expand.c \
 			parser_utils.c \
 			parser.c \
+			env_utils_1.c \
+			env_utils_2.c \
 			built_in_1.c \
 			built_in_2.c \
 			executer_utils.c \
