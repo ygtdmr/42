@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:13:26 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:35:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 15:46:18 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "str_utils.h"
 
-char	*str_lrealloc(char *dest, char *src, size_t length)
+char	*str_lrealloc(char *dest, char *src, size_t length, int src_free)
 {
 	char	*out;
 	size_t	l_out;
@@ -35,6 +35,8 @@ char	*str_lrealloc(char *dest, char *src, size_t length)
 		out[i_out++] = src[i_src++];
 	if (dest)
 		free(dest);
+	if (src && src_free)
+		free(src);
 	return (out);
 }
 

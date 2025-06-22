@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 18:22:52 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:03:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	var_append(char **raw, char **out, t_shell *sh)
 
 	length = 0;
 	str_lclean(raw, 1);
-	if (str_mc(raw, "?"))
+	if (str_match(*raw, "?"))
 		var = ft_itoa(compile_status(sh->last_status));
 	else
 	{
@@ -40,7 +40,7 @@ static void	var_append(char **raw, char **out, t_shell *sh)
 		str_lclean(raw, length);
 	}
 	if (var)
-		*out = str_lrealloc(*out, var, ft_strlen(var));
+		*out = str_lrealloc(*out, var, ft_strlen(var), str_mc(raw, "?"));
 }
 
 static void	dq_append(char **raw, char **out, t_shell *sh)
@@ -52,7 +52,7 @@ static void	dq_append(char **raw, char **out, t_shell *sh)
 	{
 		if ((*raw)[length] == '$')
 		{
-			*out = str_lrealloc(*out, *raw, length);
+			*out = str_lrealloc(*out, *raw, length, 0);
 			str_lclean(raw, length);
 			length = 0;
 			var_append(raw, out, sh);
@@ -62,7 +62,7 @@ static void	dq_append(char **raw, char **out, t_shell *sh)
 		else
 			length++;
 	}
-	*out = str_lrealloc(*out, *raw, length);
+	*out = str_lrealloc(*out, *raw, length, 0);
 	str_lclean(raw, length + ((*raw)[length] == '\"'));
 }
 
@@ -73,7 +73,7 @@ static void	sq_append(char **raw, char **out, t_shell *sh)
 	length = 0;
 	while ((*raw)[length] && (*raw)[length] != '\'')
 		length++;
-	*out = str_lrealloc(*out, *raw, length);
+	*out = str_lrealloc(*out, *raw, length, 0);
 	str_lclean(raw, length + ((*raw)[length] == '\''));
 }
 
@@ -91,7 +91,7 @@ static void	raw_append(char **raw, char **out)
 		)
 	)
 		length++;
-	*out = str_lrealloc(*out, *raw, length);
+	*out = str_lrealloc(*out, *raw, length, 0);
 	str_lclean(raw, length);
 }
 
