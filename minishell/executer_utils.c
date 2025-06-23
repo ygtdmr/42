@@ -6,40 +6,28 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 15:47:26 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 16:55:11 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
-#include "expand.h"
 #include "str_utils.h"
-#include <sys/stat.h>
-
-void	exec_error(char	*msg, char *var)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(msg, 2);
-	if (var)
-		ft_putstr_fd(var, 2);
-	ft_putchar_fd('\n', 2);
-}
+#include "env_utils.h"
 
 int	is_built_in(char *file)
 {
 	if (!file)
 		return (0);
-	return (
-		str_match(file, "echo") || \
-		str_match(file, "cd") || \
-		str_match(file, "pwd") || \
-		str_match(file, "export") || \
-		str_match(file, "unset") || \
-		str_match(file, "env") || \
-		str_match(file, "exit")
-	);
+	return (str_match(file, "echo") || \
+str_match(file, "cd") || \
+str_match(file, "pwd") || \
+str_match(file, "export") || \
+str_match(file, "unset") || \
+str_match(file, "env") || \
+str_match(file, "exit"));
 }
 
-char	*path_resolve(char *file)
+char	*path_resolve(char **env, char *file)
 {
 	char	**paths;
 	char	*abs_path;
@@ -49,7 +37,7 @@ char	*path_resolve(char *file)
 		return (ft_strdup(file));
 	i = 0;
 	abs_path = 0;
-	paths = ft_split(getenv("PATH"), ':');
+	paths = ft_split(env_get(env, "PATH"), ':');
 	while (paths && paths[i])
 	{
 		abs_path = str_lrealloc(ft_strdup(paths[i]), "/", 1, 0);
@@ -68,60 +56,10 @@ char	*path_resolve(char *file)
 	return (0);
 }
 
-static int	path_exists(t_shell *sh, char *file)
+void	do_exec(char *path, char **argv, char **env)
 {
-	char	*path;
-	struct stat st;
-
-	if ((lstat(file, &st) != -1) && S_ISDIR(st.st_mode))
-		return (0);
-	if (is_built_in(file))
-		return (1);
-	if (getenv("PATH"))
-	{
-		path = path_resolve(file);
-		if (path)
-		{
-			free(path);
-			return (1);
-		}
-		free(path);
-	}
-	sh->last_status = 127 << 8;
-	return (0);
-}
-
-static int	path_executable(t_shell *sh, char *file)
-{
-	char	*path;
-
-	if (is_built_in(file))
-		return (1);
-	if (getenv("PATH"))
-	{
-		path = path_resolve(file);
-		if (access(path, X_OK) == 0)
-		{
-			free(path);
-			return (1);
-		}
-		free(path);
-	}
-	sh->last_status = 126 << 8;
-	return (0);
-}
-
-int	path_validate(t_shell *sh, char *file)
-{
-	if (!path_exists(sh, file))
-	{
-		exec_error("command not found: ", file);
-		return (0);
-	}
-	if (!path_executable(sh, file))
-	{
-		exec_error("permission denied: ", file);
-		return (0);
-	}
-	return (1);
+	execve(path, argv, env);
+	perror("minishell");
+	free(path);
+	exit(0);
 }

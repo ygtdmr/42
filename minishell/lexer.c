@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:36:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 15:10:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,19 @@
 
 static int	is_metachar(char *s)
 {
-	return (
-		*s == ' ' || \
-		*s == '\t' || \
-		*s == '\n' || \
-		*s == '<' || \
-		(*s == '<' && *(s + 1) == '<') || \
-		*s == '>' || \
-		(*s == '>' && *(s + 1) == '>') || \
-		*s == '|'
-	);
+	return (*s == ' ' || \
+*s == '\t' || \
+*s == '\n' || \
+*s == '<' || \
+(*s == '<' && *(s + 1) == '<') || \
+*s == '>' || \
+(*s == '>' && *(s + 1) == '>') || \
+*s == '|');
 }
 
 static void	quote_error(t_shell *sh, char **line)
 {
-	ft_putendl_fd("Syntax error: Unterminated quoted string", 2);
+	ft_putendl_fd("minishell: syntax error: Unterminated quoted string", 2);
 	free(*line);
 	*line = 0;
 	clear_tok(&sh->token_head);

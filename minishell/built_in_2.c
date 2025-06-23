@@ -6,13 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 14:34:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 17:54:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 16:55:46 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "env_utils.h"
 #include "executer.h"
+#include "env_utils.h"
 
 void	bi_export(t_shell *sh, char	**argv)
 {
@@ -23,7 +22,7 @@ void	bi_export(t_shell *sh, char	**argv)
 	while (argv[i])
 	{
 		tmp_env = sh->env;
-		if (env_var_exists(tmp_env, argv[i]))
+		if (env_key_exists(tmp_env, argv[i]))
 			sh->env = env_set(tmp_env, argv[i], 0);
 		else
 			sh->env = env_append(tmp_env, argv[i]);
@@ -41,7 +40,7 @@ void	bi_unset(t_shell *sh, char **argv)
 	while (argv[i])
 	{
 		tmp_env = sh->env;
-		if (env_var_exists(tmp_env, argv[i]))
+		if (env_key_exists(tmp_env, argv[i]))
 		{
 			sh->env = env_set(tmp_env, argv[i], 1);
 			clear_env(tmp_env);

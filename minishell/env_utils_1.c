@@ -6,15 +6,15 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:18:11 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 17:51:45 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 16:56:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_utils.h"
 #include "minishell.h"
 #include "str_utils.h"
+#include "env_utils.h"
 
-static char	*env_key(char *src)
+char	*env_key(char *src)
 {
 	char	*key;
 	size_t	length;
@@ -38,7 +38,7 @@ static size_t	env_len(char **env)
 	return (len);
 }
 
-int	env_var_exists(char **env, char *src)
+int	env_key_exists(char **env, char *src)
 {
 	char	*key;
 	char	*tmp_key;
@@ -64,8 +64,15 @@ char	**env_append(char **env, char *src)
 {
 	size_t	i;
 	char	**env_dup;
+	char	**env_tmp;
 	int		src_has_val;
 
+	if (src && env_key_exists(env, src))
+	{
+		env_tmp = env_set(env, src, 0);
+		clear_env(env);
+		return (env_tmp);
+	}
 	i = 0;
 	src_has_val = (src && ft_strchr(src, '='));
 	env_dup = ft_calloc(env_len(env) + src_has_val + 1, sizeof(char *));
@@ -95,7 +102,7 @@ char	**env_set(char **env, char *src, int unset)
 		if (str_match(tmp_key, key))
 		{
 			if (!unset)
-				env_dup[i++] = src;
+				env_dup[i++] = ft_strdup(src);
 		}
 		else
 			env_dup[i++] = ft_strdup(*env);

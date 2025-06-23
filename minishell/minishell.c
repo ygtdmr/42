@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:30:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:54:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include "executer.h"
+#include "str_utils.h"
 #include "env_utils.h"
 #include "test/test.h"
 
@@ -32,7 +33,7 @@ static void	shell_loop(t_shell *sh)
 	while (1)
 	{
 		line = readline("minishell$ ");
-		if (!line)
+		if (!line || str_match(line, "exit"))
 		{
 			ft_putendl_fd("exit", 1);
 			break ;

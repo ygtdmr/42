@@ -6,12 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:16 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 15:13:08 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 16:57:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
-#include "lexer.h"
 
 size_t	char_len(char c, char *str)
 {

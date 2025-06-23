@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:03:34 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 16:57:06 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
 #include "expand.h"
 #include "str_utils.h"
+#include "env_utils.h"
 
 static void	var_append(char **raw, char **out, t_shell *sh)
 {
@@ -32,7 +32,7 @@ static void	var_append(char **raw, char **out, t_shell *sh)
 		{
 			var_name = ft_calloc(length + 1, sizeof(char));
 			ft_strlcpy(var_name, *raw, length + 1);
-			var = getenv(var_name);
+			var = env_get(sh->env, var_name);
 			free(var_name);
 		}
 		else
@@ -82,14 +82,12 @@ static void	raw_append(char **raw, char **out)
 	size_t	length;
 
 	length = 0;
-	while (
-		(*raw)[length] && \
-		(
-			(*raw)[length] != '\'' && \
-			(*raw)[length] != '\"' && \
-			(*raw)[length] != '$'
-		)
-	)
+	while ((*raw)[length] && \
+(
+(*raw)[length] != '\'' && \
+(*raw)[length] != '\"' && \
+(*raw)[length] != '$'
+))
 		length++;
 	*out = str_lrealloc(*out, *raw, length, 0);
 	str_lclean(raw, length);

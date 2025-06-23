@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:41 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:15:47 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 11:28:45 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 static	int	is_redir(int type)
 {
-	return (
-		type == T_REDIR_IN \
-		|| type == T_REDIR_OUT \
-		|| type == T_REDIR_APND \
-		|| type == T_HEREDOC
-	);
+	return (type == T_REDIR_IN || \
+type == T_REDIR_OUT || \
+type == T_REDIR_APND || \
+type == T_HEREDOC);
 }
 
 static int	syntax_err(char *near)

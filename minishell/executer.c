@@ -6,56 +6,45 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 19:16:13 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 16:40:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 #include "str_utils.h"
 
-static void	built_in_or_exec(t_shell *sh, char *path, char **argv)
+static void	exec_in(t_shell *sh, char **argv, int *pipefd)
 {
-	if (!is_built_in(path))
-		execve(path_resolve(argv[0]), argv, sh->env);
-	else if (str_match(path, "echo"))
+	int	bfd;
+
+	if (pipefd)
+	{
+		bfd = dup(1);
+		dup2(pipefd[1], 1);
+	}
+	if (str_match(argv[0], "echo"))
 		bi_echo(argv);
-	else if (str_match(path, "pwd"))
+	else if (str_match(argv[0], "pwd"))
 		bi_pwd(argv);
-	else if (str_match(path, "env"))
+	else if (str_match(argv[0], "env"))
 		bi_env(sh->env);
-	else
-		exit(0);
-}
-
-static void	built_in_before_exec(t_shell *sh, t_cmd **cmd)
-{
-	int		is_run;
-	char	**argv;
-
-	if (!(*cmd) || (*cmd)->next)
-		return ;
-	is_run = 1;
-	argv = (*cmd)->argv;
-	if (str_match(argv[0], "cd"))
-		bi_cd(argv);
-	if (str_match(argv[0], "export"))
+	else if (str_match(argv[0], "cd"))
+		bi_cd(sh, argv);
+	else if (str_match(argv[0], "export"))
 		bi_export(sh, argv);
-	if (str_match(argv[0], "unset"))
+	else if (str_match(argv[0], "unset"))
 		bi_unset(sh, argv);
-	if (str_match(argv[0], "exit"))
-		bi_exit(sh);
-	else
-		is_run = 0;
-	if (is_run)
-		(*cmd) = 0;
+	if (pipefd)
+	{
+		dup2(bfd, 1);
+		close(bfd);
+	}
 }
 
-static void	execute(t_shell *sh, char **argv, int *pipefd, int readfd)
+static void	exec_out(t_shell *sh, char **argv, int *pipefd, int readfd)
 {
 	pid_t	pid;
 
-	if (!path_validate(sh, argv[0]))
-		return ;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -71,12 +60,20 @@ static void	execute(t_shell *sh, char **argv, int *pipefd, int readfd)
 			dup2(readfd, 0);
 			close(readfd);
 		}
-		built_in_or_exec(sh, argv[0], argv);
+		do_exec(path_resolve(sh->env, argv[0]), argv, sh->env);
 	}
 	else if (pid > 0)
 		waitpid(pid, &sh->last_status, 0);
 	else
-		exec_error("fork error", 0);
+		perror("minishell: fork");
+}
+
+static void	exec_in_or_out(t_shell *sh, char **argv, int *pipefd, int readfd)
+{
+	if (is_built_in(argv[0]))
+		exec_in(sh, argv, pipefd);
+	else
+		exec_out(sh, argv, pipefd, readfd);
 }
 
 void	executer(t_shell *sh)
@@ -87,21 +84,20 @@ void	executer(t_shell *sh)
 
 	readfd = -1;
 	cmd = sh->cmd_head;
-	built_in_before_exec(sh, &cmd);
 	while (cmd)
 	{
 		if (cmd->next)
 		{
 			if (pipe(pipefd) == -1)
-				exec_error("pipe error", 0);
-			execute(sh, cmd->argv, pipefd, readfd);
+				perror("minishell: pipe");
+			exec_in_or_out(sh, cmd->argv, pipefd, readfd);
 			close(pipefd[1]);
 			if (readfd != -1)
 				close(readfd);
 			readfd = pipefd[0];
 		}
 		else
-			execute(sh, cmd->argv, 0, readfd);
+			exec_in_or_out(sh, cmd->argv, 0, readfd);
 		cmd = cmd->next;
 	}
 	if (readfd != -1)
