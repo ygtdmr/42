@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:18:11 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 16:56:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 19:31:15 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*env_key(char *src)
 	char	*key;
 	size_t	length;
 
+	if (!src)
+		return (0);
 	if (ft_strchr(src, '='))
 		length = ft_strlen(src) - ft_strlen(ft_strchr(src, '='));
 	else
@@ -38,25 +40,23 @@ static size_t	env_len(char **env)
 	return (len);
 }
 
-int	env_key_exists(char **env, char *src)
+char	*env_get(char **env, char *key)
 {
-	char	*key;
 	char	*tmp_key;
 
-	key = env_key(src);
+	if (!key)
+		return (0);
 	while (*env)
 	{
 		tmp_key = env_key(*env);
 		if (str_match(key, tmp_key))
 		{
-			free(key);
 			free(tmp_key);
-			return (1);
+			return (ft_strchr(*env, '=') + 1);
 		}
 		free(tmp_key);
 		env++;
 	}
-	free(key);
 	return (0);
 }
 

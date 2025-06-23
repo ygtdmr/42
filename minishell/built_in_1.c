@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:54:42 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 16:58:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 17:36:06 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	bi_cd(t_shell *sh, char **argv)
 		perror("minishell: cd");
 	else
 		sh->env = env_append(sh->env, oldpwd);
+	sh->last_status = (status == -1) << 8;
 	free(oldpwd);
 }
 

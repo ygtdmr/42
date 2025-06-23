@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 14:34:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 16:55:46 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 19:41:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ void	bi_export(t_shell *sh, char	**argv)
 	i = 1;
 	while (argv[i])
 	{
+		if (!env_key_valid(argv[i]))
+		{
+			ft_putstr_fd("minishell: export: ", 2);
+			ft_putstr_fd(argv[i], 2);
+			ft_putendl_fd(": bad variable name", 2);
+			break ;
+		}
 		tmp_env = sh->env;
 		if (env_key_exists(tmp_env, argv[i]))
 			sh->env = env_set(tmp_env, argv[i], 0);
@@ -39,6 +46,13 @@ void	bi_unset(t_shell *sh, char **argv)
 	i = 1;
 	while (argv[i])
 	{
+		if (!env_key_valid(argv[i]))
+		{
+			ft_putstr_fd("minishell: unset: ", 2);
+			ft_putstr_fd(argv[i], 2);
+			ft_putendl_fd(": bad variable name", 2);
+			break ;
+		}
 		tmp_env = sh->env;
 		if (env_key_exists(tmp_env, argv[i]))
 		{

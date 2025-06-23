@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 16:40:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 19:33:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	exec_in(t_shell *sh, char **argv, int *pipefd)
 {
 	int	bfd;
 
+	sh->last_status = 0 << 8;
 	if (pipefd)
 	{
 		bfd = dup(1);
@@ -41,7 +42,7 @@ static void	exec_in(t_shell *sh, char **argv, int *pipefd)
 	}
 }
 
-static void	exec_out(t_shell *sh, char **argv, int *pipefd, int readfd)
+static void	exec_ext(t_shell *sh, char **argv, int *pipefd, int readfd)
 {
 	pid_t	pid;
 
@@ -60,7 +61,7 @@ static void	exec_out(t_shell *sh, char **argv, int *pipefd, int readfd)
 			dup2(readfd, 0);
 			close(readfd);
 		}
-		do_exec(path_resolve(sh->env, argv[0]), argv, sh->env);
+		do_exec(argv[0], argv, sh->env);
 	}
 	else if (pid > 0)
 		waitpid(pid, &sh->last_status, 0);
@@ -73,7 +74,7 @@ static void	exec_in_or_out(t_shell *sh, char **argv, int *pipefd, int readfd)
 	if (is_built_in(argv[0]))
 		exec_in(sh, argv, pipefd);
 	else
-		exec_out(sh, argv, pipefd, readfd);
+		exec_ext(sh, argv, pipefd, readfd);
 }
 
 void	executer(t_shell *sh)

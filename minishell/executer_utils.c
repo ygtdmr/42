@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 16:55:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/23 19:17:40 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,28 @@ char	*path_resolve(char **env, char *file)
 		free(paths[i++]);
 	}
 	free(paths);
-	return (0);
+	return (ft_strdup(""));
 }
 
 void	do_exec(char *path, char **argv, char **env)
 {
+	if (env_get(env, "PATH"))
+		path = path_resolve(env, path);
 	execve(path, argv, env);
-	perror("minishell");
-	free(path);
-	exit(0);
+	if (errno == ENOENT)
+	{
+		ft_putstr_fd(path, 2);
+		free(path);
+		ft_putendl_fd(": command not found", 2);
+		exit(127);
+	}
+	else
+	{
+		free(path);
+		perror("minishell");
+		if (errno == EACCES)
+			exit(126);
+		else
+			exit(1);
+	}
 }
