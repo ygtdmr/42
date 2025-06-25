@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 17:28:04 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:30:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <signal.h>
 # include <unistd.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <sys/wait.h>
 # include "libft/libft.h"
