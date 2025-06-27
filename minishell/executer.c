@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/25 06:24:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/26 13:21:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ static void	apply_redir(t_redir *redir)
 
 	while (redir)
 	{
-		if (redir->type = T_REDIR_OUT)
+		if (redir->type == T_REDIR_OUT)
 		{
 			fd = open(redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			if (fd != -1)
 				dup2(fd, 1);
 		}
-		else if (redir->type = T_REDIR_IN)
+		else if (redir->type == T_REDIR_IN)
 		{
-			fd = open(redir->file, O_RDONLY, 0644);
+			fd = open(redir->file, O_RDONLY);
 			if (fd != -1)
 				dup2(fd, 0);
 		}
@@ -41,10 +41,10 @@ static void	apply_redir(t_redir *redir)
 
 static void	exec_in(t_shell *sh, t_cmd *cmd, int *pipefd)
 {
-	int	bfd;
+	int	bfd_std[2];
 
 	if (pipefd || cmd->redir_head)
-		bfd = dup(1); // add more for std-in
+		bfd_stdout = dup(1);
 	if (pipefd)
 		dup2(pipefd[1], 1);
 	apply_redir(cmd->redir_head);
@@ -62,8 +62,8 @@ static void	exec_in(t_shell *sh, t_cmd *cmd, int *pipefd)
 		bi_unset(sh, cmd->argv);
 	if (pipefd || cmd->redir_head)
 	{
-		dup2(bfd, 1);
-		close(bfd);
+		dup2(bfd_stdout, 1);
+		close(bfd_stdout);
 	}
 }
 
