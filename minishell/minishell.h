@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/24 15:30:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/27 19:16:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <readline/readline.h>
 # include <sys/wait.h>
 # include "libft/libft.h"
+
+extern int	g_in_heredoc;
 
 typedef enum e_toktype
 {

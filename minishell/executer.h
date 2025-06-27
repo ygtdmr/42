@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:54 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 16:40:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/27 16:20:06 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 void	executer(t_shell *sh);
 void	do_exec(char *path, char **argv, char **env);
+int		do_redir(t_redir *redir);
 char	*path_resolve(char **env, char *file);
 int		is_built_in(char *file);
 void	bi_echo(char **argv);

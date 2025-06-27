@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 14:54:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/27 19:27:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 #include "env_utils.h"
 #include "test/test.h"
 
-static void	handle_sigint(int signum)
+int	g_in_heredoc;
+
+static void handle_signt()
 {
-	ft_putchar_fd('\n', 1);
+	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -51,11 +53,15 @@ static void	shell_loop(t_shell *sh)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_shell	sh;
+	t_shell				sh;
+	struct sigaction	sa;
 
 	printf("shell_pid %d\n", getpid());
 	ft_bzero(&sh, sizeof(sh));
-	signal(SIGINT, handle_sigint);
+	sa.sa_handler = handle_signt;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 	sh.env = env_append(envp, 0);
 	shell_loop(&sh);
