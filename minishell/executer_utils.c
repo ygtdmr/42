@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/29 06:56:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/30 14:29:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ char	*path_resolve(char **env, char *file)
 	char	*abs_path;
 	int		i;
 
-	if (access(file, F_OK) != -1)
-		return (ft_strdup(file));
 	i = 0;
 	abs_path = 0;
 	paths = ft_split(env_get(env, "PATH"), ':');
@@ -58,7 +56,9 @@ char	*path_resolve(char **env, char *file)
 
 void	do_exec(char *path, char **argv, char **env)
 {
-	if (env_get(env, "PATH"))
+	if (access(path, F_OK) != -1)
+		path = ft_strdup(path);
+	else if (env_get(env, "PATH"))
 		path = path_resolve(env, path);
 	else
 		path = ft_strdup("");

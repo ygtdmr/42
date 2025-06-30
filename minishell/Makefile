@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/06/29 07:21:03 by yidemir          ###   ########.fr        #
+#    Updated: 2025/06/30 16:20:54 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,13 +29,15 @@ SRC		=	minishell.c \
 			built_in_2.c \
 			executer_utils.c \
 			executer.c \
-			test/print.c
+
+GNL_SRC	=	get_next_line/get_next_line.c \
+			get_next_line/get_next_line_utils.c
 
 all:		$(NAME)
 
 $(NAME):	$(SRC)
 	make -C libft
-	$(CC) $(SRC) libft/libft.a -lreadline -o $(NAME)
+	$(CC) $(SRC) $(GNL_SRC) libft/libft.a -lreadline -o $(NAME)
 
 clean:
 	make clean -C libft

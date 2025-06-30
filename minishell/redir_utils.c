@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 07:01:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/30 13:31:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/30 15:26:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	do_heredoc(char *eof, int *pipefd)
 		{
 			if (!isatty(0))
 			{
-				dup2(open("/dev/tty", O_RDONLY), 0);
+				open("/dev/tty", O_RDONLY);
 				pipefd[0] = -2;
 			}
 			break ;

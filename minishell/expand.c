@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 18:25:29 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/30 15:15:59 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	var_append(char **raw, char **out, t_shell *sh)
 
 	length = 0;
 	str_lclean(raw, 1);
-	if (str_match(*raw, "?"))
+	if (ft_strchr(*raw, '?'))
 		var = ft_itoa(compile_status(sh->last_status));
 	else
 	{

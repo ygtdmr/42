@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/30 13:37:59 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/30 15:26:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static void	launch(t_shell *sh, t_cmd *cmd, int *pipefd, int readfd)
 		else
 			exec_ext(sh, cmd, pipefd, readfd);
 		if (!isatty(0))
-			dup2(open("/dev/tty", O_RDONLY), 0);
+			open("/dev/tty", O_RDONLY);
 		g_interactive = 0;
 	}
 }
