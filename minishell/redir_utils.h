@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   redir_utils.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 16:34:15 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/28 18:29:51 by yidemir          ###   ########.fr       */
+/*   Created: 2025/06/29 07:03:46 by yidemir           #+#    #+#             */
+/*   Updated: 2025/06/29 07:06:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+#ifndef REDIR_UTILS_H
+# define REDIR_UTILS_H
 
-int	main(void)
-{
-	printf("gives an error\n");
-	return (1);
-}
+# include "minishell.h"
+
+int		is_redir(int type);
+void	redir_push(t_redir **head, t_token **token);
+
+#endif

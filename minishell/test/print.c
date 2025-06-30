@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:30:16 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:03:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/29 07:24:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	print_cmd(t_shell *sh)
 		redir = cmd->redir_head;
 		while (redir)
 		{
-			printf("[type=%d, file=%s], ", redir->type, redir->file);
+			printf("[type=%d, file=%s, fd=%d], ", redir->type, redir->file, redir->fd);
 			redir = redir->next;
 		}
 		printf("}\n");

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/27 19:27:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/29 08:42:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,20 @@
 #include "env_utils.h"
 #include "test/test.h"
 
-int	g_in_heredoc;
+int	g_interactive;
 
-static void handle_signt()
+static void	handle_signt(int signum)
 {
-	ft_putstr_fd("\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	(void) signum;
+	if (g_interactive)
+		close(0);
+	else
+	{
+		ft_putstr_fd("\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 static void	shell_loop(t_shell *sh)
@@ -45,6 +51,7 @@ static void	shell_loop(t_shell *sh)
 			lexer(sh, &line);
 			parser(sh);
 			executer(sh);
+			// print_cmd(sh);
 			clear_cmd(&sh->cmd_head);
 			clear_tok(&sh->token_head);
 		}
@@ -53,16 +60,13 @@ static void	shell_loop(t_shell *sh)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_shell				sh;
-	struct sigaction	sa;
+	t_shell	sh;
 
 	printf("shell_pid %d\n", getpid());
 	ft_bzero(&sh, sizeof(sh));
-	sa.sa_handler = handle_signt;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
+	rl_catch_signals = 0;
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_signt);
 	sh.env = env_append(envp, 0);
 	shell_loop(&sh);
 	clear_env(sh.env);

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/27 19:16:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/29 08:11:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/wait.h>
 # include "libft/libft.h"
 
-extern int	g_in_heredoc;
+extern int	g_interactive;
 
 typedef enum e_toktype
 {
@@ -45,6 +45,7 @@ typedef struct s_redir
 {
 	t_toktype		type;
 	char			*file;
+	int				fd;
 	struct s_redir	*next;
 }	t_redir;
 

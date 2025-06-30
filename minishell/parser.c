@@ -6,19 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:41 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 11:28:45 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/29 07:02:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-static	int	is_redir(int type)
-{
-	return (type == T_REDIR_IN || \
-type == T_REDIR_OUT || \
-type == T_REDIR_APND || \
-type == T_HEREDOC);
-}
 
 static int	syntax_err(char *near)
 {
@@ -37,7 +29,7 @@ static	int	check_err(t_token *token)
 		return (1);
 	if (!token->next)
 		return (syntax_err(0));
-	else if (token->next->type != T_WORD)
+	else if ((token->next->type != T_WORD) && !is_redir(token->next->type))
 		return (syntax_err(token->value));
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/27 19:29:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/29 06:56:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,59 +54,6 @@ char	*path_resolve(char **env, char *file)
 	}
 	free(paths);
 	return (ft_strdup(""));
-}
-
-int	do_heredoc(char *eof)
-{
-	char	*line;
-	int		pipefd[2];
-
-	line = 0;
-	if (!eof)
-	{
-		ft_putendl_fd("minishell: syntax error: newline unexpected", 2);
-		return (-1);
-	}
-	if (pipe(pipefd) == -1)
-	{
-		perror("minishell: pipe");
-		return (-1);
-	}
-	while (1)
-	{
-		line = readline("> ");
-		if (str_mc(&line, eof))
-			break;
-		ft_putendl_fd(line, pipefd[1]);
-		free(line);
-	}
-	dup2(pipefd[0], 0);
-	close(pipefd[0]);
-	return (pipefd[1]);
-}
-
-int	do_redir(t_redir *redir)
-{
-	int		fd;
-
-	if (redir->type == T_REDIR_OUT)
-		fd = open(redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else if (redir->type == T_REDIR_APND)
-		fd = open(redir->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	else if (redir->type == T_REDIR_IN)
-		fd = open(redir->file, O_RDONLY);
-	if ((redir->type == T_REDIR_OUT || redir->type == T_REDIR_APND) && fd != -1)
-			dup2(fd, 1);
-	else if (redir->type == T_REDIR_IN && fd != -1)
-		dup2(fd, 0);
-	if (redir->type == T_HEREDOC)
-	{
-		g_in_heredoc = 1;
-		signal(SIGINT, SIG_IGN);
-		fd = do_heredoc(redir->file);
-		g_in_heredoc = 0;
-	}
-	return (fd);
 }
 
 void	do_exec(char *path, char **argv, char **env)
