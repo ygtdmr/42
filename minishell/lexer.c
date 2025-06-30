@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 15:10:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:56:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ void	lexer(t_shell *sh, char **line)
 		else if (str_mc(line, ">"))
 			new_tok(&sh->token_head, ft_strdup(">"), T_REDIR_OUT);
 		else
-			new_tok(&sh->token_head, expand(grab_word(sh, line), sh), T_WORD);
+			new_tok(&sh->token_head, expand(sh, grab_word(sh, line)), T_WORD);
 	}
 }

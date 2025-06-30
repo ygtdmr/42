@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/30 16:33:07 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/30 16:47:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ static char	*read_pipe(void)
 	char	*line;
 	char	*tmp;
 
-	if (isatty(0))
-		return (0);
 	line = 0;
 	tmp = get_next_line(0);
 	while (tmp)
@@ -85,16 +83,19 @@ int	main(int ac, char **av, char **envp)
 	t_shell	sh;
 	char	*line_pipe;
 
-	line_pipe = read_pipe();
 	rl_catch_signals = 0;
 	ft_bzero(&sh, sizeof(sh));
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_signt);
 	sh.env = env_append(envp, 0);
-	if (line_pipe)
-		run(&sh, line_pipe);
-	else
+	if (isatty(0))
 		shell_loop(&sh);
+	else
+	{
+		line_pipe = read_pipe();
+		if (line_pipe)
+			run(&sh, line_pipe);
+	}
 	clear_env(sh.env);
 	return (0);
 }
