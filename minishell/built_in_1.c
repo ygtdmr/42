@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:54:42 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 17:36:06 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/30 12:16:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "env_utils.h"
 #include "str_utils.h"
 
-void	bi_echo(char **argv)
+void	bi_echo(int fd, char **argv)
 {
 	int		i;
 	int		is_n;
@@ -23,15 +23,15 @@ void	bi_echo(char **argv)
 	i = 1 + is_n;
 	while (argv[i])
 	{
-		ft_putstr_fd(argv[i], 1);
+		ft_putstr_fd(argv[i], fd);
 		if (argv[++i])
-			write(1, " ", 1);
+			ft_putstr_fd(" ", fd);
 	}
 	if (!is_n)
-		write(1, "\n", 1);
+		ft_putstr_fd("\n", fd);
 }
 
-void	bi_cd(t_shell *sh, char **argv)
+void	bi_cd(int fd, t_shell *sh, char **argv)
 {
 	char	*oldpwd;
 	int		status;
@@ -44,7 +44,7 @@ void	bi_cd(t_shell *sh, char **argv)
 		{
 			status = chdir(env_get(sh->env, "OLDPWD"));
 			if (status != -1)
-				ft_putendl_fd(env_get(sh->env, "OLDPWD"), 1);
+				ft_putendl_fd(env_get(sh->env, "OLDPWD"), fd);
 		}
 		else
 			status = chdir(argv[1]);
@@ -59,20 +59,20 @@ void	bi_cd(t_shell *sh, char **argv)
 	free(oldpwd);
 }
 
-void	bi_pwd(char **argv)
+void	bi_pwd(int fd, char **argv)
 {
 	char	*cwd;
 
 	cwd = getcwd(0, 0);
 	if (cwd)
 	{
-		ft_putendl_fd(cwd, 1);
+		ft_putendl_fd(cwd, fd);
 		free(cwd);
 	}
 }
 
-void	bi_env(char **env)
+void	bi_env(int fd, char **env)
 {
 	while (*env)
-		ft_putendl_fd(*(env++), 1);
+		ft_putendl_fd(*(env++), fd);
 }

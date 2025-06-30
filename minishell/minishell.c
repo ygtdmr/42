@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/29 08:42:41 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/30 13:56:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ static void	shell_loop(t_shell *sh)
 		}
 		if (*line)
 		{
+			add_history(line);
 			lexer(sh, &line);
 			parser(sh);
 			executer(sh);
-			// print_cmd(sh);
 			clear_cmd(&sh->cmd_head);
 			clear_tok(&sh->token_head);
 		}

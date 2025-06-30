@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:08:51 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/29 07:02:06 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/06/30 13:38:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	clear_cmd(t_cmd **head)
 		return ;
 	cmd = *head;
 	if (!cmd)
-	return ;
+		return ;
 	free(cmd->argv);
 	while (cmd->redir_head)
 	{
