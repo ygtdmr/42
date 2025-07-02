@@ -6,11 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:16 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 16:57:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/01 11:56:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expand.h"
+#include "str_utils.h"
 
 size_t	char_len(char c, char *str)
 {
@@ -39,4 +40,11 @@ int	compile_status(int status)
 	else if (WIFSTOPPED(status))
 		return (128 + WSTOPSIG(status));
 	return (1);
+}
+
+void	custom_append(char **dest, char *src, int src_free)
+{
+	if (!src)
+		return ;
+	*dest = str_lrealloc(*dest, src, ft_strlen(src), src_free);
 }

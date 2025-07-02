@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.h                                         :+:      :+:    :+:   */
+/*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:54 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/01 16:40:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:51:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTER_H
-# define EXECUTER_H
+#ifndef BUILT_IN_H
+# define BUILT_IN_H
 
 # include "minishell.h"
 
-void	executer(t_shell *sh);
-void	do_exec(char *path, char **argv, char **env);
-int		do_redir(t_redir *redir);
-char	*path_resolve(char **env, char *file);
-int		is_built_in(char *file);
-int	apply_redirs(t_shell *sh, t_redir *redir, int *in, int *out);
+void	bi_echo(int fd, char **argv);
+void	bi_pwd(int fd, char **argv);
+void	bi_cd(int fd, t_shell *sh, char **argv);
+void	bi_cd_after(t_shell *sh, char **argv, char *oldpwd, int status);
+void	bi_env(int fd, char **env);
+void	bi_export(t_shell *sh, char	**argv, int has_pipe);
+void	bi_unset(t_shell *sh, char **argv, int has_pipe);
+void	bi_exit(t_shell *sh, char **argv, int has_pipe);
+int		arg_is_option(char *arg, char option);
 
 #endif

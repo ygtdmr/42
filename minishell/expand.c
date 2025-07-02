@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/30 18:35:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/01 15:29:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	var_append(t_shell *sh, char **raw, char **out, int in_dq)
 			var = env_get(sh->env, var_name);
 			free(var_name);
 		}
-		else if(!*raw || **raw == ' ' || (in_dq && **raw == '\"'))
+		else if (!*raw || **raw == ' ' || (in_dq && **raw == '\"'))
 			var = "$";
 		str_lclean(raw, length);
 	}
@@ -50,7 +50,7 @@ static void	dq_append(t_shell *sh, char **raw, char **out)
 	length = 0;
 	while ((*raw)[length] && (*raw)[length] != '\"')
 	{
-		if (!str_mc(raw, "\\") && (*raw)[length] == '$')
+		if ((*raw)[length] == '$')
 		{
 			*out = str_lrealloc(*out, *raw, length, 0);
 			str_lclean(raw, length);
@@ -60,7 +60,7 @@ static void	dq_append(t_shell *sh, char **raw, char **out)
 			if (!*raw)
 				return ;
 		}
-		else
+		else if ((*raw)[length] != '\"')
 			length++;
 	}
 	*out = str_lrealloc(*out, *raw, length, 0);
@@ -101,18 +101,13 @@ char	*expand(t_shell *sh, char *raw)
 	out = 0;
 	while (raw)
 	{
-		if (str_mc(&raw, "\\"))
-		{
-			out = str_lrealloc(out, raw, 2, 0);
-			str_lclean(&raw, 2);
-		}
-		else if (str_mc(&raw, "$"))
+		if (str_mc(&raw, "$"))
 			var_append(sh, &raw, &out, 0);
 		else if (str_mc(&raw, "\""))
 			dq_append(sh, &raw, &out);
 		else if (str_mc(&raw, "\'"))
 			sq_append(sh, &raw, &out);
-		else
+		else if (raw)
 			raw_append(&raw, &out);
 	}
 	return (out);

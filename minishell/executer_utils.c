@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/30 14:29:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:40:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,28 @@ char	*path_resolve(char **env, char *file)
 	}
 	free(paths);
 	return (ft_strdup(""));
+}
+
+int	apply_redirs(t_shell *sh, t_redir *redir, int *in, int *out)
+{
+	while (redir)
+	{
+		if (redir->fd < 0)
+		{
+			if (redir->fd == -1)
+			{
+				sh->last_status = 1 << 8;
+				perror("minishell");
+			}
+			return (0);
+		}
+		if (redir->type == T_REDIR_OUT || redir->type == T_REDIR_APND)
+			*out = redir->fd;
+		else if (redir->type == T_REDIR_IN || redir->type == T_HEREDOC)
+			*in = redir->fd;
+		redir = redir->next;
+	}
+	return (1);
 }
 
 void	do_exec(char *path, char **argv, char **env)

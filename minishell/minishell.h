@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/30 13:58:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:38:52 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum e_toktype
 	T_PIPE,
 	T_REDIR_IN,
 	T_REDIR_OUT,
+	T_REDIR_OUT_ERR,
 	T_REDIR_APND,
 	T_HEREDOC
 }	t_toktype;
@@ -63,6 +64,8 @@ typedef struct s_shell
 	t_cmd	*cmd_head;
 	char	**env;
 	int		last_status;
+	int		exit;
+	int		exec_ext_length;
 }	t_shell;
 
 #endif

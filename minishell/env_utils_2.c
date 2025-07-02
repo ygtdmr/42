@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:23:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 19:31:13 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/01 15:06:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,14 @@ int	env_key_valid(char *src)
 {
 	size_t	index;
 
+	if (!src || *src == '=')
+		return (0);
 	index = 0;
 	while (src[index] && src[index] != '=')
 	{
 		if (!is_varchar(src[index], index))
 			return (0);
-		src++;
+		index++;
 	}
 	return (1);
 }

@@ -6,10 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:54:42 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/30 16:18:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/01 15:56:27 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "built_in.h"
 #include "executer.h"
 #include "env_utils.h"
 #include "str_utils.h"
@@ -19,8 +20,12 @@ void	bi_echo(int fd, char **argv)
 	int		i;
 	int		is_n;
 
-	is_n = (argv[1] && str_match(argv[1], "-n"));
-	i = 1 + is_n;
+	i = 1;
+	is_n = 0;
+	if (argv[1])
+		is_n = arg_is_option(argv[1], 'n');
+	while (argv[i] && arg_is_option(argv[i], 'n'))
+		i++;
 	while (argv[i])
 	{
 		ft_putstr_fd(argv[i], fd);
@@ -36,8 +41,12 @@ void	bi_cd(int fd, t_shell *sh, char **argv)
 	char	*oldpwd;
 	int		status;
 
+	if (argv[1] && argv[2] && *argv[2])
+	{
+		sh->last_status = 1 << 8;
+		return (ft_putendl_fd("minishell: cd: too many arguments", 2));
+	}
 	oldpwd = getcwd(0, 0);
-	oldpwd = str_lrealloc(ft_strdup("OLDPWD="), oldpwd, ft_strlen(oldpwd), 1);
 	if (argv[1])
 	{
 		if (str_match(argv[1], "-"))
@@ -49,14 +58,9 @@ void	bi_cd(int fd, t_shell *sh, char **argv)
 		else
 			status = chdir(argv[1]);
 	}
-	else if (env_get(sh->env, "HOME"))
-		status = chdir(env_get(sh->env, "HOME"));
-	if (status == -1)
-		perror("minishell: cd");
 	else
-		sh->env = env_append(sh->env, oldpwd);
-	sh->last_status = (status == -1) << 8;
-	free(oldpwd);
+		status = chdir(env_get(sh->env, "HOME"));
+	bi_cd_after(sh, argv, oldpwd, status);
 }
 
 void	bi_pwd(int fd, char **argv)
@@ -75,4 +79,31 @@ void	bi_env(int fd, char **env)
 {
 	while (*env)
 		ft_putendl_fd(*(env++), fd);
+}
+
+void	bi_exit(t_shell *sh, char **argv, int has_pipe)
+{
+	size_t	i;
+
+	i = 0;
+	if (argv[1] && argv[2] && *argv[2])
+	{
+		sh->last_status = 1 << 8;
+		return (ft_putendl_fd("minishell: exit: too many arguments", 2));
+	}
+	if (argv[1] && *argv[1])
+	{
+		i += ((argv[1][0] == '-') || (argv[1][0] == '+'));
+		while (argv[1][i])
+		{
+			if (!ft_isdigit(argv[1][i++]))
+			{
+				sh->last_status = 2 << 8;
+				return (ft_putendl_fd("minishell: exit: numeric argument required", 2));
+			}
+		}
+		sh->last_status = ft_atoi(argv[1]) << 8;
+	}
+	if (!has_pipe)
+		sh->exit = 1;
 }

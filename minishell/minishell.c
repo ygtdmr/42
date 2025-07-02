@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/30 16:47:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/01 15:48:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include "executer.h"
+#include "expand.h"
 #include "str_utils.h"
 #include "env_utils.h"
 #include "get_next_line/get_next_line.h"
@@ -36,11 +37,24 @@ static void	handle_signt(int signum)
 
 static void	run(t_shell *sh, char *line)
 {
-	lexer(sh, &line);
-	parser(sh);
-	executer(sh);
-	clear_cmd(&sh->cmd_head);
-	clear_tok(&sh->token_head);
+	char	**lines;
+	size_t	i;
+
+	i = 0;
+	if (!line)
+		return ;
+	lines = ft_split(line, '\n');
+	while (lines[i])
+	{
+		lexer(sh, lines + i);
+		parser(sh);
+		executer(sh);
+		clear_cmd(&sh->cmd_head);
+		clear_tok(&sh->token_head);
+		i++;
+	}
+	free(lines);
+	free(line);
 }
 
 static void	shell_loop(t_shell *sh)
@@ -50,7 +64,7 @@ static void	shell_loop(t_shell *sh)
 	while (1)
 	{
 		line = readline("minishell$ ");
-		if (!line || str_match(line, "exit"))
+		if (!line)
 		{
 			ft_putendl_fd("exit", 1);
 			break ;
@@ -58,12 +72,14 @@ static void	shell_loop(t_shell *sh)
 		if (*line)
 		{
 			add_history(line);
-			run(sh, line);	
+			run(sh, line);
+			if (sh->exit)
+				break ;
 		}
 	}
 }
 
-static char	*read_pipe(void)
+static char	*read_line(void)
 {
 	char	*line;
 	char	*tmp;
@@ -81,7 +97,6 @@ static char	*read_pipe(void)
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	sh;
-	char	*line_pipe;
 
 	rl_catch_signals = 0;
 	ft_bzero(&sh, sizeof(sh));
@@ -91,11 +106,7 @@ int	main(int ac, char **av, char **envp)
 	if (isatty(0))
 		shell_loop(&sh);
 	else
-	{
-		line_pipe = read_pipe();
-		if (line_pipe)
-			run(&sh, line_pipe);
-	}
+		run(&sh, read_line());
 	clear_env(sh.env);
-	return (0);
+	return (compile_status(sh.last_status));
 }
