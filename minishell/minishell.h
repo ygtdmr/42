@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/01 16:38:52 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/02 16:53:18 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
+	int				pid;
+	int				last_status;
 	char			**argv;
 	t_redir			*redir_head;
 	struct s_cmd	*next;

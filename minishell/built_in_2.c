@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 14:34:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/01 16:50:59 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/02 16:22:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "executer.h"
 #include "env_utils.h"
 
-void	bi_export(t_shell *sh, char	**argv, int has_pipe)
+void	bi_export(t_shell *sh, t_cmd *cmd, int has_pipe)
 {
 	int		i;
 	char	**tmp_env;
@@ -22,27 +22,27 @@ void	bi_export(t_shell *sh, char	**argv, int has_pipe)
 	if (has_pipe)
 		return ;
 	i = 1;
-	while (argv[i])
+	while (cmd->argv[i])
 	{
-		if (!env_key_valid(argv[i]))
+		if (!env_key_valid(cmd->argv[i]))
 		{
 			ft_putstr_fd("minishell: export: ", 2);
-			ft_putstr_fd(argv[i], 2);
+			ft_putstr_fd(cmd->argv[i], 2);
 			ft_putendl_fd(": not a valid identifier", 2);
-			sh->last_status = 1 << 8;
+			cmd->last_status = 1 << 8;
 			break ;
 		}
 		tmp_env = sh->env;
-		if (env_key_exists(tmp_env, argv[i]))
-			sh->env = env_set(tmp_env, argv[i], 0);
+		if (env_key_exists(tmp_env, cmd->argv[i]))
+			sh->env = env_set(tmp_env, cmd->argv[i], 0);
 		else
-			sh->env = env_append(tmp_env, argv[i]);
+			sh->env = env_append(tmp_env, cmd->argv[i]);
 		clear_env(tmp_env);
 		i++;
 	}
 }
 
-void	bi_unset(t_shell *sh, char **argv, int has_pipe)
+void	bi_unset(t_shell *sh, t_cmd *cmd, int has_pipe)
 {
 	int		i;
 	char	**tmp_env;
@@ -50,20 +50,20 @@ void	bi_unset(t_shell *sh, char **argv, int has_pipe)
 	if (has_pipe)
 		return ;
 	i = 1;
-	while (argv[i])
+	while (cmd->argv[i])
 	{
-		if (!env_key_valid(argv[i]))
+		if (!env_key_valid(cmd->argv[i]))
 		{
 			ft_putstr_fd("minishell: unset: ", 2);
-			ft_putstr_fd(argv[i], 2);
+			ft_putstr_fd(cmd->argv[i], 2);
 			ft_putendl_fd(": not a valid identifier", 2);
-			sh->last_status = 1 << 8;
+			cmd->last_status = 1 << 8;
 			break ;
 		}
 		tmp_env = sh->env;
-		if (env_key_exists(tmp_env, argv[i]))
+		if (env_key_exists(tmp_env, cmd->argv[i]))
 		{
-			sh->env = env_set(tmp_env, argv[i], 1);
+			sh->env = env_set(tmp_env, cmd->argv[i], 1);
 			clear_env(tmp_env);
 		}
 		i++;

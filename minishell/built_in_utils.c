@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:13:40 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/01 15:27:26 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/02 16:14:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	arg_is_option(char *arg, char option)
 	return (!*arg);
 }
 
-void	bi_cd_after(t_shell *sh, char **argv, char *oldpwd, int status)
+void	bi_cd_after(t_shell *sh, t_cmd *cmd, char *oldpwd, int status)
 {
 	char	*pwd;
 
@@ -41,7 +41,7 @@ void	bi_cd_after(t_shell *sh, char **argv, char *oldpwd, int status)
 		sh->env = env_append(sh->env, oldpwd);
 		sh->env = env_append(sh->env, pwd);
 	}
-	sh->last_status = (status == -1) << 8;
+	cmd->last_status = (status == -1) << 8;
 	free(oldpwd);
 	free(pwd);
 }

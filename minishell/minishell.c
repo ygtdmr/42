@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/01 15:48:24 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/02 15:08:37 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,18 @@ static void	shell_loop(t_shell *sh)
 {
 	char	*line;
 
-	while (1)
+	while (!sh->exit)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-		{
-			ft_putendl_fd("exit", 1);
 			break ;
-		}
 		if (*line)
 		{
 			add_history(line);
 			run(sh, line);
-			if (sh->exit)
-				break ;
 		}
 	}
+	ft_putendl_fd("exit", 1);
 }
 
 static char	*read_line(void)

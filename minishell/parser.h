@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:09:04 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/29 06:57:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/02 19:22:04 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ void	redir_push(t_redir **head, t_token **token);
 void	parser(t_shell *sh);
 void	clear_cmd(t_cmd **head);
 t_cmd	*new_cmd(t_cmd **head);
+t_cmd	*get_cmd_before(t_cmd *head, t_cmd *current);
 
 #endif

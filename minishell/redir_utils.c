@@ -6,14 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 07:01:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/30 15:26:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/02 17:30:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redir_utils.h"
 #include "str_utils.h"
 
-static int	do_heredoc(char *eof, int *pipefd)
+static int	get_heredoc_fd(char *eof, int *pipefd)
 {
 	char	*line;
 
@@ -42,30 +42,27 @@ static int	do_heredoc(char *eof, int *pipefd)
 	return (pipefd[0]);
 }
 
-static int	do_redir(t_redir *redir)
+static int	get_redir_fd(t_toktype type, char *file)
 {
 	int	fd;
 	int	pipefd[2];
 
-	if (redir->type == T_REDIR_OUT)
-		fd = open(redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else if (redir->type == T_REDIR_APND)
-		fd = open(redir->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	else if (redir->type == T_REDIR_IN)
-		fd = open(redir->file, O_RDONLY);
-	else if (redir->type == T_HEREDOC)
+	if (type == T_REDIR_OUT)
+		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	else if (type == T_REDIR_APND)
+		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	else if (type == T_REDIR_IN)
+		fd = open(file, O_RDONLY);
+	else if (type == T_HEREDOC)
 	{
-		if (!redir->file)
+		if (!file)
 		{
 			ft_putendl_fd("minishell: syntax error: newline unexpected", 2);
-			return (-1);
+			return (-2);
 		}
 		if (pipe(pipefd) == -1)
-		{
-			perror("minishell: pipe");
-			return (-1);
-		}
-		fd = do_heredoc(redir->file, pipefd);
+			return (-3);
+		fd = get_heredoc_fd(file, pipefd);
 	}
 	return (fd);
 }
@@ -88,7 +85,7 @@ void	redir_push(t_redir **head, t_token **token)
 		return ;
 	new->type = (*token)->type;
 	new->file = (*token)->next->value;
-	new->fd = do_redir(new);
+	new->fd = get_redir_fd(new->type, new->file);
 	*token = (*token)->next;
 	new->next = 0;
 	if (!*head)
