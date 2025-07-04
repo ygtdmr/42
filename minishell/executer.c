@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/02 19:48:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/04 19:51:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,8 @@
 
 static void	exec_in(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 {
-	char bf[1];
-	// t_cmd	*cmd_before;
-
 	if (!apply_redirs(cmd, &readfd, &outfd))
 		return ;
-	// cmd_before = get_cmd_before(sh->cmd_head, cmd);
-	// if (readfd != -1)
-	// {
-	// 	if (cmd_before->pid > 0)
-	// 		kill(cmd_before->pid, SIGKILL);
-	// }
-	if (readfd != -1)
-	{
-		while (read(readfd, bf, sizeof(bf)) > 0)
-			close(readfd);
-	}
 	if (outfd == -1)
 		outfd = 1;
 	if (str_match(cmd->argv[0], "echo"))
@@ -51,7 +37,7 @@ static void	exec_in(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 		bi_exit(sh, cmd, cmd->next != 0);
 }
 
-static int	exec_ext(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
+static void	exec_ext(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 {
 	pid_t	pid;
 
@@ -76,12 +62,10 @@ static int	exec_ext(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 		cmd->pid = pid;
 	else
 		perror("minishell: fork");
-	return (pid);
 }
 
 static void	launch(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 {
-	cmd->last_status = 0;
 	if (cmd->argv)
 	{
 		if (is_built_in(cmd->argv[0]))
@@ -105,9 +89,9 @@ static void	wait_process(t_shell *sh)
 			sh->last_status = cmd->last_status;
 		cmd = cmd->next;
 	}
+	g_interactive = 0;
 	if (!isatty(0))
 		open("/dev/tty", O_RDONLY);
-	g_interactive = 0;
 }
 
 void	executer(t_shell *sh)
@@ -123,7 +107,7 @@ void	executer(t_shell *sh)
 		if (cmd->next)
 		{
 			if (pipe(pipefd) == -1)
-				return (perror("minishell: pipe"));
+				return (perror("minishell: pipe"));	
 			launch(sh, cmd, readfd, pipefd[1]);
 			close(pipefd[1]);
 			if (readfd != -1)

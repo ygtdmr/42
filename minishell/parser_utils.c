@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:08:51 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/02 19:21:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/04 18:40:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,6 @@ t_cmd	*new_cmd(t_cmd **head)
 	else
 		*head = new;
 	return (new);
-}
-
-t_cmd	*get_cmd_before(t_cmd *head, t_cmd *current)
-{
-	while (head && head->next != current)
-		head = head->next;
-	if (!head)
-		return (current);
-	return (head);
 }
 
 void	clear_cmd(t_cmd **head)
