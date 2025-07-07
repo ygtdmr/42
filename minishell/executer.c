@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/04 19:51:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/07 13:16:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ static void	launch(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 			exec_in(sh, cmd, readfd, outfd);
 		else
 			exec_ext(sh, cmd, readfd, outfd);
+		if (readfd != -1)
+			close(readfd);
+		if (outfd != -1)
+			close(outfd);
 	}
 }
 
@@ -107,18 +111,15 @@ void	executer(t_shell *sh)
 		if (cmd->next)
 		{
 			if (pipe(pipefd) == -1)
-				return (perror("minishell: pipe"));	
+				return (perror("minishell: pipe"));
+			if (!is_built_in(cmd->argv[0]) && is_built_in(cmd->next->argv[0]))
+				close(pipefd[0]);
 			launch(sh, cmd, readfd, pipefd[1]);
-			close(pipefd[1]);
-			if (readfd != -1)
-				close(readfd);
 			readfd = pipefd[0];
 		}
 		else
 			launch(sh, cmd, readfd, -1);
 		cmd = cmd->next;
 	}
-	if (readfd != -1)
-		close(readfd);
 	wait_process(sh);
 }

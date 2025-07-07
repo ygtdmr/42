@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/02 18:19:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/07 14:53:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*path_resolve(char **env, char *file)
 		free(paths[i++]);
 	}
 	free(paths);
-	return (ft_strdup(""));
+	return (0);
 }
 
 int	apply_redirs(t_cmd *cmd, int *infd, int *outfd)
@@ -65,7 +65,10 @@ int	apply_redirs(t_cmd *cmd, int *infd, int *outfd)
 		{
 			cmd->last_status = 1 << 8;
 			if (redir->fd == -1)
-				perror("minishell");
+			{
+				ft_putstr_fd("minishell: ", 2);
+				perror(redir->file);
+			}
 			else if (redir->fd == -3)
 				perror("minishell: pipe");
 			return (0);
@@ -85,22 +88,19 @@ void	do_exec(char *path, char **argv, char **env)
 		path = ft_strdup(path);
 	else if (env_get(env, "PATH"))
 		path = path_resolve(env, path);
-	else
-		path = ft_strdup("");
-	execve(path, argv, env);
-	free(path);
-	if (errno == ENOENT)
+	if (!path)
 	{
 		ft_putstr_fd(argv[0], 2);
 		ft_putendl_fd(": command not found", 2);
 		exit(127);
 	}
+	execve(path, argv, env);
+	free(path);
+	perror("minishell");
+	if (errno == ENOENT)
+		exit(127);
+	if (errno == EACCES || errno == EISDIR)
+		exit(126);
 	else
-	{
-		perror("minishell");
-		if (errno == EACCES)
-			exit(126);
-		else
-			exit(1);
-	}
+		exit(1);
 }
