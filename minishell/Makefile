@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/07/08 14:23:24 by yidemir          ###   ########.fr        #
+#    Updated: 2025/07/08 13:49:51 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,25 @@ SRC		=	minishell.c \
 			built_in_2.c \
 			executer_utils.c \
 			executer.c \
+			.test/print.c \
+
+SRC_BONUS=	bonus/minishell_bonus.c \
+			bonus/str_utils_bonus.c \
+			bonus/lexer_utils_bonus.c \
+			bonus/lexer_bonus.c \
+			bonus/expand_utils_bonus.c \
+			bonus/expand_bonus.c \
+			bonus/redir_utils_bonus.c \
+			bonus/parser_utils_bonus.c \
+			bonus/parser_bonus.c \
+			bonus/env_utils_1_bonus.c \
+			bonus/env_utils_2_bonus.c \
+			bonus/built_in_utils_bonus.c \
+			bonus/built_in_1_bonus.c \
+			bonus/built_in_2_bonus.c \
+			bonus/executer_utils_bonus.c \
+			bonus/executer_bonus.c \
+			bonus/.test/print_bonus.c \
 
 GNL_SRC	=	get_next_line/get_next_line.c \
 			get_next_line/get_next_line_utils.c
@@ -40,11 +59,15 @@ $(NAME):	$(SRC)
 	make -C libft
 	$(CC) $(CFLAGS) $(SRC) $(GNL_SRC) libft/libft.a -lreadline -o $(NAME)
 
+bonus:		$(SRC_BONUS)
+	make -C libft
+	$(CC) $(CFLAGS) $(SRC_BONUS) $(GNL_SRC) libft/libft.a -lreadline -o $(NAME)_bonus
+
 clean:
 	make clean -C libft
 
 fclean:	clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(NAME)_bonus
 	make fclean -C libft
 
 re:		fclean all

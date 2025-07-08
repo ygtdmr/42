@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:54:42 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 14:26:26 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 11:30:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ void	bi_exit(t_shell *sh, t_cmd *cmd, int has_pipe)
 			if (!ft_isdigit(cmd->argv[1][i++]))
 			{
 				cmd->last_status = 2 << 8;
-				return (ft_putendl_fd("minishell: exit: number invalid", 2));
+				ft_putendl_fd("minishell: exit: numeric argument required", 2);
+				return ;
 			}
 		}
 		cmd->last_status = ft_atoi(cmd->argv[1]) << 8;

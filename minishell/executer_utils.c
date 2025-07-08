@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 15:15:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 11:26:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,7 @@ void	valid_path(char *path)
 		}
 		else
 		{
-			ft_putstr_fd("minishell: no such file or directory: ", 2);
-			ft_putendl_fd(path, 2);
+			ft_putstr_fd("minishell: No such file or directory", 2);
 			exit(127);
 		}
 	}
