@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 14:26:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 15:25:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 #include "built_in.h"
 #include "str_utils.h"
 
-static void	exec_in(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
+static void	exec_in(t_shell *sh, t_cmd *cmd, int outfd)
 {
-	if (!apply_redirs(cmd, &readfd, &outfd))
-		return ;
 	if (outfd == -1)
 		outfd = 1;
 	if (str_match(cmd->argv[0], "echo"))
@@ -44,8 +42,6 @@ static void	exec_ext(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (!apply_redirs(cmd, &readfd, &outfd))
-			exit(1);
 		if (readfd != -1)
 		{
 			dup2(readfd, 0);
@@ -66,17 +62,17 @@ static void	exec_ext(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 
 static void	launch(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 {
-	if (cmd->argv)
+	if (apply_redirs(cmd, &readfd, &outfd) && cmd->argv)
 	{
-		if (is_built_in(cmd->argv[0]))
-			exec_in(sh, cmd, readfd, outfd);
+		if (is_bi(cmd->argv[0]))
+			exec_in(sh, cmd, outfd);
 		else
 			exec_ext(sh, cmd, readfd, outfd);
-		if (readfd != -1)
-			close(readfd);
-		if (outfd != -1)
-			close(outfd);
 	}
+	if (readfd != -1)
+		close(readfd);
+	if (outfd != -1)
+		close(outfd);
 }
 
 static void	wait_process(t_shell *sh)
@@ -112,7 +108,7 @@ void	executer(t_shell *sh)
 		{
 			if (pipe(pipefd) == -1)
 				return (perror("minishell: pipe"));
-			if (!is_built_in(cmd->argv[0]) && is_built_in(cmd->next->argv[0]))
+			if (cmd->argv && !is_bi(cmd->argv[0]) && is_bi(cmd->next->argv[0]))
 				close(pipefd[0]);
 			launch(sh, cmd, readfd, pipefd[1]);
 			readfd = pipefd[0];

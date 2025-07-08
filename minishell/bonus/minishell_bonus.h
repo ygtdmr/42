@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 14:41:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 15:16:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef MINISHELL_BONUS_H
+# define MINISHELL_BONUS_H
 
 # include <errno.h>
 # include <stdio.h>
@@ -34,7 +34,9 @@ typedef enum e_toktype
 	T_REDIR_OUT,
 	T_REDIR_OUT_ERR,
 	T_REDIR_APND,
-	T_HEREDOC
+	T_HEREDOC,
+	T_OR_OPERATOR,
+	T_AND_OPERATOR,
 }	t_toktype;
 
 typedef struct s_token

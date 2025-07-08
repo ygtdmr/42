@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   lexer_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 15:43:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 15:42:45 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-#include "expand.h"
-#include "str_utils.h"
+#include "minishell_bonus.h"
+#include "../lexer.h"
+#include "../expand.h"
+#include "../str_utils.h"
 
 static int	is_metachar(char *s)
 {
@@ -23,6 +24,8 @@ static int	is_metachar(char *s)
 (*s == '<' && *(s + 1) == '<') || \
 *s == '>' || \
 (*s == '>' && *(s + 1) == '>') || \
+(*s == '|' && *(s + 1) == '|') || \
+(*s == '&' && *(s + 1) == '&') || \
 *s == '|');
 }
 
@@ -69,7 +72,11 @@ void	lexer(t_shell *sh, char **line)
 	{
 		if (str_mc(line, " ") || str_mc(line, "\t") || str_mc(line, "\n"))
 			continue ;
-		if (str_mc(line, "|"))
+		if (str_mc(line, "&&"))
+			new_tok(&sh->token_head, ft_strdup("&&"), T_AND_OPERATOR);
+		else if (str_mc(line, "||"))
+			new_tok(&sh->token_head, ft_strdup("||"), T_OR_OPERATOR);
+		else if (str_mc(line, "|"))
 			new_tok(&sh->token_head, ft_strdup("|"), T_PIPE);
 		else if (str_mc(line, "<<"))
 			new_tok(&sh->token_head, ft_strdup("<<"), T_HEREDOC);
