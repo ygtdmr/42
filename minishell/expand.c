@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/02 16:57:47 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:25:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	dq_append(t_shell *sh, char **raw, char **out)
 	str_lclean(raw, length + ((*raw)[length] == '\"'));
 }
 
-static void	sq_append(t_shell *sh, char **raw, char **out)
+static void	sq_append(char **raw, char **out)
 {
 	size_t	length;
 
@@ -106,7 +106,7 @@ char	*expand(t_shell *sh, char *raw)
 		else if (str_mc(&raw, "\""))
 			dq_append(sh, &raw, &out);
 		else if (str_mc(&raw, "\'"))
-			sq_append(sh, &raw, &out);
+			sq_append(&raw, &out);
 		else if (raw)
 			raw_append(&raw, &out);
 	}

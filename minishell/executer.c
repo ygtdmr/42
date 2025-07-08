@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 14:11:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:26:53 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	exec_in(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 	if (str_match(cmd->argv[0], "echo"))
 		bi_echo(outfd, cmd->argv);
 	else if (str_match(cmd->argv[0], "pwd"))
-		bi_pwd(outfd, cmd->argv);
+		bi_pwd(outfd);
 	else if (str_match(cmd->argv[0], "env"))
 		bi_env(outfd, sh->env);
 	else if (str_match(cmd->argv[0], "cd"))

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 07:01:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 14:11:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:26:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int	get_redir_fd(t_toktype type, char *file)
 	int	fd;
 	int	pipefd[2];
 
+	fd = -1;
 	if (type == T_REDIR_OUT)
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type == T_REDIR_APND)

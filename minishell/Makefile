@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/07/01 14:15:53 by yidemir          ###   ########.fr        #
+#    Updated: 2025/07/08 14:23:24 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ all:		$(NAME)
 
 $(NAME):	$(SRC)
 	make -C libft
-	$(CC) $(SRC) $(GNL_SRC) libft/libft.a -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(SRC) $(GNL_SRC) libft/libft.a -lreadline -o $(NAME)
 
 clean:
 	make clean -C libft

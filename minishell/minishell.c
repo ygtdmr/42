@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 14:11:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:24:52 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int	main(int ac, char **av, char **envp)
 {
 	t_shell	sh;
 
+	(void) ac;
+	(void) av;
 	rl_catch_signals = 0;
 	ft_bzero(&sh, sizeof(sh));
 	signal(SIGQUIT, SIG_IGN);

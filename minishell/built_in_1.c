@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:54:42 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/02 18:09:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:26:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	bi_cd(int fd, t_shell *sh, t_cmd *cmd)
 	bi_cd_after(sh, cmd, oldpwd, status);
 }
 
-void	bi_pwd(int fd, char **argv)
+void	bi_pwd(int fd)
 {
 	char	*cwd;
 

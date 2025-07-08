@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:54 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/02 16:20:18 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:26:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 void	bi_echo(int fd, char **argv);
-void	bi_pwd(int fd, char **argv);
+void	bi_pwd(int fd);
 void	bi_cd(int fd, t_shell *sh, t_cmd *cmd);
 void	bi_cd_after(t_shell *sh, t_cmd *cmd, char *oldpwd, int status);
 void	bi_env(int fd, char **env);
