@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/07 13:16:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:11:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void	wait_process(t_shell *sh)
 	t_cmd	*cmd;
 
 	cmd = sh->cmd_head;
-	g_interactive = 1;
+	g_running = 1;
 	while (cmd)
 	{
 		if (cmd->pid > 0)
@@ -93,7 +93,7 @@ static void	wait_process(t_shell *sh)
 			sh->last_status = cmd->last_status;
 		cmd = cmd->next;
 	}
-	g_interactive = 0;
+	g_running = 0;
 	if (!isatty(0))
 		open("/dev/tty", O_RDONLY);
 }

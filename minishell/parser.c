@@ -6,11 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:41 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/29 07:02:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:04:11 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "redir_utils.h"
 
 static int	syntax_err(char *near)
 {
@@ -52,7 +53,7 @@ void	parser(t_shell *sh)
 		if (token->type == T_WORD)
 			argv_push(&cmd->argv, token->value);
 		else if (is_redir(token->type))
-			redir_push(&cmd->redir_head, &token);
+			redir_push(cmd, &cmd->redir_head, &token);
 		else if (token->type == T_PIPE)
 			cmd = new_cmd(&sh->cmd_head);
 		token = token->next;

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/07 14:53:47 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 13:08:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,38 @@ int	apply_redirs(t_cmd *cmd, int *infd, int *outfd)
 	return (1);
 }
 
+void	valid_path(char *path)
+{
+	struct stat	st;
+
+	if (ft_strchr(path, '/'))
+	{
+		if (stat(path, &st) != -1)
+		{
+			if (S_ISDIR(st.st_mode))
+			{
+				ft_putendl_fd("minishell: Is a directory", 2);
+				exit(126);
+			}
+			if (access(path, X_OK) == -1)
+			{
+				ft_putendl_fd("minishell: Permission denied", 2);
+				exit(126);
+			}
+		}
+		else
+		{
+			ft_putstr_fd("minishell: no such file or directory: ", 2);
+			ft_putendl_fd(path, 2);
+			exit(127);
+		}
+	}
+}
+
 void	do_exec(char *path, char **argv, char **env)
 {
-	if (access(path, F_OK) != -1)
+	valid_path(path);
+	if (ft_strchr(path, '/') && access(path, X_OK) != -1)
 		path = ft_strdup(path);
 	else if (env_get(env, "PATH"))
 		path = path_resolve(env, path);
@@ -97,10 +126,5 @@ void	do_exec(char *path, char **argv, char **env)
 	execve(path, argv, env);
 	free(path);
 	perror("minishell");
-	if (errno == ENOENT)
-		exit(127);
-	if (errno == EACCES || errno == EISDIR)
-		exit(126);
-	else
-		exit(1);
+	exit(1);
 }

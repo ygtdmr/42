@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/04 18:20:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:11:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include "libft/libft.h"
 
-extern int	g_interactive;
+extern int	g_running;
 
 typedef enum e_toktype
 {
@@ -55,8 +56,9 @@ typedef struct s_cmd
 {
 	int				pid;
 	int				last_status;
-	char			**argv;
+	int				redir_err;
 	t_redir			*redir_head;
+	char			**argv;
 	struct s_cmd	*next;
 }	t_cmd;
 

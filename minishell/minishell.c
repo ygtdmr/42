@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/02 15:08:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:11:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 #include "env_utils.h"
 #include "get_next_line/get_next_line.h"
 
-int	g_interactive;
+int	g_running;
 
 static void	handle_signt(int signum)
 {
 	(void) signum;
-	if (g_interactive)
+	if (g_running)
 		close(0);
 	else
 	{

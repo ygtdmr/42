@@ -6,4 +6,4 @@
 *.a
 .DS_Store
 *_tester
-.test
+.*/

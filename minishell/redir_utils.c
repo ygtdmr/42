@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 07:01:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/02 17:30:26 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:11:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	get_heredoc_fd(char *eof, int *pipefd)
 {
 	char	*line;
 
-	g_interactive = 1;
+	g_running = 1;
 	while (1)
 	{
 		line = readline("> ");
@@ -37,7 +37,7 @@ static int	get_heredoc_fd(char *eof, int *pipefd)
 	}
 	if (line)
 		free(line);
-	g_interactive = 0;
+	g_running = 0;
 	close(pipefd[1]);
 	return (pipefd[0]);
 }
@@ -75,17 +75,21 @@ type == T_REDIR_APND || \
 type == T_HEREDOC);
 }
 
-void	redir_push(t_redir **head, t_token **token)
+void	redir_push(t_cmd *cmd, t_redir **head, t_token **token)
 {
 	t_redir	*redir;
 	t_redir	*new;
 
+	if (cmd->redir_err)
+		return ;
 	new = malloc(sizeof(t_redir));
 	if (!new)
 		return ;
 	new->type = (*token)->type;
 	new->file = (*token)->next->value;
 	new->fd = get_redir_fd(new->type, new->file);
+	if (new->fd < 0)
+		cmd->redir_err = 1;
 	*token = (*token)->next;
 	new->next = 0;
 	if (!*head)
