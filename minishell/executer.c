@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 15:25:08 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 16:07:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parser.h"
 #include "built_in.h"
 #include "str_utils.h"
+#include "env_utils.h"
 
 static void	exec_in(t_shell *sh, t_cmd *cmd, int outfd)
 {
@@ -28,7 +29,7 @@ static void	exec_in(t_shell *sh, t_cmd *cmd, int outfd)
 	else if (str_match(cmd->argv[0], "cd"))
 		bi_cd(outfd, sh, cmd);
 	else if (str_match(cmd->argv[0], "export"))
-		bi_export(sh, cmd, cmd->next != 0);
+		bi_export(outfd, sh, cmd, cmd->next != 0);
 	else if (str_match(cmd->argv[0], "unset"))
 		bi_unset(sh, cmd, cmd->next != 0);
 	else if (str_match(cmd->argv[0], "exit"))

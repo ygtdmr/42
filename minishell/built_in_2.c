@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 14:34:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/02 16:22:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 15:49:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,41 @@
 #include "executer.h"
 #include "env_utils.h"
 
-void	bi_export(t_shell *sh, t_cmd *cmd, int has_pipe)
+static void	print_export_vars(int fd, t_shell *sh)
+{
+	int	i;
+	char **env;
+
+	env = sh->env;
+	while (*env)
+	{
+		i = 0;
+		if (ft_strnstr(*env, "_=", 2))
+		{
+			env++;
+			continue ;
+		}
+		ft_putstr_fd("declare -x ", fd);
+		while ((*env)[i] != '=')
+			ft_putchar_fd((*env)[i++], fd);
+		ft_putstr_fd("=\"", fd);
+		i++;
+		while ((*env)[i])
+			ft_putchar_fd((*env)[i++], fd);
+		ft_putendl_fd("\"", fd);
+		env++;
+	}
+}
+
+void	bi_export(int fd, t_shell *sh, t_cmd *cmd, int has_pipe)
 {
 	int		i;
 	char	**tmp_env;
 
-	if (has_pipe)
-		return ;
+	if (!cmd->argv[1])
+		print_export_vars(fd, sh);
 	i = 1;
-	while (cmd->argv[i])
+	while (!has_pipe && cmd->argv[i])
 	{
 		if (!env_key_valid(cmd->argv[i]))
 		{

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 15:43:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/08 14:18:04 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	*quote_error(t_shell *sh, char **line)
 	free(*line);
 	*line = 0;
 	clear_tok(&sh->token_head);
+	sh->last_status = 2 << 8;
 	return (0);
 }
 
