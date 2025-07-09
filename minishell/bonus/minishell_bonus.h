@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 14:43:47 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/09 15:13:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef MINISHELL_BONUS_H
+# define MINISHELL_BONUS_H
 
 # include <errno.h>
 # include <stdio.h>
@@ -22,7 +22,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 
 extern int	g_running;
 
@@ -30,6 +30,8 @@ typedef enum e_toktype
 {
 	T_WORD,
 	T_PIPE,
+	T_OPERATOR_OR,
+	T_OPERATOR_AND,
 	T_REDIR_IN,
 	T_REDIR_OUT,
 	T_REDIR_APND,
@@ -56,6 +58,8 @@ typedef struct s_cmd
 	int				pid;
 	int				last_status;
 	int				redir_err;
+	int				and_op;
+	int				or_op;
 	t_redir			*redir_head;
 	char			**argv;
 	struct s_cmd	*next;

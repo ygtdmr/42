@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   str_utils_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 14:09:04 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 15:05:06 by yidemir          ###   ########.fr       */
+/*   Created: 2025/06/22 16:14:09 by yidemir           #+#    #+#             */
+/*   Updated: 2025/07/09 14:06:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef STR_UTILS_BONUS_H
+# define STR_UTILS_BONUS_H
 
-# include "minishell.h"
+# include "../libft/libft.h"
 
-void	argv_push(char ***dest, char *src);
-void	parser(t_shell *sh);
-void	clear_cmd(t_cmd **head);
-t_cmd	*new_cmd(t_cmd **head);
+int		str_match(char *dest, char *src);
+char	*str_lrealloc(char *dest, char *src, size_t length, int src_free);
+void	str_lclean(char **dest, size_t length);
+int		str_mc(char **dest, char *needle);
 
 #endif

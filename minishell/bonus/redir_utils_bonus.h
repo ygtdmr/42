@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   redir_utils_bonus.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 14:09:04 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 15:05:06 by yidemir          ###   ########.fr       */
+/*   Created: 2025/06/29 07:03:46 by yidemir           #+#    #+#             */
+/*   Updated: 2025/07/09 14:05:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef REDIR_UTILS_BONUS_H
+# define REDIR_UTILS_BONUS_H
 
-# include "minishell.h"
+# include "minishell_bonus.h"
 
-void	argv_push(char ***dest, char *src);
-void	parser(t_shell *sh);
-void	clear_cmd(t_cmd **head);
-t_cmd	*new_cmd(t_cmd **head);
+int		is_redir(int type);
+void	redir_push(t_cmd *cmd, t_redir **head, t_token **token);
 
 #endif

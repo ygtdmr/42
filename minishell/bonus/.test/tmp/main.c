@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 14:09:04 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 15:05:06 by yidemir          ###   ########.fr       */
+/*   Created: 2025/05/05 16:34:15 by yidemir           #+#    #+#             */
+/*   Updated: 2025/07/02 15:36:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 
-# include "minishell.h"
-
-void	argv_push(char ***dest, char *src);
-void	parser(t_shell *sh);
-void	clear_cmd(t_cmd **head);
-t_cmd	*new_cmd(t_cmd **head);
-
-#endif
+int	main(void)
+{
+	sleep(1);
+	printf("gives an error\n");
+	return (1);
+}

@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   env_utils_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 14:09:04 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 15:05:06 by yidemir          ###   ########.fr       */
+/*   Created: 2025/05/28 11:42:19 by yidemir           #+#    #+#             */
+/*   Updated: 2025/07/09 14:06:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef ENV_UTILS_BONUS_H
+# define ENV_UTILS_BONUS_H
 
-# include "minishell.h"
+# include "../libft/libft.h"
 
-void	argv_push(char ***dest, char *src);
-void	parser(t_shell *sh);
-void	clear_cmd(t_cmd **head);
-t_cmd	*new_cmd(t_cmd **head);
+char	**env_append(char **env, char *src);
+char	**env_set(char **env, char *src, int unset);
+char	*env_get(char **env, char *key);
+char	*env_key(char *src);
+int		env_key_exists(char **env, char *src);
+int		env_key_valid(char *src);
+void	clear_env(char **env);
 
 #endif

@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   expand_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 14:09:04 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 15:05:06 by yidemir          ###   ########.fr       */
+/*   Created: 2025/05/30 21:34:59 by yidemir           #+#    #+#             */
+/*   Updated: 2025/07/09 14:05:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef EXPAND_BONUS_H
+# define EXPAND_BONUS_H
 
-# include "minishell.h"
+# include "minishell_bonus.h"
 
-void	argv_push(char ***dest, char *src);
-void	parser(t_shell *sh);
-void	clear_cmd(t_cmd **head);
-t_cmd	*new_cmd(t_cmd **head);
+size_t	char_len(char c, char *str);
+int		is_varchar(char c, size_t index);
+int		compile_status(int status);
+void	custom_append(char **dest, char *src, int src_free);
+char	*expand(t_shell *sh, char *raw);
 
 #endif

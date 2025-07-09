@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 14:09:04 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 15:05:06 by yidemir          ###   ########.fr       */
+/*   Created: 2025/05/04 15:04:23 by yidemir           #+#    #+#             */
+/*   Updated: 2025/07/09 14:05:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef TEST_BONUS_H
+# define TEST_BONUS_H
 
-# include "minishell.h"
+# include <stdio.h>
+# include "../minishell_bonus.h"
+# include "../lexer_bonus.h"
 
-void	argv_push(char ***dest, char *src);
-void	parser(t_shell *sh);
-void	clear_cmd(t_cmd **head);
-t_cmd	*new_cmd(t_cmd **head);
+void	print_envp(t_shell *sh);
+void	print_tokens(t_shell *sh);
+void	print_cmd(t_shell *sh);
 
 #endif
