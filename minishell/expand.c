@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 14:25:10 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/12 07:56:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,7 @@ static void	raw_append(char **raw, char **out)
 	size_t	length;
 
 	length = 0;
-	while ((*raw)[length] && \
-(
-(*raw)[length] != '\'' && \
-(*raw)[length] != '\"' && \
-(*raw)[length] != '$'
-))
+	while ((*raw)[length] && is_rawchar((*raw)[length]))
 		length++;
 	*out = str_lrealloc(*out, *raw, length, 0);
 	str_lclean(raw, length);

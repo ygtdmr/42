@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:16 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/01 11:56:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/12 07:56:04 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ size_t	char_len(char c, char *str)
 	while (str && *str)
 		length += (*str++ == c);
 	return (length);
+}
+
+int	is_rawchar(char c)
+{
+	return (c != '\'' && c != '\"' && c != '$');
 }
 
 int	is_varchar(char c, size_t index)
@@ -40,11 +45,4 @@ int	compile_status(int status)
 	else if (WIFSTOPPED(status))
 		return (128 + WSTOPSIG(status));
 	return (1);
-}
-
-void	custom_append(char **dest, char *src, int src_free)
-{
-	if (!src)
-		return ;
-	*dest = str_lrealloc(*dest, src, ft_strlen(src), src_free);
 }

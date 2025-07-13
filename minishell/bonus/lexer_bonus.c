@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 14:46:21 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/13 18:30:04 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,50 @@ static int	is_metachar(char *s)
 (*s == '>' && *(s + 1) == '>') || \
 (*s == '|' && *(s + 1) == '|') || \
 (*s == '&' && *(s + 1) == '&') || \
+*s == '(' || \
+*s == ')' || \
 *s == '|');
 }
 
-static void	*quote_error(t_shell *sh, char **line)
+static void	*syntax_error(t_shell *sh, char **line, char *type)
 {
-	ft_putendl_fd("minishell: syntax error: Unterminated quoted string", 2);
+	ft_putstr_fd("minishell: syntax error: ", 2);
+	ft_putendl_fd(type, 2);
 	free(*line);
 	*line = 0;
 	clear_tok(&sh->token_head);
 	sh->last_status = 2 << 8;
 	return (0);
 }
+
+// static char	*check_parenthesis(t_shell *sh, char **line, char *raw)
+// {
+// 	int	o_par;
+// 	int	c_par;
+// 	int	i;
+
+// 	i = 0;
+// 	o_par = 0;
+// 	c_par = 0;
+// 	while (raw[i])
+// 	{
+// 		if (raw[i] == '(')
+// 			o_par = 1;
+// 		else if (raw[i] == ')')
+// 			c_par = 1;
+// 		if (c_par && !o_par)
+// 			break ;
+// 		if (o_par && c_par)
+// 		{
+// 			o_par = 0;
+// 			c_par = 0;
+// 		}
+// 		i++;
+// 	}
+// 	if (o_par == c_par)
+// 		return (raw);
+// 	return (syntax_error(sh, line, "Unterminated parenthesis"));
+// }
 
 static char	*grab_word(t_shell *sh, char **line)
 {
@@ -60,7 +92,7 @@ static char	*grab_word(t_shell *sh, char **line)
 		length++;
 	}
 	if (quote)
-		return (quote_error(sh, line));
+		return (syntax_error(sh, line, "Unterminated quoted string"));
 	raw = ft_substr(*line, 0, length);
 	str_lclean(line, length);
 	return (raw);
@@ -76,6 +108,10 @@ void	lexer(t_shell *sh, char **line)
 			new_tok(&sh->token_head, ft_strdup("||"), T_OPERATOR_OR);
 		else if (str_mc(line, "&&"))
 			new_tok(&sh->token_head, ft_strdup("&&"), T_OPERATOR_AND);
+		else if (str_mc(line, "("))
+			new_tok(&sh->token_head, ft_strdup("("), T_PAR_O);
+		else if (str_mc(line, ")"))
+			new_tok(&sh->token_head, ft_strdup(")"), T_PAR_C);
 		else if (str_mc(line, "|"))
 			new_tok(&sh->token_head, ft_strdup("|"), T_PIPE);
 		else if (str_mc(line, "<<"))

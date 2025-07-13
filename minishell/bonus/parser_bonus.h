@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:09:04 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 15:05:24 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/11 07:15:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "minishell_bonus.h"
 
 int		is_operator(t_toktype type);
+void	skip_cmd(t_cmd **cmd, int operator);
 void	argv_push(char ***dest, char *src);
 void	parser(t_shell *sh);
 void	clear_cmd(t_cmd **head);

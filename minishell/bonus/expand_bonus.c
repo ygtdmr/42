@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 14:05:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/12 09:11:15 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,7 @@ static void	raw_append(char **raw, char **out)
 	size_t	length;
 
 	length = 0;
-	while ((*raw)[length] && \
-(
-(*raw)[length] != '\'' && \
-(*raw)[length] != '\"' && \
-(*raw)[length] != '$'
-))
+	while ((*raw)[length] && is_rawchar((*raw)[length]))
 		length++;
 	*out = str_lrealloc(*out, *raw, length, 0);
 	str_lclean(raw, length);
@@ -101,7 +96,9 @@ char	*expand(t_shell *sh, char *raw)
 	out = 0;
 	while (raw)
 	{
-		if (str_mc(&raw, "$"))
+		if (ft_strchr(raw, '*') && !willcard_append(&raw, &out))
+			raw_append(&raw, &out);
+		else if (str_mc(&raw, "$"))
 			var_append(sh, &raw, &out, 0);
 		else if (str_mc(&raw, "\""))
 			dq_append(sh, &raw, &out);

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:34:59 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 14:05:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/12 07:38:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 # include "minishell_bonus.h"
 
 size_t	char_len(char c, char *str);
+int		is_rawchar(char c);
 int		is_varchar(char c, size_t index);
 int		compile_status(int status);
-void	custom_append(char **dest, char *src, int src_free);
+int		willcard_append(char **raw, char **out);
 char	*expand(t_shell *sh, char *raw);
 
 #endif

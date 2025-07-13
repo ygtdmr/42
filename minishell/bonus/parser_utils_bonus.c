@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 14:08:51 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 15:04:41 by yidemir          ###   ########.fr       */
+/*   Created: 2025/07/11 06:50:48 by yidemir           #+#    #+#             */
+/*   Updated: 2025/07/11 07:22:22 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_operator(t_toktype type)
 {
-	return(type == T_OPERATOR_OR || type == T_OPERATOR_AND);
+	return (type == T_OPERATOR_OR || type == T_OPERATOR_AND);
 }
 
 void	argv_push(char ***dest, char *src)
@@ -60,6 +60,19 @@ t_cmd	*new_cmd(t_cmd **head)
 	else
 		*head = new;
 	return (new);
+}
+
+void	skip_cmd(t_cmd **cmd, int operator)
+{
+	while (*cmd)
+	{
+		if (((*cmd)->and_op && operator) || ((*cmd)->or_op && !operator))
+			break ;
+		else
+			*cmd = (*cmd)->next;
+	}
+	if ((*cmd))
+		*cmd = (*cmd)->next;
 }
 
 void	clear_cmd(t_cmd **head)

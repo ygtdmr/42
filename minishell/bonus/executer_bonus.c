@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 14:05:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/11 07:22:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,28 @@ static void	exec_ext(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 		perror("minishell: fork");
 }
 
-static void	launch(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
+static void	launch(t_shell *sh, t_cmd **cmd, int readfd, int outfd)
 {
-	if (apply_redirs(cmd, &readfd, &outfd) && cmd->argv)
+	if (apply_redirs(*cmd, &readfd, &outfd) && (*cmd)->argv)
 	{
-		if (is_bi(cmd->argv[0]))
-			exec_in(sh, cmd, outfd);
+		if (is_bi((*cmd)->argv[0]))
+			exec_in(sh, *cmd, outfd);
 		else
-			exec_ext(sh, cmd, readfd, outfd);
+			exec_ext(sh, *cmd, readfd, outfd);
 	}
 	if (readfd != -1)
 		close(readfd);
 	if (outfd != -1)
 		close(outfd);
+	if ((*cmd)->and_op + (*cmd)->or_op)
+	{
+		if ((*cmd)->pid)
+			waitpid((*cmd)->pid, &(*cmd)->last_status, 0);
+		if ((*cmd)->and_op && (*cmd)->last_status != 0)
+			skip_cmd(cmd, 1);
+		else if ((*cmd)->or_op && (*cmd)->last_status == 0)
+			skip_cmd(cmd, 0);
+	}
 }
 
 static void	wait_process(t_shell *sh)
@@ -84,7 +93,7 @@ static void	wait_process(t_shell *sh)
 	g_running = 1;
 	while (cmd)
 	{
-		if (cmd->pid > 0)
+		if (cmd->pid > 0 && !(cmd->and_op + cmd->or_op))
 			waitpid(cmd->pid, &cmd->last_status, 0);
 		if (!cmd->next)
 			sh->last_status = cmd->last_status;
@@ -105,17 +114,17 @@ void	executer(t_shell *sh)
 	cmd = sh->cmd_head;
 	while (cmd)
 	{
-		if (cmd->next)
+		if (cmd->next && !(cmd->and_op + cmd->or_op))
 		{
 			if (pipe(pipefd) == -1)
 				return (perror("minishell: pipe"));
 			if (cmd->argv && !is_bi(cmd->argv[0]) && is_bi(cmd->next->argv[0]))
 				close(pipefd[0]);
-			launch(sh, cmd, readfd, pipefd[1]);
+			launch(sh, &cmd, readfd, pipefd[1]);
 			readfd = pipefd[0];
 		}
 		else
-			launch(sh, cmd, readfd, -1);
+			launch(sh, &cmd, readfd, -1);
 		cmd = cmd->next;
 	}
 	wait_process(sh);
