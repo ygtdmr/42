@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/13 18:06:18 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/14 17:24:48 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static void	run(t_shell *sh, char *line)
 	{
 		lexer(sh, lines + i);
 		parser(sh);
-		executer(sh);
+		// executer(sh);
 		// print_tokens(sh);
-		// print_cmd(sh);
+		print_cmd(sh);
 		clear_cmd(&sh->cmd_head);
 		clear_tok(&sh->token_head);
 		i++;

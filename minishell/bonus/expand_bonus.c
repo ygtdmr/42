@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/14 13:12:07 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/14 16:15:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,15 @@ char	*expand(t_shell *sh, char *raw)
 	out = 0;
 	while (raw)
 	{
-		if (str_mc(&raw, "(") || str_mc(&raw, ")"))
-			continue ;
-		if (ft_strchr(raw, '*') && !willcard_append(&raw, &out))
-			raw_append(&raw, &out);
-		else if (str_mc(&raw, "$"))
+		if (ft_strchr(raw, '*') && \
+!ft_strchr(raw, '\"') && !ft_strchr(raw, '\'') && !ft_strchr(raw, '$'))
+			willcard_append(&raw, &out);
+		if (str_mc(&raw, "$"))
+		{
 			var_append(sh, &raw, &out, 0);
+			if (raw && *raw == '*')
+				str_lclean(&raw, 1);
+		}
 		else if (str_mc(&raw, "\""))
 			dq_append(sh, &raw, &out);
 		else if (str_mc(&raw, "\'"))

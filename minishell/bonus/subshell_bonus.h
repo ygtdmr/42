@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_utils_bonus.h                                :+:      :+:    :+:   */
+/*   subshell_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/29 07:03:46 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/14 17:48:28 by yidemir          ###   ########.fr       */
+/*   Created: 2025/07/14 16:37:17 by yidemir           #+#    #+#             */
+/*   Updated: 2025/07/14 16:37:55 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REDIR_UTILS_BONUS_H
-# define REDIR_UTILS_BONUS_H
+#ifndef SUBSHELL_BONUS_H
+# define SUBSHELL_BONUS_H
 
 # include "minishell_bonus.h"
 
-int		is_redir(int type);
-void	redir_push(t_cmd *cmd, t_redir **head, t_token **token);
-int		get_redir_fd(t_toktype type, char *file);
+int subshell(t_shell *sh, char **line);
 
 #endif

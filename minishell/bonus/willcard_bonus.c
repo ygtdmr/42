@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 06:54:45 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/12 07:38:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/14 14:42:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,15 @@ static void	willcard_expand(char **out, char *wb, char *wa)
 	closedir(dir);
 }
 
+int	willcard_quote_check(char *wa, char *wb)
+{
+	if ((ft_strchr(wa, '\'') && ft_strchr(wb, '\'')) || \
+(ft_strchr(wa, '\"') && ft_strchr(wb, '\"'))
+	)
+		return (0);
+	return (1);
+}
+
 int	willcard_append(char **raw, char **out)
 {
 	char	*wb;
@@ -67,6 +76,8 @@ int	willcard_append(char **raw, char **out)
 	wb = str_lrealloc(0, *raw, length, 0);
 	length = ft_strlen(ft_strrchr(*raw, '*') + 1);
 	wa = str_lrealloc(0, ft_strrchr(*raw, '*') + 1, length, 0);
+	if (!willcard_quote_check(wa, wb))
+		return (0);
 	willcard_expand(&str, wb, wa);
 	if (str)
 	{

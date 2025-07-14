@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 07:01:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 14:05:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/14 18:15:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	get_heredoc_fd(char *eof, int *pipefd)
 	return (pipefd[0]);
 }
 
-static int	get_redir_fd(t_toktype type, char *file)
+int	get_redir_fd(t_toktype type, char *file)
 {
 	int	fd;
 	int	pipefd[2];
@@ -88,7 +88,7 @@ void	redir_push(t_cmd *cmd, t_redir **head, t_token **token)
 		return ;
 	new->type = (*token)->type;
 	new->file = (*token)->next->value;
-	new->fd = get_redir_fd(new->type, new->file);
+	new->fd = -4;
 	if (new->fd < 0)
 		cmd->redir_err = 1;
 	*token = (*token)->next;

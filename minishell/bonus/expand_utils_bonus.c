@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:16 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/14 13:13:23 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/14 16:17:58 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,7 @@ size_t	char_len(char c, char *str)
 
 int	is_rawchar(char c)
 {
-	return (c != '\'' && \
-c != '\"' && \
-c != '$' && \
-c != '(' && \
-c != ')'
-	);
+	return (c != '\'' && c != '\"' && c != '$');
 }
 
 int	is_varchar(char c, size_t index)

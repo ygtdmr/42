@@ -6,10 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/14 13:10:10 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/14 16:47:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "subshell_bonus.h"
 #include "lexer_bonus.h"
 #include "expand_bonus.h"
 #include "str_utils_bonus.h"
@@ -24,7 +25,7 @@ static int	is_metachar(char *s)
 *s == '>' || \
 (*s == '>' && *(s + 1) == '>') || \
 (*s == '|' && *(s + 1) == '|') || \
-(*s == '&' && *(s + 1) == '&') ||
+(*s == '&' && *(s + 1) == '&') || \
 *s == '|');
 }
 
@@ -37,6 +38,35 @@ static void	*syntax_error(t_shell *sh, char **line, char *type)
 	clear_tok(&sh->token_head);
 	sh->last_status = 2 << 8;
 	return (0);
+}
+
+static char	*valid_par(t_shell *sh, char **line)
+{
+	int	o_par;
+	int	c_par;
+	int	i;
+
+	i = 0;
+	o_par = 0;
+	c_par = 0;
+	while ((*line)[i])
+	{
+		if ((*line)[i] == '(')
+			o_par = 1;
+		else if ((*line)[i] == ')')
+			c_par = 1;
+		if (c_par && !o_par)
+			break ;
+		if (o_par && c_par)
+		{
+			o_par = 0;
+			c_par = 0;
+		}
+		i++;
+	}
+	if (o_par == c_par)
+		return (*line);
+	return (syntax_error(sh, line, "Unterminated parenthesis"));
 }
 
 static char	*grab_word(t_shell *sh, char **line)
@@ -73,7 +103,9 @@ void	lexer(t_shell *sh, char **line)
 	{
 		if (str_mc(line, " ") || str_mc(line, "\t") || str_mc(line, "\n"))
 			continue ;
-		if (str_mc(line, "||"))
+		if ((**line == '(' || **line == ')') && valid_par(sh, line))
+			subshell(sh, line);
+		else if (str_mc(line, "||"))
 			new_tok(&sh->token_head, ft_strdup("||"), T_OPERATOR_OR);
 		else if (str_mc(line, "&&"))
 			new_tok(&sh->token_head, ft_strdup("&&"), T_OPERATOR_AND);
@@ -87,7 +119,7 @@ void	lexer(t_shell *sh, char **line)
 			new_tok(&sh->token_head, ft_strdup("<"), T_REDIR_IN);
 		else if (str_mc(line, ">"))
 			new_tok(&sh->token_head, ft_strdup(">"), T_REDIR_OUT);
-		else
+		else if (*line)
 			new_tok(&sh->token_head, expand(sh, grab_word(sh, line)), T_WORD);
 	}
 }

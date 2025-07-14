@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/07/12 06:55:24 by yidemir          ###   ########.fr        #
+#    Updated: 2025/07/14 16:43:07 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ SRC_BONUS=	bonus/minishell_bonus.c \
 			bonus/executer_utils_bonus.c \
 			bonus/executer_bonus.c \
 			bonus/willcard_bonus.c \
+			bonus/subshell_bonus.c \
 			bonus/.test/print_bonus.c \
 
 GNL_SRC	=	get_next_line/get_next_line.c \
