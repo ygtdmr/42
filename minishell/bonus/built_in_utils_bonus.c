@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:13:40 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 14:05:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/14 13:32:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	arg_is_option(char *arg, char option)
 
 void	bi_cd_after(t_shell *sh, t_cmd *cmd, char *oldpwd, int status)
 {
+	char	**tmp_env;
 	char	*pwd;
 
 	pwd = getcwd(0, 0);
@@ -38,7 +39,9 @@ void	bi_cd_after(t_shell *sh, t_cmd *cmd, char *oldpwd, int status)
 		perror("minishell: cd");
 	else
 	{
-		sh->env = env_append(sh->env, oldpwd);
+		tmp_env = sh->env;
+		sh->env = env_append(tmp_env, oldpwd);
+		clear_env(tmp_env);
 		sh->env = env_append(sh->env, pwd);
 	}
 	cmd->last_status = (status == -1) << 8;
