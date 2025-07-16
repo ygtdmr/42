@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/14 16:47:09 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/15 17:57:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "subshell_bonus.h"
 #include "lexer_bonus.h"
 #include "expand_bonus.h"
+#include "redir_utils_bonus.h"
 #include "str_utils_bonus.h"
 
 static int	is_metachar(char *s)
@@ -26,6 +26,8 @@ static int	is_metachar(char *s)
 (*s == '>' && *(s + 1) == '>') || \
 (*s == '|' && *(s + 1) == '|') || \
 (*s == '&' && *(s + 1) == '&') || \
+*s == '(' || \
+*s == ')' || \
 *s == '|');
 }
 
@@ -40,34 +42,34 @@ static void	*syntax_error(t_shell *sh, char **line, char *type)
 	return (0);
 }
 
-static char	*valid_par(t_shell *sh, char **line)
-{
-	int	o_par;
-	int	c_par;
-	int	i;
+// static char	*valid_par(t_shell *sh, t_token *lt, char **line)
+// {
+// 	int	o_par;
+// 	int	c_par;
+// 	int	i;
 
-	i = 0;
-	o_par = 0;
-	c_par = 0;
-	while ((*line)[i])
-	{
-		if ((*line)[i] == '(')
-			o_par = 1;
-		else if ((*line)[i] == ')')
-			c_par = 1;
-		if (c_par && !o_par)
-			break ;
-		if (o_par && c_par)
-		{
-			o_par = 0;
-			c_par = 0;
-		}
-		i++;
-	}
-	if (o_par == c_par)
-		return (*line);
-	return (syntax_error(sh, line, "Unterminated parenthesis"));
-}
+// 	i = 0;
+// 	o_par = 0;
+// 	c_par = 0;
+// 	while ((*line)[i])
+// 	{
+// 		if ((*line)[i] == '(')
+// 			o_par = 1;
+// 		else if ((*line)[i] == ')')
+// 			c_par = 1;
+// 		if (c_par && !o_par)
+// 			break ;
+// 		if (o_par && c_par)
+// 		{
+// 			o_par = 0;
+// 			c_par = 0;
+// 		}
+// 		i++;
+// 	}
+// 	if (o_par == c_par && (!lt || (lt->type != T_WORD && !is_redir(lt->type))))
+// 		return (*line);
+// 	return (syntax_error(sh, line, "Not verified parenthesis"));
+// }
 
 static char	*grab_word(t_shell *sh, char **line)
 {
@@ -103,8 +105,10 @@ void	lexer(t_shell *sh, char **line)
 	{
 		if (str_mc(line, " ") || str_mc(line, "\t") || str_mc(line, "\n"))
 			continue ;
-		if ((**line == '(' || **line == ')') && valid_par(sh, line))
-			subshell(sh, line);
+		if (str_mc(line, "("))
+			new_tok(&sh->token_head, ft_strdup("("), T_PAR_O);
+		else if (str_mc(line, ")"))
+			new_tok(&sh->token_head, ft_strdup(")"), T_PAR_C);
 		else if (str_mc(line, "||"))
 			new_tok(&sh->token_head, ft_strdup("||"), T_OPERATOR_OR);
 		else if (str_mc(line, "&&"))

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 14:24:52 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/16 10:29:54 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "str_utils.h"
 #include "env_utils.h"
 #include "get_next_line/get_next_line.h"
+#include ".test/test.h"
 
 int	g_running;
 
@@ -49,6 +50,8 @@ static void	run(t_shell *sh, char *line)
 		lexer(sh, lines + i);
 		parser(sh);
 		executer(sh);
+		// print_tokens(sh);
+		// print_cmd(sh);
 		clear_cmd(&sh->cmd_head);
 		clear_tok(&sh->token_head);
 		i++;
@@ -100,7 +103,7 @@ int	main(int ac, char **av, char **envp)
 	ft_bzero(&sh, sizeof(sh));
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_signt);
-	sh.env = env_append(envp, 0);
+	sh.env = env_dup(envp, 0);
 	if (isatty(0))
 		shell_loop(&sh);
 	else

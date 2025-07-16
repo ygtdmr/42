@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:23:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/01 15:06:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/14 16:37:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 #include "env_utils.h"
 #include "str_utils.h"
 #include "expand.h"
+
+char	*env_str(char *key, char *val)
+{
+	char	*tmp;
+
+	if (!(key && val))
+		return (0);
+	tmp = str_lrealloc(key, "=", 1, 0);
+	tmp = str_lrealloc(tmp, val, ft_strlen(val), 1);
+	return (tmp);
+}
 
 void	clear_env(char **env)
 {
@@ -25,25 +36,21 @@ void	clear_env(char **env)
 	free(env);
 }
 
-int	env_key_exists(char **env, char *src)
+int	env_key_exists(char **env, char *key)
 {
-	char	*key;
 	char	*tmp_key;
 
-	key = env_key(src);
 	while (*env)
 	{
 		tmp_key = env_key(*env);
 		if (str_match(key, tmp_key))
 		{
-			free(key);
 			free(tmp_key);
 			return (1);
 		}
 		free(tmp_key);
 		env++;
 	}
-	free(key);
 	return (0);
 }
 
@@ -62,3 +69,20 @@ int	env_key_valid(char *src)
 	}
 	return (1);
 }
+
+char	*env_key(char *src)
+{
+	char	*key;
+	size_t	length;
+
+	if (!src)
+		return (0);
+	if (ft_strchr(src, '='))
+		length = ft_strlen(src) - ft_strlen(ft_strchr(src, '='));
+	else
+		length = ft_strlen(src);
+	key = ft_calloc(length + 1, sizeof(char));
+	ft_strlcpy(key, src, length + 1);
+	return (key);
+}
+

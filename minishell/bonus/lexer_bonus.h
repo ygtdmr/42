@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:04:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 14:05:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/15 08:03:58 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 void	new_tok(t_token	**head, char *value, t_toktype type);
 void	clear_tok(t_token **head);
 void	add_tok(t_token **head, t_token *new);
+t_token	*last_tok(t_token *head);
 void	lexer(t_shell *sh, char **line);
 
 #endif

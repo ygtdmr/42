@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:30:16 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 15:23:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/15 14:10:54 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	print_cmd(t_shell *sh)
 			printf("[type=%d, file=%s, fd=%d], ", redir->type, redir->file, redir->fd);
 			redir = redir->next;
 		}
-		printf("}\n\tops\t= [AND=%d, OR=%d]\n", cmd->and_op, cmd->or_op);
+		printf("}\n\tops\t= [AND=%d, OR=%d, IS_PAR=%d]\n", cmd->and_op, cmd->or_op, cmd->par);
 		cmd = cmd->next;
 		i++;
 	}

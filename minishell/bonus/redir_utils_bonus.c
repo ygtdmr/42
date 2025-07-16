@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 07:01:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/14 18:15:24 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/15 08:34:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	get_heredoc_fd(char *eof, int *pipefd)
 	return (pipefd[0]);
 }
 
-int	get_redir_fd(t_toktype type, char *file)
+static int	get_redir_fd(t_toktype type, char *file)
 {
 	int	fd;
 	int	pipefd[2];
@@ -68,6 +68,34 @@ int	get_redir_fd(t_toktype type, char *file)
 	return (fd);
 }
 
+void	check_redir_fd(t_cmd *cmd)
+{
+	int		stop;
+	t_redir	*redir;
+
+	stop = 0;
+	while (cmd)
+	{
+		redir = cmd->redir_head;
+		while (redir)
+		{
+			if (cmd->redir_err)
+				break ;
+			if (!stop || (stop && redir->type == T_HEREDOC))
+			{
+				if (redir->fd == -4)
+					redir->fd = get_redir_fd(redir->type, redir->file);
+				if (redir->fd < 0)
+					cmd->redir_err = 1;
+			}
+			redir = redir->next;
+		}
+		if (cmd->and_op + cmd->or_op)
+			stop = 1;
+		cmd = cmd->next;
+	}
+}
+
 int	is_redir(int type)
 {
 	return (type == T_REDIR_IN || \
@@ -76,21 +104,17 @@ type == T_REDIR_APND || \
 type == T_HEREDOC);
 }
 
-void	redir_push(t_cmd *cmd, t_redir **head, t_token **token)
+void	redir_push(t_redir **head, t_token **token)
 {
 	t_redir	*redir;
 	t_redir	*new;
 
-	if (cmd->redir_err)
-		return ;
 	new = malloc(sizeof(t_redir));
 	if (!new)
 		return ;
 	new->type = (*token)->type;
 	new->file = (*token)->next->value;
 	new->fd = -4;
-	if (new->fd < 0)
-		cmd->redir_err = 1;
 	*token = (*token)->next;
 	new->next = 0;
 	if (!*head)

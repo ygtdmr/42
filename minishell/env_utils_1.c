@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:18:11 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 19:31:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/14 17:19:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,101 +14,101 @@
 #include "str_utils.h"
 #include "env_utils.h"
 
-char	*env_key(char *src)
+int		env_key_match(char *src, char *key)
 {
-	char	*key;
-	size_t	length;
+	int		result;
+	char	*tmp_key;
 
 	if (!src)
 		return (0);
-	if (ft_strchr(src, '='))
-		length = ft_strlen(src) - ft_strlen(ft_strchr(src, '='));
-	else
-		length = ft_strlen(src);
-	key = ft_calloc(length + 1, sizeof(char));
-	ft_strlcpy(key, src, length + 1);
-	return (key);
+	tmp_key = env_key(src);
+	result = str_match(tmp_key, key);	
+	free(tmp_key);
+	return (result);
 }
 
-static size_t	env_len(char **env)
+char	**env_dup(char **env, int clear)
 {
-	size_t	len;
+	char	**dup;
+	size_t	length;
+	size_t	i;
 
-	len = 0;
-	while (env[len])
-		len++;
-	return (len);
+	i = 0;
+	length = 0;
+	while (env[length])
+		length++;
+	dup = ft_calloc(length + 1, sizeof(char *));
+	while (i < length)
+	{
+		dup[i] = ft_strdup(env[i]);
+		i++;
+	}
+	if (clear)
+		clear_env(env);
+	return (dup);
 }
 
 char	*env_get(char **env, char *key)
 {
-	char	*tmp_key;
-
 	if (!key)
 		return (0);
 	while (*env)
 	{
-		tmp_key = env_key(*env);
-		if (str_match(key, tmp_key))
-		{
-			free(tmp_key);
+		if (env_key_match(*env, key))
 			return (ft_strchr(*env, '=') + 1);
-		}
-		free(tmp_key);
 		env++;
 	}
 	return (0);
 }
 
-char	**env_append(char **env, char *src)
+static void	env_set(char ***env, char *key, char *val)
 {
 	size_t	i;
-	char	**env_dup;
-	char	**env_tmp;
-	int		src_has_val;
+	char	**dup;
 
-	if (src && env_key_exists(env, src))
-	{
-		env_tmp = env_set(env, src, 0);
-		clear_env(env);
-		return (env_tmp);
-	}
 	i = 0;
-	src_has_val = (src && ft_strchr(src, '='));
-	env_dup = ft_calloc(env_len(env) + src_has_val + 1, sizeof(char *));
-	while (env[i])
+	dup = env_dup(*env, 1);
+	while (dup[i])
 	{
-		env_dup[i] = ft_strdup(env[i]);
+		if (env_key_match(dup[i], key))
+		{
+			free(dup[i]);
+			dup[i] = env_str(key, val);
+			if (!val)
+			{
+				while (dup[++i])
+					dup[i - 1] = dup[i];
+				dup[i - 1] = 0;
+				free(dup[i]);
+			}
+			break ;
+		}
 		i++;
 	}
-	if (src_has_val)
-		env_dup[i] = ft_strdup(src);
-	return (env_dup);
+	*env = dup;
 }
 
-char	**env_set(char **env, char *src, int unset)
+void	env_append(char ***env, char *key, char *val)
 {
+	char	**dup;
 	size_t	i;
-	char	*key;
-	char	*tmp_key;
-	char	**env_dup;
 
 	i = 0;
-	key = env_key(src);
-	env_dup = ft_calloc((env_len(env) - unset) + 1, sizeof(char *));
-	while (*env)
+	if (env_key_exists(*env, key))
+		env_set(env, key, val);
+	else
 	{
-		tmp_key = env_key(*env);
-		if (str_match(tmp_key, key))
+		while ((*env)[i])
+			i++;
+		dup = ft_calloc(i + 2, sizeof(char *));
+		i = 0;
+		while ((*env)[i])
 		{
-			if (!unset)
-				env_dup[i++] = ft_strdup(src);
+			dup[i] = ft_strdup((*env)[i]);
+			i++;
 		}
-		else
-			env_dup[i++] = ft_strdup(*env);
-		env++;
-		free(tmp_key);
+		clear_env(*env);
+		dup[i] = env_str(key, val);
+		*env = dup;
 	}
-	free(key);
-	return (env_dup);
 }

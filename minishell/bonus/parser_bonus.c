@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:41 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 18:16:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/16 09:02:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	parser(t_shell *sh)
 		if (token->type == T_WORD)
 			argv_push(&cmd->argv, token->value);
 		else if (is_redir(token->type))
-			redir_push(cmd, &cmd->redir_head, &token);
+			redir_push(&cmd->redir_head, &token);
 		else if (token->type == T_PIPE || is_operator(token->type))
 			cmd = new_cmd(&sh->cmd_head);
 		token = token->next;

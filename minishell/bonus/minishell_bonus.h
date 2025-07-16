@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/14 16:42:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/16 08:13:29 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef enum e_toktype
 	T_REDIR_OUT,
 	T_REDIR_APND,
 	T_HEREDOC,
+	T_PAR_O,
+	T_PAR_C,
 }	t_toktype;
 
 typedef struct s_token
@@ -61,6 +63,8 @@ typedef struct s_cmd
 	int				redir_err;
 	int				and_op;
 	int				or_op;
+	int				par;
+	int				run;
 	t_redir			*redir_head;
 	char			**argv;
 	struct s_cmd	*next;
@@ -72,8 +76,8 @@ typedef struct s_shell
 	t_cmd			*cmd_head;
 	char			**env;
 	int				last_status;
+	int				par;
 	int				exit;
-	struct s_cmd	*next;
 }	t_shell;
 
 #endif

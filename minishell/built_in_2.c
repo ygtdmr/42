@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 14:34:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 15:49:08 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/14 17:23:29 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 static void	print_export_vars(int fd, t_shell *sh)
 {
-	int	i;
-	char **env;
+	int		i;
+	char	**env;
 
 	env = sh->env;
 	while (*env)
@@ -43,7 +43,7 @@ static void	print_export_vars(int fd, t_shell *sh)
 void	bi_export(int fd, t_shell *sh, t_cmd *cmd, int has_pipe)
 {
 	int		i;
-	char	**tmp_env;
+	char	*key;
 
 	if (!cmd->argv[1])
 		print_export_vars(fd, sh);
@@ -58,12 +58,11 @@ void	bi_export(int fd, t_shell *sh, t_cmd *cmd, int has_pipe)
 			cmd->last_status = 1 << 8;
 			break ;
 		}
-		tmp_env = sh->env;
-		if (env_key_exists(tmp_env, cmd->argv[i]))
-			sh->env = env_set(tmp_env, cmd->argv[i], 0);
-		else
-			sh->env = env_append(tmp_env, cmd->argv[i]);
-		clear_env(tmp_env);
+		if (ft_strchr(cmd->argv[i], '='))
+		{
+			key = env_key(cmd->argv[i]);
+			env_append(&sh->env, key, ft_strdup(ft_strchr(cmd->argv[i], '=') + 1));
+		}
 		i++;
 	}
 }
@@ -71,7 +70,7 @@ void	bi_export(int fd, t_shell *sh, t_cmd *cmd, int has_pipe)
 void	bi_unset(t_shell *sh, t_cmd *cmd, int has_pipe)
 {
 	int		i;
-	char	**tmp_env;
+	char	*key;
 
 	if (has_pipe)
 		return ;
@@ -86,12 +85,10 @@ void	bi_unset(t_shell *sh, t_cmd *cmd, int has_pipe)
 			cmd->last_status = 1 << 8;
 			break ;
 		}
-		tmp_env = sh->env;
-		if (env_key_exists(tmp_env, cmd->argv[i]))
-		{
-			sh->env = env_set(tmp_env, cmd->argv[i], 1);
-			clear_env(tmp_env);
-		}
+		key = env_key(cmd->argv[i]);
+		if (env_key_exists(sh->env, key))
+			env_append(&sh->env, key, 0);
+		free(key);
 		i++;
 	}
 }
