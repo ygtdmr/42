@@ -6,20 +6,19 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/07/16 14:17:48 by yidemir          ###   ########.fr        #
+#    Updated: 2025/07/17 16:46:16 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	philo
+NAME		=	philo_bonus
 CC			= 	cc
 CFLAGS		=	-Wall -Wextra -Werror
 
-SRC			=	utils_1.c \
-				utils_2.c \
-				routine.c \
-				monitor.c \
-				philo.c \
-				init.c \
+SRC			=	utils_1_bonus.c \
+				utils_2_bonus.c \
+				routine_bonus.c \
+				watch_bonus.c \
+				philo_bonus.c \
 
 all:			$(NAME)
 

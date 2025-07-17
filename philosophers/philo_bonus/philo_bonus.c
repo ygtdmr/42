@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   philo_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 09:06:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 18:36:40 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static int	validate_args(int argc, char **argv)
 {
-	int	tmp;
-
 	if (!(argc == 4 || argc == 5))
-		return (put_error("Argument count is invalid", 0));
+		return (put_error("Argument count is invalid: \
+<number_of_philosophers> <time_to_die> <time_to_eat> <time_to_sleep> \
+[number_of_times_each_philosopher_must_eat]", 0));
 	while (*argv)
 	{
-		tmp = ft_atoi(*argv);
-		if (tmp == -1 || !tmp)
+		if (ft_atoi(*argv) <= 0)
 			return (put_error(*argv, ": Argument is invalid"));
 		argv++;
 	}
@@ -30,21 +29,18 @@ static int	validate_args(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	t_rules		r;
-	t_philo		*ph;
-	pthread_t	mon_th;
+	t_rules	rules;
+	t_philo	*philos;
 
 	if (!validate_args(argc - 1, argv + 1))
 		return (1);
-	init_rules(&r, argv + 1);
-	init_mutexes(&r);
-	ph = init_philos(&r);
-	r.start_ts = now_ms();
-	start_threads(ph, &r);
-	pthread_create(&mon_th, 0, monitor, ph);
-	pthread_join(mon_th, 0);
-	join_threads(ph, &r);
-	destroy_mutexes(&r);
-	free(ph);
+	clean_rules(&rules);
+	init_rules(&rules, argv + 1);
+	init_philos(&rules, &philos);
+	start_philos(philos, rules.n_philo);
+	watch(&rules);
+	clean_philos(philos, rules.n_philo);
+	clean_rules(&rules);
+	free(philos);
 	return (0);
 }

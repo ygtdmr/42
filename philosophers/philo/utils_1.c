@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:42:12 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 10:02:05 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 15:53:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ long	now_ms(void)
 {
 	struct timeval	tv;
 
-	gettimeofday(&tv, NULL);
+	gettimeofday(&tv, 0);
 	return (tv.tv_sec * 1000L + tv.tv_usec / 1000L);
 }
 

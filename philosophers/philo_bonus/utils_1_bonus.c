@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_1.c                                          :+:      :+:    :+:   */
+/*   utils_1_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:42:12 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 09:06:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 17:17:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	put_error(char *str1, char *str2)
 {
@@ -51,29 +51,29 @@ int	ft_atoi(char *str)
 		r += (*str - 48);
 		str++;
 	}
-	if (s == -1)
-		return (-1);
-	return (r);	
+	return (r * s);
 }
 
 long	now_ms(void)
 {
-	struct timeval tv;
-	gettimeofday(&tv, NULL);
+	struct timeval	tv;
+
+	gettimeofday(&tv, 0);
 	return (tv.tv_sec * 1000L + tv.tv_usec / 1000L);
 }
 
-void	smart_sleep(long dur_ms, t_rules *r)
+void	smart_sleep(long dur_ms)
 {
-	long start = now_ms();
-	while (!r->stop && (now_ms() - start < dur_ms))
+	long	start;
+
+	start = now_ms();
+	while (now_ms() - start < dur_ms)
 		usleep(1000);
 }
 
-void	print_action(t_rules *r, int id, const char *msg)
+void	print_action(t_rules *rules, int id, const char *msg)
 {
-	pthread_mutex_lock(&r->print);
-	if (!r->stop)
-		printf("%ld %d %s\n", now_ms() - r->start_ts, id, msg);
-	pthread_mutex_unlock(&r->print);
+	sem_wait(rules->print);
+	printf("%ld %d %s\n", now_ms() - rules->start_ts, id, msg);
+	sem_post(rules->print);
 }

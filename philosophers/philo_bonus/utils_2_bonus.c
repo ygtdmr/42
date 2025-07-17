@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_2.c                                          :+:      :+:    :+:   */
+/*   utils_2_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 18:04:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 19:11:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 void	init_rules(t_rules *rules, char **argv)
 {
-	int	i;
-
 	rules->n_philo = ft_atoi(*(argv++));
 	rules->t_die = ft_atoi(*(argv++));
 	rules->t_eat = ft_atoi(*(argv++));
@@ -23,16 +21,12 @@ void	init_rules(t_rules *rules, char **argv)
 	if (*argv)
 		rules->must_eat = ft_atoi(*argv);
 	else
-		rules->must_eat = -1;
+		rules->must_eat = 0;
 	rules->start_ts = now_ms();
-	rules->stop = 0;
-	pthread_mutex_init(&rules->print, 0);
-	rules->forks = malloc(sizeof(pthread_mutex_t) * rules->n_philo);
-	if (!rules->forks)
-		return ;
-	i = 0;
-	while (i < rules->n_philo)
-		pthread_mutex_init(rules->forks + i++, 0);
+	rules->forks = sem_open("/philo_forks", O_CREAT, 0644, rules->n_philo);
+	rules->print = sem_open("/philo_print", O_CREAT, 0644, 1);
+	rules->dead = sem_open("/philo_dead", O_CREAT, 0644, 1);
+	rules->everyone_ate = sem_open("/philo_ate", O_CREAT, 0644, 0);
 }
 
 void	init_philos(t_rules *rules, t_philo **philos)
@@ -49,12 +43,6 @@ void	init_philos(t_rules *rules, t_philo **philos)
 		(*philos)[i].eaten = 0;
 		(*philos)[i].last_meal = rules->start_ts;
 		(*philos)[i].rules = rules;
-		pthread_create(&((*philos)[i].th), 0, routine, (*philos) + i);
-		(*philos)[i].left_fork = rules->forks + i;
-		if ((i + 1) == rules->n_philo)
-			(*philos)[i].right_fork = rules->forks;
-		else
-			(*philos)[i].right_fork = rules->forks + (i + 1);
 		i++;
 	}
 }
@@ -65,18 +53,12 @@ void	start_philos(t_philo *philos, int n)
 
 	i = 0;
 	while (i < n)
-		pthread_join(philos[i++].th, 0);
-}
-
-void	clean_rules(t_rules rules)
-{
-	int	i;
-
-	i = 0;
-	while (i < rules.n_philo)
-		pthread_mutex_destroy(rules.forks + i++);
-	free(rules.forks);
-	pthread_mutex_destroy(&rules.print);
+	{
+		philos[i].pid = fork();
+		if (philos[i].pid == 0)
+			routine(&philos[i]);
+		i++;
+	}
 }
 
 void	clean_philos(t_philo *philos, int n)
@@ -85,5 +67,17 @@ void	clean_philos(t_philo *philos, int n)
 
 	i = 0;
 	while (i < n)
-		pthread_join(philos[i++].th, 0);
+		kill(philos[i++].pid, SIGKILL);
+}
+
+void	clean_rules(t_rules *rules)
+{
+	sem_close(rules->forks);
+	sem_close(rules->print);
+	sem_close(rules->dead);
+	sem_close(rules->everyone_ate);
+	sem_unlink("/philo_dead");
+	sem_unlink("/philo_ate");
+	sem_unlink("/philo_print");
+	sem_unlink("/philo_forks");
 }

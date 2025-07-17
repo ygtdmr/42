@@ -1,47 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   monitor.c                                          :+:      :+:    :+:   */
+/*   watch_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:20:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 13:33:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 17:20:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
-static void	watch(t_rules *rules, t_philo *philos)
+void	watch(t_rules *rules)
 {
-	int	all_full;
-	int	i;
+	int	status;
+	int	eaten_cnt;
 
-	while (!rules->stop)
+	eaten_cnt = 0;
+	while (1)
 	{
-		i = -1;
-		all_full = 1;
-		while (++i < rules->n_philo)
-		{
-			if (now_ms() - philos[i].last_meal > rules->t_die)
-			{
-				print_action(rules, philos[i].id, "died");
-				rules->stop = 1;
-			}
-			if (rules->must_eat == -1 || philos[i].eaten < rules->must_eat)
-				all_full = 0;
-		}
-		if (all_full)
-			rules->stop = 1;
+		if (rules->must_eat && eaten_cnt == rules->n_philo)
+			break;
+		if (waitpid(-1, &status, WNOHANG) > 0 && WEXITSTATUS(status) == 1)
+			break;
+		if (rules->must_eat && sem_wait(rules->everyone_ate) == 0)
+			eaten_cnt++;
 		usleep(1000);
 	}
 }
 
-void	*monitor(void *arg)
-{
-	t_philo	*philos;
-
-	philos = (t_philo *)arg;
-	watch(philos[0].rules, philos);
-	return (0);
-}
