@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 07:01:56 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 08:53:38 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 09:42:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void	print_philo(t_philo philo)
 eaten\t\t=> %d\n\
 last_meal\t=> %ld\n\
 thread\t\t=> %ld\n\
-fork\t\t=> %p\n\
-next_fork\t=> %p\n\
+left_fork\t=> %p\n\
+right_fork\t=> %p\n\
 rules\t\t=> %p\n\n", \
 	philo.id, philo.eaten, philo.last_meal, philo.th, \
-	philo.fork, philo.next_fork, philo.rules);
+	philo.left_fork, philo.right_fork, philo.rules);
 }
 
 void	print_philos(t_philo *philos, int n)

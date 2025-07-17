@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:42:12 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 09:06:23 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 10:02:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,19 @@ long	now_ms(void)
 	return (tv.tv_sec * 1000L + tv.tv_usec / 1000L);
 }
 
-void	smart_sleep(long dur_ms, t_rules *r)
+void	smart_sleep(long dur_ms, t_rules *rules)
 {
 	long	start;
 
 	start = now_ms();
-	while (!r->stop && (now_ms() - start < dur_ms))
+	while (!rules->stop && (now_ms() - start < dur_ms))
 		usleep(1000);
 }
 
-void	print_action(t_rules *r, int id, const char *msg)
+void	print_action(t_rules *rules, int id, const char *msg)
 {
-	pthread_mutex_lock(&r->print);
-	if (!r->stop)
-		printf("%ld %d %s\n", now_ms() - r->start_ts, id, msg);
-	pthread_mutex_unlock(&r->print);
+	pthread_mutex_lock(&rules->print);
+	if (!rules->stop)
+		printf("%ld %d %s\n", now_ms() - rules->start_ts, id, msg);
+	pthread_mutex_unlock(&rules->print);
 }

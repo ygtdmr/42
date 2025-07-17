@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 09:15:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 11:54:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_rules(t_rules *rules, char **argv)
 	if (*argv)
 		rules->must_eat = ft_atoi(*argv);
 	else
-		rules->must_eat = 0;
+		rules->must_eat = -1;
 	rules->start_ts = now_ms();
 	rules->stop = 0;
 	pthread_mutex_init(&rules->print, 0);
@@ -45,16 +45,16 @@ void	init_philos(t_rules *rules, t_philo **philos)
 	i = 0;
 	while (i < rules->n_philo)
 	{
-		(*philos)[i].id = i;
+		(*philos)[i].id = i + 1;
 		(*philos)[i].eaten = 0;
-		(*philos)[i].last_meal = 0;
+		(*philos)[i].last_meal = rules->start_ts;
 		(*philos)[i].rules = rules;
 		pthread_create(&((*philos)[i].th), 0, routine, (*philos) + i);
-		(*philos)[i].fork = rules->forks + i;
+		(*philos)[i].left_fork = rules->forks + i;
 		if ((i + 1) == rules->n_philo)
-			(*philos)[i].next_fork = rules->forks;
+			(*philos)[i].right_fork = rules->forks;
 		else
-			(*philos)[i].next_fork = rules->forks + (i + 1);
+			(*philos)[i].right_fork = rules->forks + (i + 1);
 		i++;
 	}
 }
@@ -86,5 +86,4 @@ void	clean_philos(t_philo *philos, int n)
 	i = 0;
 	while (i < n)
 		pthread_detach(philos[i++].th);
-	free(philos);
 }

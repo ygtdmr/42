@@ -6,12 +6,35 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:20:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 08:21:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 12:13:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "philo.h"
+
 void	*routine(void *arg)
 {
-	(void) arg;
+	t_philo	*p;
+
+	p = (t_philo *)arg;
+	if (p->id % 2 == 0)
+		usleep(1000);
+	while (!p->rules->stop)
+	{
+		print_action(p->rules, p->id, "is thinking");
+		pthread_mutex_lock(p->left_fork);
+		print_action(p->rules, p->id, "has taken a fork");
+		pthread_mutex_lock(p->right_fork);
+		print_action(p->rules, p->id, "has taken a fork");
+		print_action(p->rules, p->id, "is eating");
+		p->last_meal = now_ms();
+		smart_sleep(p->rules->t_eat, p->rules);
+		if (p->rules->must_eat)
+			p->eaten++;
+		pthread_mutex_unlock(p->left_fork);
+		pthread_mutex_unlock(p->right_fork);
+		print_action(p->rules, p->id, "is sleeping");
+		smart_sleep(p->rules->t_sleep, p->rules);
+	}
 	return (0);
 }
