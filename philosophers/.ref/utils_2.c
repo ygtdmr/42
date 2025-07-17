@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/16 14:29:46 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 09:06:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ void	destroy_mutexes(t_rules *r)
 
 void	init_rules(t_rules *r, char **argv)
 {
-	r->n_philo = atoi_positive(*(argv++));
-	r->t_die = atoi_positive(*(argv++));
-	r->t_eat = atoi_positive(*(argv++));
-	r->t_sleep = atoi_positive(*(argv++));
+	r->n_philo = ft_atoi(*(argv++));
+	r->t_die = ft_atoi(*(argv++));
+	r->t_eat = ft_atoi(*(argv++));
+	r->t_sleep = ft_atoi(*(argv++));
 	if (*argv)
-		r->must_eat = atoi_positive(*argv);
+		r->must_eat = ft_atoi(*argv);
 	r->start_ts = 0;
 	r->stop = 0;
 	r->forks = 0;

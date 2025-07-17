@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:55 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/16 14:29:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 09:16:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_rules
 	int				stop;
 	pthread_mutex_t	print;
 	pthread_mutex_t	*forks;
-} t_rules;
+}	t_rules;
 
 typedef struct s_philo
 {
@@ -37,23 +37,24 @@ typedef struct s_philo
 	int				eaten;
 	long			last_meal;
 	pthread_t		th;
-	pthread_mutex_t	*lfork;
-	pthread_mutex_t	*rfork;
-	t_rules			*r;
-} t_philo;
+	pthread_mutex_t	*fork;
+	pthread_mutex_t	*next_fork;
+	t_rules			*rules;
+}	t_philo;
 
-int		atoi_positive(char *str);
+int		ft_atoi(char *str);
 int		put_error(char *str1, char *str2);
 long	now_ms(void);
 void	smart_sleep(long dur_ms, t_rules *r);
 void	print_action(t_rules *r, int id, const char *msg);
+
+void	init_rules(t_rules *rules, char **argv);
+void	init_philos(t_rules *rules, t_philo **philos);
+void	start_philos(t_philo *philos, int n);
+void	clean_rules(t_rules rules);
+void	clean_philos(t_philo *philos, int n);
+
 void	*routine(void *arg);
 void	*monitor(void *arg);
-int		init_mutexes(t_rules *r);
-void	init_rules(t_rules *r, char **argv);
-int		start_threads(t_philo *ph, t_rules *r);
-void	destroy_mutexes(t_rules *r);
-int		join_threads(t_philo *ph, t_rules *r);
-t_philo	*init_philos(t_rules *r);
 
 #endif

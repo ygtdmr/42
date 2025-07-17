@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:42:12 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/16 12:41:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 09:06:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	put_error(char *str1, char *str2)
 	return (0);
 }
 
-int	atoi_positive(char *str)
+int	ft_atoi(char *str)
 {
 	int	s;
 	int	r;
@@ -51,21 +51,22 @@ int	atoi_positive(char *str)
 		r += (*str - 48);
 		str++;
 	}
-	if (s == -1)
-		return (-1);
-	return (r);	
+	return (r * s);
 }
 
 long	now_ms(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
+
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000L + tv.tv_usec / 1000L);
 }
 
 void	smart_sleep(long dur_ms, t_rules *r)
 {
-	long start = now_ms();
+	long	start;
+
+	start = now_ms();
 	while (!r->stop && (now_ms() - start < dur_ms))
 		usleep(1000);
 }

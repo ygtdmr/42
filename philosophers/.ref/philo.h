@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:55 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/16 14:40:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 09:06:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_philo
 } t_philo;
 
 int		put_error(char *str1, char *str2);
-int		atoi_positive(char *str);
+int		ft_atoi(char *str);
 
 long	now_ms(void);
 void	smart_sleep(long dur_ms, t_rules *r);

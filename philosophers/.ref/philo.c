@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/16 14:29:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/17 09:06:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	validate_args(int argc, char **argv)
 		return (put_error("Argument count is invalid", 0));
 	while (*argv)
 	{
-		tmp = atoi_positive(*argv);
+		tmp = ft_atoi(*argv);
 		if (tmp == -1 || !tmp)
 			return (put_error(*argv, ": Argument is invalid"));
 		argv++;
