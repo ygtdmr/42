@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:20:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 19:12:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/20 19:26:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,22 @@ static void	*monitor(void *arg)
 	rules = philo->rules;
 	while (1)
 	{
+		sem_wait(rules->dead);
 		if ((now_ms() - philo->last_meal) > rules->t_die)
 		{
-			sem_wait(rules->dead);
 			print_action(philo->rules, philo->id, "died");
-			clean_rules(rules);
+			sem_wait(rules->print);
+			sem_post(rules->everyone_ate);
+			clean_rules(rules, 0);
 			exit(1);
 		}
-		usleep(1000);
+		sem_post(rules->dead);
+		if (rules->must_eat && philo->eaten == rules->must_eat)
+		{
+			sem_post(rules->everyone_ate);
+			clean_rules(rules, 0);
+			exit(0);
+		}
 	}
 	return (0);
 }
@@ -36,24 +44,23 @@ static void	*monitor(void *arg)
 void	routine(t_philo	*p)
 {
 	pthread_create(&p->monitor_th, 0, monitor, p);
+	pthread_detach(p->monitor_th);
+	if (p->id % 2 == 0)
+		usleep(1000);
 	while (1)
 	{
-		if (p->rules->must_eat && ++p->eaten == p->rules->must_eat)
-		{
-			sem_post(p->rules->everyone_ate);
-			clean_rules(p->rules);
-			exit(0);
-		}
 		print_action(p->rules, p->id, "is thinking");
 		sem_wait(p->rules->forks);
+		print_action(p->rules, p->id, "has taken a fork");
 		sem_wait(p->rules->forks);
 		print_action(p->rules, p->id, "has taken a fork");
-		print_action(p->rules, p->id, "has taken a fork");
 		print_action(p->rules, p->id, "is eating");
+		sem_wait(p->rules->dead);
 		p->last_meal = now_ms();
-		smart_sleep(p->rules->t_eat);
+		sem_post(p->rules->dead);
 		if (p->rules->must_eat)
 			p->eaten++;
+		smart_sleep(p->rules->t_eat);
 		sem_post(p->rules->forks);
 		sem_post(p->rules->forks);
 		print_action(p->rules, p->id, "is sleeping");

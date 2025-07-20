@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/07/17 16:46:16 by yidemir          ###   ########.fr        #
+#    Updated: 2025/07/20 18:19:37 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ CFLAGS		=	-Wall -Wextra -Werror
 SRC			=	utils_1_bonus.c \
 				utils_2_bonus.c \
 				routine_bonus.c \
-				watch_bonus.c \
 				philo_bonus.c \
 
 all:			$(NAME)

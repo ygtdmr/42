@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:55 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 19:11:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/20 18:18:37 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ void	init_philos(t_rules *rules, t_philo **philos);
 void	start_philos(t_philo *p, int n);
 
 void	clean_philos(t_philo *philos, int n);
-void	clean_rules(t_rules *rules);
+void	clean_rules(t_rules *rules, int unlink);
 
 void	routine(t_philo	*p);
-void	watch(t_rules *rules);
 
 #endif

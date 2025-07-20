@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 18:36:40 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/20 19:12:38 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,23 @@ static int	validate_args(int argc, char **argv)
 	return (1);
 }
 
+static void	watch(t_rules *rules)
+{
+	int	status;
+	int	eaten_cnt;
+
+	eaten_cnt = 0;
+	while (1)
+	{
+		if (rules->must_eat && (eaten_cnt == rules->n_philo))
+			break;
+		if (waitpid(-1, &status, WNOHANG) > 0 && WEXITSTATUS(status) == 1)
+			break;
+		if (rules->must_eat && sem_wait(rules->everyone_ate) == 0)
+			eaten_cnt++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_rules	rules;
@@ -34,13 +51,13 @@ int	main(int argc, char **argv)
 
 	if (!validate_args(argc - 1, argv + 1))
 		return (1);
-	clean_rules(&rules);
+	clean_rules(0, 1);
 	init_rules(&rules, argv + 1);
 	init_philos(&rules, &philos);
 	start_philos(philos, rules.n_philo);
 	watch(&rules);
 	clean_philos(philos, rules.n_philo);
-	clean_rules(&rules);
+	clean_rules(&rules, 1);
 	free(philos);
 	return (0);
 }

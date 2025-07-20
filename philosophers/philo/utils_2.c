@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 18:04:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/20 16:48:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void	clean_rules(t_rules rules)
 	i = 0;
 	while (i < rules.n_philo)
 		pthread_mutex_destroy(rules.forks + i++);
-	free(rules.forks);
 	pthread_mutex_destroy(&rules.print);
+	free(rules.forks);
 }
 
 void	clean_philos(t_philo *philos, int n)
@@ -85,5 +85,9 @@ void	clean_philos(t_philo *philos, int n)
 
 	i = 0;
 	while (i < n)
+	{
+		pthread_mutex_unlock(philos[i].left_fork);
+		pthread_mutex_unlock(philos[i].right_fork);
 		pthread_join(philos[i++].th, 0);
+	}
 }
