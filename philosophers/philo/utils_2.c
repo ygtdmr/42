@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/20 16:48:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/21 13:30:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,14 @@ void	init_philos(t_rules *rules, t_philo **philos)
 		(*philos)[i].eaten = 0;
 		(*philos)[i].last_meal = rules->start_ts;
 		(*philos)[i].rules = rules;
-		pthread_create(&((*philos)[i].th), 0, routine, (*philos) + i);
 		(*philos)[i].left_fork = rules->forks + i;
 		if ((i + 1) == rules->n_philo)
 			(*philos)[i].right_fork = rules->forks;
 		else
 			(*philos)[i].right_fork = rules->forks + (i + 1);
+		pthread_create(&((*philos)[i].th), 0, routine, (*philos) + i);
 		i++;
 	}
-}
-
-void	start_philos(t_philo *philos, int n)
-{
-	int	i;
-
-	i = 0;
-	while (i < n)
-		pthread_join(philos[i++].th, 0);
 }
 
 void	clean_rules(t_rules rules)

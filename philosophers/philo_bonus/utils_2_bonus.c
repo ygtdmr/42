@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/20 19:21:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/21 14:50:59 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	start_philos(t_philo *philos, int n)
 		{
 			philos->rules->start_ts = now_ms();
 			philos[i].last_meal = philos->rules->start_ts;
-			routine(&philos[i]);
+			routine(philos + i);
 		}
 		i++;
 	}
@@ -67,32 +67,30 @@ void	start_philos(t_philo *philos, int n)
 
 void	clean_philos(t_philo *philos, int n)
 {
-	(void) philos;
-	(void) n;
-	// int	i;
+	int	i;
 
-	// i = 0;
-	// while (i < n)
-	// 	kill(philos[i++].pid, SIGKILL);
-	// i = 0;
-	// while (i < n)
-	// 	waitpid(philos[i++].pid, 0, 0);
+	i = 0;
+	while (i < n)
+	{
+		kill(philos[i].pid, SIGKILL);
+		waitpid(philos[i++].pid, 0, 0);
+	}
 }
 
 void	clean_rules(t_rules *rules, int unlink)
 {
 	if (rules)
 	{
-		sem_close(rules->forks);
 		sem_close(rules->print);
 		sem_close(rules->dead);
 		sem_close(rules->everyone_ate);
+		sem_close(rules->forks);
 	}
 	if (unlink)
 	{
+		sem_unlink("/philo_print");
 		sem_unlink("/philo_dead");
 		sem_unlink("/philo_ate");
-		sem_unlink("/philo_print");
 		sem_unlink("/philo_forks");
 	}
 }

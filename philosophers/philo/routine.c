@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:20:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/20 19:17:23 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/21 13:30:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,9 @@ void	*routine(void *arg)
 		usleep(1000);
 	while (!p->rules->stop)
 	{
-		print_action(p->rules, p->id, "is thinking");
-		if (p->left_fork)
-			pthread_mutex_lock(p->left_fork);
+		pthread_mutex_lock(p->left_fork);
 		print_action(p->rules, p->id, "has taken a fork");
-		if (p->right_fork)
-			pthread_mutex_lock(p->right_fork);
+		pthread_mutex_lock(p->right_fork);
 		print_action(p->rules, p->id, "has taken a fork");
 		print_action(p->rules, p->id, "is eating");
 		p->last_meal = now_ms();
@@ -37,6 +34,8 @@ void	*routine(void *arg)
 		pthread_mutex_unlock(p->right_fork);
 		print_action(p->rules, p->id, "is sleeping");
 		smart_sleep(p->rules->t_sleep, p->rules);
+		print_action(p->rules, p->id, "is thinking");
+		usleep(1000);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/20 19:12:38 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/21 14:50:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ static void	watch(t_rules *rules)
 	while (1)
 	{
 		if (rules->must_eat && (eaten_cnt == rules->n_philo))
-			break;
-		if (waitpid(-1, &status, WNOHANG) > 0 && WEXITSTATUS(status) == 1)
-			break;
-		if (rules->must_eat && sem_wait(rules->everyone_ate) == 0)
+			break ;
+		if (waitpid(-1, &status, WNOHANG) > 0 && (WEXITSTATUS(status) == 1))
+			break ;
+		if (rules->must_eat && (sem_wait(rules->everyone_ate) == 0))
 			eaten_cnt++;
+		usleep(1000);
 	}
 }
 

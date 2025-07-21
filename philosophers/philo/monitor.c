@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:20:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/20 18:21:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/21 13:26:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	watch(t_rules *rules, t_philo *philos)
 		}
 		if (all_full)
 			rules->stop = 1;
+		usleep(1000);
 	}
 }
 

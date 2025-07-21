@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:55 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/20 18:18:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/21 14:50:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <signal.h>
-#include <sys/wait.h>
+# include <sys/wait.h>
 # include <semaphore.h>
 
 typedef struct s_rules
