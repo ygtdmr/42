@@ -6,16 +6,35 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/22 17:54:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:58:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_rules(t_rules *rules, char **argv)
+static int	init_mutexes(t_rules *rules)
 {
 	int	i;
 
+	if (pthread_mutex_init(&rules->print, 0))
+		return (put_error("pthread_mutex_init error", 0));
+	if (pthread_mutex_init(&rules->eat, 0))
+		return (put_error("pthread_mutex_init error", 0));
+	if (pthread_mutex_init(&rules->stop, 0))
+		return (put_error("pthread_mutex_init error", 0));
+	if (pthread_mutex_init(&rules->last_meal, 0))
+		return (put_error("pthread_mutex_init error", 0));
+	i = 0;
+	while (i < rules->n_philo)
+	{
+		if (pthread_mutex_init(rules->forks + i++, 0))
+			return (put_error("pthread_mutex_init error", 0));
+	}
+	return (1);
+}
+
+int	init_rules(t_rules *rules, char **argv)
+{
 	rules->n_philo = ft_atoi(*(argv++));
 	rules->t_die = ft_atoi(*(argv++));
 	rules->t_eat = ft_atoi(*(argv++));
@@ -25,19 +44,11 @@ int	init_rules(t_rules *rules, char **argv)
 	else
 		rules->must_eat = -1;
 	rules->start_ts = now_ms();
-	rules->stop = 0;
+	rules->is_stop = 0;
 	rules->forks = malloc(sizeof(pthread_mutex_t) * rules->n_philo);
 	if (!rules->forks)
-		return (put_error("malloc error", 0));
-	if (pthread_mutex_init(&rules->print, 0))
-		return (put_error("pthread_mutex_init error", 0));
-	i = 0;
-	while (i < rules->n_philo)
-	{
-		if (pthread_mutex_init(rules->forks + i++, 0))
-			return (put_error("pthread_mutex_init error", 0));
-	}
-	return (1);
+		return (put_error("malloc error", 0));	
+	return (init_mutexes(rules));
 }
 
 int	init_philos(t_rules *rules, t_philo **philos)
@@ -83,9 +94,5 @@ void	clean_philos(t_philo *philos, int n)
 
 	i = 0;
 	while (i < n)
-	{
-		pthread_mutex_unlock(philos[i].left_fork);
-		pthread_mutex_unlock(philos[i].right_fork);
 		pthread_join(philos[i++].th, 0);
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:20:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/21 13:26:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:54:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@ static void	watch(t_rules *rules, t_philo *philos)
 	int	all_full;
 	int	i;
 
-	while (!rules->stop)
+	while (!stop(rules, -1))
 	{
 		i = -1;
 		all_full = 1;
 		while (++i < rules->n_philo)
 		{
-			if (now_ms() - philos[i].last_meal > rules->t_die)
+			if ((now_ms() - last_meal(philos + i, -1)) > rules->t_die)
 			{
 				print_action(rules, philos[i].id, "died");
-				rules->stop = 1;
+				stop(rules, 1);
 			}
-			if (rules->must_eat == -1 || philos[i].eaten < rules->must_eat)
+			if (rules->must_eat == -1 || (eat(philos + i, 0) < rules->must_eat))
 				all_full = 0;
 		}
 		if (all_full)
-			rules->stop = 1;
+			stop(rules, 1);
 		usleep(1000);
 	}
 }

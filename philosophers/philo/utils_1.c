@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:42:12 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 15:53:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:57:53 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ void	smart_sleep(long dur_ms, t_rules *rules)
 	long	start;
 
 	start = now_ms();
-	while (!rules->stop && (now_ms() - start < dur_ms))
+	while (!stop(rules, -1) && (now_ms() - start < dur_ms))
 		usleep(1000);
 }
 
 void	print_action(t_rules *rules, int id, const char *msg)
 {
 	pthread_mutex_lock(&rules->print);
-	if (!rules->stop)
+	if (!stop(rules, -1))
 		printf("%ld %d %s\n", now_ms() - rules->start_ts, id, msg);
 	pthread_mutex_unlock(&rules->print);
 }

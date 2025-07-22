@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/22 17:50:23 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:21:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!init_rules(&rules, argv + 1))
 		return (1);
-	init_philos(&rules, &philos);
+	if (!init_philos(&rules, &philos))
+		return (1);
 	pthread_create(&monitor_th, 0, monitor, philos);
 	pthread_join(monitor_th, 0);
 	clean_philos(philos, rules.n_philo);

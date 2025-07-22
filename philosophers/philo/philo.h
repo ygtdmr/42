@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:55 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/22 17:49:10 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:53:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ typedef struct s_rules
 	long			t_sleep;
 	int				must_eat;
 	long			start_ts;
-	int				stop;
+	int				is_stop;
 	pthread_mutex_t	print;
+	pthread_mutex_t	stop;
+	pthread_mutex_t	eat;
+	pthread_mutex_t	last_meal;
 	pthread_mutex_t	*forks;
 }	t_rules;
 
@@ -53,6 +56,10 @@ int		init_philos(t_rules *rules, t_philo **philos);
 void	start_philos(t_philo *philos, int n);
 void	clean_rules(t_rules rules);
 void	clean_philos(t_philo *philos, int n);
+
+int		eat(t_philo *philo, int add);
+long	last_meal(t_philo *philo, int val);
+int		stop(t_rules *rules, int val);
 
 void	*routine(void *arg);
 void	*monitor(void *arg);

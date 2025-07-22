@@ -6,35 +6,49 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:20:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/21 13:30:25 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/22 15:07:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+static void	take_fork(t_philo *philo)
+{
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->left_fork);
+		print_action(philo->rules, philo->id, "has taken a fork");
+		pthread_mutex_lock(philo->right_fork);
+		print_action(philo->rules, philo->id, "has taken a fork");
+	}
+	else
+	{
+		pthread_mutex_lock(philo->right_fork);
+		print_action(philo->rules, philo->id, "has taken a fork");
+		pthread_mutex_lock(philo->left_fork);
+		print_action(philo->rules, philo->id, "has taken a fork");
+	}
+}
+
 void	*routine(void *arg)
 {
-	t_philo	*p;
+	t_philo	*philo;
 
-	p = (t_philo *)arg;
-	if (p->id % 2 == 0)
+	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
 		usleep(1000);
-	while (!p->rules->stop)
+	while (!stop(philo->rules, -1))
 	{
-		pthread_mutex_lock(p->left_fork);
-		print_action(p->rules, p->id, "has taken a fork");
-		pthread_mutex_lock(p->right_fork);
-		print_action(p->rules, p->id, "has taken a fork");
-		print_action(p->rules, p->id, "is eating");
-		p->last_meal = now_ms();
-		smart_sleep(p->rules->t_eat, p->rules);
-		if (p->rules->must_eat)
-			p->eaten++;
-		pthread_mutex_unlock(p->left_fork);
-		pthread_mutex_unlock(p->right_fork);
-		print_action(p->rules, p->id, "is sleeping");
-		smart_sleep(p->rules->t_sleep, p->rules);
-		print_action(p->rules, p->id, "is thinking");
+		take_fork(philo);
+		print_action(philo->rules, philo->id, "is eating");
+		last_meal(philo, now_ms());
+		smart_sleep(philo->rules->t_eat, philo->rules);
+		eat(philo, 1);
+		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
+		print_action(philo->rules, philo->id, "is sleeping");
+		smart_sleep(philo->rules->t_sleep, philo->rules);
+		print_action(philo->rules, philo->id, "is thinking");
 		usleep(1000);
 	}
 	return (0);
