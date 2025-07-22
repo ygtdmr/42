@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/21 14:50:59 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/22 17:55:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	init_rules(t_rules *rules, char **argv)
+int	init_rules(t_rules *rules, char **argv)
 {
 	rules->n_philo = ft_atoi(*(argv++));
 	rules->t_die = ft_atoi(*(argv++));
@@ -27,15 +27,19 @@ void	init_rules(t_rules *rules, char **argv)
 	rules->print = sem_open("/philo_print", O_CREAT, 0644, 1);
 	rules->dead = sem_open("/philo_dead", O_CREAT, 0644, 1);
 	rules->everyone_ate = sem_open("/philo_ate", O_CREAT, 0644, 0);
+	if (!(rules->forks != SEM_FAILED && rules->print != SEM_FAILED && \
+rules->dead != SEM_FAILED && rules->everyone_ate != SEM_FAILED))
+		return (put_error("sem_open failed", 0));
+	return (1);
 }
 
-void	init_philos(t_rules *rules, t_philo **philos)
+int	init_philos(t_rules *rules, t_philo **philos)
 {
 	int	i;
 
 	(*philos) = malloc(sizeof(t_philo) * rules->n_philo);
 	if (!(*philos))
-		return ;
+		return (put_error("malloc error", 0));
 	i = 0;
 	while (i < rules->n_philo)
 	{
@@ -45,6 +49,7 @@ void	init_philos(t_rules *rules, t_philo **philos)
 		(*philos)[i].rules = rules;
 		i++;
 	}
+	return (1);
 }
 
 void	start_philos(t_philo *philos, int n)

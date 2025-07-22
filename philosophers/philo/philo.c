@@ -6,12 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/21 13:29:23 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/22 17:50:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include ".test/test.h"
 
 static int	validate_args(int argc, char **argv)
 {
@@ -36,7 +35,8 @@ int	main(int argc, char **argv)
 
 	if (!validate_args(argc - 1, argv + 1))
 		return (1);
-	init_rules(&rules, argv + 1);
+	if (!init_rules(&rules, argv + 1))
+		return (1);
 	init_philos(&rules, &philos);
 	pthread_create(&monitor_th, 0, monitor, philos);
 	pthread_join(monitor_th, 0);

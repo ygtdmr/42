@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/07/17 09:01:35 by yidemir          ###   ########.fr        #
+#    Updated: 2025/07/22 17:25:01 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ SRC			=	utils_1.c \
 				routine.c \
 				monitor.c \
 				philo.c \
-				.test/test.c
 
 all:			$(NAME)
 

@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/21 13:30:05 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/22 17:54:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_rules(t_rules *rules, char **argv)
+int	init_rules(t_rules *rules, char **argv)
 {
 	int	i;
 
@@ -26,22 +26,27 @@ void	init_rules(t_rules *rules, char **argv)
 		rules->must_eat = -1;
 	rules->start_ts = now_ms();
 	rules->stop = 0;
-	pthread_mutex_init(&rules->print, 0);
 	rules->forks = malloc(sizeof(pthread_mutex_t) * rules->n_philo);
 	if (!rules->forks)
-		return ;
+		return (put_error("malloc error", 0));
+	if (pthread_mutex_init(&rules->print, 0))
+		return (put_error("pthread_mutex_init error", 0));
 	i = 0;
 	while (i < rules->n_philo)
-		pthread_mutex_init(rules->forks + i++, 0);
+	{
+		if (pthread_mutex_init(rules->forks + i++, 0))
+			return (put_error("pthread_mutex_init error", 0));
+	}
+	return (1);
 }
 
-void	init_philos(t_rules *rules, t_philo **philos)
+int	init_philos(t_rules *rules, t_philo **philos)
 {
 	int	i;
 
 	(*philos) = malloc(sizeof(t_philo) * rules->n_philo);
 	if (!(*philos))
-		return ;
+		return (put_error("malloc error", 0));
 	i = 0;
 	while (i < rules->n_philo)
 	{
@@ -54,9 +59,11 @@ void	init_philos(t_rules *rules, t_philo **philos)
 			(*philos)[i].right_fork = rules->forks;
 		else
 			(*philos)[i].right_fork = rules->forks + (i + 1);
-		pthread_create(&((*philos)[i].th), 0, routine, (*philos) + i);
+		if (pthread_create(&((*philos)[i].th), 0, routine, (*philos) + i))
+			return (put_error("pthread_create error", 0));
 		i++;
 	}
+	return (1);
 }
 
 void	clean_rules(t_rules rules)

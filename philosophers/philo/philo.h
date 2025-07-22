@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:55 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 11:14:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/22 17:49:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ long	now_ms(void);
 void	smart_sleep(long dur_ms, t_rules *rules);
 void	print_action(t_rules *rules, int id, const char *msg);
 
-void	init_rules(t_rules *rules, char **argv);
-void	init_philos(t_rules *rules, t_philo **philos);
+int		init_rules(t_rules *rules, char **argv);
+int		init_philos(t_rules *rules, t_philo **philos);
 void	start_philos(t_philo *philos, int n);
 void	clean_rules(t_rules rules);
 void	clean_philos(t_philo *philos, int n);

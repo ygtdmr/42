@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/21 14:50:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/22 17:54:45 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@ int	main(int argc, char **argv)
 	if (!validate_args(argc - 1, argv + 1))
 		return (1);
 	clean_rules(0, 1);
-	init_rules(&rules, argv + 1);
-	init_philos(&rules, &philos);
+	if (!init_rules(&rules, argv + 1))
+		return (1);
+	if (!init_philos(&rules, &philos))
+		return (1);
 	start_philos(philos, rules.n_philo);
 	watch(&rules);
 	clean_philos(philos, rules.n_philo);
