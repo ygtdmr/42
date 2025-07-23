@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/22 14:58:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/23 11:36:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	init_rules(t_rules *rules, char **argv)
 	rules->is_stop = 0;
 	rules->forks = malloc(sizeof(pthread_mutex_t) * rules->n_philo);
 	if (!rules->forks)
-		return (put_error("malloc error", 0));	
+		return (put_error("malloc error", 0));
 	return (init_mutexes(rules));
 }
 
@@ -77,15 +77,18 @@ int	init_philos(t_rules *rules, t_philo **philos)
 	return (1);
 }
 
-void	clean_rules(t_rules rules)
+void	clean_rules(t_rules *rules)
 {
 	int	i;
 
 	i = 0;
-	while (i < rules.n_philo)
-		pthread_mutex_destroy(rules.forks + i++);
-	pthread_mutex_destroy(&rules.print);
-	free(rules.forks);
+	while (i < rules->n_philo)
+		pthread_mutex_destroy(rules->forks + i++);
+	free(rules->forks);
+	pthread_mutex_destroy(&rules->print);
+	pthread_mutex_destroy(&rules->stop);
+	pthread_mutex_destroy(&rules->eat);
+	pthread_mutex_destroy(&rules->last_meal);
 }
 
 void	clean_philos(t_philo *philos, int n)

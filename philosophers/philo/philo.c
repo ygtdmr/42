@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/22 14:21:25 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/23 14:32:29 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv)
 	pthread_create(&monitor_th, 0, monitor, philos);
 	pthread_join(monitor_th, 0);
 	clean_philos(philos, rules.n_philo);
-	clean_rules(rules);
+	clean_rules(&rules);
 	free(philos);
 	return (0);
 }

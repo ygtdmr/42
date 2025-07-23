@@ -6,13 +6,13 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/07/22 15:02:15 by yidemir          ###   ########.fr        #
+#    Updated: 2025/07/23 11:36:56 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	philo
-CC			= 	gcc
-CFLAGS		=	-g -Wall -Wextra -Werror
+CC			= 	cc
+CFLAGS		=	-Wall -Wextra -Werror
 
 SRC			=	utils_1.c \
 				utils_2.c \
