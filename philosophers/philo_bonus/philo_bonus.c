@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/25 06:30:05 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/25 10:38:11 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,24 @@ static int	validate_args(int argc, char **argv)
 		argv++;
 	}
 	return (1);
+}
+
+static void	watch_complete(t_rules *rules)
+{
+	int	i;
+
+	i = 0;
+	while (i < rules->n_philo)
+	{
+		sem_wait(rules->complete);
+		i++;
+	}
+	i = 0;
+	while (i < rules->n_philo)
+	{
+		sem_post(rules->print);
+		i++;
+	}
 }
 
 static void	wait_philos(t_philo *philos)
@@ -49,6 +67,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!start_philos(philos))
 		return (1);
+	watch_complete(&rules);
 	wait_philos(philos);
 	clean_sem(&rules, 1);
 	free(philos);

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/25 06:30:35 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/25 10:34:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	clean_sem(t_rules *rules, int unlink)
 		sem_close(rules->print);
 		sem_close(rules->stop);
 		sem_close(rules->died);
+		sem_close(rules->complete);
 		sem_close(rules->eat);
 		sem_close(rules->last_meal);
 		sem_close(rules->forks);
@@ -28,6 +29,7 @@ void	clean_sem(t_rules *rules, int unlink)
 		sem_unlink("/philo_print");
 		sem_unlink("/philo_stop");
 		sem_unlink("/philo_died");
+		sem_unlink("/philo_complete");
 		sem_unlink("/philo_eat");
 		sem_unlink("/philo_last_meal");
 		sem_unlink("/philo_forks");
@@ -40,6 +42,7 @@ static int	init_sem(t_rules *rules)
 	rules->print = sem_open("/philo_print", O_CREAT, 0644, 1);
 	rules->stop = sem_open("/philo_stop", O_CREAT, 0644, 1);
 	rules->died = sem_open("/philo_died", O_CREAT, 0644, 0);
+	rules->complete = sem_open("/philo_complete", O_CREAT, 0644, 0);
 	rules->eat = sem_open("/philo_eat", O_CREAT, 0644, 1);
 	rules->last_meal = sem_open("/philo_last_meal", O_CREAT, 0644, 1);
 	rules->forks = sem_open("/philo_forks", O_CREAT, 0644, rules->n_philo);

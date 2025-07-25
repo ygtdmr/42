@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:20:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/25 06:16:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/25 11:16:56 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void	*died_checker(void *arg)
 
 	philo = (t_philo *)arg;
 	sem_wait(philo->rules->died);
-	if (!(philo->rules->must_eat != -1 && \
-(eat(philo, 0) == philo->rules->must_eat)))
+	if (!stop(philo, -1))
 	{
 		stop(philo, 1);
 		sem_post(philo->rules->died);
@@ -37,15 +36,17 @@ void	*monitor(void *arg)
 		if ((now_ms() - last_meal(philo, -1)) > philo->rules->t_die)
 		{
 			print_action(philo, "died");
+			sem_wait(philo->rules->print);
 			sem_post(philo->rules->died);
-			stop(philo, 1);
+			if (philo->rules->n_philo == 1)
+				sem_post(philo->rules->forks);
 			break ;
 		}
 		if (philo->rules->must_eat != -1 && \
 (eat(philo, 0) == philo->rules->must_eat))
 		{
-			sem_post(philo->rules->died);
 			stop(philo, 1);
+			sem_post(philo->rules->died);
 			break ;
 		}
 		usleep(1000);
@@ -58,14 +59,10 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2 == 0)
-		usleep(1000);
 	while (!stop(philo, -1))
 	{
 		sem_wait(philo->rules->forks);
 		print_action(philo, "has taken a fork");
-		if (philo->rules->n_philo == 1)
-			break ;
 		sem_wait(philo->rules->forks);
 		print_action(philo, "has taken a fork");
 		print_action(philo, "is eating");
@@ -84,14 +81,17 @@ void	*routine(void *arg)
 
 int	start_routine(t_philo *philo)
 {
-	if (pthread_create(&philo->routine_th, 0, routine, philo))
-		return (put_error("routine", ": pthread_create error"));
-	if (pthread_create(&philo->monitor_th, 0, monitor, philo))
-		return (put_error("monitor", ": pthread_create error"));
+	if (philo->id % 2 == 0)
+		usleep(1000);
 	if (pthread_create(&philo->died_checker_th, 0, died_checker, philo))
 		return (put_error("died_checker", ": pthread_create error"));
+	if (pthread_create(&philo->monitor_th, 0, monitor, philo))
+		return (put_error("monitor", ": pthread_create error"));
+	if (pthread_create(&philo->routine_th, 0, routine, philo))
+		return (put_error("routine", ": pthread_create error"));
 	pthread_join(philo->died_checker_th, 0);
-	pthread_join(philo->routine_th, 0);
+	sem_post(philo->rules->complete);
 	pthread_join(philo->monitor_th, 0);
+	pthread_join(philo->routine_th, 0);
 	return (1);
 }

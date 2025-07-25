@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:55 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/25 06:00:13 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/25 10:31:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_rules
 	sem_t	*print;
 	sem_t	*stop;
 	sem_t	*died;
+	sem_t	*complete;
 	sem_t	*eat;
 	sem_t	*last_meal;
 	sem_t	*forks;
