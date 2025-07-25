@@ -6,65 +6,92 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:20:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/21 13:07:47 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/25 06:16:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static void	*monitor(void *arg)
+void	*died_checker(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (1)
+	sem_wait(philo->rules->died);
+	if (!(philo->rules->must_eat != -1 && \
+(eat(philo, 0) == philo->rules->must_eat)))
 	{
-		sem_wait(philo->rules->dead);
-		if ((now_ms() - philo->last_meal) > philo->rules->t_die)
+		stop(philo, 1);
+		sem_post(philo->rules->died);
+	}
+	return (0);
+}
+
+void	*monitor(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	while (!stop(philo, -1))
+	{
+		if ((now_ms() - last_meal(philo, -1)) > philo->rules->t_die)
 		{
-			print_action(philo->rules, philo->id, "died");
-			sem_wait(philo->rules->print);
-			while (1 + philo->rules->n_philo--)
-				sem_post(philo->rules->everyone_ate);
-			clean_rules(philo->rules, 0);
-			exit(1);
+			print_action(philo, "died");
+			sem_post(philo->rules->died);
+			stop(philo, 1);
+			break ;
 		}
-		sem_post(philo->rules->dead);
-		if (philo->rules->must_eat && (philo->eaten == philo->rules->must_eat))
+		if (philo->rules->must_eat != -1 && \
+(eat(philo, 0) == philo->rules->must_eat))
 		{
-			sem_post(philo->rules->everyone_ate);
-			clean_rules(philo->rules, 0);
-			exit(0);
+			sem_post(philo->rules->died);
+			stop(philo, 1);
+			break ;
 		}
 		usleep(1000);
 	}
 	return (0);
 }
 
-void	routine(t_philo	*p)
+void	*routine(void *arg)
 {
-	pthread_create(&p->monitor_th, 0, monitor, p);
-	pthread_detach(p->monitor_th);
-	if (p->id % 2 == 0)
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
 		usleep(1000);
-	while (1)
+	while (!stop(philo, -1))
 	{
-		sem_wait(p->rules->forks);
-		print_action(p->rules, p->id, "has taken a fork");
-		sem_wait(p->rules->forks);
-		print_action(p->rules, p->id, "has taken a fork");
-		print_action(p->rules, p->id, "is eating");
-		sem_wait(p->rules->dead);
-		p->last_meal = now_ms();
-		sem_post(p->rules->dead);
-		smart_sleep(p->rules->t_eat);
-		if (p->rules->must_eat)
-			p->eaten++;
-		sem_post(p->rules->forks);
-		sem_post(p->rules->forks);
-		print_action(p->rules, p->id, "is sleeping");
-		smart_sleep(p->rules->t_sleep);
-		print_action(p->rules, p->id, "is thinking");
+		sem_wait(philo->rules->forks);
+		print_action(philo, "has taken a fork");
+		if (philo->rules->n_philo == 1)
+			break ;
+		sem_wait(philo->rules->forks);
+		print_action(philo, "has taken a fork");
+		print_action(philo, "is eating");
+		last_meal(philo, now_ms());
+		smart_sleep(philo->rules->t_eat, philo);
+		eat(philo, 1);
+		sem_post(philo->rules->forks);
+		sem_post(philo->rules->forks);
+		print_action(philo, "is sleeping");
+		smart_sleep(philo->rules->t_sleep, philo);
+		print_action(philo, "is thinking");
 		usleep(1000);
 	}
+	return (0);
+}
+
+int	start_routine(t_philo *philo)
+{
+	if (pthread_create(&philo->routine_th, 0, routine, philo))
+		return (put_error("routine", ": pthread_create error"));
+	if (pthread_create(&philo->monitor_th, 0, monitor, philo))
+		return (put_error("monitor", ": pthread_create error"));
+	if (pthread_create(&philo->died_checker_th, 0, died_checker, philo))
+		return (put_error("died_checker", ": pthread_create error"));
+	pthread_join(philo->died_checker_th, 0);
+	pthread_join(philo->routine_th, 0);
+	pthread_join(philo->monitor_th, 0);
+	return (1);
 }

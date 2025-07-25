@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:42:12 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/17 17:17:07 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/24 07:29:13 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,20 @@ long	now_ms(void)
 	return (tv.tv_sec * 1000L + tv.tv_usec / 1000L);
 }
 
-void	smart_sleep(long dur_ms)
+void	smart_sleep(long dur_ms, t_philo *philo)
 {
 	long	start;
 
 	start = now_ms();
-	while (now_ms() - start < dur_ms)
+	while (!stop(philo, -1) && (now_ms() - start < dur_ms))
 		usleep(1000);
 }
 
-void	print_action(t_rules *rules, int id, const char *msg)
+void	print_action(t_philo *philo, char *msg)
 {
-	sem_wait(rules->print);
-	printf("%ld %d %s\n", now_ms() - rules->start_ts, id, msg);
-	sem_post(rules->print);
+	sem_wait(philo->rules->print);
+	if (!stop(philo, -1))
+		printf("%ld %d %s\n", \
+now_ms() - philo->rules->start_ts, philo->id, msg);
+	sem_post(philo->rules->print);
 }

@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_3.c                                          :+:      :+:    :+:   */
+/*   utils_3_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:24:52 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/25 05:59:30 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/25 06:00:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 long	last_meal(t_philo *philo, long val)
 {
 	long	last_meal;
 
-	pthread_mutex_lock(&philo->rules->last_meal);
+	sem_wait(philo->rules->last_meal);
 	if (val >= 0)
 		philo->last_meal = val;
 	last_meal = philo->last_meal;
-	pthread_mutex_unlock(&philo->rules->last_meal);
+	sem_post(philo->rules->last_meal);
 	return (last_meal);
 }
 
@@ -30,22 +30,22 @@ int	eat(t_philo *philo, int add)
 
 	if (philo->rules->must_eat == -1)
 		return (0);
-	pthread_mutex_lock(&philo->rules->eat);
+	sem_wait(philo->rules->eat);
 	if (add > 0)
 		philo->eaten++;
 	eaten = philo->eaten;
-	pthread_mutex_unlock(&philo->rules->eat);
+	sem_post(philo->rules->eat);
 	return (eaten);
 }
 
-int	stop(t_rules *rules, int val)
+int	stop(t_philo *philo, int val)
 {
 	int	is_stop;
 
-	pthread_mutex_lock(&rules->stop);
+	sem_wait(philo->rules->stop);
 	if (val >= 0)
-		rules->is_stop = val > 0;
-	is_stop = rules->is_stop;
-	pthread_mutex_unlock(&rules->stop);
+		philo->is_stop = val > 0;
+	is_stop = philo->is_stop;
+	sem_post(philo->rules->stop);
 	return (is_stop);
 }

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:36:55 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/23 11:23:41 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/25 05:59:45 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	clean_rules(t_rules *rules);
 void	clean_philos(t_philo *philos, int n);
 
 int		eat(t_philo *philo, int add);
-long	last_meal(t_philo *philo, int val);
+long	last_meal(t_philo *philo, long val);
 int		stop(t_rules *rules, int val);
 
 void	*routine(void *arg);
