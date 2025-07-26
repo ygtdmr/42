@@ -6,11 +6,34 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 14:24:52 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/25 06:00:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/26 11:40:27 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	unsigned char	c1;
+	unsigned char	c2;
+
+	while (n--)
+	{
+		c1 = *s1++;
+		c2 = *s2++;
+		if (!c1 && !c2)
+			break ;
+		if (!c1)
+			return (-1);
+		if (!c2)
+			return (1);
+		if (c1 > c2)
+			return (1);
+		if (c1 < c2)
+			return (-1);
+	}
+	return (0);
+}
 
 long	last_meal(t_philo *philo, long val)
 {

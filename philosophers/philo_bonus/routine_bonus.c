@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:20:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/25 11:16:56 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/26 11:39:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	*monitor(void *arg)
 		if ((now_ms() - last_meal(philo, -1)) > philo->rules->t_die)
 		{
 			print_action(philo, "died");
-			sem_wait(philo->rules->print);
 			sem_post(philo->rules->died);
 			if (philo->rules->n_philo == 1)
 				sem_post(philo->rules->forks);

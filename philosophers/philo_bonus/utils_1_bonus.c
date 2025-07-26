@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 11:42:12 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/24 07:29:13 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/26 12:05:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ void	print_action(t_philo *philo, char *msg)
 	if (!stop(philo, -1))
 		printf("%ld %d %s\n", \
 now_ms() - philo->rules->start_ts, philo->id, msg);
-	sem_post(philo->rules->print);
+	if (ft_strncmp(msg, "died", 4) != 0)
+		sem_post(philo->rules->print);
 }

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 08:20:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/22 15:07:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/26 11:16:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ void	*routine(void *arg)
 		usleep(1000);
 	while (!stop(philo->rules, -1))
 	{
+		if (philo->rules->n_philo == 1)
+		{
+			print_action(philo->rules, philo->id, "has taken a fork");
+			break ;
+		}
 		take_fork(philo);
 		print_action(philo->rules, philo->id, "is eating");
 		last_meal(philo, now_ms());

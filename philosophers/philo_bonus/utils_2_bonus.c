@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:16:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/25 10:34:23 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/26 12:02:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	init_sem(t_rules *rules)
 	rules->last_meal = sem_open("/philo_last_meal", O_CREAT, 0644, 1);
 	rules->forks = sem_open("/philo_forks", O_CREAT, 0644, rules->n_philo);
 	if (!rules->print || !rules->stop || !rules->died || \
-!rules->eat || !rules->last_meal || !rules->forks)
+!rules->complete || !rules->eat || !rules->last_meal || !rules->forks)
 		return (put_error("sem_open failed", 0));
 	return (1);
 }
