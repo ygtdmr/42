@@ -6,15 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 16:07:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 12:42:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executer.h"
-#include "parser.h"
-#include "built_in.h"
-#include "str_utils.h"
-#include "env_utils.h"
+#include "minishell.h"
 
 static void	exec_in(t_shell *sh, t_cmd *cmd, int outfd)
 {
@@ -91,8 +87,6 @@ static void	wait_process(t_shell *sh)
 		cmd = cmd->next;
 	}
 	g_running = 0;
-	if (!isatty(0))
-		open("/dev/tty", O_RDONLY);
 }
 
 void	executer(t_shell *sh)

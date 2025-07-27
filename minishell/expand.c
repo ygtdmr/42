@@ -6,13 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/12 07:56:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 09:31:52 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand.h"
-#include "str_utils.h"
-#include "env_utils.h"
+#include "minishell.h"
 
 static void	var_append(t_shell *sh, char **raw, char **out, int in_dq)
 {

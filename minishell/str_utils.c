@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iarslan <iarslan@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:13:26 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/27 03:08:29 by iarslan          ###   ########.fr       */
+/*   Updated: 2025/07/27 09:32:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "str_utils.h"
+#include "minishell.h"
 
 char	*str_lrealloc(char *dest, char *src, size_t length, int src_free)
 {

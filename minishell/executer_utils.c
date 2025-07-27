@@ -6,26 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:14:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 11:26:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 12:43:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executer.h"
-#include "str_utils.h"
-#include "env_utils.h"
-
-int	is_bi(char *file)
-{
-	if (!file)
-		return (0);
-	return (str_match(file, "echo") || \
-str_match(file, "cd") || \
-str_match(file, "pwd") || \
-str_match(file, "export") || \
-str_match(file, "unset") || \
-str_match(file, "env") || \
-str_match(file, "exit"));
-}
+#include "minishell.h"
 
 char	*path_resolve(char **env, char *file)
 {
@@ -63,7 +48,8 @@ int	apply_redirs(t_cmd *cmd, int *infd, int *outfd)
 	{
 		if (redir->fd < 0)
 		{
-			cmd->last_status = 1 << 8;
+			if (redir->fd == -1 || redir->fd == -3)
+				cmd->last_status = 1 << 8;
 			if (redir->fd == -1)
 			{
 				ft_putstr_fd("minishell: ", 2);

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:04:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:30:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 09:32:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdio.h>
 # include "../minishell.h"
-# include "../lexer.h"
 
 void	print_envp(t_shell *sh);
 void	print_tokens(t_shell *sh);

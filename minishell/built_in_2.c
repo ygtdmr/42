@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iarslan <iarslan@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 14:34:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/27 03:12:59 by iarslan          ###   ########.fr       */
+/*   Updated: 2025/07/27 12:41:20 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_in.h"
-#include "env_utils.h"
-#include "executer.h"
-#include "str_utils.h"
+#include "minishell.h"
 
 static char	**sorting_alphabet(char **env)
 {

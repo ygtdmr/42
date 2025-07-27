@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iarslan <iarslan@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:41 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/23 21:11:56 by iarslan          ###   ########.fr       */
+/*   Updated: 2025/07/27 10:59:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "redir_utils.h"
+#include "minishell.h"
 
 static int	syntax_err(t_shell *sh, char *near)
 {

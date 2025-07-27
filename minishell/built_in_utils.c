@@ -6,13 +6,24 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:13:40 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/14 17:28:41 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 12:44:58 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_in.h"
-#include "env_utils.h"
-#include "str_utils.h"
+#include "minishell.h"
+
+int	is_bi(char *file)
+{
+	if (!file)
+		return (0);
+	return (str_match(file, "echo") || \
+str_match(file, "cd") || \
+str_match(file, "pwd") || \
+str_match(file, "export") || \
+str_match(file, "unset") || \
+str_match(file, "env") || \
+str_match(file, "exit"));
+}
 
 int	arg_is_option(char *arg, char option)
 {

@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iarslan <iarslan@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:23:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/23 21:06:00 by iarslan          ###   ########.fr       */
+/*   Updated: 2025/07/27 09:31:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_utils.h"
-#include "expand.h"
 #include "minishell.h"
-#include "str_utils.h"
 
 char	*env_str(char *key, char *val)
 {

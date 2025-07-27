@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/09 14:43:47 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 12:45:06 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,55 @@ typedef struct s_shell
 	int		last_status;
 	int		exit;
 }	t_shell;
+
+int		str_match(char *dest, char *src);
+char	*str_lrealloc(char *dest, char *src, size_t length, int src_free);
+void	str_lclean(char **dest, size_t length);
+int		str_mc(char **dest, char *needle);
+void	str_swap(char **x, char **y);
+
+int		is_redir(int type);
+void	redir_push(t_cmd *cmd, t_redir **head, t_token **token);
+
+void	argv_push(char ***dest, char *src);
+void	parser(t_shell *sh);
+void	clear_cmd(t_cmd **head);
+t_cmd	*new_cmd(t_cmd **head);
+
+void	new_tok(t_token	**head, char *value, t_toktype type);
+void	clear_tok(t_token **head);
+void	add_tok(t_token **head, t_token *new);
+void	lexer(t_shell *sh, char **line);
+
+size_t	char_len(char c, char *str);
+int		is_rawchar(char c);
+int		is_varchar(char c, size_t index);
+int		compile_status(int status);
+char	*expand(t_shell *sh, char *raw);
+
+void	executer(t_shell *sh);
+void	do_exec(char *path, char **argv, char **env);
+char	*path_resolve(char **env, char *file);
+int		is_bi(char *file);
+int		apply_redirs(t_cmd *cmd, int *in, int *out);
+
+void	env_append(char ***env, char *key, char *val);
+char	*env_get(char **env, char *key);
+char	*env_key(char *src);
+int		env_key_exists(char **env, char *key);
+int		env_key_valid(char *src);
+void	clear_env(char **env);
+char	**env_dup(char **env, int clear);
+char	*env_str(char *key, char *val);
+
+void	bi_echo(int fd, char **argv);
+void	bi_pwd(int fd);
+void	bi_cd(int fd, t_shell *sh, t_cmd *cmd);
+void	bi_cd_after(t_shell *sh, t_cmd *cmd, char *oldpwd, int status);
+void	bi_env(int fd, char **env);
+void	bi_export(int fd, t_shell *sh, t_cmd *cmd, int has_pipe);
+void	bi_unset(t_shell *sh, t_cmd *cmd, int has_pipe);
+void	bi_exit(t_shell *sh, t_cmd *cmd, int has_pipe);
+int		arg_is_option(char *arg, char option);
 
 #endif

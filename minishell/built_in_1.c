@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iarslan <iarslan@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:54:42 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/23 20:59:28 by iarslan          ###   ########.fr       */
+/*   Updated: 2025/07/27 12:41:15 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_in.h"
-#include "env_utils.h"
-#include "executer.h"
-#include "str_utils.h"
+#include "minishell.h"
 
 void	bi_echo(int fd, char **argv)
 {

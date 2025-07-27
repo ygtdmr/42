@@ -6,12 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:16 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/12 07:56:04 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 09:31:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expand.h"
-#include "str_utils.h"
+#include "minishell.h"
 
 size_t	char_len(char c, char *str)
 {

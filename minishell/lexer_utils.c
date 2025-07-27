@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:05:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/22 16:35:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 09:31:56 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "minishell.h"
 
 void	add_tok(t_token **head, t_token *new)
 {
