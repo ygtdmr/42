@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 14:34:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/27 12:41:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 13:54:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	**sorting_alphabet(char **env)
 		env_count++;
 	arr = env_dup(env, 0);
 	if (!arr)
-		return (NULL);
+		return (0);
 	i = -1;
 	while (++i < env_count - 1)
 	{
@@ -93,11 +93,11 @@ void	bi_export(int fd, t_shell *sh, t_cmd *cmd, int has_pipe)
 	i = 1;
 	while (!has_pipe && cmd->argv[i])
 	{
-		if (!env_key_valid(cmd->argv[i]))
-			return (ft_putstr_fd("minishell: export: ", 2),
-				ft_putstr_fd(cmd->argv[i], 2),
-				ft_putendl_fd(": not a valid identifier", 2),
-				cmd->last_status = 1 << 8, (void)0);
+		if (!env_key_validate(cmd->argv[i], "export: "))
+		{
+			cmd->last_status = 1 << 8;
+			return ;
+		}
 		if (ft_strchr(cmd->argv[i], '='))
 		{
 			key = env_key(cmd->argv[i]);
@@ -106,7 +106,7 @@ void	bi_export(int fd, t_shell *sh, t_cmd *cmd, int has_pipe)
 			free(key);
 		}
 		else
-			env_append(&sh->env, cmd->argv[i], NULL);
+			env_append(&sh->env, cmd->argv[i], 0);
 		i++;
 	}
 }
@@ -121,11 +121,8 @@ void	bi_unset(t_shell *sh, t_cmd *cmd, int has_pipe)
 	i = 1;
 	while (cmd->argv[i])
 	{
-		if (!env_key_valid(cmd->argv[i]))
+		if (!env_key_validate(cmd->argv[i], "unset: "))
 		{
-			ft_putstr_fd("minishell: unset: ", 2);
-			ft_putstr_fd(cmd->argv[i], 2);
-			ft_putendl_fd(": not a valid identifier", 2);
 			cmd->last_status = 1 << 8;
 			break ;
 		}

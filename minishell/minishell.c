@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/27 11:20:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 15:09:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@ int			g_running;
 static void	handle_signt(int signum)
 {
 	(void)signum;
-	if (g_running)
-		close(0);
-	else
+	ft_putstr_fd("\n", 1);
+	if (!g_running)
 	{
-		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -86,12 +84,14 @@ static char	*read_line(void)
 	}
 	return (line);
 }
+
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	sh;
 
 	(void)ac;
 	(void)av;
+	// printf("pid: %d\n", getpid());
 	ft_bzero(&sh, sizeof(sh));
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_signt);

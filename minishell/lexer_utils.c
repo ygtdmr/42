@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:05:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/27 09:31:56 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 15:12:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,13 @@ void	clear_tok(t_token **head)
 		clear_tok(&token->next);
 	free(token);
 	*head = 0;
+}
+
+int	last_tok_type_match(t_token *head, t_toktype type)
+{
+	if (!head)
+		return (0);
+	while (head->next)
+		head = head->next;
+	return (head->type == type);
 }

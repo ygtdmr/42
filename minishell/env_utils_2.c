@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:23:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/27 09:31:34 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 13:53:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,28 @@ int	env_key_exists(char **env, char *key)
 	return (0);
 }
 
-int	env_key_valid(char *src)
+int	env_key_validate(char *src, char *err_type)
 {
 	size_t	index;
+	int		status;
 
+	status = 1;
 	if (!src || *src == '=')
-		return (0);
+		status = 0;
 	index = 0;
-	while (src[index] && src[index] != '=')
+	while (status && (src[index] && src[index] != '='))
 	{
 		if (!is_varchar(src[index], index))
-			return (0);
+			status = 0;
 		index++;
+	}
+	if (!status)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(err_type, 2);
+		ft_putstr_fd(src, 2);
+		ft_putendl_fd(": not a valid identifier", 2);
+		return (0);
 	}
 	return (1);
 }

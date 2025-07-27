@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:13:26 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/27 09:32:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 13:43:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ int	str_mc(char **dest, char *needle)
 
 void	str_swap(char **x, char **y)
 {
-	char *tmp;
+	char	*tmp;
+
 	tmp = *x;
 	*x = *y;
 	*y = tmp;

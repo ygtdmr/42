@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/27 12:45:06 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 14:43:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ t_cmd	*new_cmd(t_cmd **head);
 void	new_tok(t_token	**head, char *value, t_toktype type);
 void	clear_tok(t_token **head);
 void	add_tok(t_token **head, t_token *new);
+int		last_tok_type_match(t_token *head, t_toktype type);
 void	lexer(t_shell *sh, char **line);
 
 size_t	char_len(char c, char *str);
@@ -105,7 +106,7 @@ void	env_append(char ***env, char *key, char *val);
 char	*env_get(char **env, char *key);
 char	*env_key(char *src);
 int		env_key_exists(char **env, char *key);
-int		env_key_valid(char *src);
+int		env_key_validate(char *src, char *err_type);
 void	clear_env(char **env);
 char	**env_dup(char **env, int clear);
 char	*env_str(char *key, char *val);

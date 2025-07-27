@@ -6,13 +6,13 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/07/27 12:17:23 by yidemir          ###   ########.fr        #
+#    Updated: 2025/07/27 14:37:01 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
-CC			= 	cc
-CFLAGS		=	-Wall -Wextra -Werror
+CC			= 	gcc
+CFLAGS		=	-g -Wall -Wextra -Werror
 
 SRC			=	minishell.c \
 				str_utils.c \
