@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iarslan <iarslan@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:13:26 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/23 17:49:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/27 03:08:29 by iarslan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,12 @@ int	str_mc(char **dest, char *needle)
 		return (1);
 	}
 	return (0);
+}
+
+void	str_swap(char **x, char **y)
+{
+	char *tmp;
+	tmp = *x;
+	*x = *y;
+	*y = tmp;
 }

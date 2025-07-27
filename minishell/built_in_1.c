@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iarslan <iarslan@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 14:54:42 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 16:05:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/23 20:59:28 by iarslan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "executer.h"
 #include "env_utils.h"
+#include "executer.h"
 #include "str_utils.h"
 
 void	bi_echo(int fd, char **argv)
 {
-	int		i;
-	int		is_n;
+	int	i;
+	int	is_n;
 
 	i = 1;
 	is_n = 0;
@@ -78,7 +78,15 @@ void	bi_pwd(int fd)
 void	bi_env(int fd, char **env)
 {
 	while (*env)
-		ft_putendl_fd(*(env++), fd);
+	{
+		if (ft_strchr(*env, '=') == NULL)
+			env++;
+		else
+		{
+			ft_putendl_fd(*(env), fd);
+			env++;
+		}
+	}
 }
 
 void	bi_exit(t_shell *sh, t_cmd *cmd, int has_pipe)

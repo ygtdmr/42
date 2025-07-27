@@ -3,28 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iarslan <iarslan@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/16 10:29:54 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/23 21:21:25 by iarslan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "lexer.h"
-#include "parser.h"
+#include ".test/test.h"
+#include "env_utils.h"
 #include "executer.h"
 #include "expand.h"
-#include "str_utils.h"
-#include "env_utils.h"
 #include "get_next_line/get_next_line.h"
-#include ".test/test.h"
+#include "lexer.h"
+#include "minishell.h"
+#include "parser.h"
+#include "str_utils.h"
 
-int	g_running;
+int			g_running;
 
+// crtl + c için handle fonksiyonu
 static void	handle_signt(int signum)
 {
-	(void) signum;
+	(void)signum;
 	if (g_running)
 		close(0);
 	else
@@ -92,13 +93,12 @@ static char	*read_line(void)
 	}
 	return (line);
 }
-
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	sh;
 
-	(void) ac;
-	(void) av;
+	(void)ac;
+	(void)av;
 	rl_catch_signals = 0;
 	ft_bzero(&sh, sizeof(sh));
 	signal(SIGQUIT, SIG_IGN);

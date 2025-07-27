@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iarslan <iarslan@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:18:11 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/14 17:19:24 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/23 21:08:20 by iarslan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env_utils.h"
 #include "minishell.h"
 #include "str_utils.h"
-#include "env_utils.h"
 
-int		env_key_match(char *src, char *key)
+int	env_key_match(char *src, char *key)
 {
 	int		result;
 	char	*tmp_key;
@@ -22,7 +22,7 @@ int		env_key_match(char *src, char *key)
 	if (!src)
 		return (0);
 	tmp_key = env_key(src);
-	result = str_match(tmp_key, key);	
+	result = str_match(tmp_key, key);
 	free(tmp_key);
 	return (result);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iarslan <iarslan@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:41 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/08 14:52:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/23 21:11:56 by iarslan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ static int	syntax_err(t_shell *sh, char *near)
 	return (0);
 }
 
-static	int	check_err(t_shell *sh, t_token *token)
+static int	check_err(t_shell *sh, t_token *token)
 {
 	if (token->type == T_WORD)
 		return (1);
-	if(!token->next)
+	if (!token->next)
 		return (syntax_err(sh, 0));
 	if (token->next->type != T_WORD && !is_redir(token->next->type))
 		return (syntax_err(sh, token->next->value));
@@ -52,7 +52,7 @@ void	parser(t_shell *sh)
 	if (!token)
 		return ;
 	if (token->type == T_PIPE)
-		return ((void) syntax_err(sh, token->value));
+		return ((void)syntax_err(sh, token->value));
 	cmd = new_cmd(&sh->cmd_head);
 	while (token)
 	{

@@ -3,26 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iarslan <iarslan@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:23:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/14 16:37:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/23 21:06:00 by iarslan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "env_utils.h"
-#include "str_utils.h"
 #include "expand.h"
+#include "minishell.h"
+#include "str_utils.h"
 
 char	*env_str(char *key, char *val)
 {
 	char	*tmp;
 
-	if (!(key && val))
-		return (0);
-	tmp = str_lrealloc(key, "=", 1, 0);
-	tmp = str_lrealloc(tmp, val, ft_strlen(val), 1);
+	if (!key)
+		return (NULL);
+	tmp = NULL;
+	if (val == NULL)
+		return (ft_strdup(key));
+	else
+	{
+		tmp = ft_strdup(key);
+		if (!tmp)
+			return (NULL);
+		tmp = str_lrealloc(tmp, "=", 1, 0);
+		if (val && *val)
+			tmp = str_lrealloc(tmp, val, ft_strlen(val), 1);
+	}
 	return (tmp);
 }
 
@@ -85,4 +95,3 @@ char	*env_key(char *src)
 	ft_strlcpy(key, src, length + 1);
 	return (key);
 }
-
