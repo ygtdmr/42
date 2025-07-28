@@ -6,12 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/27 15:09:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/28 09:03:29 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include ".test/test.h"
-#include "get_next_line/get_next_line.h"
 #include "minishell.h"
 
 int			g_running;
@@ -30,16 +29,14 @@ static void	handle_signt(int signum)
 
 static void	run(t_shell *sh, char *line)
 {
-	char	**lines;
 	size_t	i;
 
 	i = 0;
 	if (!line)
 		return ;
-	lines = ft_split(line, '\n');
-	while (lines[i])
+	while (line)
 	{
-		lexer(sh, lines + i);
+		lexer(sh, &line + i);
 		parser(sh);
 		executer(sh);
 		// print_tokens(sh);
@@ -48,11 +45,22 @@ static void	run(t_shell *sh, char *line)
 		clear_tok(&sh->token_head);
 		i++;
 	}
-	free(lines);
 	free(line);
 }
 
-static void	shell_loop(t_shell *sh)
+static void non_interactive_run(t_shell *sh)
+{
+	char *line;
+
+	line = get_next_line(0);
+	while (line)
+	{
+		run(sh, line);
+		line = get_next_line(0);
+	}
+}
+
+static void	interactive_run(t_shell *sh)
 {
 	char	*line;
 
@@ -70,21 +78,6 @@ static void	shell_loop(t_shell *sh)
 	ft_putendl_fd("exit", 1);
 }
 
-static char	*read_line(void)
-{
-	char	*line;
-	char	*tmp;
-
-	line = 0;
-	tmp = get_next_line(0);
-	while (tmp)
-	{
-		line = str_lrealloc(line, tmp, ft_strlen(tmp), 1);
-		tmp = get_next_line(0);
-	}
-	return (line);
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	sh;
@@ -97,9 +90,9 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGINT, handle_signt);
 	sh.env = env_dup(envp, 0);
 	if (isatty(0))
-		shell_loop(&sh);
+		interactive_run(&sh);
 	else
-		run(&sh, read_line());
+		non_interactive_run(&sh);
 	clear_env(sh.env);
 	rl_clear_history();
 	return (compile_status(sh.last_status));

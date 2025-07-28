@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/07/27 14:37:01 by yidemir          ###   ########.fr        #
+#    Updated: 2025/07/28 06:21:05 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC			=	minishell.c \
 				expand_utils.c \
 				expand.c \
 				redir_utils.c \
+				heredoc.c \
 				parser_utils.c \
 				parser.c \
 				env_utils_1.c \

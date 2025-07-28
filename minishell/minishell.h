@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:42:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/27 14:43:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/28 09:02:21 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include "libft/libft.h"
+# include "get_next_line/get_next_line.h"
 
 extern int	g_running;
 
@@ -76,8 +77,10 @@ void	str_lclean(char **dest, size_t length);
 int		str_mc(char **dest, char *needle);
 void	str_swap(char **x, char **y);
 
+int		get_heredoc_fd(t_shell *sh, t_cmd *cmd, char *eof);
+
 int		is_redir(int type);
-void	redir_push(t_cmd *cmd, t_redir **head, t_token **token);
+void	redir_push(t_shell *sh, t_cmd *cmd, t_redir **head, t_token **token);
 
 void	argv_push(char ***dest, char *src);
 void	parser(t_shell *sh);
@@ -94,6 +97,7 @@ size_t	char_len(char c, char *str);
 int		is_rawchar(char c);
 int		is_varchar(char c, size_t index);
 int		compile_status(int status);
+void	var_append(t_shell *sh, char **raw, char **out, int in_dq);
 char	*expand(t_shell *sh, char *raw);
 
 void	executer(t_shell *sh);
