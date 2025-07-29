@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:25:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/28 09:03:29 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/29 04:59:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,14 @@ static void	handle_signt(int signum)
 	}
 }
 
-static void	run(t_shell *sh, char *line)
+static void	run(t_shell *sh)
 {
-	size_t	i;
+	int		i;
 
 	i = 0;
-	if (!line)
-		return ;
-	while (line)
+	while (sh->prompt)
 	{
-		lexer(sh, &line + i);
+		lexer(sh, &sh->prompt);
 		parser(sh);
 		executer(sh);
 		// print_tokens(sh);
@@ -45,19 +43,22 @@ static void	run(t_shell *sh, char *line)
 		clear_tok(&sh->token_head);
 		i++;
 	}
-	free(line);
 }
 
 static void non_interactive_run(t_shell *sh)
 {
-	char *line;
+	char	*prompt;
+	char 	*line;
 
+	prompt = 0;
 	line = get_next_line(0);
 	while (line)
 	{
-		run(sh, line);
+		prompt = str_lrealloc(prompt, line, strlen(line), 1);
 		line = get_next_line(0);
 	}
+	sh->prompt = prompt;
+	run(sh);
 }
 
 static void	interactive_run(t_shell *sh)
@@ -72,7 +73,8 @@ static void	interactive_run(t_shell *sh)
 		if (*line)
 		{
 			add_history(line);
-			run(sh, line);
+			sh->prompt = line;
+			run(sh);
 		}
 	}
 	ft_putendl_fd("exit", 1);
@@ -84,7 +86,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	// printf("pid: %d\n", getpid());
+	printf("pid: %d\n", getpid());
 	ft_bzero(&sh, sizeof(sh));
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_signt);

@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/07/28 06:21:05 by yidemir          ###   ########.fr        #
+#    Updated: 2025/07/29 04:16:29 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ CC			= 	gcc
 CFLAGS		=	-g -Wall -Wextra -Werror
 
 SRC			=	minishell.c \
+				prompt_split.c \
 				str_utils.c \
 				lexer_utils.c \
 				lexer.c \

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/28 09:07:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/29 04:44:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static char	*grab_word(t_shell *sh, char **line)
 			break ;
 		length++;
 	}
-	// you can fix quote issue in this line. 
 	if (quote)
 		return (quote_error(sh, line));
 	raw = ft_substr(*line, 0, length);
@@ -65,9 +64,9 @@ static char	*grab_word(t_shell *sh, char **line)
 
 void	lexer(t_shell *sh, char **line)
 {
-	while (*line)
+	while (*line && !str_mc(line, "\n"))
 	{
-		if (str_mc(line, " ") || str_mc(line, "\t") || str_mc(line, "\n"))
+		if (str_mc(line, " ") || str_mc(line, "\t"))
 			continue ;
 		if (str_mc(line, "|"))
 			new_tok(&sh->token_head, ft_strdup("|"), T_PIPE);

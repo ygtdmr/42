@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:30:16 by yidemir           #+#    #+#             */
-/*   Updated: 2025/06/30 13:37:41 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/29 01:46:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	print_tokens(t_shell *sh)
 		printf("[%d:%s] ", token->type, token->value);
 		token = token->next;
 	}
-	printf("\n");
+	if (sh->token_head)
+		printf("\n");
 }
 
 void	print_cmd(t_shell *sh)

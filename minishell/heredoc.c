@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 06:18:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/07/28 08:20:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/07/29 14:45:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,24 @@ static void expand_heredoc(t_shell *sh, char **line)
 	*line = out;
 }
 
-static char	*get_line_heredoc(void)
+static char	*get_line_heredoc(t_shell *sh)
 {
 	char	*line;
-	char	*tmp;
-	int		i;
+	int		length;
 
-	i = 0;
-	if (isatty(0))
-		return (readline("> "));
-	else
+	if (sh->prompt)
 	{
-		line = get_next_line(0);
-		if (!line)
-			return (0);
-		tmp = ft_calloc(ft_strlen(line) - 1, sizeof(char *));
-		while (!(line[i] == '\n' && !line[i + 1]))
-		{
-			tmp[i] = line[i];
-			i++;
-		}
-		free(line);
-		return (tmp);
+		length = ft_strlen(sh->prompt);
+		if (ft_strchr(sh->prompt, '\n'))
+			length = length - ft_strlen(ft_strchr(sh->prompt, '\n'));
+		line = str_lrealloc(0, sh->prompt, length, 0);
+		line = str_lrealloc(line, "\n", 1, 0);
+		str_lclean(&sh->prompt, length);
+		printf("line => %s\n", line); // gives \n\n its reason of why ending loop.
+		return (line);
 	}
+	else
+		return (readline("> "));
 }
 
 static void	heredoc(t_shell *sh, char *eof, int *pipefd)
@@ -67,7 +62,7 @@ static void	heredoc(t_shell *sh, char *eof, int *pipefd)
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
-		line = get_line_heredoc();
+		line = get_line_heredoc(sh);
 		if (!line)
 		{
 			ft_putendl_fd("minishell: warning: \
@@ -87,14 +82,16 @@ here-document delimited by end-of-file", 1);
 	exit(0);
 }
 
-static void	next_line_after_hd(char *eof)
+static void	clear_prompt(t_shell *sh, char *eof)
 {
-	char	*line;
+	int length;
 
-	line = get_line_heredoc();
-	while (line && !str_match(line, eof))
-		line = get_line_heredoc();
-	free(line);
+	if (!sh->prompt)
+		return ;
+	length = ft_strlen(sh->prompt);
+	if (ft_strnstr(sh->prompt, eof, length))
+		length = length - ft_strlen(ft_strnstr(sh->prompt, eof, length));
+	str_lclean(&sh->prompt, length);
 }
 
 int	get_heredoc_fd(t_shell *sh, t_cmd *cmd, char *eof)
@@ -113,9 +110,9 @@ int	get_heredoc_fd(t_shell *sh, t_cmd *cmd, char *eof)
 		waitpid(pid, &cmd->last_status, 0);
 		g_running = 0;
 		close(pipefd[1]);
+		clear_prompt(sh, eof);
 		if (cmd->last_status > 0)
 			return (-2);
-		next_line_after_hd(eof);
 		return (pipefd[0]);
 	}
 	return (-1);
