@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.c                                         :+:      :+:    :+:   */
+/*   executer_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:16:44 by yidemir           #+#    #+#             */
-/*   Updated: 2025/08/14 14:58:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/08/14 14:58:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 static void	exec_in(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 {
@@ -72,11 +72,13 @@ static void	launch(t_shell *sh, t_cmd *cmd, int readfd, int outfd)
 	errfd = dup(2);
 	if (cmd->argv)
 		env_append(&sh->env, "_", ft_strdup(cmd->argv[0]));
-	if (apply_redirs(cmd, &readfd, &outfd) && cmd->argv)
+	if (apply_redirs(cmd, &readfd, &outfd))
 	{
-		if (is_bi(cmd->argv[0]))
+		if (cmd->argv && is_bi(cmd->argv[0]))
 			exec_in(sh, cmd, readfd, outfd);
-		else
+		else if (cmd->cmd_subsh)
+			exec_sub(sh, cmd, readfd, outfd);
+		else if (cmd->argv)
 			exec_ext(sh, cmd, readfd, outfd);
 	}
 	if (readfd != -1)
@@ -96,7 +98,7 @@ static void	wait_process(t_shell *sh)
 
 	len = 0;
 	cmd = sh->cmd_head;
-	while (cmd && ++len)
+	while (cmd && (cmd->op == -1) && ++len)
 		cmd = cmd->next;
 	set_running(1);
 	while (len)
@@ -125,9 +127,9 @@ void	executer(t_shell *sh)
 	readfd = -1;
 	cmd = sh->cmd_head;
 	redir_fetch_fds(sh);
-	while (cmd)
+	while (cmd && (cmd->op == -1))
 	{
-		if (cmd->next)
+		if (cmd->next && cmd->next->op == -1)
 		{
 			if (pipe(pipefd) == -1)
 				return (perror("minishell: pipe"));
@@ -140,4 +142,7 @@ void	executer(t_shell *sh)
 	}
 	if (sh->cmd_head)
 		wait_process(sh);
+	clear_cmd(&sh->cmd_head, sh->last_status == 0);
+	if (sh->cmd_head)
+		executer(sh);
 }

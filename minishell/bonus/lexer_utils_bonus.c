@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*   lexer_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:05:48 by yidemir           #+#    #+#             */
-/*   Updated: 2025/08/01 11:09:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/08/11 08:17:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 void	add_tok(t_token **head, t_token *new)
 {
@@ -26,6 +26,7 @@ void	add_tok(t_token **head, t_token *new)
 	nlst = *head;
 	while (nlst->next)
 		nlst = nlst->next;
+	new->prev = nlst;
 	nlst->next = new;
 }
 
@@ -33,15 +34,12 @@ void	new_tok(t_token	**head, char *value, t_toktype type)
 {
 	t_token	*new;
 
-	if (!value)
-		return ;
 	new = malloc(sizeof(t_token));
 	if (!new)
 		return ;
+	ft_bzero(new, sizeof(t_token));
 	new->value = value;
 	new->type = type;
-	new->quote = 0;
-	new->next = 0;
 	add_tok(head, new);
 }
 
@@ -56,6 +54,10 @@ void	clear_tok(t_token **head)
 		return ;
 	if (token->value)
 		free(token->value);
+	if (token->raw_word)
+		free(token->raw_word);
+	if (token->i_wc)
+		free(token->i_wc);
 	if (token->next)
 		clear_tok(&token->next);
 	free(token);

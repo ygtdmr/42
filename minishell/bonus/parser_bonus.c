@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:41 by yidemir           #+#    #+#             */
-/*   Updated: 2025/08/10 12:14:24 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/08/11 10:23:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
-static int	syntax_err(t_shell *sh, char *near)
+int	syntax_err(t_shell *sh, char *near)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	if (near)
@@ -37,9 +37,17 @@ static int	check_err(t_shell *sh, t_token *token)
 {
 	if (token->type == T_WORD)
 		return (1);
+	if ((token->type == T_PIPE || is_operator(token->type)) && !token->prev)
+		return (syntax_err(sh, token->value));
+	if (token->type == T_SUB_OPEN && \
+token->next && token->next->type == T_SUB_CLOSE)
+		return (syntax_err(sh, token->next->value));
+	if (token->type == T_SUB_OPEN || token->type == T_SUB_CLOSE)
+		return (check_err_subsh(sh));
 	if (!token->next)
 		return (syntax_err(sh, 0));
-	if (token->next->type != T_WORD && !is_redir(token->next->type))
+	if (token->next->type != T_WORD && !is_redir(token->next->type) && \
+token->next->type != T_SUB_OPEN)
 		return (syntax_err(sh, token->next->value));
 	if (is_redir(token->type))
 	{
@@ -51,34 +59,37 @@ static int	check_err(t_shell *sh, t_token *token)
 	return (1);
 }
 
-static void	exit_parser(t_shell *sh)
+static void	exit_parser(t_shell *sh, t_cmd **head)
 {
-	clear_cmd(&sh->cmd_head);
+	clear_cmd(head, 2);
 	free(sh->prompt);
 	sh->prompt = 0;
 }
 
-void	parser(t_shell *sh)
+void	parser(t_shell *sh, t_token *token, t_cmd **head)
 {
-	t_token	*token;
 	t_cmd	*cmd;
 
-	token = sh->token_head;
-	if (!token)
-		return ;
-	if (token->type == T_PIPE)
-		return ((void)syntax_err(sh, token->value));
-	cmd = new_cmd(&sh->cmd_head);
+	cmd = new_cmd(head, token);
 	while (token)
 	{
 		if (!check_err(sh, token))
-			return (exit_parser(sh));
-		if (token->type == T_WORD)
-			argv_push(&cmd->argv, token->value);
+			return (exit_parser(sh, head));
+		if (token->type == T_SUB_OPEN)
+		{
+			cmd->tok_subsh = grab_tok_subsh(&token);
+			parser(sh, cmd->tok_subsh, &cmd->cmd_subsh);
+			continue ;
+		}
+		else if (token->type == T_WORD)
+			argv_push_with_willcard(&cmd->argv, token);
 		else if (is_redir(token->type))
 			redir_push(&cmd->redir_head, &token);
-		else if (token->type == T_PIPE)
-			cmd = new_cmd(&sh->cmd_head);
-		token = token->next;
+		else if (is_operator(token->type))
+			cmd = new_cmd_op(head, token);
+		else if (token && (token->type == T_PIPE))
+			cmd = new_cmd(head, token);
+		if (token)
+			token = token->next;
 	}
 }

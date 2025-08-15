@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   lexer_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 15:16:23 by yidemir           #+#    #+#             */
-/*   Updated: 2025/08/03 03:35:54 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/08/11 08:27:22 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
-static int	is_metachar(char *s)
+int	is_metachar(char *s)
 {
 	return (*s == ' ' || \
 *s == '\t' || \
@@ -21,7 +21,11 @@ static int	is_metachar(char *s)
 (*s == '<' && *(s + 1) == '<') || \
 *s == '>' || \
 (*s == '>' && *(s + 1) == '>') || \
-*s == '|');
+(*s == '&' && *(s + 1) == '&') || \
+(*s == '|' && *(s + 1) == '|') || \
+*s == '|' || \
+*s == '(' || \
+*s == ')');
 }
 
 static void	*quote_error(t_shell *sh, char **line)
@@ -62,14 +66,33 @@ static char	*grab_word(t_shell *sh, char **line)
 	return (raw);
 }
 
+static void	new_tok_word(t_shell *sh, char **line)
+{
+	char	*raw_word;
+	t_token	*new;
+
+	sh->i_wc = 0;
+	sh->len_wc = 0;
+	raw_word = grab_word(sh, line);
+	new_tok(&sh->token_head, expand(sh, ft_strdup(raw_word)), T_WORD);
+	new = lst_tok(sh->token_head);
+	new->raw_word = raw_word;
+	new->i_wc = sh->i_wc;
+	new->len_wc = sh->len_wc;
+}
+
 void	lexer(t_shell *sh, char **line)
 {
 	while (*line && !str_mc(line, "\n"))
 	{
-		if (str_mc(line, " ") || str_mc(line, "\t"))
+		if (str_mc(line, " ") || str_mc(line, "\t") || op_mc(sh, line))
 			continue ;
 		if (str_mc(line, "|"))
 			new_tok(&sh->token_head, ft_strdup("|"), T_PIPE);
+		else if (str_mc(line, "("))
+			new_tok(&sh->token_head, ft_strdup("("), T_SUB_OPEN);
+		else if (str_mc(line, ")"))
+			new_tok(&sh->token_head, ft_strdup(")"), T_SUB_CLOSE);
 		else if (str_mc(line, "<<"))
 			new_tok(&sh->token_head, ft_strdup("<<"), T_HEREDOC);
 		else if (str_mc(line, ">>"))
@@ -81,6 +104,6 @@ void	lexer(t_shell *sh, char **line)
 		else if (str_mc(line, "2>"))
 			new_tok(&sh->token_head, ft_strdup("2>"), T_REDIR_ERR);
 		else
-			new_tok(&sh->token_head, expand(sh, grab_word(sh, line)), T_WORD);
+			new_tok_word(sh, line);
 	}
 }

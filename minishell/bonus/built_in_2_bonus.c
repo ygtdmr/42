@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in_2.c                                       :+:      :+:    :+:   */
+/*   built_in_2_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 14:34:27 by yidemir           #+#    #+#             */
-/*   Updated: 2025/08/09 10:42:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/08/11 04:45:20 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 static char	**sorting_alphabet(char **env)
 {
@@ -90,8 +90,8 @@ void	bi_export(int fd, t_shell *sh, t_cmd *cmd, int has_pipe)
 
 	if (!cmd->argv[1])
 		return (print_export_vars(fd, sh));
-	i = 1;
-	while (!has_pipe && cmd->argv[i])
+	i = 0;
+	while (!has_pipe && cmd->argv[++i])
 	{
 		cmd->last_status = env_key_validate(cmd->argv[i], "export: ", 0) << 8;
 		if (cmd->last_status)
@@ -107,8 +107,8 @@ void	bi_export(int fd, t_shell *sh, t_cmd *cmd, int has_pipe)
 		}
 		else
 			env_append(&sh->env, cmd->argv[i], 0);
-		i++;
 	}
+	update_cmd_argv(sh, cmd->next);
 }
 
 void	bi_unset(t_shell *sh, t_cmd *cmd, int has_pipe)
@@ -118,8 +118,8 @@ void	bi_unset(t_shell *sh, t_cmd *cmd, int has_pipe)
 
 	if (has_pipe)
 		return ;
-	i = 1;
-	while (cmd->argv[i])
+	i = 0;
+	while (cmd->argv[++i])
 	{
 		cmd->last_status = env_key_validate(cmd->argv[i], "unset: ", 1) << 8;
 		if (ft_strchr(cmd->argv[i], ';'))
@@ -133,6 +133,6 @@ void	bi_unset(t_shell *sh, t_cmd *cmd, int has_pipe)
 		if (env_key_exists(sh->env, key))
 			env_append(&sh->env, key, 0);
 		free(key);
-		i++;
 	}
+	update_cmd_argv(sh, cmd->next);
 }

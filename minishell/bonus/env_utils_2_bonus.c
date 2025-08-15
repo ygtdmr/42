@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils_2.c                                      :+:      :+:    :+:   */
+/*   env_utils_2_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 16:23:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/08/09 10:42:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/08/14 13:45:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 char	*env_str(char *key, char *val)
 {
@@ -32,16 +32,6 @@ char	*env_str(char *key, char *val)
 		free(val);
 	}
 	return (tmp);
-}
-
-void	clear_sl(char **env)
-{
-	size_t	i;
-
-	i = 0;
-	while (env[i])
-		free(env[i++]);
-	free(env);
 }
 
 int	env_key_exists(char **env, char *key)

@@ -1,28 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 21:35:57 by yidemir           #+#    #+#             */
-/*   Updated: 2025/08/07 06:38:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/08/14 13:56:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 static void	raw_append(t_shell *sh, char **raw, char **out)
 {
+	char	*wc;
+	char	*after;
+	int		i;
 	size_t	length;
 
 	length = 0;
+	i = 0;
 	while (((*raw)[length] && \
 ((*raw)[length] != '\'' && (*raw)[length] != '\"' && (*raw)[length] != '$')) \
 || (lst_tok_is(sh->token_head, T_HEREDOC) && (*raw)[length] == '$'))
 		length++;
+	if (*out)
+		i = ft_strlen(*out);
 	*out = str_lrealloc(*out, *raw, length, 0);
 	str_lclean(raw, length);
+	after = (*out) + i;
+	wc = ft_strchr(after, '*');
+	while (wc && !(wc != after && *(wc - 1) == '\\'))
+	{
+		i_wc_push(&sh->i_wc, &sh->len_wc, ft_strlen(*out) - ft_strlen(wc));
+		wc = ft_strchr(wc + 1, '*');
+	}
 }
 
 void	var_append(t_shell *sh, char **raw, char **out, int dq)

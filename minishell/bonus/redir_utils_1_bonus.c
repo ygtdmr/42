@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_utils.c                                      :+:      :+:    :+:   */
+/*   redir_utils_1_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 07:01:37 by yidemir           #+#    #+#             */
-/*   Updated: 2025/08/10 12:14:10 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/08/14 16:18:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_bonus.h"
 
 static int	get_redir_fd(t_redir *redir)
 {
@@ -26,14 +26,14 @@ static int	get_redir_fd(t_redir *redir)
 	return (fd);
 }
 
-static void	redir_fetch_heredoc_fds(t_shell *sh)
+void	redir_fetch_heredoc_fds(t_shell *sh, t_cmd *cmd)
 {
-	t_cmd	*cmd;
 	t_redir	*redir;
 
-	cmd = sh->cmd_head;
 	while (cmd)
 	{
+		if (cmd->cmd_subsh)
+			redir_fetch_heredoc_fds(sh, cmd->cmd_subsh);
 		redir = cmd->redir_head;
 		while (redir)
 		{
@@ -50,15 +50,19 @@ void	redir_fetch_fds(t_shell *sh)
 	t_cmd	*cmd;
 	t_redir	*redir;
 
-	redir_fetch_heredoc_fds(sh);
 	cmd = sh->cmd_head;
-	while (cmd)
+	while (cmd && (cmd->op == -1))
 	{
 		redir = cmd->redir_head;
 		while (redir)
 		{
 			if (redir->type != T_HEREDOC)
-				redir->fd = get_redir_fd(redir);
+			{
+				if (!check_wildcard_ambiguous(redir))
+					redir->fd = get_redir_fd(redir);
+				else
+					redir_ambiguous_error(redir);
+			}
 			if (redir->fd < 0 && redir->fd > -4)
 				break ;
 			redir = redir->next;
