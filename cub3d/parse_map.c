@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 23:08:49 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/07 18:22:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/07 13:47:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,18 @@ static void	get_rgb(t_cub3d *cub3d, int *rgb, char **line)
 	{
 		str_ts(line, " \n");
 		if (!*(*line))
-			return ((void) exit_err(cub3d, "invalid rgb", "missing value"));
+			return (exit_err(cub3d, "invalid rgb", "missing value"));
 		if (!ft_isdigit(*(*line)))
-			return ((void) exit_err(cub3d, "invalid rgb", (*line)));
+			return (exit_err(cub3d, "invalid rgb", (*line)));
 		value = ft_atoi((*line));
 		if (value > 255)
-			return ((void) exit_err(cub3d, "invalid rgb: max 255", (*line)));
+			return (exit_err(cub3d, "invalid rgb: max 255", (*line)));
 		*rgb |= value << (8 * step);
 		str_ts(line, "0123456789");
 		str_ts(line, " \n");
 		step--;
 		if (*(*line) && (step == -1 || !str_ts(line, ",")))
-			return ((void) exit_err(cub3d, "invalid rgb", (*line)));
+			return (exit_err(cub3d, "invalid rgb", (*line)));
 		if (step == -1)
 			break ;
 	}

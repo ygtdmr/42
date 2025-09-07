@@ -30,8 +30,8 @@ all:			$(NAME)
 
 $(NAME):		$(OBJ) $(GNL_OBJ)
 	make -C libft
-#for macos
-	$(CC) $(CFLAGS) $(OBJ) libft/libft.a .minilibx-linux/libmlx.a -framework OpenGL -framework AppKit $(GNL_OBJ) -lreadline -o $(NAME)
+	make -C .minilibx-linux
+	$(CC) $(CFLAGS) $(OBJ) libft/libft.a .minilibx-linux/libmlx.a -lXext -lX11 $(GNL_OBJ) -lreadline -o $(NAME)
 
 clean:
 	make clean -C libft

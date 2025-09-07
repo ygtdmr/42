@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 13:40:28 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/07 18:54:18 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/07 13:58:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,21 @@
 
 static void	exit_cub3d(t_cub3d *cub3d, int err)
 {
-	clear_map(cub3d);
-	if (cub3d->mlx)
+	if (cub3d)
 	{
-		if (cub3d->win)
-			mlx_destroy_window(cub3d->mlx, cub3d->win);
-		// mlx_destroy_display(cub3d->mlx);
-		free(cub3d->mlx);
+		clear_map(cub3d);
+		if (cub3d->mlx)
+		{
+			if (cub3d->win)
+				mlx_destroy_window(cub3d->mlx, cub3d->win);
+			mlx_destroy_display(cub3d->mlx);
+			free(cub3d->mlx);
+		}
 	}
 	exit(err);
 }
 
-void	*exit_err(t_cub3d *cub3d, char *msg1, char *msg2)
+void	exit_err(t_cub3d *cub3d, char *msg1, char *msg2)
 {
 	int	has_endl;
 
@@ -41,7 +44,6 @@ void	*exit_err(t_cub3d *cub3d, char *msg1, char *msg2)
 	if (!has_endl)
 		ft_putstr_fd("\n", 2);
 	exit_cub3d(cub3d, 1);
-	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -49,12 +51,13 @@ int	main(int argc, char **argv)
 	t_cub3d	cub3d;
 
 	if (argc != 2)
-	{
-		ft_putendl_fd("Error: argument count should be 2", 2);
-		return (1);
-	}
+		exit_err(0, "argument count should be 2", 0);
 	cub3d.mlx = mlx_init();
+	if (!cub3d.mlx)
+		exit_err(0, "mlx_init", 0);
 	cub3d.win = mlx_new_window(cub3d.mlx, 512, 512, "Cub3D");
+	if (!cub3d.win)
+		exit_err(0, "mlx_new_window", 0);
 	parse_map(&cub3d, argv[1]);
 	printf("img_no=|%p|\nimg_so=|%p|\nimg_we=|%p|\nimg_ea=|%p|\n\
 f=(r=%d,g=%d,b=%d)\nc=(r=%d,g=%d,b=%d)\n", \

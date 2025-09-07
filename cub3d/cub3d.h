@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:02:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/07 18:19:29 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/07 13:47:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_cub3d
 }	t_cub3d;
 
 void	clear_map(t_cub3d *cub3d);
-void	*exit_err(t_cub3d *cub3d, char *msg1, char *msg2);
+void	exit_err(t_cub3d *cub3d, char *msg1, char *msg2);
 int		str_ms(char **dest, char *src);
 int		str_ts(char **dest, char *set);
 void	clear_sl(char **sl);
