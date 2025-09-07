@@ -4,5 +4,6 @@
 *.a
 .DS_Store
 *_tester
+.minilibx-linux/
 .tester/
 .tmp/
