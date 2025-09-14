@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:02:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/09 11:58:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/14 17:52:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ typedef struct s_map
 {
 	int		rgb_f;
 	int		rgb_c;
-	void	*tmp;
+	char	**content;
+	char	*tmp;
 	void	*img_no;
 	void	*img_so;
 	void	*img_we;
 	void	*img_ea;
-	char	**content;
 }	t_map;
 
 typedef struct s_cub3d
@@ -57,5 +57,7 @@ int		str_ts(char **dest, char *set);
 void	add_sl(char ***sl, char *val);
 void	clear_sl(char **sl);
 void	parse_map(t_cub3d *cub3d, char *path);
+
+void	validate_map_line(t_cub3d *cub3d, char *line);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/09/07 18:13:47 by yidemir          ###   ########.fr        #
+#    Updated: 2025/09/14 17:53:53 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CFLAGS		=	-g -Wall -Wextra -Werror
 SRC			=	cub3d.c \
 				map_utils.c \
 				parse_map.c \
+				validate_map.c \
 				str_utils.c
 
 OBJ			=	$(SRC:.c=.o)

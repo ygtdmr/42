@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 13:40:28 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/10 11:44:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/14 15:22:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ cub3d.map->img_no, cub3d.map->img_so, cub3d.map->img_we, cub3d.map->img_ea, \
 	
 int i = 0;
 printf("map content:\n");
-while (cub3d.map->content[i])
+while (cub3d.map->content && cub3d.map->content[i])
 	printf("%s", cub3d.map->content[i++]);
 exit_cub3d(&cub3d, 0);
 	// mlx_loop(sld.mlx);

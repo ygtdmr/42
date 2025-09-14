@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 23:08:49 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/10 11:41:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/14 17:51:37 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,30 @@ map->img_ea && map->rgb_f != -1 && map->rgb_c != -1))
 	get_config(cub3d, map, fd);
 }
 
-static void	get_content(t_map *map, int fd)
+static void	get_content(t_cub3d *cub3d, t_map *map, int fd)
 {
-	while (1)
+	int	nl;
+
+	nl = 0;
+	while (map->tmp)
 	{
+		if (*(map->tmp) == '\n')
+		{
+			nl = 1;
+			free(map->tmp);
+		}
+		else
+		{
+			if (map->content && nl)
+				exit_err(cub3d, "invalid map: empty newline", 0);
+			nl = 0;
+			validate_map_line(cub3d, map->tmp);
+			add_sl(&map->content, map->tmp);
+		}
 		map->tmp = get_next_line(fd);
-		if (!map->tmp)
-			break ;
-		add_sl(&map->content, map->tmp);
 	}
+	if (!map->content)
+		exit_err(cub3d, "invalid map: empty content", 0);
 }
 
 void	parse_map(t_cub3d *cub3d, char *path)
@@ -116,6 +131,5 @@ void	parse_map(t_cub3d *cub3d, char *path)
 	if (!(map->img_no && map->img_so && map->img_we && map->img_ea && \
 map->rgb_f != -1 && map->rgb_c != -1))
 		exit_err(cub3d, "invalid config", "missing config values");
-	free(map->tmp);
-	get_content(map, fd);
+	get_content(cub3d, map, fd);
 }
