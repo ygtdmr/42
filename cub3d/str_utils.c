@@ -6,11 +6,35 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 13:43:43 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/07 18:21:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/09 12:46:28 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	add_sl(char ***sl, char *val)
+{
+	char	**tmp;
+	size_t	i;
+	size_t	len;
+
+	i = 0;
+	len = 0;
+	while (*sl && (*sl)[len])
+		len++;
+	tmp = ft_calloc((len + 2), sizeof(char *));
+	if (*sl)
+	{
+		while (i < len)
+		{
+			tmp[i] = (*sl)[i];
+			i++;
+		}
+		free(*sl);
+	}
+	tmp[i] = val;
+	*sl = tmp;
+}
 
 void	clear_sl(char **sl)
 {

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 13:40:28 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/07 13:58:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/10 11:44:37 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,25 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		exit_err(0, "argument count should be 2", 0);
+	ft_bzero(&cub3d, sizeof(t_cub3d));
 	cub3d.mlx = mlx_init();
 	if (!cub3d.mlx)
 		exit_err(0, "mlx_init", 0);
+	parse_map(&cub3d, argv[1]);
 	cub3d.win = mlx_new_window(cub3d.mlx, 512, 512, "Cub3D");
 	if (!cub3d.win)
-		exit_err(0, "mlx_new_window", 0);
-	parse_map(&cub3d, argv[1]);
+		exit_err(&cub3d, "mlx_new_window", 0);
 	printf("img_no=|%p|\nimg_so=|%p|\nimg_we=|%p|\nimg_ea=|%p|\n\
 f=(r=%d,g=%d,b=%d)\nc=(r=%d,g=%d,b=%d)\n", \
 cub3d.map->img_no, cub3d.map->img_so, cub3d.map->img_we, cub3d.map->img_ea, \
 (cub3d.map->rgb_f >> 16) & 255, (cub3d.map->rgb_f >> 8) & 255, cub3d.map->rgb_f & 255, \
 (cub3d.map->rgb_c >> 16) & 255, (cub3d.map->rgb_c >> 8) & 255, cub3d.map->rgb_c & 255);
-	exit_cub3d(&cub3d, 0);
+	
+int i = 0;
+printf("map content:\n");
+while (cub3d.map->content[i])
+	printf("%s", cub3d.map->content[i++]);
+exit_cub3d(&cub3d, 0);
 	// mlx_loop(sld.mlx);
 	return (0);
 }

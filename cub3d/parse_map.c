@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 23:08:49 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/07 13:47:30 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/10 11:41:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,21 @@
 
 static void	get_img(t_cub3d *cub3d, char *line, void **img)
 {
+	int		size;
 	char	*path;
 
+	size = IMG_SIZE;
 	path = ft_strtrim(line, " \n");
-	*img = mlx_xpm_file_to_image(cub3d->mlx, path, 0, 0);
-	free(path);
+	*img = mlx_xpm_file_to_image(cub3d->mlx, path, &size, &size);
 	if (!*img)
-		exit_err(cub3d, strerror(errno), line);
+	{
+		if (cub3d->map->tmp)
+			free(cub3d->map->tmp);
+		cub3d->map->tmp = path;
+		exit_err(cub3d, strerror(errno), path);
+	}
+	else
+		free(path);
 }
 
 static void	get_rgb(t_cub3d *cub3d, int *rgb, char **line)
@@ -56,28 +64,38 @@ static void	get_config(t_cub3d *cub3d, t_map *map, int fd)
 	char	*line;
 
 	map->tmp = get_next_line(fd);
+	if (!map->tmp || (map->img_no && map->img_so && map->img_we && \
+map->img_ea && map->rgb_f != -1 && map->rgb_c != -1))
+		return ;
 	line = map->tmp;
-	while (*line)
+	str_ts(&line, " \n");
+	if (str_ms(&line, "NO "))
+		get_img(cub3d, line, &map->img_no);
+	else if (str_ms(&line, "SO "))
+		get_img(cub3d, line, &map->img_so);
+	else if (str_ms(&line, "WE "))
+		get_img(cub3d, line, &map->img_we);
+	else if (str_ms(&line, "EA "))
+		get_img(cub3d, line, &map->img_ea);
+	else if (str_ms(&line, "F "))
+		get_rgb(cub3d, &map->rgb_f, &line);
+	else if (str_ms(&line, "C "))
+		get_rgb(cub3d, &map->rgb_c, &line);
+	else if (*line)
+		exit_err(cub3d, "invalid config: invalid value", line);
+	free(map->tmp);
+	get_config(cub3d, map, fd);
+}
+
+static void	get_content(t_map *map, int fd)
+{
+	while (1)
 	{
-		str_ts(&line, " \n");
-		if (str_ms(&line, "NO "))
-			get_img(cub3d, line, &map->img_no);
-		else if (str_ms(&line, "SO "))
-			get_img(cub3d, line, &map->img_so);
-		else if (str_ms(&line, "WE "))
-			get_img(cub3d, line, &map->img_we);
-		else if (str_ms(&line, "EA "))
-			get_img(cub3d, line, &map->img_ea);
-		else if (str_ms(&line, "F "))
-			get_rgb(cub3d, &map->rgb_f, &line);
-		else if (str_ms(&line, "C "))
-			get_rgb(cub3d, &map->rgb_c, &line);
-		else if (*line)
-			exit_err(cub3d, "invalid config: invalid value", line);
 		map->tmp = get_next_line(fd);
-		line = map->tmp;
+		if (!map->tmp)
+			break ;
+		add_sl(&map->content, map->tmp);
 	}
-	exit_err(cub3d, "invalid config", "missing paths");
 }
 
 void	parse_map(t_cub3d *cub3d, char *path)
@@ -95,4 +113,9 @@ void	parse_map(t_cub3d *cub3d, char *path)
 	map->rgb_c = -1;
 	cub3d->map = map;
 	get_config(cub3d, map, fd);
+	if (!(map->img_no && map->img_so && map->img_we && map->img_ea && \
+map->rgb_f != -1 && map->rgb_c != -1))
+		exit_err(cub3d, "invalid config", "missing config values");
+	free(map->tmp);
+	get_content(map, fd);
 }

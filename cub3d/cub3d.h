@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:02:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/07 13:47:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/09 11:58:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define KEY_D		100
 # define KEY_RIGHT	65363
 # define KEY_LEFT	65361
+# define IMG_SIZE	64
 
 typedef struct s_map
 {
@@ -53,6 +54,7 @@ void	clear_map(t_cub3d *cub3d);
 void	exit_err(t_cub3d *cub3d, char *msg1, char *msg2);
 int		str_ms(char **dest, char *src);
 int		str_ts(char **dest, char *set);
+void	add_sl(char ***sl, char *val);
 void	clear_sl(char **sl);
 void	parse_map(t_cub3d *cub3d, char *path);
 
