@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:02:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/14 17:52:26 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/14 16:05:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ void	add_sl(char ***sl, char *val);
 void	clear_sl(char **sl);
 void	parse_map(t_cub3d *cub3d, char *path);
 
-void	validate_map_line(t_cub3d *cub3d, char *line);
+void	verify_map_line(t_cub3d *cub3d, char *line, int end);
 
 #endif

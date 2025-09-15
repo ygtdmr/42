@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 23:08:49 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/14 17:51:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/14 16:11:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ map->img_ea && map->rgb_f != -1 && map->rgb_c != -1))
 
 static void	get_content(t_cub3d *cub3d, t_map *map, int fd)
 {
-	int	nl;
+	char	*last_tmp;
+	int		nl;
 
 	nl = 0;
 	while (map->tmp)
@@ -104,13 +105,15 @@ static void	get_content(t_cub3d *cub3d, t_map *map, int fd)
 			if (map->content && nl)
 				exit_err(cub3d, "invalid map: empty newline", 0);
 			nl = 0;
-			validate_map_line(cub3d, map->tmp);
+			verify_map_line(cub3d, map->tmp, !map->content);
 			add_sl(&map->content, map->tmp);
 		}
+		last_tmp = map->tmp;
 		map->tmp = get_next_line(fd);
 	}
 	if (!map->content)
 		exit_err(cub3d, "invalid map: empty content", 0);
+	verify_map_line(cub3d, last_tmp, 1);
 }
 
 void	parse_map(t_cub3d *cub3d, char *path)
