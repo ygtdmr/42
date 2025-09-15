@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 23:08:49 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/14 16:11:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/15 19:16:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	get_img(t_cub3d *cub3d, char *line, void **img)
 	int		size;
 	char	*path;
 
+	if (*img)
+		exit_err(cub3d, "invalid config: img already defined", line);
 	size = IMG_SIZE;
 	path = ft_strtrim(line, " \n");
 	*img = mlx_xpm_file_to_image(cub3d->mlx, path, &size, &size);
@@ -37,10 +39,12 @@ static void	get_rgb(t_cub3d *cub3d, int *rgb, char **line)
 	int	value;
 
 	step = 2;
+	if (*rgb != -1)
+		exit_err(cub3d, "invalid config: rgb already defined", *line);
 	*rgb = 0;
-	while (1)
+	while (step != -1)
 	{
-		str_ts(line, " \n");
+		str_cs(line, " \n");
 		if (!*(*line))
 			return (exit_err(cub3d, "invalid rgb", "missing value"));
 		if (!ft_isdigit(*(*line)))
@@ -49,13 +53,11 @@ static void	get_rgb(t_cub3d *cub3d, int *rgb, char **line)
 		if (value > 255)
 			return (exit_err(cub3d, "invalid rgb: max 255", (*line)));
 		*rgb |= value << (8 * step);
-		str_ts(line, "0123456789");
-		str_ts(line, " \n");
+		str_cs(line, "0123456789");
+		str_cs(line, " \n");
 		step--;
-		if (*(*line) && (step == -1 || !str_ts(line, ",")))
+		if (*(*line) && (step == -1 || !str_cs(line, ",")))
 			return (exit_err(cub3d, "invalid rgb", (*line)));
-		if (step == -1)
-			break ;
 	}
 }
 
@@ -68,7 +70,7 @@ static void	get_config(t_cub3d *cub3d, t_map *map, int fd)
 map->img_ea && map->rgb_f != -1 && map->rgb_c != -1))
 		return ;
 	line = map->tmp;
-	str_ts(&line, " \n");
+	str_cs(&line, " \n");
 	if (str_ms(&line, "NO "))
 		get_img(cub3d, line, &map->img_no);
 	else if (str_ms(&line, "SO "))
@@ -95,25 +97,25 @@ static void	get_content(t_cub3d *cub3d, t_map *map, int fd)
 	nl = 0;
 	while (map->tmp)
 	{
-		if (*(map->tmp) == '\n')
-		{
-			nl = 1;
+		if (*((char *) map->tmp) == '\n' && ++nl)
 			free(map->tmp);
-		}
 		else
 		{
 			if (map->content && nl)
-				exit_err(cub3d, "invalid map: empty newline", 0);
+				exit_err(cub3d, "invalid map: separated with newline", 0);
 			nl = 0;
-			verify_map_line(cub3d, map->tmp, !map->content);
+			scan_map_line(cub3d, map->tmp, !map->content);
 			add_sl(&map->content, map->tmp);
+			last_tmp = map->tmp;
 		}
-		last_tmp = map->tmp;
 		map->tmp = get_next_line(fd);
 	}
 	if (!map->content)
 		exit_err(cub3d, "invalid map: empty content", 0);
-	verify_map_line(cub3d, last_tmp, 1);
+	scan_map_line(cub3d, last_tmp, 1);
+	// map->tmp = dup_sl(map->content);
+	// scan_map_floodfill(cub3d, (char **) map->tmp, 0, 0);
+	// clear_sl((char **) map->tmp);
 }
 
 void	parse_map(t_cub3d *cub3d, char *path)

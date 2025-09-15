@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:02:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/14 16:05:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/15 18:56:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,19 @@
 # define KEY_LEFT	65361
 # define IMG_SIZE	64
 
+typedef struct s_player
+{
+	size_t	x;
+	size_t	y;
+	char	face;
+}	t_player;
+
 typedef struct s_map
 {
 	int		rgb_f;
 	int		rgb_c;
 	char	**content;
-	char	*tmp;
+	void	*tmp;
 	void	*img_no;
 	void	*img_so;
 	void	*img_we;
@@ -45,19 +52,23 @@ typedef struct s_map
 
 typedef struct s_cub3d
 {
-	void	*mlx;
-	void	*win;
-	t_map	*map;
+	void		*mlx;
+	void		*win;
+	t_map		*map;
+	t_player	player;
 }	t_cub3d;
 
-void	clear_map(t_cub3d *cub3d);
-void	exit_err(t_cub3d *cub3d, char *msg1, char *msg2);
 int		str_ms(char **dest, char *src);
-int		str_ts(char **dest, char *set);
-void	add_sl(char ***sl, char *val);
+int		str_setonly(char *dest, char *set);
+int		str_cs(char **dest, char *set);
 void	clear_sl(char **sl);
+void	add_sl(char ***sl, char *val);
+char	**dup_sl(char **sl);
+void	clear_map(t_cub3d *cub3d);
 void	parse_map(t_cub3d *cub3d, char *path);
+void	exit_err(t_cub3d *cub3d, char *msg1, char *msg2);
 
-void	verify_map_line(t_cub3d *cub3d, char *line, int end);
+void	scan_map_line(t_cub3d *cub3d, char *line, int end);
+void	scan_map_floodfill(t_cub3d *cub3d, char **dup, size_t x, size_t y);
 
 #endif
