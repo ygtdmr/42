@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 23:08:49 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/15 19:16:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/16 16:26:29 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,7 @@ map->img_ea && map->rgb_f != -1 && map->rgb_c != -1))
 
 static void	get_content(t_cub3d *cub3d, t_map *map, int fd)
 {
-	char	*last_tmp;
-	int		nl;
+	int	nl;
 
 	nl = 0;
 	while (map->tmp)
@@ -104,18 +103,18 @@ static void	get_content(t_cub3d *cub3d, t_map *map, int fd)
 			if (map->content && nl)
 				exit_err(cub3d, "invalid map: separated with newline", 0);
 			nl = 0;
-			scan_map_line(cub3d, map->tmp, !map->content);
+			if (!str_setonly(map->tmp, " 01NSEW\n"))
+				exit_err(cub3d, "invalid map: invalid char", map->tmp);
 			add_sl(&map->content, map->tmp);
-			last_tmp = map->tmp;
 		}
 		map->tmp = get_next_line(fd);
 	}
 	if (!map->content)
 		exit_err(cub3d, "invalid map: empty content", 0);
-	scan_map_line(cub3d, last_tmp, 1);
-	// map->tmp = dup_sl(map->content);
-	// scan_map_floodfill(cub3d, (char **) map->tmp, 0, 0);
-	// clear_sl((char **) map->tmp);
+	map->tmp = dup_sl(map->content);
+	scan_map(cub3d, map->tmp);
+	clear_sl(map->tmp);
+	map->tmp = 0;
 }
 
 void	parse_map(t_cub3d *cub3d, char *path)
@@ -138,3 +137,4 @@ map->rgb_f != -1 && map->rgb_c != -1))
 		exit_err(cub3d, "invalid config", "missing config values");
 	get_content(cub3d, map, fd);
 }
+
