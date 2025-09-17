@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 23:08:49 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/16 16:26:29 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/17 12:54:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,4 +137,3 @@ map->rgb_f != -1 && map->rgb_c != -1))
 		exit_err(cub3d, "invalid config", "missing config values");
 	get_content(cub3d, map, fd);
 }
-

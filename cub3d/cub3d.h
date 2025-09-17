@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:02:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/16 16:08:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/17 12:54:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,20 @@ typedef struct s_cub3d
 	t_player	player;
 }	t_cub3d;
 
+void	exit_err(t_cub3d *cub3d, char *msg1, char *msg2);
+
 int		str_ms(char **dest, char *src);
 int		str_setonly(char *dest, char *set);
 int		str_cs(char **dest, char *set);
+
 void	clear_sl(char **sl);
 void	add_sl(char ***sl, char *val);
 char	**dup_sl(char **sl);
+
 void	clear_map(t_cub3d *cub3d);
 void	parse_map(t_cub3d *cub3d, char *path);
-void	exit_err(t_cub3d *cub3d, char *msg1, char *msg2);
 
+void	file_verify(char *s);
 void	scan_map(t_cub3d *cub3d, char **dup);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 13:40:28 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/14 15:22:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/17 12:06:58 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,27 @@ void	exit_err(t_cub3d *cub3d, char *msg1, char *msg2)
 	exit_cub3d(cub3d, 1);
 }
 
+static void	print_result(t_cub3d *cub3d)
+{
+	printf("img_no=|%p|\nimg_so=|%p|\nimg_we=|%p|\nimg_ea=|%p|\n\
+	f=(r=%d,g=%d,b=%d)\nc=(r=%d,g=%d,b=%d)\n", \
+	cub3d->map->img_no, cub3d->map->img_so, cub3d->map->img_we, cub3d->map->img_ea, \
+	(cub3d->map->rgb_f >> 16) & 255, (cub3d->map->rgb_f >> 8) & 255, cub3d->map->rgb_f & 255, \
+	(cub3d->map->rgb_c >> 16) & 255, (cub3d->map->rgb_c >> 8) & 255, cub3d->map->rgb_c & 255);
+		
+	int i = 0;
+	printf("map content:\n");
+	while (cub3d->map->content && cub3d->map->content[i])
+		printf("%s", cub3d->map->content[i++]);
+}
+
 int	main(int argc, char **argv)
 {
 	t_cub3d	cub3d;
 
 	if (argc != 2)
 		exit_err(0, "argument count should be 2", 0);
+	file_verify(argv[1]);
 	ft_bzero(&cub3d, sizeof(t_cub3d));
 	cub3d.mlx = mlx_init();
 	if (!cub3d.mlx)
@@ -60,17 +75,8 @@ int	main(int argc, char **argv)
 	cub3d.win = mlx_new_window(cub3d.mlx, 512, 512, "Cub3D");
 	if (!cub3d.win)
 		exit_err(&cub3d, "mlx_new_window", 0);
-	printf("img_no=|%p|\nimg_so=|%p|\nimg_we=|%p|\nimg_ea=|%p|\n\
-f=(r=%d,g=%d,b=%d)\nc=(r=%d,g=%d,b=%d)\n", \
-cub3d.map->img_no, cub3d.map->img_so, cub3d.map->img_we, cub3d.map->img_ea, \
-(cub3d.map->rgb_f >> 16) & 255, (cub3d.map->rgb_f >> 8) & 255, cub3d.map->rgb_f & 255, \
-(cub3d.map->rgb_c >> 16) & 255, (cub3d.map->rgb_c >> 8) & 255, cub3d.map->rgb_c & 255);
-	
-int i = 0;
-printf("map content:\n");
-while (cub3d.map->content && cub3d.map->content[i])
-	printf("%s", cub3d.map->content[i++]);
-exit_cub3d(&cub3d, 0);
+	print_result(&cub3d);
+	exit_cub3d(&cub3d, 0);
 	// mlx_loop(sld.mlx);
 	return (0);
 }
