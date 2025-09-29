@@ -6,44 +6,45 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 10:59:04 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/17 12:54:34 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/24 07:40:18 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	scan_map_err(t_cub3d *cub3d, char *str)
+static void	map_content_err(t_cub3d *cub3d, char *str)
 {
 	clear_sl(cub3d->map->tmp);
 	cub3d->map->tmp = 0;
 	exit_err(cub3d, str, 0);
 }
 
-static void	scan_map_floodfill(t_cub3d *cub3d, char **dup, size_t x, size_t y)
+static void	scan_content_fill(t_cub3d *cub3d, char **dup, size_t x, size_t y)
 {
 	if (!(x && y) || !dup[y][x] || !dup[y + 1] || dup[y][x] == ' ')
-		scan_map_err(cub3d, "invalid map: map must surround with wall");
+		map_content_err(cub3d, "invalid map: map must surround with wall");
 	else if (dup[y][x] == 'N' || dup[y][x] == 'S' || \
 dup[y][x] == 'E' || dup[y][x] == 'W')
 	{
-		if (cub3d->player.face)
-			scan_map_err(cub3d, "invalid map: detected more than more player");
-		cub3d->player.face = dup[y][x];
+		if (cub3d->player.dir)
+			map_content_err(cub3d, "invalid map: detected too many players");
+		cub3d->player.dir = dup[y][x];
 		cub3d->player.x = x;
 		cub3d->player.y = y;
+		init_cam(&cub3d->player);
 	}
 	dup[y][x] = 'X';
 	if (dup[y][x + 1] != '1' && dup[y][x + 1] != 'X')
-		scan_map_floodfill(cub3d, dup, x + 1, y);
+		scan_content_fill(cub3d, dup, x + 1, y);
 	if (dup[y][x - 1] != '1' && dup[y][x - 1] != 'X')
-		scan_map_floodfill(cub3d, dup, x - 1, y);
+		scan_content_fill(cub3d, dup, x - 1, y);
 	if (dup[y + 1][x] != '1' && dup[y + 1][x] != 'X')
-		scan_map_floodfill(cub3d, dup, x, y + 1);
+		scan_content_fill(cub3d, dup, x, y + 1);
 	if (dup[y - 1][x] != '1' && dup[y - 1][x] != 'X')
-		scan_map_floodfill(cub3d, dup, x, y - 1);
+		scan_content_fill(cub3d, dup, x, y - 1);
 }
 
-void	scan_map(t_cub3d *cub3d, char **dup)
+void	scan_map_content(t_cub3d *cub3d, char **dup)
 {
 	size_t	x;
 	size_t	y;
@@ -58,7 +59,7 @@ void	scan_map(t_cub3d *cub3d, char **dup)
 			if (dup[y][x] != '1' && dup[y][x] != ' ' && \
 dup[y][x] != '\n' && dup[y][x] != 'X')
 			{
-				scan_map_floodfill(cub3d, dup, x, y);
+				scan_content_fill(cub3d, dup, x, y);
 				y = 0;
 				break ;
 			}
@@ -66,8 +67,8 @@ dup[y][x] != '\n' && dup[y][x] != 'X')
 		}
 		y++;
 	}
-	if (!cub3d->player.face)
-		scan_map_err(cub3d, "invalid map: missing player");
+	if (!cub3d->player.dir)
+		map_content_err(cub3d, "invalid map: missing player");
 }
 
 void	file_verify(char *s)
@@ -93,14 +94,14 @@ void	clear_map(t_cub3d *cub3d)
 		return ;
 	if (cub3d->mlx)
 	{
-		if (map->img_no)
-			mlx_destroy_image(cub3d->mlx, map->img_no);
-		if (map->img_so)
-			mlx_destroy_image(cub3d->mlx, map->img_so);
-		if (map->img_we)
-			mlx_destroy_image(cub3d->mlx, map->img_we);
-		if (map->img_ea)
-			mlx_destroy_image(cub3d->mlx, map->img_ea);
+		if (map->img_no.img)
+			mlx_destroy_image(cub3d->mlx, map->img_no.img);
+		if (map->img_so.img)
+			mlx_destroy_image(cub3d->mlx, map->img_so.img);
+		if (map->img_we.img)
+			mlx_destroy_image(cub3d->mlx, map->img_we.img);
+		if (map->img_ea.img)
+			mlx_destroy_image(cub3d->mlx, map->img_ea.img);
 	}
 	if (map->tmp)
 		free(map->tmp);

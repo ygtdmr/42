@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 13:40:28 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/17 12:06:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/28 09:21:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	exit_cub3d(t_cub3d *cub3d, int err)
 		clear_map(cub3d);
 		if (cub3d->mlx)
 		{
+			if (cub3d->container.img)
+				mlx_destroy_image(cub3d->mlx, cub3d->container.img);
 			if (cub3d->win)
 				mlx_destroy_window(cub3d->mlx, cub3d->win);
 			mlx_destroy_display(cub3d->mlx);
@@ -46,18 +48,10 @@ void	exit_err(t_cub3d *cub3d, char *msg1, char *msg2)
 	exit_cub3d(cub3d, 1);
 }
 
-static void	print_result(t_cub3d *cub3d)
+int	close_window(t_cub3d *cub3d)
 {
-	printf("img_no=|%p|\nimg_so=|%p|\nimg_we=|%p|\nimg_ea=|%p|\n\
-	f=(r=%d,g=%d,b=%d)\nc=(r=%d,g=%d,b=%d)\n", \
-	cub3d->map->img_no, cub3d->map->img_so, cub3d->map->img_we, cub3d->map->img_ea, \
-	(cub3d->map->rgb_f >> 16) & 255, (cub3d->map->rgb_f >> 8) & 255, cub3d->map->rgb_f & 255, \
-	(cub3d->map->rgb_c >> 16) & 255, (cub3d->map->rgb_c >> 8) & 255, cub3d->map->rgb_c & 255);
-		
-	int i = 0;
-	printf("map content:\n");
-	while (cub3d->map->content && cub3d->map->content[i])
-		printf("%s", cub3d->map->content[i++]);
+	exit_cub3d(cub3d, 0);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -72,11 +66,17 @@ int	main(int argc, char **argv)
 	if (!cub3d.mlx)
 		exit_err(0, "mlx_init", 0);
 	parse_map(&cub3d, argv[1]);
-	cub3d.win = mlx_new_window(cub3d.mlx, 512, 512, "Cub3D");
+	mlx_get_screen_size(cub3d.mlx, &cub3d.width, &cub3d.height);
+	cub3d.width /= 2;
+	cub3d.height /= 2;
+	cub3d.win = mlx_new_window(cub3d.mlx, cub3d.width, cub3d.height, "Cub3D");
 	if (!cub3d.win)
 		exit_err(&cub3d, "mlx_new_window", 0);
-	print_result(&cub3d);
-	exit_cub3d(&cub3d, 0);
-	// mlx_loop(sld.mlx);
+	init_container(&cub3d);
+	mlx_hook(cub3d.win, 17, 0, close_window, &cub3d);
+	mlx_hook(cub3d.win, 2, 1, handle_key_press, &cub3d);
+	mlx_hook(cub3d.win, 3, 2, handle_key_release, &cub3d);
+	mlx_loop_hook(cub3d.mlx, render, &cub3d);
+	mlx_loop(cub3d.mlx);
 	return (0);
 }

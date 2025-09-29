@@ -6,31 +6,32 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 23:08:49 by yidemir           #+#    #+#             */
-/*   Updated: 2025/09/17 12:54:41 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/09/24 07:27:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	get_img(t_cub3d *cub3d, char *line, void **img)
+static void	get_img(t_cub3d *cub3d, char *line, t_img *img)
 {
 	int		size;
 	char	*path;
 
-	if (*img)
+	if (img->img)
 		exit_err(cub3d, "invalid config: img already defined", line);
 	size = IMG_SIZE;
 	path = ft_strtrim(line, " \n");
-	*img = mlx_xpm_file_to_image(cub3d->mlx, path, &size, &size);
-	if (!*img)
+	img->img = mlx_xpm_file_to_image(cub3d->mlx, path, &size, &size);
+	if (!img->img)
 	{
 		if (cub3d->map->tmp)
 			free(cub3d->map->tmp);
 		cub3d->map->tmp = path;
 		exit_err(cub3d, strerror(errno), path);
 	}
-	else
-		free(path);
+	img->addr = \
+mlx_get_data_addr(img->img, &img->bpp, &img->line_length, &img->endian);
+	free(path);
 }
 
 static void	get_rgb(t_cub3d *cub3d, int *rgb, char **line)
@@ -66,8 +67,8 @@ static void	get_config(t_cub3d *cub3d, t_map *map, int fd)
 	char	*line;
 
 	map->tmp = get_next_line(fd);
-	if (!map->tmp || (map->img_no && map->img_so && map->img_we && \
-map->img_ea && map->rgb_f != -1 && map->rgb_c != -1))
+	if (!map->tmp || (map->img_no.img && map->img_so.img && \
+map->img_we.img && map->img_ea.img && map->rgb_f != -1 && map->rgb_c != -1))
 		return ;
 	line = map->tmp;
 	str_cs(&line, " \n");
@@ -96,7 +97,7 @@ static void	get_content(t_cub3d *cub3d, t_map *map, int fd)
 	nl = 0;
 	while (map->tmp)
 	{
-		if (*((char *) map->tmp) == '\n' && ++nl)
+		if (str_setonly(map->tmp, " \n") && ++nl)
 			free(map->tmp);
 		else
 		{
@@ -112,7 +113,7 @@ static void	get_content(t_cub3d *cub3d, t_map *map, int fd)
 	if (!map->content)
 		exit_err(cub3d, "invalid map: empty content", 0);
 	map->tmp = dup_sl(map->content);
-	scan_map(cub3d, map->tmp);
+	scan_map_content(cub3d, map->tmp);
 	clear_sl(map->tmp);
 	map->tmp = 0;
 }
@@ -132,8 +133,8 @@ void	parse_map(t_cub3d *cub3d, char *path)
 	map->rgb_c = -1;
 	cub3d->map = map;
 	get_config(cub3d, map, fd);
-	if (!(map->img_no && map->img_so && map->img_we && map->img_ea && \
-map->rgb_f != -1 && map->rgb_c != -1))
+	if (!(map->rgb_f != -1 && map->rgb_c != -1 && \
+map->img_no.img && map->img_so.img && map->img_we.img && map->img_ea.img))
 		exit_err(cub3d, "invalid config", "missing config values");
 	get_content(cub3d, map, fd);
 }
