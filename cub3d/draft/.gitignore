@@ -1,0 +1,11 @@
+.vscode/
+*.o
+*.out
+*.a
+.DS_Store
+*_tester
+.minilibx-linux/
+.tester/
+.tmp/
+.ref/
+cub3d
