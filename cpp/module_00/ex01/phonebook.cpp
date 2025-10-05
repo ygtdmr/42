@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 05:59:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/04 06:17:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/05 15:45:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ PhoneBook::PhoneBook()
 
 void	PhoneBook::addContact
 (
-	std::string darkestSecret,
-	std::string phoneNumber,
-	std::string nickname,
+	std::string firstName,
 	std::string lastName,
-	std::string firstName
+	std::string nickname,
+	std::string phoneNumber,
+	std::string darkestSecret
 )
 {
 	Contact contact(
@@ -36,7 +36,7 @@ void	PhoneBook::addContact
 	);
 	if (indexArrContact_ == PHONE_BOOK_CONTACT_MAX)
 		indexArrContact_ = 0;
-	arrContact[indexArrContact_] = contact;
+	arrContact_[indexArrContact_] = contact;
 	indexArrContact_++;
 	if (lenArrContact_ < PHONE_BOOK_CONTACT_MAX)
 		lenArrContact_++;
@@ -49,5 +49,5 @@ int	PhoneBook::getLenArrContact()
 
 Contact	*PhoneBook::getArrContact()
 {
-	return (arrContact);
+	return (arrContact_);
 }

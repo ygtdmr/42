@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 06:22:31 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/05 09:44:34 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/05 15:43:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,33 @@ static void	exit_phonebook()
 	std::exit(0);
 }
 
-static bool	str_is(std::string str, int (*func)(int))
+static bool	str_isascii(std::string str)
+{
+	const char	*c_str;
+
+	c_str = str.c_str();
+	while (*c_str)
+	{
+		if ((unsigned char)*c_str++ > 127)
+			return (false);
+	}
+	return (true);
+}
+
+static bool	str_isdigit(std::string str)
 {
 	size_t i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (!func(str[i++]))
+		if (!std::isdigit(str[i++]))
 			return (false);
 	}
 	return (true);
 }
 
-static std::string	get_contact_field(const char *name, bool isNumber)
+static std::string	get_contact_field(const char *name, char type)
 {
 	std::string	line;
 
@@ -46,14 +59,14 @@ static std::string	get_contact_field(const char *name, bool isNumber)
 			exit_phonebook();
 		else if (line.empty())
 			std::cout << name << " should not empty." << std::endl;
-		else if(isNumber && !str_is(line, std::isdigit))
+		else if(type == 'd' && !str_isdigit(line))
 		{
 			std::cout << name << " should be only numbers." << std::endl;
 			line = "";
 		}
-		else if (!isNumber && !str_is(line, std::isalnum))
+		else if (type == 'a' && !str_isascii(line))
 		{
-			std::cout << name << " should be only ASCII alphabets or numbers." << std::endl;
+			std::cout << name << " should be only ASCII value." << std::endl;
 			line = "";
 		}
 	}
@@ -90,7 +103,7 @@ static void prompt_search(PhoneBook *phonebook)
 		exit_phonebook();
 	else if (line.empty())
 		std::cout << "index should not empty." << std::endl;
-	else if (!str_is(line, std::isdigit))
+	else if (!str_isdigit(line))
 		std::cout << "index should be only numbers." << std::endl;
 	else
 	{
@@ -108,6 +121,22 @@ static void prompt_search(PhoneBook *phonebook)
 			std::cout << "Darkest Secret: " << arrContact[index].getDarkestSecret() << std::endl;
 		}
 	}
+}
+
+static void	handle_add(PhoneBook *phonebook)
+{
+	std::string	firstName;
+	std::string	lastName;
+	std::string	nickname;
+	std::string	phoneNumber;
+	std::string	darkestSecret;
+
+	firstName = get_contact_field("first name", 'a');
+	lastName = get_contact_field("last name", 'a');
+	nickname = get_contact_field("nickname", 'a');
+	phoneNumber = get_contact_field("phone number", 'd');
+	darkestSecret = get_contact_field("darkest secret", 0);
+	phonebook->addContact(firstName, lastName, nickname, phoneNumber, darkestSecret);
 }
 
 static void	handle_search(PhoneBook *phonebook)
@@ -144,14 +173,7 @@ static void	handle_search(PhoneBook *phonebook)
 static void	handle_prompt(PhoneBook *phonebook, std::string prompt)
 {
 	if (prompt == "ADD")
-		phonebook->addContact
-		(
-			get_contact_field("darkest secret", false),
-			get_contact_field("phone number", true),
-			get_contact_field("nickname", false),
-			get_contact_field("last name", false),
-			get_contact_field("first name", false)
-		);
+		handle_add(phonebook);
 	else if (prompt == "SEARCH")
 		handle_search(phonebook);
 	else if (prompt == "EXIT")
@@ -165,7 +187,6 @@ int	main(void)
 	PhoneBook	phonebook;
 	std::string	line;
 
-	setlocale(LC_ALL, "");
 	while (1)
 	{
 		std::cout << "> ";

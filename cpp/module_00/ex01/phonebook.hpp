@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:32:54 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/04 06:18:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/05 15:45:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ public:
 private:
 	int		indexArrContact_;
 	int		lenArrContact_;
-	Contact	arrContact[PHONE_BOOK_CONTACT_MAX];
+	Contact	arrContact_[PHONE_BOOK_CONTACT_MAX];
 };
 
 #endif

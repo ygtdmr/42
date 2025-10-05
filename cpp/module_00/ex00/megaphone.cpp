@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 08:25:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/01 15:03:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/05 15:10:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ int	main(int argc, char **argv)
 {
 	int	i;
 
+	if (argc == 1)
+	{
+		std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl;
+		return (0);
+	}
 	i = 1;
 	while (i < argc)
 	{
