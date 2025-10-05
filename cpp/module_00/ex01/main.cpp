@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 06:22:31 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/04 06:08:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/05 09:44:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,20 @@ static void	exit_phonebook()
 	if (std::cin.eof())
 		std::cout << std::endl;	
 	std::cout << "exiting..." << std::endl;
-	exit(0);
+	std::exit(0);
+}
+
+static bool	str_is(std::string str, int (*func)(int))
+{
+	size_t i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!func(str[i++]))
+			return (false);
+	}
+	return (true);
 }
 
 static std::string	get_contact_field(const char *name, bool isNumber)
@@ -33,43 +46,34 @@ static std::string	get_contact_field(const char *name, bool isNumber)
 			exit_phonebook();
 		else if (line.empty())
 			std::cout << name << " should not empty." << std::endl;
-		else if(isNumber)
+		else if(isNumber && !str_is(line, std::isdigit))
 		{
-			for (size_t i = 0; line[i]; i++)
-			{
-				if (!isdigit(line[i]))
-				{
-					std::cout << name << " should be only numbers." << std::endl;
-					line = "";
-					break ;
-				}
-			}
+			std::cout << name << " should be only numbers." << std::endl;
+			line = "";
+		}
+		else if (!isNumber && !str_is(line, std::isalnum))
+		{
+			std::cout << name << " should be only ASCII alphabets or numbers." << std::endl;
+			line = "";
 		}
 	}
 	return (line);
 }
 
-static void	table_put_name(const char *name)
+static void	table_put_name(std::string name)
 {
-	int		blen;
 	int		len;
 	int		sp;
 	bool	limit;
 
-	len = 0;
-	blen = 0;
-	limit = false;
-	while (name[blen] && len < (CONTACT_NAME_MAX - 1))
-	{
-		blen += mblen(name + blen, MB_CUR_MAX);
-		len++;
-		if (len == 9)
-			limit = true;
-	}
-	sp = CONTACT_NAME_MAX - len;
+	len = name.length();
+	limit = (len > CONTACT_NAME_MAX);
+	sp = (CONTACT_NAME_MAX - len);
 	while (!limit && sp--)
 		std::cout << " ";
-	std::cout << std::string(name, blen);
+	if (len > CONTACT_NAME_MAX)
+		len = (CONTACT_NAME_MAX - 1);
+	std::cout << name.substr(0, len);
 	if (limit)
 		std::cout << ".";
 }
@@ -86,16 +90,10 @@ static void prompt_search(PhoneBook *phonebook)
 		exit_phonebook();
 	else if (line.empty())
 		std::cout << "index should not empty." << std::endl;
+	else if (!str_is(line, std::isdigit))
+		std::cout << "index should be only numbers." << std::endl;
 	else
 	{
-		for (size_t i = 0; line[i]; i++)
-		{
-			if (!isdigit(line[i]))
-			{
-				std::cout << "index should be only numbers." << std::endl;
-				return ;
-			}
-		}
 		lenArrContact = phonebook->getLenArrContact();
 		index = std::atoi(line.c_str());
 		if (index > (lenArrContact - 1))
@@ -132,11 +130,11 @@ static void	handle_search(PhoneBook *phonebook)
 	{
 		contact = arrContact[i];
 		std::cout << "|         " << i << "|";
-		table_put_name(contact.getFirstName().c_str());
+		table_put_name(contact.getFirstName());
 		std::cout << "|";
-		table_put_name(contact.getLastName().c_str());
+		table_put_name(contact.getLastName());
 		std::cout << "|";
-		table_put_name(contact.getNickname().c_str());
+		table_put_name(contact.getNickname());
 		std::cout << "|" << std::endl;
 		std::cout << "|-------------------------------------------|" << std::endl;
 	}
