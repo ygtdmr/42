@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:32:54 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/05 15:45:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/05 16:24:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ public:
 	PhoneBook();
 	void	addContact
 	(
-	std::string	firstName,
-	std::string	lastName,
-	std::string	nickname,
-	std::string	phoneNumber,
-	std::string	darkestSecret
+	const std::string	&firstName,
+	const std::string	&lastName,
+	const std::string	&nickname,
+	const std::string	&phoneNumber,
+	const std::string	&darkestSecret
 	);
-	int		getLenArrContact();
-	Contact	*getArrContact();
+	int		getLenArrContact() const;
+	Contact	*getContact(int index);
 private:
 	int		indexArrContact_;
 	int		lenArrContact_;

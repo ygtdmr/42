@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 06:22:31 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/05 15:43:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/05 16:28:54 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,8 @@ static void	table_put_name(std::string name)
 static void prompt_search(PhoneBook *phonebook)
 {
 	int			index;
-	int			lenArrContact;
 	std::string	line;
-	Contact		*arrContact;
+	Contact		*contact;
 
 	std::cout << "enter index: ";
 	if (!std::getline(std::cin, line))
@@ -107,18 +106,17 @@ static void prompt_search(PhoneBook *phonebook)
 		std::cout << "index should be only numbers." << std::endl;
 	else
 	{
-		lenArrContact = phonebook->getLenArrContact();
 		index = std::atoi(line.c_str());
-		if (index > (lenArrContact - 1))
+		contact = phonebook->getContact(index);
+		if (!contact)
 			std::cout << "entered wrong index." << std::endl;
 		else
 		{
-			arrContact = phonebook->getArrContact();
-			std::cout << "First Name: " << arrContact[index].getFirstName() << std::endl;
-			std::cout << "Last Name: " << arrContact[index].getLastName() << std::endl;
-			std::cout << "Nickname: " << arrContact[index].getNickname() << std::endl;
-			std::cout << "Phone Number: " << arrContact[index].getPhoneNumber() << std::endl;
-			std::cout << "Darkest Secret: " << arrContact[index].getDarkestSecret() << std::endl;
+			std::cout << "First Name: " << contact->getFirstName() << std::endl;
+			std::cout << "Last Name: " << contact->getLastName() << std::endl;
+			std::cout << "Nickname: " << contact->getNickname() << std::endl;
+			std::cout << "Phone Number: " << contact->getPhoneNumber() << std::endl;
+			std::cout << "Darkest Secret: " << contact->getDarkestSecret() << std::endl;
 		}
 	}
 }
@@ -142,8 +140,7 @@ static void	handle_add(PhoneBook *phonebook)
 static void	handle_search(PhoneBook *phonebook)
 {
 	int		lenArrContact;
-	Contact	contact;
-	Contact	*arrContact;
+	Contact	*contact;
 
 	lenArrContact = phonebook->getLenArrContact();
 	if (!lenArrContact)
@@ -151,19 +148,18 @@ static void	handle_search(PhoneBook *phonebook)
 		std::cout << "phonebook is empty." << std::endl;
 		return ;
 	}
-	arrContact = phonebook->getArrContact();
 	std::cout << "|-------------------------------------------|" << std::endl;
 	std::cout << "|     INDEX|FIRST NAME| LAST NAME|  NICKNAME|" << std::endl;
 	std::cout << "|-------------------------------------------|" << std::endl;
 	for (int i = 0; i < lenArrContact; i++)
 	{
-		contact = arrContact[i];
+		contact = phonebook->getContact(i);
 		std::cout << "|         " << i << "|";
-		table_put_name(contact.getFirstName());
+		table_put_name(contact->getFirstName());
 		std::cout << "|";
-		table_put_name(contact.getLastName());
+		table_put_name(contact->getLastName());
 		std::cout << "|";
-		table_put_name(contact.getNickname());
+		table_put_name(contact->getNickname());
 		std::cout << "|" << std::endl;
 		std::cout << "|-------------------------------------------|" << std::endl;
 	}

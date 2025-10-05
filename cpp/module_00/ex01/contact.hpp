@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:32:54 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/03 08:33:54 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/05 16:20:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ public:
 	Contact();
 	Contact
 	(
-	std::string	firstName,
-	std::string	lastName,
-	std::string	nickname,
-	std::string	phoneNumber,
-	std::string	darkestSecret
+	const std::string	&firstName,
+	const std::string	&lastName,
+	const std::string	&nickname,
+	const std::string	&phoneNumber,
+	const std::string	&darkestSecret
 	);
-	std::string	getFirstName();
-	std::string	getLastName();
-	std::string	getNickname();
-	std::string	getPhoneNumber();
-	std::string	getDarkestSecret();
+	const std::string	&getFirstName() const;
+	const std::string	&getLastName() const;
+	const std::string	&getNickname() const;
+	const std::string	&getPhoneNumber() const;
+	const std::string	&getDarkestSecret() const;
 private:
 	std::string	firstName_;
 	std::string	lastName_;
