@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phonebook.hpp                                      :+:      :+:    :+:   */
+/*   Zombie.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:32:54 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/06 06:46:05 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/06 06:49:56 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHONE_BOOK_HPP
-# define PHONE_BOOK_HPP
+#ifndef ZOMBIE_HPP
+# define ZOMBIE_HPP
 
-# include "contact.hpp"
+# include <string>
 
-# define PHONE_BOOK_CONTACT_MAX 8
-
-class PhoneBook
+class Zombie
 {
 public:
-	PhoneBook( void );
-	void	addContact
-	(
-	const std::string	&firstName,
-	const std::string	&lastName,
-	const std::string	&nickname,
-	const std::string	&phoneNumber,
-	const std::string	&darkestSecret
-	);
-	int		getLenArrContact( void ) const;
-	Contact	*getContact( int index );
+	Zombie( std::string  name );
+	~Zombie();
+	void	announce( void );
 private:
-	int		indexArrContact_;
-	int		lenArrContact_;
-	Contact	arrContact_[PHONE_BOOK_CONTACT_MAX];
+	std::string	name_;
 };
 
 #endif

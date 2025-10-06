@@ -1,43 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megaphone.cpp                                      :+:      :+:    :+:   */
+/*   Zombie.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/01 08:25:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/06 06:52:54 by yidemir          ###   ########.fr       */
+/*   Created: 2025/10/06 06:32:57 by yidemir           #+#    #+#             */
+/*   Updated: 2025/10/06 06:50:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Zombie.hpp"
 #include <iostream>
 
-static void strtoupper( char *dest )
+Zombie::Zombie( std::string name )
 {
-	while (*dest)
-	{
-		*dest = std::toupper(*dest);
-		dest++;
-	}
+	name_ = name;
 }
 
-int	main( int argc, char **argv )
+Zombie::~Zombie( void )
 {
-	int	i;
+	std::cout << name_ << ": destroyed." << std::endl;
+}
 
-	if (argc == 1)
-	{
-		std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl;
-		return (0);
-	}
-	i = 1;
-	while (i < argc)
-	{
-		strtoupper(argv[i]);
-		std::cout << argv[i];
-		if (++i < argc)
-			std::cout << " ";
-	}
-	std::cout << std::endl;
-	return (0);
+void	Zombie::announce( void )
+{
+	std::cout << name_ << ": BraiiiiiiinnnzzzZ..." << std::endl;
 }

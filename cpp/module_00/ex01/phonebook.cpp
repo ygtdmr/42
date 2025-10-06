@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 05:59:36 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/05 16:25:26 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/06 06:46:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phonebook.hpp"
 
-PhoneBook::PhoneBook()
+PhoneBook::PhoneBook( void )
 {
 	indexArrContact_ = 0;
 	lenArrContact_ = 0;
@@ -42,12 +42,12 @@ void	PhoneBook::addContact
 		lenArrContact_++;
 }
 
-int	PhoneBook::getLenArrContact() const
+int	PhoneBook::getLenArrContact( void ) const
 {
 	return (lenArrContact_);
 }
 
-Contact	*PhoneBook::getContact(int index)
+Contact	*PhoneBook::getContact( int index )
 {
 	if (index < lenArrContact_)
 		return (arrContact_ + index);

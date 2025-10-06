@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 05:00:45 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/05 16:22:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/06 06:32:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "contact.hpp"
 
-Contact::Contact(){}
+Contact::Contact( void ){}
 
 Contact::Contact
 (
@@ -30,27 +30,27 @@ Contact::Contact
 	darkestSecret_ = darkestSecret;
 }
 
-const std::string &Contact::getFirstName() const
+const std::string &Contact::getFirstName( void ) const
 {
 	return (firstName_);
 }
 
-const std::string &Contact::getLastName() const
+const std::string &Contact::getLastName( void ) const
 {
 	return (lastName_);
 }
 
-const std::string &Contact::getNickname() const
+const std::string &Contact::getNickname( void ) const
 {
 	return (nickname_);
 }
 
-const std::string &Contact::getPhoneNumber() const
+const std::string &Contact::getPhoneNumber( void ) const
 {
 	return (phoneNumber_);
 }
 
-const std::string &Contact::getDarkestSecret() const
+const std::string &Contact::getDarkestSecret( void ) const
 {
 	return (darkestSecret_);
 }

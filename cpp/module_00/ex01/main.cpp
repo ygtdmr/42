@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 06:22:31 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/05 16:28:54 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/06 06:52:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <iostream>
 #include <cstdlib>
 
-static void	exit_phonebook()
+static void	exit_phonebook( void )
 {
 	if (std::cin.eof())
 		std::cout << std::endl;	
@@ -22,7 +22,7 @@ static void	exit_phonebook()
 	std::exit(0);
 }
 
-static bool	str_isascii(std::string str)
+static bool	str_isascii( std::string str )
 {
 	const char	*c_str;
 
@@ -35,7 +35,7 @@ static bool	str_isascii(std::string str)
 	return (true);
 }
 
-static bool	str_isdigit(std::string str)
+static bool	str_isdigit( std::string str )
 {
 	size_t i;
 
@@ -48,7 +48,7 @@ static bool	str_isdigit(std::string str)
 	return (true);
 }
 
-static std::string	get_contact_field(const char *name, char type)
+static std::string	get_contact_field( const char *name, char type )
 {
 	std::string	line;
 
@@ -73,7 +73,7 @@ static std::string	get_contact_field(const char *name, char type)
 	return (line);
 }
 
-static void	table_put_name(std::string name)
+static void	table_put_name( std::string name )
 {
 	int		len;
 	int		sp;
@@ -91,7 +91,7 @@ static void	table_put_name(std::string name)
 		std::cout << ".";
 }
 
-static void prompt_search(PhoneBook *phonebook)
+static void prompt_search( PhoneBook *phonebook )
 {
 	int			index;
 	std::string	line;
@@ -121,7 +121,7 @@ static void prompt_search(PhoneBook *phonebook)
 	}
 }
 
-static void	handle_add(PhoneBook *phonebook)
+static void	handle_add( PhoneBook *phonebook )
 {
 	std::string	firstName;
 	std::string	lastName;
@@ -137,7 +137,7 @@ static void	handle_add(PhoneBook *phonebook)
 	phonebook->addContact(firstName, lastName, nickname, phoneNumber, darkestSecret);
 }
 
-static void	handle_search(PhoneBook *phonebook)
+static void	handle_search( PhoneBook *phonebook )
 {
 	int		lenArrContact;
 	Contact	*contact;
@@ -166,7 +166,7 @@ static void	handle_search(PhoneBook *phonebook)
 	prompt_search(phonebook);
 }
 
-static void	handle_prompt(PhoneBook *phonebook, std::string prompt)
+static void	handle_prompt( PhoneBook *phonebook, std::string prompt )
 {
 	if (prompt == "ADD")
 		handle_add(phonebook);
@@ -178,7 +178,7 @@ static void	handle_prompt(PhoneBook *phonebook, std::string prompt)
 		std::cout << "entered wrong prompt, please try again." << std::endl;
 }
 
-int	main(void)
+int	main( void )
 {
 	PhoneBook	phonebook;
 	std::string	line;
