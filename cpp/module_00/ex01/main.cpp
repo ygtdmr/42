@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 06:22:31 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/06 06:52:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/06 17:46:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,9 @@ static bool	str_isascii( std::string str )
 
 static bool	str_isdigit( std::string str )
 {
-	size_t i;
-
-	i = 0;
-	while (str[i])
+	for (size_t i = 0; str[i]; i++)
 	{
-		if (!std::isdigit(str[i++]))
+		if (!std::isdigit(str[i]))
 			return (false);
 	}
 	return (true);
