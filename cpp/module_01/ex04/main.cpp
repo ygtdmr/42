@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 13:56:03 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/09 17:01:18 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/09 17:05:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main( int argc, char **argv )
 
 	if (argc != 4)
 	{
-		std::cerr << "missing parameter(s), usage: <filename> <from> <to>" << std::endl;
+		std::cerr << "missing parameter(s), usage: <filename> <s1> <s2>" << std::endl;
 		return (1);
 	}
 	filemanager.setInOutName(argv[1], std::string(argv[1]) + ".replace");
