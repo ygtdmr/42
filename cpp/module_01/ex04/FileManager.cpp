@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 14:46:06 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/10 06:36:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/10 06:58:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ bool	FileManager::replace( const std::string &from, const std::string &to )
 	size_t		i_found;
 	std::string	*str;
 
+	if (!read() || from.empty())
+		return (false);
 	i_start = 0;
 	i_found = 0;
 	str = new std::string;
-	if (!read() || from.empty())
-		return (false);
 	while (1)
 	{
 		i_found = content_->find(from, i_start);

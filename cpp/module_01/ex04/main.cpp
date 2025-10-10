@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 13:56:03 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/09 17:05:24 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/10 06:59:38 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main( int argc, char **argv )
 		if (errno)
 			std::perror(argv[1]);
 		else
-			std::cerr << argv[1] << ": error when replace" << std::endl;
+			std::cerr << argv[1] << ": replace error" << std::endl;
 		return (1);
 	}
 	return (0);
