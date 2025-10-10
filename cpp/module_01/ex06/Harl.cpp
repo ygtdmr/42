@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 07:22:15 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/10 09:53:35 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/10 09:50:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 Harl::Harl()
 {
-	map_[0] = &Harl::debug;
-	map_[1] = &Harl::info;
-	map_[2] = &Harl::warning;
-	map_[3] = &Harl::error;
 	levels_[0] = "DEBUG";
 	levels_[1] = "INFO";
 	levels_[2] = "WARNING";
@@ -27,14 +23,37 @@ Harl::Harl()
 
 void	Harl::complain( std::string level )
 {
-	for (int i = 0; i < 4; i++)
+	int	i;
+
+	i = 0;
+	while (i < 4 && levels_[i] != level)
+		i++;
+	switch (i)
 	{
-		if (levels_[i] == level)
-			return ((this->*map_[i])());
+	case 0:
+		this->debug();
+		this->info();
+		this->warning();
+		this->error();
+		break ;
+	case 1:
+		this->info();
+		this->warning();
+		this->error();
+		break ;
+	case 2:
+		this->warning();
+		this->error();
+		break ;
+	case 3:
+		this->error();
+		break ;
+	default:
+		std::cerr
+			<< "[ Probably complaining about insignificant problems ]"
+			<< std::endl;
+		break ;
 	}
-	std::cerr
-		<< "[ UNKNOWN LEVEL ]"
-		<< std::endl;
 }
 
 void	Harl::debug( void )
