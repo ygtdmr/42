@@ -6,13 +6,15 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 05:00:08 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/13 13:23:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/13 16:27:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <cmath>
 #include "Fixed.hpp"
+
+const int Fixed::fractionalBits_ = 8;
 
 Fixed::Fixed()
 {

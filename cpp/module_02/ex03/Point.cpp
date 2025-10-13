@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Fixed.hpp                                          :+:      :+:    :+:   */
+/*   Point.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/13 16:27:48 by yidemir          ###   ########.fr       */
+/*   Created: 2025/10/13 14:55:36 by yidemir           #+#    #+#             */
+/*   Updated: 2025/10/13 15:32:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FIXED_HPP
-# define FIXED_HPP
+#include "Point.hpp"
 
-class Fixed
+Point::Point() : x_(0), y_(0)
+{}
+
+Point::Point( const Fixed &x, const Fixed &y ) : x_(x), y_(y)
+{}
+
+Point::Point( const Point &other ) : x_(other.x_), y_(other.y_)
+{}
+
+Point::~Point()
+{}
+
+Fixed const	&Point::getX( void ) const
 {
-public:
-	Fixed();
-	Fixed(const Fixed &other);
-	~Fixed();
-	Fixed( int nbr );
-	Fixed( float nbr );
-	Fixed	&operator=( const Fixed &other );
-	int		getRawBits( void ) const;
-	float	toFloat( void ) const;
-	int		toInt( void ) const;
-private:
-	static const int	fractionalBits_;
-	int					rawBits_;
-};
+	return (x_);
+}
 
-#endif
+Fixed const	&Point::getY( void ) const
+{
+	return (y_);
+}
