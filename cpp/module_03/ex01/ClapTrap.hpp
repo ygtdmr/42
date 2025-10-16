@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/16 13:23:40 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/16 14:10:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ public:
 	ClapTrap	&operator=( const ClapTrap &other );
 	
 	ClapTrap( const std::string &name );
+	
 	void	attack( const std::string& target );
 	void	takeDamage( unsigned int amount );
 	void	beRepaired( unsigned int amount );
-private:
+protected:
 	std::string	name_;
 	int			hitPoints_;
 	int			energyPoints_;

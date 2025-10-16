@@ -6,30 +6,23 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 04:57:13 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/16 14:15:08 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/16 14:14:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include "ClapTrap.hpp"
+#include "ScavTrap.hpp"
 
-int main( void )
+int	main( void )
 {
-    ClapTrap	a("Bob");
+	ScavTrap scav("Scavy");
 
 	std::cout << std::endl;
-    a.attack("TargetDummy");
-    a.takeDamage(3);
-    a.beRepaired(5);
+
+	scav.attack("Intruder");
+	scav.guardGate();
 
 	std::cout << std::endl;
-    for (int i = 0; i < 10; i++)
-        a.attack("TrainingBot");
-	std::cout << std::endl;
 
-    a.takeDamage(20);
-    a.attack("Nothing");
-    a.beRepaired(10);	
-	std::cout << std::endl;
-	return (0);
+	return 0;
 }

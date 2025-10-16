@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   ScavTrap.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/13 04:57:13 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/16 14:15:08 by yidemir          ###   ########.fr       */
+/*   Created: 2025/10/16 12:59:07 by yidemir           #+#    #+#             */
+/*   Updated: 2025/10/16 14:10:18 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include "ClapTrap.hpp"
 
-int main( void )
+#ifndef SCAV_TRAP_HPP
+# define SCAV_TRAP_HPP
+
+# include "ClapTrap.hpp"
+
+class ScavTrap : public ClapTrap
 {
-    ClapTrap	a("Bob");
+public:
+	ScavTrap( void );
+	ScavTrap( const ScavTrap &other );
+	~ScavTrap();
+	ScavTrap	&operator=( const ScavTrap &other );
 
-	std::cout << std::endl;
-    a.attack("TargetDummy");
-    a.takeDamage(3);
-    a.beRepaired(5);
+	ScavTrap( const std::string &name );
+	
+	void	attack( const std::string& target );
+	void	guardGate( void );
+};
 
-	std::cout << std::endl;
-    for (int i = 0; i < 10; i++)
-        a.attack("TrainingBot");
-	std::cout << std::endl;
-
-    a.takeDamage(20);
-    a.attack("Nothing");
-    a.beRepaired(10);	
-	std::cout << std::endl;
-	return (0);
-}
+#endif
