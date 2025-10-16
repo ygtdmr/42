@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 15:09:07 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/16 15:26:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/16 16:37:21 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ public:
 
 	DiamondTrap( const std::string &name );
 	void	whoAmI( void );
+	using	ScavTrap::attack;
 private:
-	std::string	_name;
+	std::string	name_;
 };
 
 #endif

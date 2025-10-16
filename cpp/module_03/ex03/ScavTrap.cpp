@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 11:08:13 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/16 14:51:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/16 16:10:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 ScavTrap::ScavTrap( void ) : ClapTrap()
 {
+	std::cout 
+		<< "ScavTrap "
+		<< name_
+		<< " constructed."
+		<< std::endl;
 	hitPoints_ = 100;
 	energyPoints_ = 50;
 	attackDamage_ = 20;
@@ -22,6 +27,11 @@ ScavTrap::ScavTrap( void ) : ClapTrap()
 
 ScavTrap::ScavTrap( const ScavTrap &other ) : ClapTrap(other)
 {
+	std::cout 
+		<< "ScavTrap "
+		<< name_
+		<< " constructed."
+		<< std::endl;
 	hitPoints_ = 100;
 	energyPoints_ = 50;
 	attackDamage_ = 20;
@@ -29,7 +39,13 @@ ScavTrap::ScavTrap( const ScavTrap &other ) : ClapTrap(other)
 }
 
 ScavTrap::~ScavTrap()
-{}
+{
+	std::cout 
+		<< "ScavTrap "
+		<< name_
+		<< " destroyed."
+		<< std::endl;
+}
 
 ScavTrap	&ScavTrap::operator=( const ScavTrap &other )
 {
@@ -45,6 +61,11 @@ ScavTrap	&ScavTrap::operator=( const ScavTrap &other )
 
 ScavTrap::ScavTrap( const std::string &name ) : ClapTrap(name)
 {
+	std::cout 
+		<< "ScavTrap "
+		<< name_
+		<< " constructed."
+		<< std::endl;
 	hitPoints_ = 100;
 	energyPoints_ = 50;
 	attackDamage_ = 20;

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 04:57:13 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/16 14:15:08 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/16 16:41:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int main( void )
 
 	std::cout << std::endl;
     for (int i = 0; i < 10; i++)
-        a.attack("TrainingBot");
+    {
+		a.attack("TrainingBot");
+	}
 	std::cout << std::endl;
 
     a.takeDamage(20);
