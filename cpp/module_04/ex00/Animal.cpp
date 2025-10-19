@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 11:08:13 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 14:46:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 14:49:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ Animal::Animal( void )
 
 Animal::Animal( const Animal &other )
 {
+	std::cout 
+		<< "Animal constructed."
+		<< std::endl;
 	*this = other;
 }
 

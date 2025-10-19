@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 11:08:13 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 14:20:32 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 14:49:20 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ Cat::Cat( void )
 Cat::Cat( const Cat &other )
 {
 	*this = other;
-	type_ = "Cat";
+	std::cout 
+		<< "Cat constructed."
+		<< std::endl;
 }
 
 Cat::~Cat()

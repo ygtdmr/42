@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 11:08:13 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 14:46:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 14:49:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ WrongAnimal::WrongAnimal( void )
 WrongAnimal::WrongAnimal( const WrongAnimal &other )
 {
 	*this = other;
+	std::cout 
+		<< "WrongAnimal constructed."
+		<< std::endl;
 }
 
 WrongAnimal::~WrongAnimal()

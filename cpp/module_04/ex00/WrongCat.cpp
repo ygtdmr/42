@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 11:08:13 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 14:31:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 14:49:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ WrongCat::WrongCat( void )
 WrongCat::WrongCat( const WrongCat &other )
 {
 	*this = other;
-	type_ = "WrongCat";
+	std::cout 
+		<< "WrongCat constructed."
+		<< std::endl;
 }
 
 WrongCat::~WrongCat()

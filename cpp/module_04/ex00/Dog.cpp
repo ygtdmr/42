@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 11:08:13 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 14:20:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 14:49:40 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ Dog::Dog( void )
 Dog::Dog( const Dog &other )
 {
 	*this = other;
-	type_ = "Dog";
+	std::cout 
+		<< "Dog constructed."
+		<< std::endl;
 }
 
 Dog::~Dog()
