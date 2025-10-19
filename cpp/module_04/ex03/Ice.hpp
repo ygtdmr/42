@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 18:40:21 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 15:18:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ class Ice : public AMateria
 public:
 	Ice( void );
 	Ice( const Ice &other );
-	~Ice();
+	virtual ~Ice();
 	Ice					&operator=( const Ice &other );
 	virtual AMateria	*clone( void ) const;
 	virtual void		use( ICharacter &target );

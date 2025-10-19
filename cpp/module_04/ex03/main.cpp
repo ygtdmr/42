@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 19:34:06 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 19:35:41 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 15:39:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "Cure.hpp"
 #include "Character.hpp"
 
-int main()
+int main( void )
 {
 	IMateriaSource* src = new MateriaSource();
 	src->learnMateria(new Ice());

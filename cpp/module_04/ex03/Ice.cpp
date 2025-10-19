@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 11:08:13 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 19:48:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 15:19:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "ICharacter.hpp"
 #include <iostream>
 
-Ice::Ice( void )
+Ice::Ice( void ) : AMateria("ice")
 {}
 
-Ice::Ice( const Ice &other )
+Ice::Ice( const Ice &other ) : AMateria(other)
 {
 	*this = other;
 }
@@ -28,9 +28,7 @@ Ice::~Ice()
 Ice	&Ice::operator=( const Ice &other )
 {
 	if ( this != &other )
-	{
 		this->type_ = other.type_;
-	}
 	return ( *this );
 }
 

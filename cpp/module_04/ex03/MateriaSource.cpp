@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 19:12:53 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 19:39:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 15:50:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,42 @@
 
 MateriaSource::MateriaSource( void )
 {
-	len_learned_ = 0;
+	for (size_t i = 0; i < MATERIA_SOURCE_MAX; i++)
+		learned_[i] = 0;
 }
 
-MateriaSource::MateriaSource( const MateriaSource &other )
+MateriaSource::MateriaSource( const MateriaSource &other ) : IMateriaSource(other)
 {
 	*this = other;
 }
 
 MateriaSource::~MateriaSource()
-{}
+{
+	for (size_t i = 0; i < MATERIA_SOURCE_MAX; i++)
+		delete learned_[i];
+}
 
 MateriaSource	&MateriaSource::operator=( const MateriaSource &other )
 {
-	len_learned_ = other.len_learned_;
-	for (size_t i = 0; i < MATERIA_SOURCE_MAX; i++)
+	if (this != &other)
 	{
-		delete learned_[i];
-		learned_[i] = other.learned_[i];
+		for (int i = 0; i < MATERIA_SOURCE_MAX; ++i)
+		{
+			delete learned_[i];
+			if (other.learned_[i])
+				learned_[i] = other.learned_[i]->clone();
+			else
+				learned_[i] = 0;
+		}
 	}
 	return ( *this );
 }
 
 AMateria	*MateriaSource::createMateria( std::string const &type )
 {
-	for (size_t i = 0; i < len_learned_; i++)
+	for (int i = 0; i < MATERIA_SOURCE_MAX; i++)
 	{
-		if (learned_[i]->getType() == type)
+		if (learned_[i] && learned_[i]->getType() == type)
 			return ( learned_[i]->clone() );
 	}
 	return (0);
@@ -48,8 +57,14 @@ AMateria	*MateriaSource::createMateria( std::string const &type )
 
 void MateriaSource::learnMateria( AMateria* materia )
 {
-	if (len_learned_ >= MATERIA_SOURCE_MAX)
+	if (!materia)
 		return ;
-	learned_[len_learned_] = materia;
-	len_learned_++;
+	for (int i = 0; i < MATERIA_SOURCE_MAX; i++)
+	{
+		if (!learned_[i]) {
+			learned_[i] = materia;
+			return ;
+		}
+	}
+	delete materia;
 }

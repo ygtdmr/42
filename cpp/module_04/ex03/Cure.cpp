@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 19:10:05 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 19:49:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 15:20:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "ICharacter.hpp"
 #include <iostream>
 
-Cure::Cure( void )
+Cure::Cure( void ) : AMateria("cure")
 {}
 
-Cure::Cure( const Cure &other )
+Cure::Cure( const Cure &other ) : AMateria(other)
 {
 	*this = other;
 }
@@ -28,9 +28,7 @@ Cure::~Cure()
 Cure	&Cure::operator=( const Cure &other )
 {
 	if ( this != &other )
-	{
 		this->type_ = other.type_;
-	}
 	return ( *this );
 }
 
