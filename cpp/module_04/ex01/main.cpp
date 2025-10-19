@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 04:57:13 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 15:39:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 15:49:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ int main( void )
 	Dog dog1;
 	Dog dog2 = dog1; // Copy constructor
 
-	// std::cout << "----- Deep Copy Assignment Test -----" << std::endl;
-	// Dog dog3;
-	// dog3 = dog1; // Copy assignment
+	std::cout << "----- Deep Copy Assignment Test -----" << std::endl;
+	Dog dog3;
+	dog3 = dog1; // Copy assignment
 
 	return 0;
 }
