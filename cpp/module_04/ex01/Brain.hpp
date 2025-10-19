@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Dog.hpp                                            :+:      :+:    :+:   */
+/*   Brain.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 15:01:08 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 15:07:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOG_HPP
-# define DOG_HPP
+#ifndef BRAIN_HPP
+# define BRAIN_HPP
 
-# include "Animal.hpp"
+# include <string>
 
-class Dog : public Animal
+# define BRAIN_IDEA_LENGTH 100
+
+class Brain
 {
 public:
-	Dog( void );
-	Dog( const Dog &other );
-	virtual ~Dog();
-	Dog				&operator=( const Dog &other );
-	virtual void	makeSound( void ) const;
+	Brain( void );
+	Brain( const Brain &other );
+	~Brain();
+	Brain	&operator=( const Brain &other );
+private:
+	std::string	ideas[BRAIN_IDEA_LENGTH];
 };
 
 #endif

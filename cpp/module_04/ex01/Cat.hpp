@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Dog.hpp                                            :+:      :+:    :+:   */
+/*   Cat.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 15:01:08 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 15:08:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOG_HPP
-# define DOG_HPP
+#ifndef CAT_HPP
+# define CAT_HPP
 
 # include "Animal.hpp"
+# include "Brain.hpp"
 
-class Dog : public Animal
+class Cat : public Animal
 {
 public:
-	Dog( void );
-	Dog( const Dog &other );
-	virtual ~Dog();
-	Dog				&operator=( const Dog &other );
+	Cat( void );
+	Cat( const Cat &other );
+	virtual ~Cat();
+	Cat				&operator=( const Cat &other );
 	virtual void	makeSound( void ) const;
+private:
+	Brain	*brain_;
 };
 
 #endif

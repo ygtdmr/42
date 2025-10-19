@@ -6,14 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 14:35:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 15:01:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CAT_HPP
 # define CAT_HPP
 
-#include "Animal.hpp"
+# include "Animal.hpp"
 
 class Cat : public Animal
 {
