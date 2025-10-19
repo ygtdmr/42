@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 19:12:53 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 15:50:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 16:07:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 MateriaSource::MateriaSource( void )
 {
-	for (size_t i = 0; i < MATERIA_SOURCE_MAX; i++)
+	for (int i = 0; i < MATERIA_SOURCE_MAX; i++)
 		learned_[i] = 0;
 }
 
@@ -25,7 +25,7 @@ MateriaSource::MateriaSource( const MateriaSource &other ) : IMateriaSource(othe
 
 MateriaSource::~MateriaSource()
 {
-	for (size_t i = 0; i < MATERIA_SOURCE_MAX; i++)
+	for (int i = 0; i < MATERIA_SOURCE_MAX; i++)
 		delete learned_[i];
 }
 

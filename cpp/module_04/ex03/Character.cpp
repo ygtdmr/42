@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 19:10:18 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 16:00:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 16:06:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 Character::Character( void )
 {
-	for (size_t i = 0; i < CHARACTER_INV_MAX; i++)
+	for (int i = 0; i < CHARACTER_INV_MAX; i++)
 		inventory_[i] = 0;
 }
 
@@ -27,13 +27,13 @@ Character::Character( const Character &other ) : ICharacter(other)
 Character::Character( const std::string &name )
 {
 	name_ = name;
-	for (size_t i = 0; i < CHARACTER_INV_MAX; i++)
+	for (int i = 0; i < CHARACTER_INV_MAX; i++)
 		inventory_[i] = 0;
 }
 
 Character::~Character()
 {
-	for (size_t i = 0; i < CHARACTER_INV_MAX; i++)
+	for (int i = 0; i < CHARACTER_INV_MAX; i++)
 		delete inventory_[i];
 }
 
@@ -63,7 +63,7 @@ void	Character::equip( AMateria *m )
 {
 	if (!m)
 		return ;
-	for (size_t i = 0; i < CHARACTER_INV_MAX; i++)
+	for (int i = 0; i < CHARACTER_INV_MAX; i++)
 	{
 		if (!inventory_[i])
 		{

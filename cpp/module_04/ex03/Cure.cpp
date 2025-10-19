@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 19:10:05 by yidemir           #+#    #+#             */
-/*   Updated: 2025/10/19 15:20:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/10/19 16:05:06 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ AMateria	*Cure::clone( void ) const
 void	Cure::use( ICharacter &target )
 {
 	std::cout
-		<< "* heals"
+		<< "* heals "
 		<< target.getName()
 		<< "'s wounds *"
 		<< std::endl;
