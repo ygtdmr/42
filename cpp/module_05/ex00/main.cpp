@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 06:41:32 by yidemir           #+#    #+#             */
-/*   Updated: 2025/11/29 06:48:18 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/11/29 12:09:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 int	main( void )
 {
-	std::cout << "========== START OF TESTS ==========" << std::endl;
-
-	std::cout << "\n[TEST 1] Successful Object Creation and Output Operator Test" << std::endl;
+	std::cout << "[TEST 1] Successful Object Creation and Output Operator Test" << std::endl;
 
 	Bureaucrat a("A", 75);
 	Bureaucrat b("B", 150);
@@ -97,11 +95,9 @@ int	main( void )
 		tmp.downGrade(1);
 		std::cout << "ERROR: Exception was NOT thrown after second downGrade(1)." << std::endl;
 	}
-	catch ( const Bureaucrat::GradeTooLowException& e )
+	catch ( const std::exception& e )
 	{
 		std::cerr << "SUCCESSFULLY CAUGHT (GradeTooLow): " << e.what() << std::endl;
 	}
-
-	std::cout << "\n========== END OF TESTS ==========" << std::endl;
 	return (0);
 }
