@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 14:14:10 by yidemir           #+#    #+#             */
-/*   Updated: 2025/11/29 12:24:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/11/30 10:53:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@ class	Form
 				virtual const char	*what() const throw();
 		};
 		class	GradeTooLowException : public std::exception
-		{
-			public:
-				virtual const char	*what() const throw();
-		};
-		class	SignedAlreadyException : public std::exception
 		{
 			public:
 				virtual const char	*what() const throw();

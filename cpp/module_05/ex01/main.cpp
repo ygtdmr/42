@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 11:14:53 by yidemir           #+#    #+#             */
-/*   Updated: 2025/11/29 12:12:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/11/30 10:55:55 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,23 +93,6 @@ int main( void )
     catch (const std::exception& e)
     {
         std::cerr << "CAUGHT: Unexpected error during failed signing: " << e.what() << std::endl;
-    }
-
-    std::cout << "\n[TEST 6] Attempt to sign an already signed form" << std::endl;
-    try
-    {
-        Bureaucrat anySigner("Temp signer", 1);
-        Form signedForm("Temp form", 10, 10);
-        
-        anySigner.signForm(signedForm);
-        std::cout << "After first sign: " << signedForm << std::endl;
-        
-        anySigner.signForm(signedForm);
-        std::cout << "After second attempt (Should be same): " << signedForm << std::endl;
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "CAUGHT: Unexpected error during re-signing test: " << e.what() << std::endl;
     }
     return (0);
 }
