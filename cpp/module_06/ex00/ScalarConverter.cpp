@@ -5,22 +5,30 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/15 18:37:34 by yidemir           #+#    #+#             */
-/*   Updated: 2026/02/16 14:30:50 by yidemir          ###   ########.fr       */
+/*   Created: 2026/02/24 14:41:48 by yidemir           #+#    #+#             */
+/*   Updated: 2026/02/24 18:02:48 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ScalarConverter.hpp"
+# include <iostream>
+# include <cstdlib>
+# include <climits>
+# include <cfloat>
+# include <iomanip>
+# include "ScalarConverter.hpp"
 
 ScalarConverter::ScalarConverter( void )
 {}
 
 ScalarConverter::ScalarConverter( const ScalarConverter &other )
-{}
+{
+	( void ) other;
+}
 
 ScalarConverter &ScalarConverter::operator=( const ScalarConverter &other )
 {
-	return *this;
+	( void ) other;
+	return ( *this );
 }
 
 ScalarConverter::~ScalarConverter()
@@ -28,72 +36,80 @@ ScalarConverter::~ScalarConverter()
 
 void	ScalarConverter::convert( const std::string &literal )
 {
-	if ( isChar(literal) )
-	{}
-	else if ( isInt(literal) )
-	{}
-	else if ( isDouble(literal) )
-	{}
-	else if ( isFloat(literal) )
-	{}
-	else if ( isLimit(literal) )
-	{}
-}
+	char		*tmp( 0 );
+	double	raw( strtod( literal.c_str(), &tmp ) );
 
-bool	ScalarConverter::isChar( const std::string &literal )
-{
-	const bool	isOneSize( literal.size() == 1 );
-	const bool	isDigit( literal[0] >= '0' && literal[0] <= '9' );
-
-	return ( isOneSize && isDigit );
-}
-bool	ScalarConverter::isInt( const std::string &literal )
-{
-	const bool	isSign(literal[0] == '+' || literal[0] == '-');
-
-	for ( size_t i = isSign; i < literal.size(); i++ )
+	if ( literal.size() == 1 && !(literal[0] >= '0' && literal[0] <= '9') )
 	{
-		if ( !(literal[i] >= '0' && literal[i] <= '9') )
-			return ( false );
+		raw = literal[0];
+		*tmp = 0;
 	}
-	return ( true );
+	print ( literal, (*tmp != 0) && ( std::string("f") !=  tmp ), raw );
 }
 
-bool	ScalarConverter::isDecimal( const std::string &literal )
+bool	ScalarConverter::isPseudo( const std::string &literal, char type = 'a' )
 {
-	bool	hasDot( false );
+	const std::string	value( literal.substr((literal[0] == '+') || (literal[0] == '-'), literal.size()) );
+	const bool			pseudo( value == "nan" || value == "inf" || value == "inf" );
+	const bool			pseudoFloat( value == "nanf" || value == "inff" || value == "inff" );
 
-	for ( size_t i = 0; i < literal.size(); i++ )
+	switch ( type )
 	{
-		if ( !(literal[i] >= '0' && literal[i] <= '9') )
-		{
-			if ( literal[i] != '.' )
-				hasDot = true;
-			else
-				return ( false );
-		}
+	case 'd':
+		return ( pseudo );
+	case 'f':
+		return ( pseudoFloat );
+	case 'a':
+	default:
+		return ( pseudo || pseudoFloat );
 	}
-	return ( hasDot );
 }
 
-bool	ScalarConverter::isDouble( const std::string &literal )
+void	ScalarConverter::print( const std::string &literal, bool error, const double &raw )
 {
-	return ( isDecimal( literal ) );
-}
+	char	c( static_cast<char>( raw ) );
+	int		i( static_cast<int>( raw ) );
+	float	f( static_cast<float>( raw ) );
 
-bool	ScalarConverter::isFloat( const std::string &literal )
-{
-	const bool hasF(literal[literal.size() - 1] != 'f');
-
-	return ( hasF && isDecimal( literal ) );
-}
-
-bool	ScalarConverter::isLimit( const std::string &literal )
-{
-	for ( size_t i = 0; i < literal.size(); i++ )
+	std::cout << "char: ";
+	if ( isPseudo(literal) || error )
+		std::cout << "impossible";
+	else
 	{
-		
+		if (c >= 32 && i < 127)
+			std::cout << c;
+		else
+			std::cout << "Non displayable";
 	}
-	return ( true );
+
+	std::cout << std::endl << "int: ";
+	if ( isPseudo(literal) || error || !( ( raw >= INT_MIN ) && ( raw <= INT_MAX ) ) )
+		std::cout << "impossible";
+	else
+		std::cout << i;
+
+	std::cout << std::endl << "float: ";
+	if ( isPseudo( literal ) )
+	{
+		std::cout << literal;
+		if ( isPseudo( literal, 'd' ) )
+			std::cout << 'f';
+	}
+	else if (error || !( ( raw >= FLT_MIN ) && ( raw <= FLT_MAX ) ) )
+		std::cout << "impossible";
+	else
+		std::cout << std::fixed << std::setprecision(1) << f << 'f';
+
+	std::cout << std::endl << "double: ";
+	if ( isPseudo( literal, 'd' ) )
+		std::cout << literal;
+	else if ( isPseudo( literal, 'f' ) )
+		std::cout << literal.substr(0, literal.size() - 1);
+	else if (error)
+		std::cout << "impossible";
+	else
+		std::cout << std::fixed << std::setprecision(1) << raw;
+
+	std::cout << std::endl;
 }
 

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/15 18:13:05 by yidemir           #+#    #+#             */
-/*   Updated: 2026/02/16 14:22:16 by yidemir          ###   ########.fr       */
+/*   Created: 2026/02/24 14:27:16 by yidemir           #+#    #+#             */
+/*   Updated: 2026/02/24 16:48:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,18 @@
 
 # include <string>
 
-class	ScalarConverter
+class ScalarConverter
 {
 	public:
-		static void		convert( const std::string &literal );
+		static void	convert( const std::string &literal );
 
 	private:
 		ScalarConverter( void );
 		ScalarConverter( const ScalarConverter &other );
 		~ScalarConverter();
 		ScalarConverter	&operator=( const ScalarConverter &other );
-		static bool		isLimit( const std::string &literal );
-		static bool		isChar( const std::string &literal );
-		static bool		isInt( const std::string &literal );
-		static bool		isDecimal( const std::string &literal );
-		static bool		isFloat( const std::string &literal );
-		static bool		isDouble( const std::string &literal );
-
+		static void		print( const std::string &literal, bool error, const double &raw );
+		static bool		isPseudo( const std::string &literal, char type );
 };
 
 #endif
