@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:41:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/02/24 18:02:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/02/24 18:22:21 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,23 @@ ScalarConverter::~ScalarConverter()
 
 void	ScalarConverter::convert( const std::string &literal )
 {
-	char		*tmp( 0 );
+	char	*tmp( 0 );
+	bool	isChar(false);
 	double	raw( strtod( literal.c_str(), &tmp ) );
 
 	if ( literal.size() == 1 && !(literal[0] >= '0' && literal[0] <= '9') )
 	{
 		raw = literal[0];
-		*tmp = 0;
+		isChar = true;
 	}
-	print ( literal, (*tmp != 0) && ( std::string("f") !=  tmp ), raw );
+	print( literal, (*tmp != 0) && ( std::string("f") != tmp ) && !isChar, raw );
 }
 
-bool	ScalarConverter::isPseudo( const std::string &literal, char type = 'a' )
+bool	ScalarConverter::isPseudo( const std::string &literal, char type )
 {
 	const std::string	value( literal.substr((literal[0] == '+') || (literal[0] == '-'), literal.size()) );
-	const bool			pseudo( value == "nan" || value == "inf" || value == "inf" );
-	const bool			pseudoFloat( value == "nanf" || value == "inff" || value == "inff" );
+	const bool			pseudo( value == "nan" || value == "inf" );
+	const bool			pseudoFloat( value == "nanf" || value == "inff" );
 
 	switch ( type )
 	{
@@ -67,17 +68,17 @@ bool	ScalarConverter::isPseudo( const std::string &literal, char type = 'a' )
 
 void	ScalarConverter::print( const std::string &literal, bool error, const double &raw )
 {
-	char	c( static_cast<char>( raw ) );
-	int		i( static_cast<int>( raw ) );
-	float	f( static_cast<float>( raw ) );
+	unsigned char	c( static_cast<unsigned char>( raw ) );
+	int				i( static_cast<int>( raw ) );
+	float			f( static_cast<float>( raw ) );
 
 	std::cout << "char: ";
-	if ( isPseudo(literal) || error )
+	if ( isPseudo(literal) || error || raw < 0 || raw > 255 )
 		std::cout << "impossible";
 	else
 	{
-		if (c >= 32 && i < 127)
-			std::cout << c;
+		if (c >= 32 && c < 127)
+			std::cout << '\'' << c << '\'';
 		else
 			std::cout << "Non displayable";
 	}
@@ -95,7 +96,7 @@ void	ScalarConverter::print( const std::string &literal, bool error, const doubl
 		if ( isPseudo( literal, 'd' ) )
 			std::cout << 'f';
 	}
-	else if (error || !( ( raw >= FLT_MIN ) && ( raw <= FLT_MAX ) ) )
+	else if (error || !( ( raw >= -FLT_MAX ) && ( raw <= FLT_MAX ) ) )
 		std::cout << "impossible";
 	else
 		std::cout << std::fixed << std::setprecision(1) << f << 'f';
@@ -112,4 +113,3 @@ void	ScalarConverter::print( const std::string &literal, bool error, const doubl
 
 	std::cout << std::endl;
 }
-
