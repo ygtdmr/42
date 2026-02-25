@@ -1,32 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Serializer.hpp                                     :+:      :+:    :+:   */
+/*   Base.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/24 21:19:13 by yidemir           #+#    #+#             */
-/*   Updated: 2026/02/25 11:42:04 by yidemir          ###   ########.fr       */
+/*   Created: 2026/02/25 11:38:45 by yidemir           #+#    #+#             */
+/*   Updated: 2026/02/25 11:47:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERIALIZER_HPP
-# define SERIALIZER_HPP
+#include "Base.hpp"
 
-# include <stdint.h>
-# include "Data.hpp"
+Base::Base( void )
+{}
 
-class Serializer
-{
-	public:
-		static uintptr_t	serialize( Data *ptr );
-		static Data			*deserialize( uintptr_t raw );
-
-	private:
-		Serializer( void );
-		Serializer( const Serializer &other );
-		~Serializer();
-		Serializer	&operator=( const Serializer &other );
-};
-
-#endif
+Base::~Base()
+{}
