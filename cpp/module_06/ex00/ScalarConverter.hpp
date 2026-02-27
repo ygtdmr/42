@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:27:16 by yidemir           #+#    #+#             */
-/*   Updated: 2026/02/27 11:54:34 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/02/27 18:56:52 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ class ScalarConverter
 		ScalarConverter( const ScalarConverter &other );
 		~ScalarConverter();
 		ScalarConverter	&operator=( const ScalarConverter &other );
-		static void	print( const char &value, const bool isError );
-		static void	print( const int &value, const bool isError );
-		static void	print( const float &value, const bool isError, const std::string &literal );
-		static void	print( const double &value, const bool isError, const std::string &literal );
+		static void	printChar( const double &raw, const bool isError );
+		static void	printInt( const double &raw, const bool isError );
+		static void	printFloat( const double &raw, const bool isError );
+		static void	printDouble( const double &raw, const bool isError );
 		static void	printErr( void );
 		static char	literalType( const std::string &literal );
 		static bool	isPseudoDouble( const std::string &literal );
