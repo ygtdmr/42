@@ -6,12 +6,10 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:41:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/02/27 19:19:19 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/02/28 21:51:48 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <cmath>
-# include <cfloat>
 # include <cstdlib>
 # include <climits>
 # include <iomanip>
@@ -42,7 +40,6 @@ void	ScalarConverter::convert( const std::string &literal )
 	bool		error( false );
 	double		raw( 0 );
 
-	errno = 0;
 	switch ( type )
 	{
 	case 'c':
@@ -53,15 +50,14 @@ void	ScalarConverter::convert( const std::string &literal )
 		break;
 	case 'i':
 	case 'd':
+	case 'f':
+	case 'p':
 		raw = strtod(literal.c_str(), &endptr) ;
 		break;
-	case 'f':
-		raw = strtof(literal.c_str(), &endptr );
-		break;
 	}
-	error = ( type == 'e' || errno || ( endptr && ( *endptr != '\0' && *endptr != 'f' ) ) );
-	printChar( raw, error );
-	printInt( raw, error );
+	error = ( type == 'e' || ( endptr && ( *endptr != '\0' && *endptr != 'f' ) ) );
+	printChar( raw, error || type == 'p' || !( raw > CHAR_MIN && raw <= CHAR_MAX ) );
+	printInt( raw, error || type == 'p' || !( raw >= INT_MIN && raw <= INT_MAX ) );
 	printFloat( raw, error );
 	printDouble( raw, error );
 }
@@ -72,13 +68,11 @@ void	ScalarConverter::printErr( void )
 		<< "impossible";
 }
 
-void	ScalarConverter::printChar( const double &raw, const bool isError )
+void	ScalarConverter::printChar( const double &raw, const bool &isError )
 {
-	const bool	isPseudo( std::isnan( raw ) || std::isinf( raw ) );
-
 	std::cout
 		<< "char: ";
-	if ( isError || isPseudo || !( raw > CHAR_MIN && raw <= CHAR_MAX ) )
+	if ( isError )
 		printErr();
 	else if ( raw >= 32 )
 		std::cout
@@ -92,13 +86,11 @@ void	ScalarConverter::printChar( const double &raw, const bool isError )
 		<< std::endl;
 }
 
-void	ScalarConverter::printInt( const double &raw, const bool isError )
+void	ScalarConverter::printInt( const double &raw, const bool &isError )
 {
-	const bool	isPseudo( std::isnan( raw ) || std::isinf( raw ) );
-
 	std::cout
 		<< "int: ";
-	if ( isError || isPseudo || !( raw >= INT_MIN && raw <= INT_MAX ) )
+	if ( isError )
 		printErr();
 	else
 		std::cout
@@ -107,7 +99,7 @@ void	ScalarConverter::printInt( const double &raw, const bool isError )
 		<< std::endl;
 }
 
-void	ScalarConverter::printFloat( const double &raw, const bool isError )
+void	ScalarConverter::printFloat( const double &raw, const bool &isError )
 {
 	std::cout
 		<< "float: ";
@@ -123,7 +115,7 @@ void	ScalarConverter::printFloat( const double &raw, const bool isError )
 		<< std::endl;
 }
 
-void	ScalarConverter::printDouble( const double &raw, const bool isError )
+void	ScalarConverter::printDouble( const double &raw, const bool &isError )
 {
 	std::cout
 		<< "double: ";
@@ -140,42 +132,37 @@ void	ScalarConverter::printDouble( const double &raw, const bool isError )
 
 char	ScalarConverter::literalType( const std::string &literal )
 {
-	if ( literal.size() > 1 )
+	const bool	sign( literal[0] == '+' || literal[0] == '-' );
+	bool		hasFloat( false );
+	int			hasDot( 0 );
+
+	if ( literal.size() == 1 )
+		return ( 'c' );
+	if ( isPseudo( literal ) )
+		return ( 'p' );
+	for (size_t i = sign; i < literal.size(); i++)
 	{
-		const bool	sign( literal[0] == '+' || literal[0] == '-' );
-		bool		hasFloat( false );
-		int			hasDot( 0 );
-
-		if ( isPseudoFloat( literal ) )
-			return ( 'f' );
-		if ( isPseudoDouble( literal ) )
-			return ( 'd' );
-		for (size_t i = sign; i < literal.size(); i++)
-		{
-			if ( literal[i] == '.' && ( i && isdigit( literal[i + 1] ) ) )
-				hasDot ++;
-			else if ( literal[i] == 'f' && isdigit( literal[i - 1] ) )
-				hasFloat = true;
-			else if ( !isdigit( literal[i] ) )
-				return ( 'e' );
-		}
-		if ( hasFloat && (hasDot == 1 || !hasDot) )
-			return ( 'f' );
-		else if ( hasDot == 1 )
-			return ( 'd' );
-		else if ( !hasDot )
-			return ( 'i' );
-		return ( 'e' );
+		if ( literal[i] == '.' && ( i && isdigit( literal[i + 1] ) ) )
+			hasDot ++;
+		else if ( literal[i] == 'f' && isdigit( literal[i - 1] ) )
+			hasFloat = true;
+		else if ( !isdigit( literal[i] ) )
+			return ( 'e' );
 	}
-	return ( 'c' );
+	if ( hasFloat && (hasDot == 1 || !hasDot) )
+		return ( 'f' );
+	else if ( hasDot == 1 )
+		return ( 'd' );
+	else if ( !hasDot )
+		return ( 'i' );
+	else
+		return ( 'e' );
 }
 
-bool	ScalarConverter::isPseudoDouble( const std::string &literal )
+bool	ScalarConverter::isPseudo( const std::string &literal )
 {
-	return ( literal == "nan" || literal == "inf" || literal == "-inf" || literal == "+inf" );
-}
+	const bool	d( literal == "nan" || literal == "inf" || literal == "-inf" || literal == "+inf" );
+	const bool	f( literal == "nanf" || literal == "inff" || literal == "-inff" || literal == "+inff" );
 
-bool	ScalarConverter::isPseudoFloat( const std::string &literal )
-{
-	return ( literal == "nanf" || literal == "inff" || literal == "-inff" || literal == "+inff" );
+	return ( d || f );
 }
