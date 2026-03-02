@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:27:16 by yidemir           #+#    #+#             */
-/*   Updated: 2026/02/28 21:47:26 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/02 15:54:52 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ class ScalarConverter
 		static void	printInt( const double &raw, const bool &isError );
 		static void	printFloat( const double &raw, const bool &isError );
 		static void	printDouble( const double &raw, const bool &isError );
-		static void	printErr( void );
 		static char	literalType( const std::string &literal );
 		static bool	isPseudo( const std::string &literal );
 };

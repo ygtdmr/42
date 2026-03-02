@@ -6,15 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:41:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/02/28 21:51:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/02 15:56:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <cstdlib>
-# include <climits>
-# include <iomanip>
-# include <iostream>
-# include "ScalarConverter.hpp"
+#include <cstdlib>
+#include <climits>
+#include <iostream>
+#include "ScalarConverter.hpp"
 
 ScalarConverter::ScalarConverter( void )
 {}
@@ -43,7 +42,7 @@ void	ScalarConverter::convert( const std::string &literal )
 	switch ( type )
 	{
 	case 'c':
-		if ( isdigit( literal[0] ) )
+		if ( std::isdigit( literal[0] ) )
 			raw = literal[0] - '0';
 		else
 			raw = literal[0];
@@ -52,7 +51,7 @@ void	ScalarConverter::convert( const std::string &literal )
 	case 'd':
 	case 'f':
 	case 'p':
-		raw = strtod(literal.c_str(), &endptr) ;
+		raw = std::strtod(literal.c_str(), &endptr) ;
 		break;
 	}
 	error = ( type == 'e' || ( endptr && ( *endptr != '\0' && *endptr != 'f' ) ) );
@@ -62,19 +61,13 @@ void	ScalarConverter::convert( const std::string &literal )
 	printDouble( raw, error );
 }
 
-void	ScalarConverter::printErr( void )
-{
-	std::cout
-		<< "impossible";
-}
-
 void	ScalarConverter::printChar( const double &raw, const bool &isError )
 {
 	std::cout
 		<< "char: ";
 	if ( isError )
-		printErr();
-	else if ( raw >= 32 )
+		std::cout << "impossible";
+	else if ( std::isprint( raw ) )
 		std::cout
 			<< '\''
 			<< static_cast<char>( raw )
@@ -91,7 +84,7 @@ void	ScalarConverter::printInt( const double &raw, const bool &isError )
 	std::cout
 		<< "int: ";
 	if ( isError )
-		printErr();
+		std::cout << "impossible";
 	else
 		std::cout
 			<< static_cast<int>( raw );
@@ -104,13 +97,15 @@ void	ScalarConverter::printFloat( const double &raw, const bool &isError )
 	std::cout
 		<< "float: ";
 	if ( isError )
-		printErr();
+		std::cout << "impossible";
 	else
+	{
 		std::cout
-			<< std::fixed
-			<< std::setprecision(1)
-			<< static_cast<float>( raw )
-			<< 'f';
+			<< static_cast<float>( raw );
+		if ( raw - static_cast<int> (raw) == 0.0 )
+			std::cout << ".0";
+		std::cout<< 'f';
+	}
 	std::cout
 		<< std::endl;
 }
@@ -120,12 +115,14 @@ void	ScalarConverter::printDouble( const double &raw, const bool &isError )
 	std::cout
 		<< "double: ";
 	if ( isError )
-		printErr();
+		std::cout << "impossible";
 	else
+	{
 		std::cout
-			<< std::fixed
-			<< std::setprecision(1)
 			<< raw;
+		if ( raw - static_cast<int> (raw) == 0.0 )
+			std::cout << ".0";
+	}
 	std::cout
 		<< std::endl;
 }
@@ -142,11 +139,11 @@ char	ScalarConverter::literalType( const std::string &literal )
 		return ( 'p' );
 	for (size_t i = sign; i < literal.size(); i++)
 	{
-		if ( literal[i] == '.' && ( i && isdigit( literal[i + 1] ) ) )
+		if ( literal[i] == '.' && ( i && std::isdigit( literal[i + 1] ) ) )
 			hasDot ++;
-		else if ( literal[i] == 'f' && isdigit( literal[i - 1] ) )
+		else if ( literal[i] == 'f' && std::isdigit( literal[i - 1] ) )
 			hasFloat = true;
-		else if ( !isdigit( literal[i] ) )
+		else if ( !std::isdigit( literal[i] ) )
 			return ( 'e' );
 	}
 	if ( hasFloat && (hasDot == 1 || !hasDot) )
