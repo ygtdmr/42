@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:41:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/02 15:56:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/02 16:13:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	ScalarConverter::printFloat( const double &raw, const bool &isError )
 	{
 		std::cout
 			<< static_cast<float>( raw );
-		if ( raw - static_cast<int> (raw) == 0.0 )
+		if ( ( raw - static_cast<int>( raw ) == 0.0 ) && raw < SCIENTIFIC_THRESHOLD )
 			std::cout << ".0";
 		std::cout<< 'f';
 	}
@@ -120,7 +120,7 @@ void	ScalarConverter::printDouble( const double &raw, const bool &isError )
 	{
 		std::cout
 			<< raw;
-		if ( raw - static_cast<int> (raw) == 0.0 )
+		if ( ( raw - static_cast<int>( raw ) == 0.0 ) && raw < SCIENTIFIC_THRESHOLD )
 			std::cout << ".0";
 	}
 	std::cout

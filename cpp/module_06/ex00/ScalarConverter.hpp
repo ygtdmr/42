@@ -6,12 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:27:16 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/02 15:54:52 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/02 16:11:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCALAR_CONVERTER_HPP
 # define SCALAR_CONVERTER_HPP
+
+# define SCIENTIFIC_THRESHOLD 999999.5
 
 # include <string>
 
