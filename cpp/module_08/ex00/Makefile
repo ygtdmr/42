@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/24 14:29:39 by yidemir           #+#    #+#              #
-#    Updated: 2026/03/05 17:57:54 by yidemir          ###   ########.fr        #
+#    Updated: 2026/03/08 11:38:18 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,7 @@ CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
 NAME		=	main
 
-SRCS		=	main.cpp \
-				Serializer.cpp
+SRCS		=	main.cpp
 OBJS		=	$(SRCS:.cpp=.o)
 
 all: $(NAME)
