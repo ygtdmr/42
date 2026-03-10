@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:14:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/10 18:13:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/10 18:54:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,54 +66,55 @@ BitcoinExchange::~BitcoinExchange()
 
 bool	BitcoinExchange::isDate( const std::string &str )
 {
-	std::stringstream	ss( str );
-	std::string			raw;
-	int					hyphen( 0 );
-	int					y;
-	int					m;
+	size_t		y_pos;
+	size_t		m_pos;
+	std::string	y_str;
+	std::string	m_str;
+	std::string	d_str;
+	int			y;
+	int			m;
+	int			d;
 
 	if ( str.empty() )
 		return ( false );
-	while ( std::getline( ss, raw, '-' ) )
-	{
-		std::stringstream	ss_raw( raw );
-		int					value;
+	y_pos = str.find('-');
+	if ( y_pos == std::string::npos )
+		return ( false );
+	m_pos = str.find('-', y_pos + 1);
+	if ( m_pos == std::string::npos )
+		return ( false );
+	y_str = str.substr( 0, y_pos );
+	m_str = str.substr( y_pos + 1, 2 );
+	d_str = str.substr( m_pos + 1 );
 
-		if ( ( hyphen > 2 ) || !isNumber( raw, true ) )
+	if ( !( isNumber( y_str, true ) && isNumber( m_str, true ) && isNumber( d_str, true ) ) )
+		return ( false );
+
+	y = atoi( y_str.c_str() );
+	m = atoi( m_str.c_str() );
+	d = atoi( d_str.c_str() );
+
+	if ( m > 12 )
+		return ( false );
+	if ( !( ( m_str.size() == 2 ) && ( d_str.size() == 2 ) ) )
+		return ( false );
+
+	bool	d_28_or_29( m == 2 );
+	bool	d_30( m == 4 || m == 6 || m == 9 || m == 11 );
+	bool	d_31( !d_28_or_29 && !d_30 );
+
+	if ( ( d_31 && ( d > 31 ) ) || ( d_30 && ( d > 30 ) ) )
+		return ( false );
+	if ( d_28_or_29 )
+	{
+		if ( ( ( y % 4 ) != 0 ) && d > 28 )
 			return ( false );
-		ss_raw >> value;
-		switch ( hyphen )
-		{
-		case 0:
-			y = value;
-			break;
-		case 1:
-			if ( value > 12 || raw.size() != 2 )
-				return ( false );
-			else
-				m = value;
-			break;
-		case 2:
-			// Gregoryen Calendar Rules...
-			bool	d_28_or_29( m == 2 );
-			bool	d_30( m == 4 || m == 6 || m == 9 || m == 11 );
-			bool	d_31( !d_28_or_29 && !d_30 );
-			if ( ( d_31 && ( value > 31 ) ) || ( d_30 && ( value > 30 ) ) )
-				return ( false );
-			if ( d_28_or_29 )
-			{
-				if ( ( ( y % 4 ) != 0 ) && value > 28 )
-					return ( false );
-				else if ( ( ( y % 100 ) != 0 ) && value > 29 )
-					return ( false );
-				else if ( ( ( y % 400 ) != 0 ) && value > 28 )
-					return ( false );
-				else if ( ( ( y % 400 ) == 0 ) && value > 29 )
-					return ( false );
-			}
-			break;
-		}
-		hyphen++;
+		else if ( ( ( y % 100 ) != 0 ) && d > 29 )
+			return ( false );
+		else if ( ( ( y % 400 ) != 0 ) && d > 28 )
+			return ( false );
+		else if ( ( ( y % 400 ) == 0 ) && d > 29 )
+			return ( false );
 	}
 	return ( true );
 }
