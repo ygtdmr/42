@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:14:01 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/10 16:13:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/10 17:22:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <map>
 # include <string>
 # include <exception>
+
+# define BTC_INPUT_NUMBER_LIMIT 1000
 
 class BitcoinExchange
 {
@@ -30,17 +32,19 @@ public:
 				FILE_CSV_COULD_NOT_PARSE,
 				NUMBER_NOT_POSITIVE,
 				NUMBER_TOO_LARGE,
-				BAD_INPUT
+				BAD_INPUT,
+				MISSING_HEADER
 			}	TYPE;
+			const TYPE	type;
+		
 			Error( TYPE type );
 			virtual const char	*what() const throw();
-		private:
-			const TYPE			type_;
 	};
 	BitcoinExchange( void );
 	BitcoinExchange( const BitcoinExchange &other );
 	~BitcoinExchange();
 	BitcoinExchange	&operator=( const BitcoinExchange &other );
+	void	parseInput( char *path );
 private:
 	std::map<std::string, float>	data_;
 

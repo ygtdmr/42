@@ -6,23 +6,24 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:14:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/10 16:14:32 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/10 18:13:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cctype>
+#include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include "BitcoinExchange.hpp"
 
 BitcoinExchange::Error::Error( TYPE type )
-: type_( type )
+: type( type )
 {}
 
 const char	*BitcoinExchange::Error::what() const throw()
 {
-	switch ( type_ )
+	switch ( type )
 	{
 	case FILE_COULD_NOT_OPEN:
 		return ( "Error: could not open file." );
@@ -36,6 +37,8 @@ const char	*BitcoinExchange::Error::what() const throw()
 		return ( "Error: too large a number." );
 	case BAD_INPUT:
 		return ( "Error: bad input" );
+	case MISSING_HEADER:
+		return ( "Error: missing header." );
 	default:
 		return ( "Error" );
 	}
@@ -44,11 +47,6 @@ const char	*BitcoinExchange::Error::what() const throw()
 BitcoinExchange::BitcoinExchange( void )
 {
 	parseData();
-	std::map<std::string, float>::iterator it;
-	std::cout << "result: " << std::endl;
-	for (it = data_.begin(); it != data_.end(); ++it) {
-        std::cout << it->first << " -> " << it->second << std::endl;
-    }
 }
 
 BitcoinExchange::BitcoinExchange( const BitcoinExchange &other )
@@ -66,49 +64,6 @@ BitcoinExchange	&BitcoinExchange::operator=( const BitcoinExchange &other )
 BitcoinExchange::~BitcoinExchange()
 {}
 
-void	BitcoinExchange::parseData( void )
-{
-	std::ifstream		ifs( "data.csv", std::ios::in );
-	std::stringstream	ss;
-	std::string			line;
-
-	if ( !ifs.is_open() )
-		throw Error( Error::FILE_CSV_COULD_NOT_OPEN );
-	std::getline( ifs, line );
-	if ( line != "date,exchange_rate" )
-	{
-		ifs.close();
-		throw Error( Error::FILE_CSV_COULD_NOT_PARSE );
-	}
-	while ( !std::getline( ifs, line ).eof() && !line.empty() )
-	{
-		
-		std::string	raw;
-		std::string	date;
-		float		value;
-		int			comma;
-
-		ss.clear();
-		ss.str( line );
-		comma = 0;
-		while ( !std::getline( ss, raw, ',' ).eof() )
-		{
-			if ( !comma )
-				date = raw;
-			comma++;
-		}
-		if ( comma != 1 || !( isDate( date ) && isNumber( raw , false) ) )
-			break ;
-		ss.clear();
-		ss.str( raw );
-		ss >> value;
-		data_[date] = value;
-	}
-	ifs.close();
-	if ( !ifs.eof() )
-		throw Error( Error::FILE_CSV_COULD_NOT_PARSE );
-}
-
 bool	BitcoinExchange::isDate( const std::string &str )
 {
 	std::stringstream	ss( str );
@@ -123,7 +78,7 @@ bool	BitcoinExchange::isDate( const std::string &str )
 	{
 		std::stringstream	ss_raw( raw );
 		int					value;
-		
+
 		if ( ( hyphen > 2 ) || !isNumber( raw, true ) )
 			return ( false );
 		ss_raw >> value;
@@ -134,7 +89,7 @@ bool	BitcoinExchange::isDate( const std::string &str )
 			break;
 		case 1:
 			if ( value > 12 || raw.size() != 2 )
-				return (false);
+				return ( false );
 			else
 				m = value;
 			break;
@@ -166,6 +121,7 @@ bool	BitcoinExchange::isDate( const std::string &str )
 bool	BitcoinExchange::isNumber( const std::string &str, bool onlyDigit )
 {
 	bool	dot( false );
+	bool	sign( false );
 
 	if ( str.empty() )
 		return ( false );
@@ -173,13 +129,92 @@ bool	BitcoinExchange::isNumber( const std::string &str, bool onlyDigit )
 	{
 		if ( !std::isdigit( str[i] ) )
 		{
-			if ( onlyDigit )
+			if ( ( str[i] == '-' || str[i] == '+' ) && !sign && !i )
+				sign = true;
+			else if ( onlyDigit )
 				return ( false );
-			if ( ( str[i] == '.' ) && !dot && i && ( ( i + 1 ) != str.size() ) )
+			else if ( ( str[i] == '.' ) && !dot && i && ( ( i + 1 ) != str.size() ) )
 				dot = true;
 			else
 				return ( false );
 		}
 	}
 	return ( true );
+}
+
+void	BitcoinExchange::parseData( void )
+{
+	std::ifstream		ifs( "data.csv", std::ios::in );
+	std::string			line;
+
+	if ( !ifs.is_open() )
+		throw Error( Error::FILE_CSV_COULD_NOT_OPEN );
+	std::getline( ifs, line );
+	if ( line != "date,exchange_rate" )
+	{
+		ifs.close();
+		throw Error( Error::FILE_CSV_COULD_NOT_PARSE );
+	}
+	while ( !std::getline( ifs, line ).eof() && !line.empty() )
+	{
+		
+		std::string	date;
+		std::string	value;
+		size_t		comma_pos( line.find(",") );
+
+		date = line.substr(0, comma_pos);
+		value = line.substr(comma_pos + 1);
+		if ( !( ( value[0] != '-' ) && isDate( date ) && isNumber( value, false ) ) )
+			break ;
+		data_[date] = static_cast<float>( atof( value.c_str() ) );
+	}
+	ifs.close();
+	if ( !ifs.eof() )
+		throw Error( Error::FILE_CSV_COULD_NOT_PARSE );
+}
+
+void	BitcoinExchange::parseInput( char *path )
+{
+	std::ifstream		ifs( path, std::ios::in );
+	std::string			line;
+
+	if ( !ifs.is_open() )
+		throw Error( Error::FILE_COULD_NOT_OPEN );
+	std::getline( ifs, line );
+	if ( line != "date | value" )
+	{
+		ifs.close();
+		throw Error( Error::MISSING_HEADER );
+	}
+	while ( std::getline( ifs, line ) )
+	{
+		try
+		{
+			std::string	date;
+			std::string	value;
+			size_t		pipe_pos( line.find(" | ") );
+			float		f_value;
+			int			result(-1);
+
+			if ( pipe_pos == std::string::npos )
+				throw Error( Error::BAD_INPUT );
+			date = line.substr(0, pipe_pos);
+			value = line.substr(pipe_pos + 3);
+			if ( !( isDate( date ) && isNumber( value, false ) ) )
+				throw Error( Error::BAD_INPUT );
+			f_value = static_cast<float>( atof( value.c_str() ) );
+			if ( f_value < 0 )
+				throw Error( Error::NUMBER_NOT_POSITIVE );
+			if ( f_value > BTC_INPUT_NUMBER_LIMIT )
+				throw Error( Error::NUMBER_TOO_LARGE );
+			std::cout << date << " => " << f_value << " = " << result << std::endl;
+		}
+		catch( const Error& e )
+		{
+			if ( e.type == Error::BAD_INPUT )
+				std::cerr << e.what() << " => " << line << std::endl;
+			else
+				std::cerr << e.what() << std::endl;
+		}
+	}
 }

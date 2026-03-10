@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/24 14:29:39 by yidemir           #+#    #+#              #
-#    Updated: 2026/03/08 14:00:51 by yidemir          ###   ########.fr        #
+#    Updated: 2026/03/10 17:21:16 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
 NAME		=	main
 
 SRCS		=	main.cpp \
-				Span.cpp
+				BitcoinExchange.cpp
 OBJS		=	$(SRCS:.cpp=.o)
 
 all: $(NAME)
