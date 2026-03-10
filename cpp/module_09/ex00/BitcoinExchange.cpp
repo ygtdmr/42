@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:14:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/10 19:31:45 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/10 19:35:13 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,8 @@ float	BitcoinExchange::exchange( const std::string &date, float amount )
 	if ( it == data_.end() )
 	{
 		it = data_.lower_bound( date );
-		--it;
+		if ( it != data_.begin() )
+			--it;
 	}
 	return ( it->second * amount );
 }
