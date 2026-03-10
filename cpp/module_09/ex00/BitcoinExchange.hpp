@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:14:01 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/09 20:00:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/10 16:13:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,18 @@ public:
 			Error( TYPE type );
 			virtual const char	*what() const throw();
 		private:
-			const TYPE	type_;
+			const TYPE			type_;
 	};
 	BitcoinExchange( void );
 	BitcoinExchange( const BitcoinExchange &other );
 	~BitcoinExchange();
+	BitcoinExchange	&operator=( const BitcoinExchange &other );
 private:
-	std::map<std::string, int>	data_;
+	std::map<std::string, float>	data_;
 
 	void	parseData( void );
+	bool	isDate( const std::string &str );
+	bool	isNumber( const std::string &str, bool onlyDigit );
 };
 
 #endif
