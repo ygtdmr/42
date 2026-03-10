@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:14:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/10 19:35:13 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/10 20:06:04 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,8 @@ bool	BitcoinExchange::isNumber( const std::string &str, bool onlyDigit )
 
 void	BitcoinExchange::parseData( void )
 {
-	std::ifstream		ifs( "data.csv", std::ios::in );
-	std::string			line;
+	std::ifstream	ifs( "data.csv", std::ios::in );
+	std::string		line;
 
 	if ( !ifs.is_open() )
 		throw Error( Error::FILE_CSV_COULD_NOT_OPEN );
@@ -176,7 +176,7 @@ void	BitcoinExchange::parseData( void )
 
 float	BitcoinExchange::exchange( const std::string &date, float amount )
 {
-	std::map<std::string, float>::iterator it( data_.find( date ) );
+	std::map<std::string, float>::iterator	it( data_.find( date ) );
 
 	if ( it == data_.end() )
 	{
