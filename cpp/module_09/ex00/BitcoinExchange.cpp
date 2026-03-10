@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:14:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/10 18:54:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/10 19:31:45 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,10 +174,22 @@ void	BitcoinExchange::parseData( void )
 		throw Error( Error::FILE_CSV_COULD_NOT_PARSE );
 }
 
+float	BitcoinExchange::exchange( const std::string &date, float amount )
+{
+	std::map<std::string, float>::iterator it( data_.find( date ) );
+
+	if ( it == data_.end() )
+	{
+		it = data_.lower_bound( date );
+		--it;
+	}
+	return ( it->second * amount );
+}
+
 void	BitcoinExchange::parseInput( char *path )
 {
-	std::ifstream		ifs( path, std::ios::in );
-	std::string			line;
+	std::ifstream	ifs( path, std::ios::in );
+	std::string		line;
 
 	if ( !ifs.is_open() )
 		throw Error( Error::FILE_COULD_NOT_OPEN );
@@ -195,7 +207,6 @@ void	BitcoinExchange::parseInput( char *path )
 			std::string	value;
 			size_t		pipe_pos( line.find(" | ") );
 			float		f_value;
-			int			result(-1);
 
 			if ( pipe_pos == std::string::npos )
 				throw Error( Error::BAD_INPUT );
@@ -208,7 +219,13 @@ void	BitcoinExchange::parseInput( char *path )
 				throw Error( Error::NUMBER_NOT_POSITIVE );
 			if ( f_value > BTC_INPUT_NUMBER_LIMIT )
 				throw Error( Error::NUMBER_TOO_LARGE );
-			std::cout << date << " => " << f_value << " = " << result << std::endl;
+			std::cout
+				<< date
+				<< " => "
+				<< f_value
+				<< " = "
+				<< exchange( date, f_value )
+				<< std::endl;
 		}
 		catch( const Error& e )
 		{

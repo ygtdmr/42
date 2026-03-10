@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:14:01 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/10 17:22:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/10 19:03:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ private:
 	void	parseData( void );
 	bool	isDate( const std::string &str );
 	bool	isNumber( const std::string &str, bool onlyDigit );
+	float	exchange( const std::string &date, float amount );
 };
 
 #endif
