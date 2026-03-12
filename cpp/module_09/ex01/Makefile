@@ -6,17 +6,17 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/24 14:29:39 by yidemir           #+#    #+#              #
-#    Updated: 2026/03/12 15:31:34 by yidemir          ###   ########.fr        #
+#    Updated: 2026/03/12 15:32:26 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CXX			=	c++
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
-NAME		=	btc
+NAME		=	RPN
 
 SRCS		=	main.cpp \
-				BitcoinExchange.cpp
+				RPN.cpp
 OBJS		=	$(SRCS:.cpp=.o)
 
 all: $(NAME)

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 19:14:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/10 20:06:04 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/12 15:30:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,9 +231,15 @@ void	BitcoinExchange::parseInput( char *path )
 		catch( const Error& e )
 		{
 			if ( e.type == Error::BAD_INPUT )
-				std::cerr << e.what() << " => " << line << std::endl;
+				std::cerr
+					<< e.what()
+					<< " => "
+					<< line
+					<< std::endl;
 			else
-				std::cerr << e.what() << std::endl;
+				std::cerr
+					<< e.what()
+					<< std::endl;
 		}
 	}
 }

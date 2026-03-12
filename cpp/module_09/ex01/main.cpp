@@ -6,27 +6,29 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 14:28:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/12 15:29:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/12 15:58:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include "BitcoinExchange.hpp"
+#include <exception>
+#include "RPN.hpp"
 
 int	main( int argc, char **argv )
 {
 	try
 	{
-		BitcoinExchange	btc_exc;
-
-		if ( argc != 2 )
-			throw BitcoinExchange::Error( BitcoinExchange::Error::FILE_COULD_NOT_OPEN );
-		btc_exc.parseInput( argv[1] );
+		if (argc != 2)
+			throw std::exception();
+		RPN	rpn;
+		std::cout
+			<< rpn.calc( argv[1] )
+			<< std::endl;
 	}
 	catch( const std::exception& e )
 	{
 		std::cerr
-			<< e.what()
+			<< "Error"
 			<< std::endl;
 		return ( 1 );
 	}

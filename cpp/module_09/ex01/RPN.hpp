@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   RPN.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/08 14:28:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/12 15:29:42 by yidemir          ###   ########.fr       */
+/*   Created: 2026/03/12 14:43:52 by yidemir           #+#    #+#             */
+/*   Updated: 2026/03/12 15:36:38 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include "BitcoinExchange.hpp"
+#ifndef RPN_HPP
+# define RPN_HPP
 
-int	main( int argc, char **argv )
+# include <string>
+# include <stack>
+
+class RPN
 {
-	try
-	{
-		BitcoinExchange	btc_exc;
+public:
+	RPN( void );
+	RPN( const RPN &other );
+	~RPN();
+	RPN	&operator=( const RPN &other );
+	int	calc( const std::string &input );
+private:
+	std::stack<int>	numbers_;
 
-		if ( argc != 2 )
-			throw BitcoinExchange::Error( BitcoinExchange::Error::FILE_COULD_NOT_OPEN );
-		btc_exc.parseInput( argv[1] );
-	}
-	catch( const std::exception& e )
-	{
-		std::cerr
-			<< e.what()
-			<< std::endl;
-		return ( 1 );
-	}
-	return ( 0 );
-}
+	bool	isOperator( const char &c );
+};
+
+#endif
