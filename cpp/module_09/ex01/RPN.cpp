@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 14:44:27 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/12 16:00:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/12 16:31:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,17 @@ int	RPN::calc( const std::string &input )
 	int		first;
 	int		second;
 	int		result;
-	bool	readyCalc( false );
 
 	for ( size_t i = 0; i < input.size(); i++ )
 	{
 		if ( std::isspace( input[i] ) )
 			continue ;
-		if ( std::isdigit( input[i] ) && !readyCalc )
-		{
+		if ( std::isdigit( input[i] ) )
 			numbers_.push( input[i] - '0' );
-			readyCalc = ( numbers_.size() == 2 );
-		}
-		else if( readyCalc && isOperator( input[i] ) )
+		else if( isOperator( input[i] ) )
 		{
-			readyCalc = false;
+			if ( numbers_.size() < 2 )
+				throw std::exception();
 			first = numbers_.top();
 			numbers_.pop();
 			second = numbers_.top();
@@ -72,6 +69,8 @@ int	RPN::calc( const std::string &input )
 				numbers_.push( second * first );
 				break;
 			case '/':
+				if ( first == 0 )
+					throw std::exception();
 				numbers_.push( second / first );
 				break;
 			}
@@ -79,9 +78,9 @@ int	RPN::calc( const std::string &input )
 		else
 			throw std::exception();
 	}
+	if ( numbers_.size() != 1 )
+		throw std::exception();
 	result = numbers_.top();
 	numbers_.pop();
-	if ( !numbers_.empty() )
-		throw std::exception();
 	return ( result );
 }
