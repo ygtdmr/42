@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:02:31 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/12 18:59:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/20 12:39:40 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <vector>
 # include <deque>
 
+# define PMERGE_ME_NUMBERS_LIMIT 4
+
 class PmergeMe
 {
 public:
@@ -24,12 +26,16 @@ public:
 	PmergeMe( const PmergeMe &other );
 	~PmergeMe();
 	PmergeMe	&operator=( const PmergeMe &other );
-	void		sort( char **argv );
+	void	parse( int argc, char** argv );
+    void	sortAndPrint( void );
 private:
 	std::vector<int>	vector_;
 	std::deque<int>		deque_;
-	
-	void	parse( char **argv );
+
+	void	fordJohnsonAlgorithm( std::vector<int> &arr );
+    void	fordJohnsonAlgorithm( std::deque<int> &arr );
+	size_t	getJacobsthal( size_t n ) const;
+	void	printSequence( const std::string& message ) const;
 };
 
 #endif
