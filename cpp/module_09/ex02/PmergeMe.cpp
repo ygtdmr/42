@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:02:26 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/20 13:14:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/20 13:24:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "PmergeMe.hpp"
 
 PmergeMe::PmergeMe( void )
+: vector_(0), deque_(0), parseTime_(0.0)
 {}
 
 PmergeMe::PmergeMe( const PmergeMe &other )
@@ -35,6 +36,7 @@ PmergeMe	&PmergeMe::operator=( const PmergeMe &other )
 	{
 		vector_ = other.vector_;
 		deque_ = other.deque_;
+		parseTime_ = other.parseTime_;
 	}
 	return ( *this );
 }
@@ -49,6 +51,9 @@ void	PmergeMe::parse( int argc, char **argv )
 
 	if ( argc == 1 )
 		throw std::exception();
+
+	clock_t	startParse( std::clock() );
+
 	while ( *argv )
 		ss << *( argv++ ) << " ";
 	while ( ss >> tmp_s )
@@ -71,6 +76,8 @@ void	PmergeMe::parse( int argc, char **argv )
 	}
 	if ( vector_.empty() || deque_.empty() )
 		throw std::exception();
+
+	parseTime_ = static_cast<double>( std::clock() - startParse ) / CLOCKS_PER_SEC * 1000000.0;
 }
 
 void	PmergeMe::printSequence( const std::string& message ) const
@@ -295,12 +302,12 @@ void	PmergeMe::sortAndPrint( void )
     clock_t	startVec( std::clock() );
     fordJohnsonAlgorithm( vector_ );
     clock_t	endVec( std::clock() );
-    double	timeVec( static_cast<double>(endVec - startVec) / CLOCKS_PER_SEC * 1000000.0 );
+    double	timeVec( ( static_cast<double>( endVec - startVec ) / CLOCKS_PER_SEC * 1000000.0 ) + parseTime_ );
 
     clock_t	startDeq( std::clock() );
     fordJohnsonAlgorithm( deque_ );
     clock_t	endDeq( std::clock() );
-    double	timeDeq( static_cast<double>(endDeq - startDeq) / CLOCKS_PER_SEC * 1000000.0 );
+    double	timeDeq( ( static_cast<double>( endDeq - startDeq ) / CLOCKS_PER_SEC * 1000000.0 ) + parseTime_ );
 
     printSequence( "After:	" );
 

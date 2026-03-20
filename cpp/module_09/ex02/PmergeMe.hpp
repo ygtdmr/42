@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:02:31 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/20 13:11:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/20 13:21:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ public:
 private:
 	std::vector<int>	vector_;
 	std::deque<int>		deque_;
+	double				parseTime_;
 
 	void	fordJohnsonAlgorithm( std::vector<int> &arr );
     void	fordJohnsonAlgorithm( std::deque<int> &arr );
