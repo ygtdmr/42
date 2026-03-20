@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:02:31 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/20 12:39:40 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/20 13:11:15 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <vector>
 # include <deque>
 
-# define PMERGE_ME_NUMBERS_LIMIT 4
+# define PMERGE_ME_NUMBERS_LIMIT 5
 
 class PmergeMe
 {

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:02:26 by yidemir           #+#    #+#             */
-/*   Updated: 2026/03/20 13:02:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/03/20 13:14:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ void	PmergeMe::parse( int argc, char **argv )
 
 void	PmergeMe::printSequence( const std::string& message ) const
 {
-	size_t	length( PMERGE_ME_NUMBERS_LIMIT );
+	size_t	length( PMERGE_ME_NUMBERS_LIMIT - 1 );
 
-	if ( vector_.size() < PMERGE_ME_NUMBERS_LIMIT )
+	if ( vector_.size() <= PMERGE_ME_NUMBERS_LIMIT )
 		length = vector_.size();
 	std::cout
 		<< message;
