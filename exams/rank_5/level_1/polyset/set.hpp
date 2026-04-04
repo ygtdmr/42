@@ -1,17 +1,17 @@
 #include "SearchableBag.hpp"
 
-class set  {
+class Set
+{
 	public:
-		set( void );
-		set(SearchableBag* bag);
-		set(const set &other);
-		~set();
-		set		&operator=( const set &other );
-		void	insert( int num );
-		void	insert(int *arr, int size);
-		void	clear( void );
-		void	print( void );
-		bool	has( int num );
+		Set( SearchableBag *bag );
+		Set( const Set &other );
+		~Set();
+		Set	&operator=( const Set &other );
+		virtual void insert(int);
+		virtual void insert(int*, int);
+		virtual void print(void) const;
+		virtual void clear();
+		virtual bool has(int) const;
 	private:
-		SearchableBag *bag_;
+		SearchableBag	*bag_;
 };

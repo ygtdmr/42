@@ -1,6 +1,6 @@
 Assignment name : polyset
-Expected files : searchable_array_bag.cpp, searchable_array_bag.hpp,
-searchable_tree_bag.cpp, searchable_tree_bag.hpp, set.cpp, set.hpp
+Expected files : SearchableArrayBag.cpp, SearchableArrayBag.hpp,
+SearchableTreeBag.cpp, SearchableTreeBag.hpp, set.cpp, set.hpp
 --------------------------------------------------------------------------------
 you will find in this directory some classes:
 - bag: an abstract class representing a bag
@@ -14,7 +14,7 @@ If you don't know what is a set or a bag (shame) you can read the attached file:
 shame.en.txt
 #### First part ####
 Since a bag without a searching function isn't very useful, implement two
-classes searchable_array_bag and searchable_tree_bag that will inherit from
+classes SearchableArrayBag and SearchableTreeBag that will inherit from
 array_bag and tree_bag (respectively) and implement the searchable_bag abstract
 class.
 #### Second part ####

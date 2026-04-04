@@ -1,33 +1,32 @@
 #include "SearchableTreeBag.hpp"
 
-SearchableTreeBag::SearchableTreeBag()
+SearchableTreeBag::SearchableTreeBag( void )
 : TreeBag()
 {}
-SearchableTreeBag::SearchableTreeBag(const SearchableTreeBag& other)
-: TreeBag(other)
+
+SearchableTreeBag::SearchableTreeBag( const SearchableTreeBag &other )
+: TreeBag( other )
+{}
+
+SearchableTreeBag	&SearchableTreeBag::operator=( const SearchableTreeBag &other )
 {
-	*this = other;
+	if ( this != &other )
+		TreeBag::operator=( other );
+	return( *this );
 }
+
 SearchableTreeBag::~SearchableTreeBag()
 {}
 
-SearchableTreeBag&	SearchableTreeBag::operator=(const SearchableTreeBag& other)
+bool	SearchableTreeBag::has( int e ) const
 {
-	if (this != &other)
-		TreeBag::operator=(other);
-	return (*this);
-}
+	Node	*current( root );
 
-bool	SearchableTreeBag::has(int num) const
-{
-	Node	*tmp;
-
-	tmp = root;
-	while (tmp)
+	while( current )
 	{
-		if (tmp->value == num)
-			return (true);
-		tmp = tmp->right;
+		if ( current->value == e )
+			return ( true );
+		current = current->right;
 	}
-	return (false);
+	return ( false );
 }

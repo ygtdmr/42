@@ -1,5 +1,5 @@
-#include "searchable_tree_bag.hpp"
-#include "searchable_array_bag.hpp"
+#include "SearchableTreeBag.hpp"
+#include "SearchableArrayBag.hpp"
 #include "Set.hpp"
 #include <iostream>
 #include <climits>

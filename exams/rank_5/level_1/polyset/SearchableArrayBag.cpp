@@ -1,29 +1,29 @@
 #include "SearchableArrayBag.hpp"
 
-SearchableArrayBag::SearchableArrayBag()
+SearchableArrayBag::SearchableArrayBag( void )
 : ArrayBag()
 {}
-SearchableArrayBag::SearchableArrayBag(const SearchableArrayBag& other)
-: ArrayBag(other)
+
+SearchableArrayBag::SearchableArrayBag( const SearchableArrayBag &other )
+: ArrayBag( other )
+{}
+
+SearchableArrayBag	&SearchableArrayBag::operator=( const SearchableArrayBag &other )
 {
-	*this = other;
+	if ( this != &other )
+		ArrayBag::operator=( other );
+	return( *this );
 }
+
 SearchableArrayBag::~SearchableArrayBag()
 {}
 
-SearchableArrayBag&	SearchableArrayBag::operator=(const SearchableArrayBag& other)
+bool	SearchableArrayBag::has( int e ) const
 {
-	if (this != &other)
-		ArrayBag::operator=(other);
-	return (*this);
-}
-
-bool	SearchableArrayBag::has(int num) const
-{
-	for (size_t i = 0; i < _size; i++)
+	for ( int i = 0; i < this->_size; i++ )
 	{
-		if (_data[i] == num)
-			return (true);
+		if ( this->_data[i] == e )
+			return ( true );
 	}
-	return (false);
+	return ( false );
 }

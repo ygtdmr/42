@@ -1,55 +1,48 @@
-#include "set.hpp"
+#include "Set.hpp"
 
-set::set()
+Set::Set( SearchableBag *bag )
+: bag_( bag )
+{}
+
+Set::Set( const Set &other )
 {
-	bag_ = 0;
+	*this = other;
 }
 
-set::set(SearchableBag *bag)
-: bag_(bag)
-{}
-
-set::set(const set &other)
-: bag_(other.bag_)
-{}
-
-set::~set()
-{}
-
-set &set::operator=( const set &other )
+Set	&Set::operator=( const Set &other )
 {
-	if (this != &other)
-		bag_ = other.bag_;
+	if ( this != &other )
+		this->bag_ = other.bag_;
 	return ( *this );
 }
 
-void	set::print( void )
+bool Set::has(int i) const
 {
-	if (bag_)
-		bag_->print();
+	return ( this->bag_->has( i ) );
 }
 
-void	set::clear( void )
+void Set::insert( int value )
 {
-	if (bag_)
-		bag_->clear();
+    if ( !this->bag_->has( value ) )
+		this->bag_->insert( value );
 }
 
-void	set::insert( int num )
+void Set::insert( int* array, int arraySize )
 {
-	if (!bag_->has( num ))
-		bag_->insert( num );
+	for ( int i = 0; i < arraySize; i++ )
+		this->insert( array[i] );
 }
 
-void	set::insert(int *arr, int size)
+void Set::print(void) const
 {
-	if (!arr || size <= 0)
-		return ;
-	for (size_t i = 0; i < size; i++)
-		this->insert( arr[i] );
+	this->bag_->print();
 }
 
-bool	set::has( int num )
+void Set::clear()
 {
-	return ( bag_->has( num ) );
+	this->bag_->clear();
 }
+
+
+Set::~Set()
+{}

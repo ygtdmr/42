@@ -1,6 +1,6 @@
 #include "SearchableTreeBag.hpp"
 #include "SearchableArrayBag.hpp"
-#include "set.hpp"
+#include "Set.hpp"
 #include <iostream>
 #include <climits>
 
@@ -35,7 +35,7 @@ void testBasicOperations(SearchableBag* bag) {
 void testSetOperations(SearchableBag* bag) {
     std::cout << "\n=== Testing Set Operations ===" << std::endl;
     
-    set set(bag);
+    Set set(bag);
     
     // Test duplicate insertions
     set.insert(1);
@@ -65,7 +65,7 @@ void testSetOperations(SearchableBag* bag) {
 void testEdgeCases(SearchableBag* bag) {
     std::cout << "\n=== Testing Edge Cases ===" << std::endl;
     
-    set set(bag);
+    Set set(bag);
     // Test empty array insertion
     int arr[] = {};
     std::cout << "Before clear: ";
