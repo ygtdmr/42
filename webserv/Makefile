@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/06/09 17:38:23 by yidemir          ###   ########.fr        #
+#    Updated: 2026/06/15 14:02:38 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,10 @@ CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
 NAME		=	webserv
 
-SRCS		=	main.cpp 
+SRCS		=	main.cpp \
+				ServerConfig.cpp \
+				ConfigParser.cpp
+
 OBJS		=	$(SRCS:.cpp=.o)
 
 all: $(NAME)
