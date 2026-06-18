@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:52:14 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/17 19:59:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/18 16:34:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@
 #include <string>
 #include <vector>
 #include <map>
-
-#define CONFIG_VALIDATE_DIGIT "0123456789"
-#define CONFIG_VALIDATE_HOST ".0123456789"
-#define CONFIG_VALIDATE_METHOD "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'*+-.^_|~"
-#define	CONFIG_VALIDATE_PATH_URI "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-._~!$&'()*+,;=@:%"
 
 struct LocationConfig
 {
@@ -56,6 +51,7 @@ class Config
 		void						throwError( std::string const& msg ) const;
 		
 		void						putRaw( std::string const& line ) const;
+
 		void						parseStateGlobal( void );
 		void						parseStateServer( void );
 		void						parseStateLocation( ServerConfig& server, std::string const& path );
@@ -63,9 +59,12 @@ class Config
 		void						putDataServerConfig( ServerConfig& server );
 		void						putDataLocationConfig( LocationConfig& location );
 
-		void						validateServerConfig( void );
-		void						validateLocationConfig( void );
-		bool						valueHasOnly( std::string const& value, std::string const& only );
+		void						validateServerConfig( size_t serverIndex );
+		void						validateLocationConfig( size_t serverIndex, size_t locationIndex );
+
+		bool						isValidDigit( std::string const& value );
+		bool						isValidHost( std::string const& value );
+		bool						isValidPath( std::string const& value );
 
 		std::string					path_;
 		std::string					key_;

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 11:40:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/17 20:00:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/18 16:34:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	Config::parseStateServer( void )
 			return ( servers_->push_back( server ) );
 		else if ( word == ";" )
 		{
-			validateServerConfig();
+			validateServerConfig( servers_->size() );
 			putDataServerConfig( server );
 			key_ = "";
 			values_.clear();
@@ -168,7 +168,7 @@ void	Config::parseStateLocation( ServerConfig& server, std::string const& path )
 			return( server.locations.push_back( location ) );
 		else if ( word == ";" )
 		{
-			validateLocationConfig();
+			validateLocationConfig( servers_->size(), server.locations.size() );
 			putDataLocationConfig( location );
 			key_ = "";
 			values_.clear();
@@ -185,11 +185,9 @@ void	Config::putDataServerConfig( ServerConfig& server )
 	std::stringstream	ss( *( values_.begin() ) );
 
 	if ( key_ == "listen" )
-	{
-		if ( ss.str().find(':') != std::string::npos )
-			getline(ss, server.host, ':');
 		ss >> server.port;
-	}
+	else if ( key_ == "host" )
+		ss >> server.host;
 	else if ( key_ == "client_max_body_size" )
 		ss >> server.clientMaxBodySize;
 	else if ( key_ == "error_page" )
@@ -238,72 +236,99 @@ void	Config::putDataLocationConfig( LocationConfig& location )
 		throwError( "location: invalid key: " + key_ );
 }
 
-void	Config::validateServerConfig( void )
+void	Config::validateServerConfig( size_t serverIndex )
 {
-	bool		valid( true );
-	std::string	value( *( values_.begin() ) );
+	bool	valid( false );
 
-	if ( ( key_ == "listen" ) && ( values_.size() == 1 ) )
+	if ( ( key_ == "host" ) && ( values_.size() == 1 ) )
+		valid = isValidHost( *values_.begin() );
+	else if ( ( key_ == "listen" ) && ( values_.size() == 1 ) )
 	{
-		if ( value.find(':') != std::string::npos )
-		{
-			std::stringstream	ss( value );
-			std::string			host;
-			std::string			port;
+		std::stringstream	ss( *values_.begin() );
+		int					port;
 
-			getline( ss, host, ':' );
-			getline( ss, port );
-			valid = valueHasOnly( host, CONFIG_VALIDATE_HOST ) && valueHasOnly( port, CONFIG_VALIDATE_DIGIT );
-		}
-		else
-			valid = valueHasOnly( value, CONFIG_VALIDATE_DIGIT );
+		ss >> port;
+		valid = isValidDigit( ss.str() ) && ( port >= 1 && port <= 65535 );
 	}
 	else if ( ( key_ == "client_max_body_size" ) && ( values_.size() == 1 ) )
-		valid = valueHasOnly( value, CONFIG_VALIDATE_DIGIT );
-	else if ( key_ == "error_page" )
+		valid = isValidDigit( *values_.begin() );
+	else if ( key_ == "error_page" && ( values_.size() >= 2 ) )
 	{
+		std::stringstream							ss;
 		std::vector<std::string>::const_iterator	it( values_.begin() );
 
-		if ( !valueHasOnly( *( values_.end() - 1 ), CONFIG_VALIDATE_PATH_URI ) )
-				valid = false;
-		while ( valid && ( it != values_.end() - 1 ) )
+		while ( it != ( values_.end() - 1 ) )
 		{
-			if ( !valueHasOnly( *it, CONFIG_VALIDATE_DIGIT ) )
-				valid = false;
+			int	statusCode;
+
+			ss.clear();
+			ss.str( *it );
+			ss >> statusCode;
+			valid = ( statusCode >= 400 && statusCode <= 511 );
+			if ( !valid )
+				break ;
 			it++;
 		}
+		valid = valid && isValidPath( *( values_.end() - 1 ) );
 	}
 	if ( !valid )
-		throwError( "server: " + key_ + ": invalid value(s)" );
-}
-
-void	Config::validateLocationConfig( void )
-{
-
-}
-
-bool	Config::valueHasOnly( std::string const& value, std::string const& only )
-{
-	bool						has( false );
-	std::string::const_iterator	it_only;
-	std::string::const_iterator	it_value( value.begin() );
-
-	while ( it_value != value.end() )
 	{
-		has = false;
-		it_only = only.begin();
-		while ( it_only != only.end() )
-		{
-			if ( *it_value == *it_only )
-			{
-				has = true;
-				break ;
-			}
-			it_only++;
-		}
-		if ( !has )
+		std::stringstream	ss;
+
+		ss << "server(" << serverIndex << "): " << key_ << ": value error";
+		throwError( ss.str() );
+	}
+}
+
+void	Config::validateLocationConfig( size_t serverIndex, size_t locationIndex )
+{
+	(void) serverIndex;
+	(void) locationIndex;
+}
+
+bool	Config::isValidDigit( std::string const& value )
+{
+	std::string::const_iterator	it( value.begin() );
+
+	while ( it != value.end() )
+	{
+		if ( !(*it >= '0' && *it <= '9') )
 			return ( false );
-		it_value++;
+		it++;
+	}
+	return ( true );
+}
+
+bool	Config::isValidHost( std::string const& value )
+{
+	bool						dot( false );
+	std::string::const_iterator	it( value.begin() );
+
+	while ( it != value.end() )
+	{
+		if ( ( *it == '.' ) && dot )
+			return ( false );
+		dot = ( *it == '.' );
+		if ( !( *it >= '0' && *it <= '9' ) && !dot )
+			return ( false );
+		it++;
+	}
+	return ( true );
+}
+
+bool	Config::isValidPath( std::string const& value )
+{
+	std::string::const_iterator	it( value.begin() );
+
+	if ( *value.begin() != '/')
+		return ( false );
+	if ( value.find("../") != std::string::npos )
+		return ( false );
+	while ( it != value.end() )
+	{
+		if ( !( ( *it > 32 ) && ( *it != '\\' ) ) )
+			return ( false );
+		it++;
 	}
 	return ( true );
 }
