@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 11:40:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/18 16:34:34 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/18 20:17:28 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void	Config::parseStateLocation( ServerConfig& server, std::string const& path )
 	std::string		word;
 	LocationConfig	location = LocationConfig();
 
-	if ( ( ( *raw_ ) >> word ) && ( word != "{" ) )
+	if ( ( ( *raw_ ) >> word ) && ( word != "{" ) && isValidPath( path ) )
 		throwError( "invalid location syntax: " + word );
 	location.path = path;
 	while ( ( *raw_ ) >> word )
@@ -177,6 +177,99 @@ void	Config::parseStateLocation( ServerConfig& server, std::string const& path )
 			key_ = word;
 		else
 			values_.push_back( word );
+	}
+}
+
+void	Config::validateServerConfig( size_t serverIndex )
+{
+	bool	valid( false );
+
+	if ( ( key_ == "host" ) && ( values_.size() == 1 ) )
+		valid = isValidHost( *values_.begin() );
+	else if ( ( key_ == "listen" ) && ( values_.size() == 1 ) )
+	{
+		std::stringstream	ss( *values_.begin() );
+		int					port;
+
+		ss >> port;
+		valid = isValidDigit( ss.str() ) && ( port >= 1 && port <= 65535 );
+	}
+	else if ( ( key_ == "client_max_body_size" ) && ( values_.size() == 1 ) )
+		valid = isValidDigit( *values_.begin() );
+	else if ( key_ == "error_page" && ( values_.size() >= 2 ) )
+	{
+		std::stringstream							ss;
+		std::vector<std::string>::const_iterator	it( values_.begin() );
+
+		while ( it != ( values_.end() - 1 ) )
+		{
+			int	statusCode;
+
+			ss.clear();
+			ss.str( *it );
+			ss >> statusCode;
+			valid = ( statusCode >= 400 && statusCode <= 511 );
+			if ( !valid )
+				break ;
+			it++;
+		}
+		valid = valid && isValidPath( *( values_.end() - 1 ) );
+	}
+	if ( !valid )
+	{
+		std::stringstream	ss;
+
+		ss
+			<< "server(" << serverIndex << "): "
+			<< key_ << ": value error";
+		throwError( ss.str() );
+	}
+}
+
+void	Config::validateLocationConfig( size_t serverIndex, size_t locationIndex )
+{
+	bool	valid( false );
+
+	if ( ( key_ == "index" ) && ( values_.size() == 1 ) )
+		valid = isValidPath( *values_.begin(), false );
+	else if ( ( key_ == "root" || key_ == "cgi_path" || key_ == "upload_dir" ) && ( values_.size() == 1 ) )
+		valid = isValidPath( *values_.begin() );
+	else if ( ( key_ == "autoindex" ) && ( values_.size() == 1 ) )
+		valid = ( *values_.begin() == "on" ) || ( *values_.begin() == "off" );
+	else if ( ( key_ == "cgi_extension" ) && ( values_.size() == 1 ) )
+		valid = ( *(*values_.begin()).begin() == '.' ) && ( ( *values_.begin() ).size() > 1 );
+	else if ( ( key_ == "return" ) && ( values_.size() == 2 ) )
+		valid = ( ( *values_.begin() == "301" || *values_.begin() == "302" ) ) && isValidPath( *( values_.end() - 1 ) );
+	else if ( ( key_ == "allow_methods" ) && ( values_.size() > 0 ) )
+	{
+		std::vector<std::string>::const_iterator	it( values_.begin() );
+		std::vector<std::string>					validMethods;
+
+		valid = true;
+		while ( valid && ( it != values_.end() ) )
+		{
+			if ( !( *it == "GET" || *it == "POST" || *it == "DELETE" ) )
+				valid = false;
+			else
+			{
+				for (size_t i = 0; valid && (i < validMethods.size()); i++)
+				{
+					if ( *it == validMethods[i] )
+						valid = false;
+				}
+				validMethods.push_back( *it );
+			}
+			it++;
+		}
+	}
+	if ( !valid )
+	{
+		std::stringstream	ss;
+
+		ss
+			<< "server(" << serverIndex  << "), location(" << locationIndex << "): "
+			<< key_ << ": value error";
+		throwError( ss.str() );
 	}
 }
 
@@ -219,6 +312,8 @@ void	Config::putDataLocationConfig( LocationConfig& location )
 		ss >> location.uploadDir;
 	else if ( key_ == "cgi_extension" )
 		ss >> location.cgiExtension;
+	else if ( key_ == "cgi_path" )
+		ss >> location.cgiPath;
 	else if ( key_ == "index" )
 		ss >> location.index;
 	else if ( key_ == "autoindex" )
@@ -227,63 +322,13 @@ void	Config::putDataLocationConfig( LocationConfig& location )
 		location.allowMethods = values_;
 	else if ( key_ == "return" )
 	{
-		ss >> location.redirect.second;
-		ss.clear();
-		ss.str( *values_.begin() );
 		ss >> location.redirect.first;
+		ss.clear();
+		ss.str( *( values_.end() - 1 ) );
+		ss >> location.redirect.second;
 	}
 	else
 		throwError( "location: invalid key: " + key_ );
-}
-
-void	Config::validateServerConfig( size_t serverIndex )
-{
-	bool	valid( false );
-
-	if ( ( key_ == "host" ) && ( values_.size() == 1 ) )
-		valid = isValidHost( *values_.begin() );
-	else if ( ( key_ == "listen" ) && ( values_.size() == 1 ) )
-	{
-		std::stringstream	ss( *values_.begin() );
-		int					port;
-
-		ss >> port;
-		valid = isValidDigit( ss.str() ) && ( port >= 1 && port <= 65535 );
-	}
-	else if ( ( key_ == "client_max_body_size" ) && ( values_.size() == 1 ) )
-		valid = isValidDigit( *values_.begin() );
-	else if ( key_ == "error_page" && ( values_.size() >= 2 ) )
-	{
-		std::stringstream							ss;
-		std::vector<std::string>::const_iterator	it( values_.begin() );
-
-		while ( it != ( values_.end() - 1 ) )
-		{
-			int	statusCode;
-
-			ss.clear();
-			ss.str( *it );
-			ss >> statusCode;
-			valid = ( statusCode >= 400 && statusCode <= 511 );
-			if ( !valid )
-				break ;
-			it++;
-		}
-		valid = valid && isValidPath( *( values_.end() - 1 ) );
-	}
-	if ( !valid )
-	{
-		std::stringstream	ss;
-
-		ss << "server(" << serverIndex << "): " << key_ << ": value error";
-		throwError( ss.str() );
-	}
-}
-
-void	Config::validateLocationConfig( size_t serverIndex, size_t locationIndex )
-{
-	(void) serverIndex;
-	(void) locationIndex;
 }
 
 bool	Config::isValidDigit( std::string const& value )
@@ -292,7 +337,7 @@ bool	Config::isValidDigit( std::string const& value )
 
 	while ( it != value.end() )
 	{
-		if ( !(*it >= '0' && *it <= '9') )
+		if ( !( ( *it >= '0' ) && ( *it <= '9' ) ) )
 			return ( false );
 		it++;
 	}
@@ -316,11 +361,11 @@ bool	Config::isValidHost( std::string const& value )
 	return ( true );
 }
 
-bool	Config::isValidPath( std::string const& value )
+bool	Config::isValidPath( std::string const& value, bool root )
 {
 	std::string::const_iterator	it( value.begin() );
 
-	if ( *value.begin() != '/')
+	if ( root && ( *value.begin() != '/' ) )
 		return ( false );
 	if ( value.find("../") != std::string::npos )
 		return ( false );

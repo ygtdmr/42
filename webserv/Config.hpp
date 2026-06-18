@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:52:14 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/18 16:34:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/18 20:12:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ struct LocationConfig
 	std::string					root;
 	std::string					uploadDir;
 	std::string					cgiExtension;
+	std::string					cgiPath;
 	std::pair<int, std::string>	redirect;
 	std::vector<std::string>	allowMethods;
 };
@@ -56,15 +57,15 @@ class Config
 		void						parseStateServer( void );
 		void						parseStateLocation( ServerConfig& server, std::string const& path );
 		
-		void						putDataServerConfig( ServerConfig& server );
-		void						putDataLocationConfig( LocationConfig& location );
-
 		void						validateServerConfig( size_t serverIndex );
 		void						validateLocationConfig( size_t serverIndex, size_t locationIndex );
-
+		
+		void						putDataServerConfig( ServerConfig& server );
+		void						putDataLocationConfig( LocationConfig& location );
+		
 		bool						isValidDigit( std::string const& value );
 		bool						isValidHost( std::string const& value );
-		bool						isValidPath( std::string const& value );
+		bool						isValidPath( std::string const& value, bool root = true );
 
 		std::string					path_;
 		std::string					key_;
