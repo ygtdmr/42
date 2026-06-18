@@ -6,12 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 19:58:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/15 14:13:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/17 16:33:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include "ConfigParser.hpp"
+#include "Config.hpp"
+#include "test/debug.hpp"
 
 int	main( int argc, char **argv )
 {
@@ -24,11 +25,13 @@ int	main( int argc, char **argv )
 	}
 	try
 	{
-		ConfigParser	configParser(argv[1]);
-		std::vector<ServerConfig>	*configServers;
+		Config						config(argv[1]);
+		std::vector<ServerConfig>	const *serversConfig;
 
-		configParser.parse();
-		configServers = configParser.getServers();
+		config.parse();
+		serversConfig = config.getServers();
+		for (size_t i = 0; i < serversConfig->size(); i++)
+			std::cout << (*serversConfig)[i];
 	}
 	catch( const std::exception& e )
 	{

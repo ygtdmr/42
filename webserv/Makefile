@@ -6,18 +6,18 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/06/15 14:02:38 by yidemir          ###   ########.fr        #
+#    Updated: 2026/06/16 16:17:02 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CXX			=	c++
-CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
+CXX			=	g++
+CXXFLAGS	=	-g -Wall -Wextra -Werror -std=c++98
 
 NAME		=	webserv
 
 SRCS		=	main.cpp \
-				ServerConfig.cpp \
-				ConfigParser.cpp
+				test/debug.cpp \
+				Config.cpp \
 
 OBJS		=	$(SRCS:.cpp=.o)
 
