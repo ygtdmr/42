@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 11:40:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/18 20:17:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/19 10:10:22 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,10 @@ void	Config::parseStateLocation( ServerConfig& server, std::string const& path )
 	std::string		word;
 	LocationConfig	location = LocationConfig();
 
-	if ( ( ( *raw_ ) >> word ) && ( word != "{" ) && isValidPath( path ) )
+	if ( ( ( *raw_ ) >> word ) && ( word != "{" ) )
 		throwError( "invalid location syntax: " + word );
+	else if ( !isValidPath( path ) )
+		throwError( "invalid location path: " + path );
 	location.path = path;
 	while ( ( *raw_ ) >> word )
 	{
@@ -185,7 +187,7 @@ void	Config::validateServerConfig( size_t serverIndex )
 	bool	valid( false );
 
 	if ( ( key_ == "host" ) && ( values_.size() == 1 ) )
-		valid = isValidHost( *values_.begin() );
+		valid = isValidIPv4( *values_.begin() );
 	else if ( ( key_ == "listen" ) && ( values_.size() == 1 ) )
 	{
 		std::stringstream	ss( *values_.begin() );
@@ -200,8 +202,10 @@ void	Config::validateServerConfig( size_t serverIndex )
 	{
 		std::stringstream							ss;
 		std::vector<std::string>::const_iterator	it( values_.begin() );
+		std::vector<int>							validCodes;
 
-		while ( it != ( values_.end() - 1 ) )
+		valid = true;
+		while ( valid && ( it != ( values_.end() - 1 ) ) )
 		{
 			int	statusCode;
 
@@ -209,8 +213,9 @@ void	Config::validateServerConfig( size_t serverIndex )
 			ss.str( *it );
 			ss >> statusCode;
 			valid = ( statusCode >= 400 && statusCode <= 511 );
-			if ( !valid )
-				break ;
+			for (size_t i = 0; valid && ( i < validCodes.size() ); i++)
+				valid = ( statusCode != validCodes[i] );
+			validCodes.push_back( statusCode );
 			it++;
 		}
 		valid = valid && isValidPath( *( values_.end() - 1 ) );
@@ -253,10 +258,7 @@ void	Config::validateLocationConfig( size_t serverIndex, size_t locationIndex )
 			else
 			{
 				for (size_t i = 0; valid && (i < validMethods.size()); i++)
-				{
-					if ( *it == validMethods[i] )
-						valid = false;
-				}
+					valid = ( *it != validMethods[i] );
 				validMethods.push_back( *it );
 			}
 			it++;
@@ -344,21 +346,43 @@ bool	Config::isValidDigit( std::string const& value )
 	return ( true );
 }
 
-bool	Config::isValidHost( std::string const& value )
+bool	Config::isValidIPv4( std::string const& value )
 {
-	bool						dot( false );
-	std::string::const_iterator	it( value.begin() );
+	std::vector<std::string>	octets;
+	std::string					currentOctet;
+	int							dotCount( 0 );
 
-	while ( it != value.end() )
+	for ( size_t i = 0; i < value.length(); ++i )
 	{
-		if ( ( *it == '.' ) && dot )
-			return ( false );
-		dot = ( *it == '.' );
-		if ( !( *it >= '0' && *it <= '9' ) && !dot )
-			return ( false );
-		it++;
+		if ( value[i] == '.' )
+		{
+			dotCount++;
+			octets.push_back( currentOctet );
+			currentOctet = "";
+		}
+		else
+			currentOctet += value[i];
 	}
-	return ( true );
+	octets.push_back( currentOctet );
+
+	if ( !( ( dotCount == 3 ) && ( octets.size() == 4 ) ) )
+		return ( false );
+	for (size_t i = 0; i < octets.size(); ++i)
+	{
+		if ( octets[i].empty() )
+			return ( false );
+		if ( ( octets[i].length() > 1 ) && ( *octets[0].begin() == '0' ) )
+			return ( false );
+		if ( !isValidDigit( octets[i] ) )
+			return ( false );
+		std::stringstream	ss( octets[i] );
+		int					value;
+
+		ss >> value;
+		if ( !( value >= 0 && value <= 255 ) )
+			return ( false );
+	}
+    return ( true );
 }
 
 bool	Config::isValidPath( std::string const& value, bool root )

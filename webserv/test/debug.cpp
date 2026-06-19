@@ -24,6 +24,9 @@ std::ostream	&operator<<( std::ostream &os, ServerConfig const &sc )
 		os	<< "\t\tlocation:\n\t\t\t["
 		<< "path=" << (*location_it).path
 		<< ", root=" << (*location_it).root
+		<< ", upload_dir=" << (*location_it).uploadDir
+		<< ", cgi_path=" << (*location_it).cgiPath
+		<< ", cgi_extension=" << (*location_it).cgiExtension
 		<< ", index=" << (*location_it).index
 		<< ", autoindex=" << (*location_it).autoindex
 		<< ", redirect=(" << (*location_it).redirect.first << " => " << (*location_it).redirect.second << ")"
