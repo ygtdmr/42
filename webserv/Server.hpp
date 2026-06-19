@@ -1,41 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/14 19:58:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/19 11:06:31 by yidemir          ###   ########.fr       */
+/*   Created: 2026/06/19 10:28:01 by yidemir           #+#    #+#             */
+/*   Updated: 2026/06/19 11:05:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#ifndef SERVER_HPP
+# define SERVER_HPP
+
 #include "Config.hpp"
-#include "Server.hpp"
 
-int	main( int argc, char **argv )
+class Server
 {
-	if ( argc != 2 )
-	{
-		std::cout
-			<< "usage: ./webserv [configuration file]"
-			<< std::endl;
-		return ( 1 );
-	}
-	try
-	{
-		Config	config(argv[1]);
-		config.parse();
+	public:
+		Server( std::vector<ServerConfig>& serversConfig );
+		Server( Server const& other );
+		~Server();
+		Server	&operator=( Server const& other );
+		void	run( void );
+	private:
+		void	setupSockets( void );
+		std::vector<ServerConfig>	&serversConfig_;
+};
 
-		Server	server( *config.getServers() );
-		server.run();
-	}
-	catch( const std::exception& e )
-	{
-		std::cerr
-			<< "webserv: " << e.what()
-			<< std::endl;
-		return (1);
-	}
-}
+#endif

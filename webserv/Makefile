@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/06/16 16:17:02 by yidemir          ###   ########.fr        #
+#    Updated: 2026/06/19 10:53:37 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ NAME		=	webserv
 SRCS		=	main.cpp \
 				test/debug.cpp \
 				Config.cpp \
+				Server.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 

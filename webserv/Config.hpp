@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:52:14 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/19 10:12:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/19 11:03:04 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ class Config
 		Config( Config const& other );
 		~Config();
 		Config						&operator=( Config const& other );
-		std::vector<ServerConfig>	const *getServers( void ) const;
+		std::vector<ServerConfig>	*getServers( void ) const;
 		void						parse( void );
 	private:
 		void						throwError( std::string const& msg ) const;

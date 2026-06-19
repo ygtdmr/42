@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 11:40:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/19 10:10:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/19 11:03:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ Config	&Config::operator=( Config const& other )
 	return ( *this );
 }
 
-std::vector<ServerConfig>	const *Config::getServers( void ) const
+std::vector<ServerConfig>	*Config::getServers( void ) const
 {
 	return ( servers_ );
 }
