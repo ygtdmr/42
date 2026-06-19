@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:52:14 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/19 11:03:04 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/19 16:13:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ struct LocationConfig
 
 struct ServerConfig
 {
-	int							port;
 	size_t						clientMaxBodySize;
 	std::string					host;
+	std::string					port;
 	std::map<int, std::string>	errorPages;
 	std::vector<LocationConfig>	locations;
 };

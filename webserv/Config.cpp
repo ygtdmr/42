@@ -6,14 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 11:40:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/19 11:03:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/19 15:07:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-
-#include <sstream>
 #include <fstream>
+#include <sstream>
+#include <stdexcept>
 #include <errno.h>
 #include <string.h>
 #include "Config.hpp"

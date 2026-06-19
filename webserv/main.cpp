@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 19:58:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/19 11:06:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/19 14:45:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main( int argc, char **argv )
 	}
 	try
 	{
-		Config	config(argv[1]);
+		Config	config( argv[1] );
 		config.parse();
 
 		Server	server( *config.getServers() );
