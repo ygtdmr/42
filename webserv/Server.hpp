@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 10:28:01 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/19 17:22:45 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/21 20:26:27 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SERVER_HPP
 
 #include <poll.h>
-#include "Config.hpp"
+#include "Response.hpp"
 
 class Server
 {
@@ -26,14 +26,14 @@ class Server
 		void						run( void );
 		void						setup( void );
 	private:
-		void						throwError( std::string const& msg ) const;
-		void						setupSocket( void );
-		void						setupPoll( int fd );
+		void						throwError( ServerConfig const& serverConfig, std::string const& msg ) const;
+		int							setupSocket( ServerConfig const& serverConfig );
+		pollfd						toPollFd( int fd );
 
-		std::vector<ServerConfig>					&serversConfig_;
-		ServerConfig								&serverConfig_;
-		std::vector<int>							listenSockets_;
-		std::vector<struct pollfd>					pollFds_;
+		std::vector<pollfd>			*pollFds_;
+		std::map<int, Client>		*clients_;
+		std::map<int, ServerConfig&>*sockets_;
+		std::vector<ServerConfig>	&serversConfig_;
 };
 
 #endif

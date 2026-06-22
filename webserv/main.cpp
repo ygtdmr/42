@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 19:58:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/19 14:45:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/19 19:52:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main( int argc, char **argv )
 		config.parse();
 
 		Server	server( *config.getServers() );
+		server.setup();
 		server.run();
 	}
 	catch( const std::exception& e )

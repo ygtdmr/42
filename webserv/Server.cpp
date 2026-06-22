@@ -6,9 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 14:44:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/19 17:22:25 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/21 20:45:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <iostream>
 
 #include <sstream>
 #include <stdexcept>
@@ -19,35 +21,102 @@
 #include <netdb.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+
 #include "Server.hpp"
 
 Server::Server( std::vector<ServerConfig>& serversConfig )
-: serversConfig_( serversConfig ), serverConfig_( *serversConfig_.begin() )
+: serversConfig_( serversConfig ), pollFds_( 0 ), clients_( 0 ), sockets_( 0 )
 {}
 
 Server::Server( Server const& other )
-: serversConfig_( other.serversConfig_ ), serverConfig_( *serversConfig_.begin() )
+: serversConfig_( other.serversConfig_ ), pollFds_( 0 ), clients_( 0 ), sockets_( 0 )
 {}
 
 Server::~Server()
-{}
+{
+	if ( pollFds_ )
+		delete pollFds_;
+	if ( clients_ )
+		delete clients_ ;
+	if ( sockets_)
+		delete sockets_;
+}
 
 Server	&Server::operator=( Server const& other )
 {
 	if ( this != &other )
+	{
 		this->serversConfig_ = other.serversConfig_;
+		if ( this->pollFds_ )
+			*(this->pollFds_ ) = *other.pollFds_;
+		if ( this->clients_ )
+			*(this->clients_ ) = *other.clients_;
+		if ( this->sockets_ )
+			*(this->sockets_) = *other.sockets_;
+	}
 	return ( *this );
 }
 
 void	Server::run( void )
 {
-	while (true)
+	while ( true )
 	{
-		int poll_count = poll(&(*pollFds_.begin()), pollFds_.size(), -1);
+		std::vector<pollfd>::iterator	it( pollFds_->begin() );
 
-		if (poll_count <= 0)
-			continue; 
+		if ( poll( &( *( pollFds_->begin() ) ), pollFds_->size(), -1 ) <= 0 )
+			continue ;
+		while ( it != pollFds_->end() )
+		{
+			int			&fd( (*it).fd );
+			short int	&events( (*it).events );
 
+			if ( events & POLLIN )
+			{
+				if ( sockets_->find( fd ) != sockets_->end() )
+				{
+					struct sockaddr_in	clientAddr;
+					socklen_t			clientLen( sizeof( clientAddr ) );
+					int					clientFd( accept(fd, (struct sockaddr*)&clientAddr, &clientLen) );
+
+					if ( clientFd >= 0 )
+					{
+						fcntl(clientFd, F_SETFL, O_NONBLOCK); 
+						(*clients_)[clientFd] = Client( sockets_->find( fd )->second );
+						pollFds_->push_back( toPollFd( clientFd ) );
+					}
+				}
+				else
+				{
+					char	buffer[CLIENT_READ_BUFFER];
+					ssize_t	bytesRead( recv( fd, buffer, sizeof( buffer ) - 1, 0 ) );
+					Client	&client( (*clients_)[fd] );
+
+					if ( bytesRead > 0 )
+					{
+						buffer[bytesRead] = 0;
+						client.read( buffer, bytesRead );
+						if ( client.status > 0 )
+							events = POLLOUT;
+					}
+					else
+					{
+						close( fd );
+						pollFds_->erase( it );
+						clients_->erase( fd );
+					}
+				}
+			}
+			if ( events & POLLOUT )
+			{
+				Response	response( (*clients_)[fd] );
+				std::string	data( response.process() );
+				send( fd, data.c_str(), data.length(), 0 );
+				close( fd );
+				pollFds_->erase( it );
+				clients_->erase( fd );
+			}
+			it++;
+		}
 	}
 }
 
@@ -55,36 +124,41 @@ void	Server::setup( void )
 {
 	std::vector<ServerConfig>::const_iterator	it( serversConfig_.begin() );
 
+	pollFds_ = new std::vector<pollfd>;
+	clients_ = new std::map<int, Client>;
+	sockets_ = new std::map<int, ServerConfig&>;
 	while ( it != serversConfig_.end() )
 	{
-		setupSocket();
-		serverConfig_ = *it++;
+		int	fd( setupSocket( *it ) );
+
+		(*sockets_)[fd] = *it;
+		pollFds_->push_back( toPollFd( fd ) );
+		it++;
 	}
-	for (size_t i = 0; i < listenSockets_.size(); i++)
-		setupPoll( listenSockets_[i] );
 }
 
-void	Server::throwError( std::string const& msg ) const
+void	Server::throwError( ServerConfig const& serverConfig, std::string const& msg ) const
 {
-	std::string			host( serverConfig_.host );
+	std::string			host( serverConfig.host );
 	std::stringstream	ss;
 
 	if ( host.empty() )
 		host = "[::]";
 	ss	<< "server: "
-		<< "(" << host << ":" << serverConfig_.port << ")"
-		<< ": " << msg << std::endl;
+		<< "(" << host << ":" << serverConfig.port << ")"
+		<< ": " << msg;
 	throw std::runtime_error( ss.str() );
 }
 
-void	Server::setupSocket( void )
+int	Server::setupSocket( ServerConfig const& serverConfig )
 {
-	int	fd;
+	int	fd( socket( AF_INET, SOCK_STREAM, 0 ) );
+	int	opt( 1 );
 
-	fd = socket( AF_INET, SOCK_STREAM, 0 );
-	listenSockets_.push_back( fd );
+	if ( setsockopt( fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof( opt ) ) < 0 )
+		throwError( serverConfig, std::string( "setsockopt: " ) + strerror( errno ) );
 	if ( fd < 0 )
-		throwError( std::string( "socket: " ) + strerror( errno ) );
+		throwError( serverConfig, std::string( "socket: " ) + strerror( errno ) );
 	fcntl(fd, F_SETFL, O_NONBLOCK);
 
 	addrinfo	hints = addrinfo();
@@ -95,26 +169,27 @@ void	Server::setupSocket( void )
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 	
-	if ( serverConfig_.host.empty() )
+	if ( serverConfig.host.empty() )
 		host = 0;
 	else
-		host = serverConfig_.host.c_str();
-	if ( getaddrinfo( host, serverConfig_.port.c_str(), &hints, &res ) != 0 )
-		throwError( std::string( "getaddrinfo: " ) + strerror( errno ) );
+		host = serverConfig.host.c_str();
+	if ( getaddrinfo( host, serverConfig.port.c_str(), &hints, &res ) != 0 )
+		throwError( serverConfig, std::string( "getaddrinfo: " ) + strerror( errno ) );
 	if ( bind( fd, res->ai_addr, res->ai_addrlen ) < 0 )
-		throwError( std::string( "bind: " ) + strerror( errno ) );
+		throwError( serverConfig, std::string( "bind: " ) + strerror( errno ) );
 	freeaddrinfo( res );
 
 	if (listen(fd, 128) < 0)
-		throwError( std::string( "listen: " ) + strerror( errno ) );
+		throwError( serverConfig, std::string( "listen: " ) + strerror( errno ) );
+	return ( fd );
 }
 
-void	Server::setupPoll( int fd  )
+pollfd	Server::toPollFd( int fd  )
 {
 	struct pollfd	pfd;
 
 	pfd.fd = fd;
 	pfd.events = POLLIN;
 	pfd.revents = 0;
-	pollFds_.push_back( pfd );
+	return ( pfd );
 }
