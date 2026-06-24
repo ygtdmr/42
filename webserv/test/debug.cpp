@@ -18,22 +18,25 @@ std::ostream	&operator<<( std::ostream &os, ServerConfig const &sc )
 		error_page_it++;
 	}
 	os	<< "]" << std::endl;
-	std::vector<LocationConfig>::const_iterator	location_it( sc.locations.begin() );
+	std::map<std::string, LocationConfig>::const_iterator	location_it( sc.locations.begin() );
+
 	while ( location_it != sc.locations.end() )
 	{
+		LocationConfig const	&location( location_it->second );
+
 		os	<< "\t\tlocation:\n\t\t\t["
-		<< "path=" << (*location_it).path
-		<< ", root=" << (*location_it).root
-		<< ", upload_dir=" << (*location_it).uploadDir
-		<< ", cgi_path=" << (*location_it).cgiPath
-		<< ", cgi_extension=" << (*location_it).cgiExtension
-		<< ", index=" << (*location_it).index
-		<< ", autoindex=" << (*location_it).autoindex
-		<< ", redirect=(" << (*location_it).redirect.first << " => " << (*location_it).redirect.second << ")"
+		<< "path=" << location_it->first
+		<< ", root=" << location.root
+		<< ", upload_dir=" << location.uploadDir
+		<< ", cgi_path=" << location.cgiPath
+		<< ", cgi_extension=" << location.cgiExtension
+		<< ", index=" << location.index
+		<< ", autoindex=" << location.autoindex
+		<< ", redirect=(" << location.redirect.first << " => " << location.redirect.second << ")"
 		<< ", allow_methods=";
 
-		std::vector<std::string>::const_iterator	allow_methods_it( (*location_it).allowMethods.begin() );
-		while ( allow_methods_it != (*location_it).allowMethods.end() )
+		std::vector<std::string>::const_iterator	allow_methods_it( location.allowMethods.begin() );
+		while ( allow_methods_it != location.allowMethods.end() )
 			os << *allow_methods_it++ << " ";
 		std::cout << "]" << std::endl;
 		location_it++;

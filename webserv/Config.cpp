@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 11:40:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/19 15:07:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/24 12:41:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include <errno.h>
 #include <string.h>
 #include "Config.hpp"
+#include "Tools.hpp"
+
+#include <iostream>
 
 Config::Config( std::string const& path )
 : path_( path ), raw_( 0 ), servers_( 0 )
@@ -162,11 +165,16 @@ void	Config::parseStateLocation( ServerConfig& server, std::string const& path )
 		throwError( "invalid location syntax: " + word );
 	else if ( !isValidPath( path ) )
 		throwError( "invalid location path: " + path );
-	location.path = path;
 	while ( ( *raw_ ) >> word )
 	{
 		if ( word == "}" )
-			return( server.locations.push_back( location ) );
+		{
+			if ( server.locations.find( path ) == server.locations.end() )
+				server.locations.insert( std::make_pair( path, location ) );
+			else
+				throwError( "duplicate location: " + path );
+			return;
+		}
 		else if ( word == ";" )
 		{
 			validateLocationConfig( servers_->size(), server.locations.size() );
@@ -196,7 +204,11 @@ void	Config::validateServerConfig( size_t serverIndex )
 		valid = isValidDigit( ss.str() ) && ( port >= 1 && port <= 65535 );
 	}
 	else if ( ( key_ == "client_max_body_size" ) && ( values_.size() == 1 ) )
-		valid = isValidDigit( *values_.begin() );
+	{
+		std::string	&value( *values_.begin() );
+
+		valid = ( *( value.end() - 1 ) == 'M' ) && isValidDigit( value.substr(0, value.size() - 1) );
+	}
 	else if ( key_ == "error_page" && ( values_.size() >= 2 ) )
 	{
 		std::stringstream							ss;
@@ -283,7 +295,10 @@ void	Config::putDataServerConfig( ServerConfig& server )
 	else if ( key_ == "host" )
 		ss >> server.host;
 	else if ( key_ == "client_max_body_size" )
+	{
 		ss >> server.clientMaxBodySize;
+		server.clientMaxBodySize *= 1024 * 1024;
+	}
 	else if ( key_ == "error_page" )
 	{
 		int											statusCode;
@@ -330,73 +345,4 @@ void	Config::putDataLocationConfig( LocationConfig& location )
 	}
 	else
 		throwError( "location: invalid key: " + key_ );
-}
-
-bool	Config::isValidDigit( std::string const& value )
-{
-	std::string::const_iterator	it( value.begin() );
-
-	while ( it != value.end() )
-	{
-		if ( !( ( *it >= '0' ) && ( *it <= '9' ) ) )
-			return ( false );
-		it++;
-	}
-	return ( true );
-}
-
-bool	Config::isValidIPv4( std::string const& value )
-{
-	std::vector<std::string>	octets;
-	std::string					currentOctet;
-	int							dotCount( 0 );
-
-	for ( size_t i = 0; i < value.length(); ++i )
-	{
-		if ( value[i] == '.' )
-		{
-			dotCount++;
-			octets.push_back( currentOctet );
-			currentOctet = "";
-		}
-		else
-			currentOctet += value[i];
-	}
-	octets.push_back( currentOctet );
-
-	if ( !( ( dotCount == 3 ) && ( octets.size() == 4 ) ) )
-		return ( false );
-	for (size_t i = 0; i < octets.size(); ++i)
-	{
-		if ( octets[i].empty() )
-			return ( false );
-		if ( ( octets[i].length() > 1 ) && ( *octets[0].begin() == '0' ) )
-			return ( false );
-		if ( !isValidDigit( octets[i] ) )
-			return ( false );
-		std::stringstream	ss( octets[i] );
-		int					value;
-
-		ss >> value;
-		if ( !( value >= 0 && value <= 255 ) )
-			return ( false );
-	}
-    return ( true );
-}
-
-bool	Config::isValidPath( std::string const& value, bool root )
-{
-	std::string::const_iterator	it( value.begin() );
-
-	if ( root && ( *value.begin() != '/' ) )
-		return ( false );
-	if ( value.find("../") != std::string::npos )
-		return ( false );
-	while ( it != value.end() )
-	{
-		if ( !( ( *it > 32 ) && ( *it != '\\' ) ) )
-			return ( false );
-		it++;
-	}
-	return ( true );
 }

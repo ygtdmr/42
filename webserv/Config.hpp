@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:52:14 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/19 16:13:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/24 10:04:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ struct LocationConfig
 {
 	bool						autoindex;
 	std::string					index;
-	std::string					path;
 	std::string					root;
 	std::string					uploadDir;
 	std::string					cgiExtension;
@@ -32,11 +31,11 @@ struct LocationConfig
 
 struct ServerConfig
 {
-	size_t						clientMaxBodySize;
-	std::string					host;
-	std::string					port;
-	std::map<int, std::string>	errorPages;
-	std::vector<LocationConfig>	locations;
+	size_t									clientMaxBodySize;
+	std::string								host;
+	std::string								port;
+	std::map<int, std::string>				errorPages;
+	std::map<std::string, LocationConfig>	locations;
 };
 
 class Config
@@ -62,10 +61,6 @@ class Config
 
 		void						putDataServerConfig( ServerConfig& server );
 		void						putDataLocationConfig( LocationConfig& location );
-
-		bool						isValidDigit( std::string const& value );
-		bool						isValidIPv4( std::string const& value );
-		bool						isValidPath( std::string const& value, bool root = true );
 
 		std::string					path_;
 		std::string					key_;
