@@ -6,13 +6,15 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 19:38:51 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/24 13:46:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/25 12:09:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <sys/stat.h>
+#include <dirent.h>
 #include "Response.hpp"
 #include "Tools.hpp"
 
@@ -43,10 +45,36 @@ Response	&Response::operator=( Response const& other )
 	return ( *this );
 }
 
-void	Response::processError( int statusCode )
+LocationConfig const	*Response::findLocation( std::string const& path )
+{
+	std::map<std::string, LocationConfig>::const_iterator	it( client_.serverConfig.locations.begin() );
+	LocationConfig	const *location( 0 );
+
+	while ( it != client_.serverConfig.locations.end() )
+	{
+		if ( path.find( it->first ) == 0 )
+		{
+			if ( !location || ( it->first.size() > path.size() ) )
+				location = &it->second;
+		}
+		it++;
+	}
+	return ( location );
+}
+
+void	Response::processHeader( size_t cl, std::string const& ext )
+{
+	std::stringstream	ssHeader;
+
+	ssHeader << "Content-Length: " << cl << "\r\n";
+	ssHeader << "Content-Type: " << getContentType( ext ) << "\r\n";
+	ssHeader << "Connection: close" << "\r\n\r\n";
+	*sendData_ += ssHeader.str();
+}
+
+int	Response::processError( int statusCode )
 {
 	std::stringstream	ssBody;
-	std::stringstream	ssHeader;
 	std::ifstream		ifs;
 	bool				autoGenerate;
 
@@ -73,32 +101,45 @@ void	Response::processError( int statusCode )
 		while ( std::getline( ifs, line ) )
 			ssBody << line;
 	}
-	ssHeader << "Content-Length: " << ssBody.str().size() << "\r\n";
-	ssHeader << "Content-Type: text/html" << "\r\n";
-	ssHeader << "Connection: close" << "\r\n\r\n";
-	*sendData_ = ssHeader.str() + ssBody.str();
+	processHeader( ssBody.str().size(), ".html" );
+	*sendData_ += ssBody.str();
+	return ( statusCode );
 }
 
-int	Response::processLocation( LocationConfig const& location )
+int	Response::processRoute( void )
 {
-	std::stringstream	ssBody;
-	std::stringstream	ssHeader;
-	std::ifstream		ifs;
-	std::string			file;
-	std::string			fileExt;
+	std::stringstream		ssBody;
+	std::ifstream			ifs;
+	std::string				fileExt;
+	LocationConfig const	*location;
+	std::string				path( client_.requestUri );
+	struct stat				pathStat;
+	
+	if ( path.find('?') != std::string::npos )
+		path = path.substr( 0, path.find( '?' ) );
+	location = findLocation( path );
+	if ( !location )
+		return ( processError( 404 ) );
+	if ( path.find( '.' ) != std::string::npos )
+		fileExt = path.substr( path.find( '.' ) );
+	path.insert( 0, location->root );
+	if ( stat(path.c_str(), &pathStat) != 0 )
+		return ( processError( 404 ) );
+	if ( S_ISDIR( pathStat.st_mode ) )
+	{
+		std::string	index( location->index );
 
-	file = location.root + "/" + location.index;
-	ifs.open( file.c_str(), std::ios::in );
-	if ( !ifs.is_open() && location.autoindex )
-	{
-		file = location.root + "/index.html";
-		ifs.open( file.c_str(), std::ios::in );
+		if ( index.empty() )
+			index = "index.html";
+		fileExt = index.substr( index.find( '.' ) );
+		ifs.open( ( path + '/' + index ).c_str(), std::ios::in );
+		if ( !ifs.is_open() && location->autoindex )
+			return ( processDirectoryList( path ) );
 	}
+	else
+		ifs.open( path.c_str(), std::ios::in );
 	if ( !ifs.is_open() )
-	{
-		processError( 404 );
-		return ( 404 );
-	}
+		return ( processError( 404 ) );
 	if ( client_.method == "GET" )
 	{
 		std::string	line;
@@ -107,17 +148,48 @@ int	Response::processLocation( LocationConfig const& location )
 			ssBody << line << std::endl;
 	}
 	else
-	{
-		processError( 404 );
-		return ( 404 );
-	}
-	if ( file.find( '.' ) != std::string::npos )
-		fileExt = file.substr( file.find( '.' ) );
-	ssHeader << "Content-Length: " << ssBody.str().size() << "\r\n";
-	ssHeader << "Content-Type: " << getContentType( fileExt ) << "\r\n";
-	ssHeader << "Connection: close" << "\r\n\r\n";
-	*sendData_ = ssHeader.str() + ssBody.str();
+		return ( processError( 404 ) );
+	processHeader( ssBody.str().size(), fileExt );
+	*sendData_ += ssBody.str();
 	return ( 200 );
+}
+
+int	Response::processDirectoryList( std::string const& dirPath )
+{
+	std::stringstream		ssBody;
+	std::string				requestPath( client_.requestUri );
+	DIR						*dir( opendir( dirPath.c_str() ) );
+	
+	if ( requestPath.find( '?' ) != std::string::npos )
+		requestPath = requestPath.substr( 0, requestPath.find( '?' ) );
+	ssBody << "<html>" << std::endl;
+	ssBody << "<head><title>Index of " << requestPath << "</title></head>" << std::endl;
+	ssBody << "<body>" << std::endl;
+	ssBody << "<h1>Index of " << requestPath << "</h1>" << std::endl;
+	ssBody << "<ul>" << std::endl;
+	if ( dir )
+	{
+		struct dirent*	entry;
+
+		while ( ( entry = readdir(dir) ) )
+		{
+			std::string	linkPath( requestPath );
+			std::string	name( entry->d_name );
+
+			if ( name == "." )
+				continue ;
+			if ( linkPath.empty() || *( linkPath.end() - 1 ) != '/' )
+				linkPath += '/';
+			linkPath += name;
+			ssBody << "<li><a href=\"" << linkPath << "\">" << name << "</a></li>\n";
+		}
+	}
+	ssBody << "</ul></body>" << std::endl;
+	ssBody << "</html>" << std::endl;
+	closedir( dir );
+	processHeader( ssBody.str().size(), ".html" );
+	*sendData_ += ssBody.str();
+	return (200);
 }
 
 std::string const	&Response::process( void )
@@ -131,12 +203,10 @@ std::string const	&Response::process( void )
 		statusCode = 413;
 	else if ( client_.status & CLIENT_STATUS_ERROR_HTTP_V )
 		statusCode = 505;
-	else if ( client_.serverConfig.locations.find( client_.requestUri ) == client_.serverConfig.locations.end() )
-		statusCode = 404;
 	if ( statusCode > 0 )
 		processError( statusCode );
 	else
-		statusCode = processLocation( client_.serverConfig.locations.find( client_.requestUri )->second );
+		statusCode = processRoute();
 	sendRequestFirstLine << "HTTP/1.1 " << statusCode << " " << getReasonPhrase( statusCode ) << "\r\n";
 	sendData_->insert(0, sendRequestFirstLine.str());
 	return ( *sendData_ );

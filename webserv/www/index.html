@@ -3,9 +3,162 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Test Index Document</title>
+	<title>Webserv Evaluation Tester</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<script>
+		tailwind.config = {
+			theme: {
+				extend: {
+					colors: {
+						primary: '#4F46E5',
+						secondary: '#10B981',
+						danger: '#EF4444',
+						dark: '#111827',
+						card: '#1F2937'
+					}
+				}
+			}
+		}
+	</script>
+	<link href="assets/style.css" rel="stylesheet">
+	<script src="assets/script.js"></script>
 </head>
-<body>
-	Hello webserv! (AUTO INDEX)
+<body class="min-h-screen p-6 md:p-12 font-sans">
+
+	<header class="max-w-6xl mx-auto mb-10 text-center">
+		<h1 class="text-4xl font-bold mb-3"><i class="fas fa-server text-primary"></i> Webserv Tester</h1>
+		<p class="text-gray-400 text-lg">A comprehensive static client to evaluate 42 Webserv requirements.</p>
+		<div class="mt-4 inline-block bg-yellow-900/50 text-yellow-200 border border-yellow-700 rounded-md px-4 py-2 text-sm text-left">
+			<i class="fas fa-exclamation-triangle mr-2"></i> 
+			<strong>Note:</strong> Ensure your <code>webserv.conf</code> is configured to handle the routes tested below (e.g., <code>/upload</code>, <code>/cgi-bin</code>, <code>/autoindex</code>). Edit the paths in this HTML file if your configuration differs.
+		</div>
+	</header>
+
+	<main class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+		<!-- 1. GET Methods -->
+		<section class="test-card">
+			<h2 class="text-xl font-bold mb-4 border-b border-gray-600 pb-2"><i class="fas fa-download text-blue-400 mr-2"></i>GET Method</h2>
+			<p class="text-sm text-gray-400 mb-4">Test retrieving static files and standard web browsing.</p>
+			
+			<div class="space-y-3">
+				<a href="/" target="_blank" class="btn btn-blue w-full">
+					<i class="fas fa-home mr-2"></i> GET Root (/)
+				</a>
+				<a href="/index.html" target="_blank" class="btn btn-blue w-full">
+					<i class="fas fa-file-code mr-2"></i> GET index.html
+				</a>
+				<a href="/non-existent-page.html" target="_blank" class="btn btn-blue w-full bg-blue-900 hover:bg-blue-800">
+					<i class="fas fa-spider mr-2"></i> GET 404 Page
+				</a>
+			</div>
+		</section>
+
+		<!-- 2. POST & File Upload -->
+		<section class="test-card">
+			<h2 class="text-xl font-bold mb-4 border-b border-gray-600 pb-2"><i class="fas fa-upload text-green-400 mr-2"></i>POST & Upload</h2>
+			<p class="text-sm text-gray-400 mb-4">Test multipart/form-data for file uploads.</p>
+			
+			<form action="/upload" method="POST" enctype="multipart/form-data" target="_blank">
+				<label class="block text-sm font-medium mb-1">Select file to upload:</label>
+				<input type="file" name="fileToUpload" required>
+				
+				<label class="block text-sm font-medium mb-1">Target Endpoint:</label>
+				<input type="text" value="/upload" onchange="this.form.action=this.value" class="mb-4">
+				
+				<button type="submit" class="btn btn-green w-full">
+					<i class="fas fa-paper-plane mr-2"></i> Upload File
+				</button>
+			</form>
+		</section>
+
+		<!-- 3. DELETE Method -->
+		<section class="test-card">
+			<h2 class="text-xl font-bold mb-4 border-b border-gray-600 pb-2"><i class="fas fa-trash text-red-400 mr-2"></i>DELETE Method</h2>
+			<p class="text-sm text-gray-400 mb-4">Test deleting a resource from the server via fetch API.</p>
+			
+			<div class="mb-4">
+				<label class="block text-sm font-medium mb-1">Resource URI to delete:</label>
+				<input type="text" id="delete-url" placeholder="e.g., /upload/test.txt" value="/upload/test.txt">
+			</div>
+			
+			<button onclick="sendDelete()" class="btn btn-red w-full">
+				<i class="fas fa-skull mr-2"></i> Send DELETE Request
+			</button>
+			
+			<div id="delete-status" class="mt-3 text-center text-sm font-bold hidden"></div>
+		</section>
+
+		<!-- 4. CGI Execution -->
+		<section class="test-card">
+			<h2 class="text-xl font-bold mb-4 border-b border-gray-600 pb-2"><i class="fas fa-cogs text-purple-400 mr-2"></i>CGI Execution</h2>
+			<p class="text-sm text-gray-400 mb-4">Test Common Gateway Interface processing.</p>
+			
+			<form action="/cgi-bin/hello.py" method="GET" target="_blank" class="mb-4 pb-4 border-b border-gray-700">
+				<label class="block text-sm font-medium mb-1">GET with Query String:</label>
+				<div class="flex gap-2">
+					<input type="text" name="name" placeholder="Your Name" value="Norminet" class="mb-0">
+					<button type="submit" class="btn btn-blue whitespace-nowrap">Run GET</button>
+				</div>
+				<small class="text-gray-500">Path: /cgi-bin/hello.py</small>
+			</form>
+
+			<form action="/cgi-bin/process.php" method="POST" target="_blank">
+				<label class="block text-sm font-medium mb-1">POST Body to CGI:</label>
+				<div class="flex gap-2">
+					<input type="text" name="data" placeholder="Data to process" value="Hello 42!" class="mb-0">
+					<button type="submit" class="btn btn-green whitespace-nowrap">Run POST</button>
+				</div>
+				<small class="text-gray-500">Path: /cgi-bin/process.php</small>
+			</form>
+		</section>
+
+		<!-- 5. Configuration & Routing -->
+		<section class="test-card">
+			<h2 class="text-xl font-bold mb-4 border-b border-gray-600 pb-2"><i class="fas fa-route text-yellow-400 mr-2"></i>Routing & Config</h2>
+			<p class="text-sm text-gray-400 mb-4">Test server directives: autoindex, redirects, defaults.</p>
+			
+			<div class="space-y-3">
+				<a href="/autoindex_dir/" target="_blank" class="btn bg-gray-700 hover:bg-gray-600 text-white w-full">
+					<i class="fas fa-list-ol mr-2"></i> Test Autoindex (Directory Listing)
+				</a>
+				
+				<a href="/redirect" target="_blank" class="btn bg-gray-700 hover:bg-gray-600 text-white w-full">
+					<i class="fas fa-random mr-2"></i> Test HTTP Redirection (301/302)
+				</a>
+
+				<a href="/index_dir/" target="_blank" class="btn bg-gray-700 hover:bg-gray-600 text-white w-full">
+					<i class="fas fa-file-alt mr-2"></i> Test Default Index File
+				</a>
+			</div>
+		</section>
+
+		<!-- 6. Edge Cases & Errors -->
+		<section class="test-card">
+			<h2 class="text-xl font-bold mb-4 border-b border-gray-600 pb-2"><i class="fas fa-bug text-orange-400 mr-2"></i>Errors & Limits</h2>
+			<p class="text-sm text-gray-400 mb-4">Trigger HTTP error codes and body size limits.</p>
+			
+			<div class="space-y-3">
+				<a href="/protected/" target="_blank" class="btn bg-orange-900 hover:bg-orange-800 text-white w-full">
+					<i class="fas fa-ban mr-2"></i> Test 403 Forbidden
+				</a>
+
+				<button onclick="testMethodNotAllowed()" class="btn bg-orange-900 hover:bg-orange-800 text-white w-full">
+					<i class="fas fa-hand-paper mr-2"></i> Test 405 Method Not Allowed
+				</button>
+
+				<button onclick="testLargePayload()" class="btn bg-orange-900 hover:bg-orange-800 text-white w-full">
+					<i class="fas fa-weight-hanging mr-2"></i> Test Max Body Size (413)
+				</button>
+			</div>
+			<div id="error-status" class="mt-3 text-center text-sm font-bold hidden"></div>
+		</section>
+
+	</main>
+
+	<footer class="max-w-6xl mx-auto mt-12 text-center text-gray-500 text-sm border-t border-gray-700 pt-6">
+		Designed for 42 Webserv Project Evaluation
+	</footer>
 </body>
 </html>

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 20:25:05 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/24 13:19:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/25 11:58:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@ class Response
 		Response	&operator=( Response const& other );
 		std::string const	&process( void );
 	private:
-		void				processError( int statusCode );
-		int					processLocation( LocationConfig const& location );
+		void					processHeader( size_t cl, std::string const& ext );
+		int						processError( int statusCode );
+		int						processRoute( void );
+		int						processDirectoryList( std::string const& dirPath );
+		LocationConfig const	*findLocation( std::string const& path );
 
 		Client				&client_;
 		std::string			*sendData_;
