@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 19:38:51 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/25 12:09:25 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/25 19:00:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ Response	&Response::operator=( Response const& other )
 	{
 		client_ = other.client_;
 		*sendData_ = *other.sendData_;
+		statusCode = other.statusCode;
 	}
 	return ( *this );
 }
@@ -195,8 +196,8 @@ int	Response::processDirectoryList( std::string const& dirPath )
 std::string const	&Response::process( void )
 {
 	std::stringstream	sendRequestFirstLine;
-	short int			statusCode( 0 );
 
+	statusCode = 0;
 	if ( client_.status & CLIENT_STATUS_ERROR_BR )
 		statusCode = 400;
 	else if ( client_.status & CLIENT_STATUS_ERROR_CTL )

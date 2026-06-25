@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 18:20:16 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/24 13:17:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/25 18:08:37 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,33 +106,33 @@ const char	*getReasonPhrase( int statusCode )
 
 const char	*getContentType( std::string const& ext )
 {
-	if (ext == ".html" || ext == ".htm")
+	if ( ext == ".html" || ext == ".htm" )
 		return ( "text/html" );
-	else if (ext == ".css")
+	else if ( ext == ".css" )
 		return ( "text/css" );
-	else if (ext == ".js")
+	else if ( ext == ".js" )
 		return ( "application/javascript" );
-	else if (ext == ".txt")
+	else if ( ext == ".txt" )
 		return ( "text/plain" );
-	else if (ext == ".jpg" || ext == ".jpeg")
+	else if ( ext == ".jpg" || ext == ".jpeg" )
 		return ( "image/jpeg" );
-	else if (ext == ".png")
+	else if ( ext == ".png" )
 		return ( "image/png" );
-	else if (ext == ".gif")
+	else if ( ext == ".gif" )
 		return ( "image/gif" );
-	else if (ext == ".bmp")
+	else if ( ext == ".bmp" )
 		return ( "image/bmp" );
-	else if (ext == ".ico")
+	else if ( ext == ".ico" )
 		return ( "image/x-icon" );
-	else if (ext == ".svg")
+	else if ( ext == ".svg" )
 		return ( "image/svg+xml" );
-	else if (ext == ".json")
+	else if ( ext == ".json" )
 		return ( "application/json" );
-	else if (ext == ".xml")
+	else if ( ext == ".xml" )
 		return ( "application/xml" );
-	else if (ext == ".pdf")
+	else if ( ext == ".pdf" )
 		return ( "application/pdf" );
-	else if (ext == ".zip")
+	else if ( ext == ".zip" )
 		return ( "application/zip" );
 	return ( "application/octet-stream" );
 }

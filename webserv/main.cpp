@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 19:58:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/19 19:52:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/25 16:57:55 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main( int argc, char **argv )
 {
 	if ( argc != 2 )
 	{
-		std::cout
+		std::cerr
 			<< "usage: ./webserv [configuration file]"
 			<< std::endl;
 		return ( 1 );

@@ -6,23 +6,28 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 14:44:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/24 10:34:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/25 19:16:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-
-#include <sstream>
 #include <stdexcept>
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <netdb.h>
+#include <ctime>
 #include <sys/socket.h>
-#include <netinet/in.h>
+#include <arpa/inet.h>
 
 #include "Server.hpp"
+
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
+#define CYAN    "\033[36m"
 
 Server::Server( std::vector<ServerConfig>& serversConfig )
 : serversConfig_( serversConfig ), pollFds_( 0 ), clients_( 0 ), sockets_( 0 )
@@ -82,6 +87,8 @@ void	Server::run( void )
 						fcntl( clientFd, F_SETFL, O_NONBLOCK ); 
 						clients_->insert( std::make_pair( clientFd, Client( clientAddr, *( sockets_->find( fd )->second ) ) ) );
 						pollFds_->push_back( toPollFd( clientFd ) );
+						printMsg_ << "New connection from: " << inet_ntoa( clientAddr.sin_addr ) << ", assigned socket: " << clientFd;
+						printLog( "WARNING" );
 					}
 				}
 				else
@@ -100,6 +107,8 @@ void	Server::run( void )
 					else
 					{
 						close( fd );
+						printMsg_ << "Connection closed from: " << inet_ntoa( client.addr.sin_addr ) << ", assigned socket: " << fd;
+						printLog( "ERROR" );
 						pollFds_->erase( pollFds_->begin() + i );
 						clients_->erase( fd );
 						i--;
@@ -108,13 +117,20 @@ void	Server::run( void )
 			}
 			if ( (*pollFds_)[i].revents & POLLOUT )
 			{
-				Response	response( clients_->find(fd)->second );
+				Client	&client( clients_->find(fd)->second );
+				printMsg_	<< "Request recived from: " << inet_ntoa( client.addr.sin_addr ) << ", assigned socket: " << fd
+							<< ", request_uri=[" << client.requestUri << "], method=[" << client.method << "]";
+				printLog( "INFO" );
+				Response	response( client );
 				std::string	data( response.process() );
 				send( fd, data.c_str(), data.length(), 0 );
 				close( fd );
+				printMsg_	<< "Response sent to: " << inet_ntoa(  client.addr.sin_addr ) << ", assigned socket: " << fd
+							<< ", status=[" << response.statusCode << "]";
 				pollFds_->erase( pollFds_->begin() + i );
 				clients_->erase( fd );
 				i--;
+				printLog( "INFO" );
 			}
 		}
 	}
@@ -127,14 +143,40 @@ void	Server::setup( void )
 	pollFds_ = new std::vector<pollfd>;
 	clients_ = new std::map<int, Client>;
 	sockets_ = new std::map<int, ServerConfig*>;
+	printMsg_ << "Initializing servers...";
+	printLog( "INFO" );
 	while ( it != serversConfig_.end() )
 	{
 		int	fd( setupSocket( *it ) );
 
 		(*sockets_)[fd] = &(*it);
 		pollFds_->push_back( toPollFd( fd ) );
+		printMsg_ << "Server initialized: host=[" << it->host << "], port=[" << it->port << "]";
+		printLog( "SUCCESS" );
 		it++;
 	}
+}
+
+void	Server::printLog( std::string const &level )
+{
+	char		buffer[80];
+	std::time_t	rawtime;
+	char const	*color( "RESET" );
+
+	std::time( &rawtime );
+	std::tm*	timeinfo( std::localtime( &rawtime ) );
+	std::strftime( buffer, sizeof( buffer ), "[%Y-%m-%d %H:%M:%S]", timeinfo );
+	if (level == "INFO")
+		color = CYAN;
+	else if (level == "ERROR")
+		color = RED;
+	else if (level == "SUCCESS") 
+		color = GREEN;
+	else if (level == "WARNING") 
+		color = YELLOW;
+	std::cout << color << buffer << " [" << level << "] " << printMsg_.str() << RESET << std::endl;
+	printMsg_.clear();
+	printMsg_.str( "" );
 }
 
 void	Server::throwError( ServerConfig const& serverConfig, std::string const& msg ) const
