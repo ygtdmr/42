@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 18:19:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/25 18:08:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/25 19:51:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 bool		isValidDigit( std::string const& value );
 bool		isValidIPv4( std::string const& value );
 bool		isValidPath( std::string const& value, bool root = true );
+std::string	strTrim( std::string const& str );
 const char	*getContentType( std::string const& ext );
 const char	*getReasonPhrase( int statusCode );
 

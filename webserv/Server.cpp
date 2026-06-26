@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 14:44:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/25 19:16:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/26 09:01:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,13 +124,21 @@ void	Server::run( void )
 				Response	response( client );
 				std::string	data( response.process() );
 				send( fd, data.c_str(), data.length(), 0 );
-				close( fd );
-				printMsg_	<< "Response sent to: " << inet_ntoa(  client.addr.sin_addr ) << ", assigned socket: " << fd
+				printMsg_	<< "Response sent to: " << inet_ntoa( client.addr.sin_addr ) << ", assigned socket: " << fd
 							<< ", status=[" << response.statusCode << "]";
-				pollFds_->erase( pollFds_->begin() + i );
-				clients_->erase( fd );
-				i--;
 				printLog( "INFO" );
+				if ( ( client.headers.find("Connection") != client.headers.end() ) && client.headers["Connection"] == "close" )
+				{
+					close( fd );
+					pollFds_->erase( pollFds_->begin() + i );
+					clients_->erase( fd );
+					i--;
+				}
+				else
+				{
+					client = Client( client.addr, client.serverConfig );
+					(*pollFds_)[i].events = POLLIN;
+				}
 			}
 		}
 	}

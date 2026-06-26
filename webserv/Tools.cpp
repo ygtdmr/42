@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 18:20:16 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/25 18:08:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/25 19:51:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,16 @@ bool	isValidIPv4( std::string const& value )
 			return ( false );
 	}
 	return ( true );
+}
+
+std::string strTrim( std::string const& str )
+{
+	const char	*whitespace( " \t\r\n" );
+	size_t		start( str.find_first_not_of(whitespace) );
+	size_t		end( str.find_last_not_of( whitespace ) );
+	if ( start == std::string::npos )
+		return ( "" );
+	return ( str.substr( start, end - start + 1 ) );
 }
 
 const char	*getReasonPhrase( int statusCode )

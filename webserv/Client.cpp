@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/21 19:44:52 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/24 09:11:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/26 08:54:18 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <sstream>
 #include "Client.hpp"
+#include "Tools.hpp"
 
 Client::Client( sockaddr_in addr, ServerConfig& serverConfig )
 : addr( addr ), serverConfig( serverConfig )
@@ -21,6 +22,7 @@ Client::Client( sockaddr_in addr, ServerConfig& serverConfig )
 	status = 0;
 	contentLength_ = 0;
 	isContentChunked_ = false;
+	lastActivity = std::time( 0 );
 }
 
 Client::Client( Client const& other )
@@ -150,8 +152,8 @@ void	Client::readHeaders( void )
 			status |= CLIENT_STATUS_ERROR_BR;
 			return ;
 		}
-		std::string	key( line.substr( 0, colon_pos ) );
-		std::string	value( line.substr( colon_pos + 1 ) );
+		std::string	key( strTrim( line.substr( 0, colon_pos ) ) );
+		std::string	value( strTrim( line.substr( colon_pos + 1 ) ) );
 
 		if ( !key.empty() && !value.empty() )
 			headers[key] = value;

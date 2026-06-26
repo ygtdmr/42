@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 19:38:51 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/25 19:00:47 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/25 20:06:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ void	Response::processHeader( size_t cl, std::string const& ext )
 
 	ssHeader << "Content-Length: " << cl << "\r\n";
 	ssHeader << "Content-Type: " << getContentType( ext ) << "\r\n";
-	ssHeader << "Connection: close" << "\r\n\r\n";
+	if ( client_.headers.find("Connection") != client_.headers.end() )
+		ssHeader << "Connection: " << client_.headers["Connection"] << "\r\n\r\n";
+	else
+		ssHeader << "Connection: close" << "\r\n\r\n";
 	*sendData_ += ssHeader.str();
 }
 
