@@ -43,3 +43,11 @@ std::ostream	&operator<<( std::ostream &os, ServerConfig const &sc )
 	}
 	return ( os );
 }
+
+void printSevers( std::vector<ServerConfig> servers )
+{
+	for (size_t i = 0; i < servers.size(); i++)
+	{
+		std::cout << servers[i];
+	}
+}

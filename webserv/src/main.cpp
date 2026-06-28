@@ -6,37 +6,32 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 19:58:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/25 16:57:55 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/26 17:44:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include "Config.hpp"
-#include "Server.hpp"
+#include "../include/ConfigParser.hpp"
+#include "../include/ServerManager.hpp"
 
-int	main( int argc, char **argv )
+int main( int argc, char** argv )
 {
 	if ( argc != 2 )
 	{
-		std::cerr
-			<< "usage: ./webserv [configuration file]"
-			<< std::endl;
-		return ( 1 );
+		std::cerr << "usage: ./webserv [configuration file]" << std::endl;
+		return 1;
 	}
 	try
 	{
-		Config	config( argv[1] );
+		ConfigParser config( argv[1] );
 		config.parse();
-
-		Server	server( *config.getServers() );
-		server.setup();
-		server.run();
+		ServerManager serverManager;
+		serverManager.setupServers( *config.getServers() );
+		serverManager.run();
 	}
-	catch( const std::exception& e )
+	catch ( std::exception const& e )
 	{
-		std::cerr
-			<< "webserv: " << e.what()
-			<< std::endl;
-		return (1);
+		std::cerr << "webserv: " << e.what() << std::endl;
+		return 1;
 	}
 }
