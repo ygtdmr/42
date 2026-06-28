@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 11:55:25 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 13:17:06 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ LocationConfig const* ServerConfig::matchLocationConfig( std::string uri ) const
 	{
 		if ( uri.find( it->first ) == 0 )
 		{
-			if ( !location || ( it->first.size() > uri.size() ) )
+			if ( !location || ( it->first.size() >= uri.size() ) )
 				location = &it->second;
 		}
 		it++;

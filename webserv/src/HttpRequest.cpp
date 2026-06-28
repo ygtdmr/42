@@ -6,11 +6,9 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 11:56:34 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 13:27:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <iostream>
 
 #include <sstream>
 #include "../include/HttpRequest.hpp"
@@ -35,12 +33,17 @@ HttpRequest& HttpRequest::operator=( HttpRequest const& other )
 {
 	if ( this != &other )
 	{
-		method	   = other.method;
-		uri		   = other.uri;
-		version	   = other.version;
-		headers	   = other.headers;
-		body	   = other.body;
-		parseState = other.parseState;
+		parseState		   = other.parseState;
+		errorCode		   = other.errorCode;
+		isBodyChunked	   = other.isBodyChunked;
+		isDirectoryListing = other.isDirectoryListing;
+		contentLength	   = other.contentLength;
+		method			   = other.method;
+		uri				   = other.uri;
+		version			   = other.version;
+		headers			   = other.headers;
+		body			   = other.body;
+		locationConfig	   = other.locationConfig;
 	}
 	return *this;
 }
@@ -60,6 +63,12 @@ void HttpRequest::parseFirstLine( std::string const& line )
 		errorCode = 400;
 	else if ( version != "HTTP/1.1" )
 		errorCode = 505;
+	if ( errorCode )
+	{
+		method = "";
+		uri = "";
+		version = "";
+	}
 }
 
 void HttpRequest::parseHeaders( std::string const& data )
@@ -172,13 +181,14 @@ void HttpRequest::parseIsDirectoryListing( void )
 {
 	if ( !locationConfig->autoindex )
 		return;
-	std::string fullPath( ServerConfig::uriToPath( locationConfig->root + uri ) );
+	std::string fullPath( ServerConfig::uriToPath( locationConfig->root ) );
 	if ( !ServerConfig::isDir( fullPath ) )
 		return;
 	std::string indexFileName( locationConfig->index );
 	if ( indexFileName.empty() )
 		indexFileName = "index.html";
 	fullPath += '/' + indexFileName;
+
 	isDirectoryListing = ( ServerConfig::statusLocationAccess( *locationConfig, fullPath ) == 404 );
 }
 

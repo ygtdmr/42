@@ -6,11 +6,9 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 04:03:51 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 11:46:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 13:27:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <iostream>
 
 #include "../include/Client.hpp"
 
@@ -46,13 +44,11 @@ Client& Client::operator=( Client const& other )
 
 bool Client::parseRequest( void )
 {
-	if ( requestBuffer.size() > serverConfig.clientMaxBodySize )
-	{
-		request->errorCode = 413;
-		return true;
-	}
+	int short& errorCode( request->errorCode );
 	lastActivity = std::time( 0 );
-	if ( request->parseState == STATE_HEADERS )
+	if ( requestBuffer.size() > serverConfig.clientMaxBodySize )
+		errorCode = 413;
+	if ( !errorCode && ( request->parseState == STATE_HEADERS ) )
 	{
 		size_t posEnd( requestBuffer.find( "\r\n\r\n" ) );
 		if ( posEnd == std::string::npos )
@@ -63,13 +59,13 @@ bool Client::parseRequest( void )
 			requestBuffer = requestBuffer.substr( posEnd + 1 );
 		}
 	}
-	if ( request->parseState == STATE_BODY )
+	if ( !errorCode && ( request->parseState == STATE_BODY ) )
 		request->parseBody( requestBuffer );
-	if ( request->parseState == STATE_CHUNKED )
+	if ( !errorCode && ( request->parseState == STATE_CHUNKED ) )
 		request->unchunkBody( requestBuffer );
-	if ( request->parseState == STATE_VALIDATE )
+	if ( !errorCode && ( request->parseState == STATE_VALIDATE ) )
 		request->validate( serverConfig );
-	return request->errorCode || ( request->parseState == STATE_DONE );
+	return errorCode || ( request->parseState == STATE_DONE );
 }
 
 void Client::clear( void )
