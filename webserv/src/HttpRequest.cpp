@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/27 20:15:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 11:56:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,14 @@
 #include <sstream>
 #include "../include/HttpRequest.hpp"
 
-HttpRequest::HttpRequest( void ) : parseState( 0 ), errorCode( 0 ) {}
+HttpRequest::HttpRequest( void )
+	: parseState( 0 )
+	, errorCode( 0 )
+	, isBodyChunked( false )
+	, isDirectoryListing( false )
+	, contentLength( 0 )
+	, locationConfig( 0 )
+{}
 
 HttpRequest::HttpRequest( HttpRequest const& other )
 {
@@ -53,7 +60,6 @@ void HttpRequest::parseFirstLine( std::string const& line )
 		errorCode = 400;
 	else if ( version != "HTTP/1.1" )
 		errorCode = 505;
-	parseState = STATE_HEADERS;
 }
 
 void HttpRequest::parseHeaders( std::string const& data )
@@ -62,6 +68,8 @@ void HttpRequest::parseHeaders( std::string const& data )
 	std::stringstream ss( data );
 	std::string		  line;
 
+	std::getline( ss, line );
+	parseFirstLine( line );
 	while ( std::getline( ss, line ) )
 	{
 		if ( line.empty() )
@@ -106,10 +114,10 @@ void HttpRequest::parseBody( std::string const& data )
 	else if ( contentLength )
 	{
 		if ( data.size() >= contentLength )
-			parseState = STATE_DONE;
+			parseState = STATE_VALIDATE;
 	}
 	else
-		parseState = STATE_DONE;
+		parseState = STATE_VALIDATE;
 }
 
 void HttpRequest::unchunkBody( std::string& data )
@@ -139,7 +147,7 @@ void HttpRequest::unchunkBody( std::string& data )
 		pos += chunkSize + 2;
 	}
 	data	   = cleanBody;
-	parseState = STATE_DONE;
+	parseState = STATE_VALIDATE;
 }
 
 void HttpRequest::parseIsBodyChunked( void )
@@ -158,4 +166,45 @@ void HttpRequest::parseContentLength( void )
 		std::stringstream( headers["Content-Length"] ) >> contentLength;
 	else
 		errorCode = 400;
+}
+
+void HttpRequest::parseIsDirectoryListing( void )
+{
+	if ( !locationConfig->autoindex )
+		return;
+	std::string fullPath( ServerConfig::uriToPath( locationConfig->root + uri ) );
+	if ( !ServerConfig::isDir( fullPath ) )
+		return;
+	std::string indexFileName( locationConfig->index );
+	if ( indexFileName.empty() )
+		indexFileName = "index.html";
+	fullPath += '/' + indexFileName;
+	isDirectoryListing = ( ServerConfig::statusLocationAccess( *locationConfig, fullPath ) == 404 );
+}
+
+void HttpRequest::validate( ServerConfig const& serverConfig )
+{
+	locationConfig = serverConfig.matchLocationConfig( uri );
+	if ( !locationConfig )
+	{
+		errorCode = 404;
+		return;
+	}
+	parseIsDirectoryListing();
+	if ( !isDirectoryListing )
+	{
+		std::string fullPath( ServerConfig::uriToPath( locationConfig->root + uri ) );
+		if ( ServerConfig::isDir( fullPath ) )
+			fullPath += ServerConfig::indexFileName( *locationConfig );
+		errorCode = ServerConfig::statusLocationAccess( *locationConfig, fullPath );
+		if ( errorCode )
+			return;
+	}
+	std::vector< std::string > const& allowMethods( locationConfig->allowMethods );
+	bool							  methodAllwed( false );
+	for ( size_t i = 0; !methodAllwed && ( i < allowMethods.size() ); i++ )
+		methodAllwed = method == allowMethods[i];
+	if ( !methodAllwed )
+		errorCode = 405;
+	parseState = STATE_DONE;
 }

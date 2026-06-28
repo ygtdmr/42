@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:02:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/27 10:15:45 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 11:45:56 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 
 #include <map>
 #include <string>
+#include "ServerConfig.hpp"
 
-#define STATE_FIRSTLINE ( 0 )
-#define STATE_HEADERS ( 1 )
-#define STATE_BODY ( 2 )
-#define STATE_CHUNKED ( 3 )
+#define STATE_HEADERS ( 0 )
+#define STATE_BODY ( 1 )
+#define STATE_CHUNKED ( 2 )
+#define STATE_VALIDATE ( 3 )
 #define STATE_DONE ( 4 )
 
 class HttpRequest
@@ -34,19 +35,23 @@ class HttpRequest
 		void		 parseHeaders( std::string const& data );
 		void		 parseBody( std::string const& data );
 		void		 unchunkBody( std::string& data );
+		void		 validate( ServerConfig const& serverConfig );
 
+		int short							 parseState;
+		int short							 errorCode;
+		bool								 isBodyChunked;
+		bool								 isDirectoryListing;
+		size_t								 contentLength;
 		std::string							 method;
 		std::string							 uri;
 		std::string							 version;
 		std::map< std::string, std::string > headers;
 		std::string							 body;
-		short int							 parseState;
-		short int							 errorCode;
-		bool								 isBodyChunked;
-		size_t								 contentLength;
+		LocationConfig const*				 locationConfig;
 
 	private:
 		void parseIsBodyChunked( void );
+		void parseIsDirectoryListing( void );
 		void parseContentLength( void );
 };
 

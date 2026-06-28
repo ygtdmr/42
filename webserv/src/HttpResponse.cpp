@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 09:21:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 11:59:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <dirent.h>
 #include <fstream>
 #include <sstream>
+
+#include <iostream>
 
 #define READ_BUFFER_SIZE 8
 
@@ -39,36 +41,30 @@ HttpResponse& HttpResponse::operator=( HttpResponse const& other )
 
 void HttpResponse::handleGet( LocationConfig const& locationConfig, std::string const& uriPath )
 {
-	char readBuffer[READ_BUFFER_SIZE];
+	char		  readBuffer[READ_BUFFER_SIZE];
 	std::string	  extension;
-	std::ifstream ifs;
 	std::string	  fullPath( locationConfig.root + '/' + uriPath );
+	std::ifstream ifs;
 
 	if ( ServerConfig::isDir( fullPath ) )
-	{
-		std::string indexFileName( locationConfig.index );
-		if ( indexFileName.empty() )
-			indexFileName = "index.html";
-		fullPath += '/' + indexFileName;
-	}
-	if ( fullPath.find( '.' ) != std::string::npos )
-		extension = fullPath.substr( fullPath.find( '.' ) );
-	ifs.open( fullPath.c_str(), std::ios::binary );
+		fullPath += ServerConfig::indexFileName( locationConfig );
+	ifs.open(fullPath.c_str(), std::ios::binary);
 	while ( true )
 	{
-		ifs.read(readBuffer, sizeof(readBuffer) - 1);
+		ifs.read( readBuffer, sizeof( readBuffer ) - 1 );
 		if ( !ifs.gcount() )
 			break;
 		readBuffer[ifs.gcount()] = 0;
 		body_ += readBuffer;
 	}
 	ifs.close();
+	if ( fullPath.find( '.' ) != std::string::npos )
+		extension = fullPath.substr( fullPath.find( '.' ) );
 	std::stringstream ss;
 	ss << body_.size();
 	headers_["Content-Length"] = ss.str();
 	headers_["Content-Type"]   = getContentType( extension );
 	statusCode_				   = 200;
-	isReady					   = true;
 }
 
 void HttpResponse::handlePost( LocationConfig const& locationConfig, std::string const& uriPath )
@@ -110,7 +106,7 @@ void HttpResponse::generateErrorPage( int short code, std::map< int, std::string
 		char readBuffer[READ_BUFFER_SIZE];
 		while ( true )
 		{
-			ifs.read(readBuffer, sizeof(readBuffer) - 1);
+			ifs.read( readBuffer, sizeof( readBuffer ) - 1 );
 			if ( !ifs.gcount() )
 				break;
 			readBuffer[ifs.gcount()] = 0;
@@ -127,46 +123,24 @@ void HttpResponse::generateErrorPage( int short code, std::map< int, std::string
 	if ( code == 400 || code == 501 || code == 505 )
 		headers_["Connection"] = "close";
 	statusCode_ = code;
-	isReady		= true;
 }
 
-std::string HttpResponse::build( std::string& connection )
+void HttpResponse::generateDirectoryListing( std::string const& rootPath, std::string const& uriPath )
 {
 	std::stringstream ss;
-	ss << "HTTP/1.1 " << statusCode_ << " " << getReasonPhrase( statusCode_ ) << "\r\n";
-
-	if ( headers_.find( "Connection" ) == headers_.end() )
-		headers_["Connection"] = connection;
-	else
-		connection = headers_["Connection"];
-
-	std::map< std::string, std::string >::iterator it( headers_.begin() );
-	while ( it != headers_.end() )
-	{
-		ss << it->first << ": " << it->second << "\r\n";
-		it++;
-	}
-
-	ss << "\r\n" << body_ << "\r\n";
-	return ss.str();
-}
-
-void HttpResponse::generateDirectoryListing( std::string const& rootPath, std::string const& dirPath )
-{
-	std::stringstream ss;
-	DIR*			  dir( opendir( ( rootPath + dirPath ).c_str() ) );
+	DIR*			  dir( opendir( ( rootPath + uriPath ).c_str() ) );
 
 	ss << "<html>" << std::endl;
-	ss << "<head><title>Index of " << dirPath << "</title></head>" << std::endl;
+	ss << "<head><title>Index of " << uriPath << "</title></head>" << std::endl;
 	ss << "<body>" << std::endl;
-	ss << "<h1>Index of " << dirPath << "</h1>" << std::endl;
+	ss << "<h1>Index of " << uriPath << "</h1>" << std::endl;
 	ss << "<ul>" << std::endl;
 	if ( dir )
 	{
 		dirent* entry;
 		while ( ( entry = readdir( dir ) ) )
 		{
-			std::string linkPath( dirPath );
+			std::string linkPath( uriPath );
 			std::string name( entry->d_name );
 			if ( name == "." || name == ".." )
 				continue;
@@ -179,7 +153,28 @@ void HttpResponse::generateDirectoryListing( std::string const& rootPath, std::s
 	ss << "</ul></body>" << std::endl;
 	ss << "</html>" << std::endl;
 	closedir( dir );
-	body_ = ss.str();
+	body_					   = ss.str();
+	headers_["Content-Length"] = ss.str();
+	headers_["Content-Type"]   = getContentType( ".html" );
+	statusCode_				   = 200;
+}
+
+std::string HttpResponse::build( std::string& connection )
+{
+	std::stringstream ss;
+	ss << "HTTP/1.1 " << statusCode_ << " " << getReasonPhrase( statusCode_ ) << "\r\n";
+	if ( headers_.find( "Connection" ) == headers_.end() )
+		headers_["Connection"] = connection;
+	else
+		connection = headers_["Connection"];
+	std::map< std::string, std::string >::iterator it( headers_.begin() );
+	while ( it != headers_.end() )
+	{
+		ss << it->first << ": " << it->second << "\r\n";
+		it++;
+	}
+	ss << "\r\n" << body_ << "\r\n";
+	return ss.str();
 }
 
 char const* HttpResponse::getReasonPhrase( int statusCode )

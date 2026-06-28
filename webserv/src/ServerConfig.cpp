@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/27 18:02:23 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 11:55:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,14 @@ std::string ServerConfig::uriToPath( std::string const& uri )
 	if ( uri.find( '?' ) != std::string::npos )
 		return uri.substr( 0, uri.find( '?' ) );
 	return uri;
+}
+
+std::string ServerConfig::indexFileName( LocationConfig const& locationConfig )
+{
+	std::string indexFileName( locationConfig.index );
+	if ( indexFileName.empty() )
+		indexFileName = "index.html";
+	return indexFileName;
 }
 
 int short ServerConfig::statusLocationAccess( LocationConfig const& locationConfig,

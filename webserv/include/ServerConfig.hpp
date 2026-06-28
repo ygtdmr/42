@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:02:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/27 17:07:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 11:54:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ class ServerConfig
 		static int short   statusLocationAccess( LocationConfig const& locationConfig,
 												 std::string const&	   fullPath );
 		static bool		   isDir( std::string const& path );
+		static std::string indexFileName( LocationConfig const& locationConfig );
 
 		size_t									clientMaxBodySize;
 		std::string								host;

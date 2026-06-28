@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 14:53:00 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 09:27:26 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 11:36:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,44 +123,36 @@ void ServerManager::handleRead( std::vector< pollfd >::iterator& itPoll )
 		buffer[bytesRead] = 0;
 		client.requestBuffer += buffer;
 		if ( client.parseRequest() )
+		{
+			ServerLog( "INFO" ) << "Request received from: " << inet_ntoa( client.address.sin_addr )
+								<< ", assigned socket: " << itPoll->fd << ", request_uri=["
+								<< client.request->uri << "], method=[" << client.request->method << "]"
+								<< '\n';
 			itPoll->events = POLLOUT;
+		}
 	}
-	ServerLog( "INFO" ) << "Request received from: " << inet_ntoa( client.address.sin_addr )
-						<< ", assigned socket: " << itPoll->fd << ", request_uri=[" << client.request->uri
-						<< "], method=[" << client.request->method << "]" << '\n';
 }
 
 void ServerManager::handleWrite( std::vector< pollfd >::iterator& itPoll )
 {
-	Client&				  client( clients_->find( itPoll->fd )->second );
-	ServerConfig const&	  serverConfig( client.serverConfig );
-	HttpRequest const&	  httpRequest( *client.request );
-	HttpResponse		  httpResponse;
-	LocationConfig const* locationConfig( serverConfig.matchLocationConfig( httpRequest.uri ) );
-	std::string			  connection( "keep-alive" );
-	int short			  errorCode( httpRequest.errorCode );
+	Client&			   client( clients_->find( itPoll->fd )->second );
+	HttpRequest const& httpRequest( *client.request );
+	HttpResponse	   httpResponse;
+	std::string		   connection( "keep-alive" );
 
 	if ( httpRequest.headers.find( "Connection" ) != httpRequest.headers.end() )
 		connection = httpRequest.headers.find( "Connection" )->second;
-	if ( !locationConfig )
-		httpResponse.generateErrorPage( 404, serverConfig.errorPages );
-	else
-	{
-		std::string fullPath( ServerConfig::uriToPath( locationConfig->root + httpRequest.uri ) );
-		int short	status( ServerConfig::statusLocationAccess( *locationConfig, fullPath ) );
-		if ( status )
-			errorCode = status;
-	}
-	if ( errorCode )
-		httpResponse.generateErrorPage( errorCode, serverConfig.errorPages );
+	if ( httpRequest.errorCode )
+		httpResponse.generateErrorPage( httpRequest.errorCode, client.serverConfig.errorPages );
+	else if ( httpRequest.isDirectoryListing )
+		httpResponse.generateDirectoryListing( httpRequest.locationConfig->root,
+											   ServerConfig::uriToPath( httpRequest.uri ) );
 	else if ( httpRequest.method == "GET" )
-		httpResponse.handleGet( *locationConfig, ServerConfig::uriToPath( httpRequest.uri ) );
+		httpResponse.handleGet( *httpRequest.locationConfig, ServerConfig::uriToPath( httpRequest.uri ) );
 	else if ( httpRequest.method == "POST" )
-		httpResponse.handlePost( *locationConfig, ServerConfig::uriToPath( httpRequest.uri ) );
+		httpResponse.handlePost( *httpRequest.locationConfig, ServerConfig::uriToPath( httpRequest.uri ) );
 	else if ( httpRequest.method == "DELETE" )
-		httpResponse.handleDelete( *locationConfig, ServerConfig::uriToPath( httpRequest.uri ) );
-	if ( !httpResponse.isReady )
-		return;
+		httpResponse.handleDelete( *httpRequest.locationConfig, ServerConfig::uriToPath( httpRequest.uri ) );
 	std::string data( httpResponse.build( connection ) );
 	send( itPoll->fd, data.c_str(), data.length(), 0 );
 	ServerLog( "INFO" ) << "Response sent to: " << inet_ntoa( client.address.sin_addr )
