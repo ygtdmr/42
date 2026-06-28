@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 14:13:24 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 18:06:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ bool ServerConfig::isDir( std::string const& path )
 {
 	struct stat pathStat;
 
-	stat( path.c_str(), &pathStat );
+	if ( stat( path.c_str(), &pathStat ) < 0 )
+		return false;
 	return S_ISDIR( pathStat.st_mode );
 }

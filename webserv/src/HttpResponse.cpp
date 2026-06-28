@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 14:31:18 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 18:09:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void HttpResponse::handleGet( LocationConfig const& locationConfig, std::string 
 	std::ifstream ifs;
 
 	if ( ServerConfig::isDir( fullPath ) )
-		fullPath += ServerConfig::indexFileName( locationConfig );
+		fullPath += '/' + ServerConfig::indexFileName( locationConfig );
 	ifs.open( fullPath.c_str(), std::ios::binary );
 	while ( true )
 	{
@@ -186,6 +186,8 @@ char const* HttpResponse::getReasonPhrase( int statusCode )
 			return "OK";
 		case 400:
 			return "Bad Request";
+		case 403:
+			return "Forbidden";
 		case 404:
 			return "Not Found";
 		case 405:

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 14:14:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 18:39:15 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,9 +203,12 @@ void HttpRequest::validate( ServerConfig const& serverConfig )
 	if ( !isDirectoryListing )
 	{
 		std::string fullPath( ServerConfig::uriToPath( locationConfig->root + uri ) );
-		if ( ServerConfig::isDir( fullPath ) )
-			fullPath += ServerConfig::indexFileName( *locationConfig );
+		bool		isDir(ServerConfig::isDir( fullPath ));
+		if ( isDir )
+			fullPath += '/' + ServerConfig::indexFileName( *locationConfig );
 		errorCode = ServerConfig::statusLocationAccess( *locationConfig, fullPath );
+		if ( isDir && (errorCode == 404) )
+			errorCode = 403;
 		if ( errorCode )
 			return;
 	}
