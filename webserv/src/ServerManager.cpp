@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 14:53:00 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/27 20:17:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 09:27:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,9 @@ void ServerManager::handleRead( std::vector< pollfd >::iterator& itPoll )
 		if ( client.parseRequest() )
 			itPoll->events = POLLOUT;
 	}
+	ServerLog( "INFO" ) << "Request received from: " << inet_ntoa( client.address.sin_addr )
+						<< ", assigned socket: " << itPoll->fd << ", request_uri=[" << client.request->uri
+						<< "], method=[" << client.request->method << "]" << '\n';
 }
 
 void ServerManager::handleWrite( std::vector< pollfd >::iterator& itPoll )

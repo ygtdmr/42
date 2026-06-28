@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 04:03:51 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/27 20:15:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 09:30:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,18 @@ bool Client::parseRequest( void )
 	lastActivity = std::time( 0 );
 	if ( request->parseState == STATE_FIRSTLINE )
 	{
-		if ( requestBuffer.find( "\r\n" ) != std::string::npos )
+		if ( requestBuffer.find( '\n' ) != std::string::npos )
 		{
-			request->parseFirstLine( requestBuffer.substr( 0, requestBuffer.find( "\r\n" ) ) );
-			requestBuffer = requestBuffer.substr( requestBuffer.find( "\r\n" ) + 1 );
+			request->parseFirstLine( requestBuffer.substr( 0, requestBuffer.find( '\n' ) ) );
+			requestBuffer = requestBuffer.substr( requestBuffer.find( '\n' ) + 1 );
 		}
 	}
 	if ( request->parseState == STATE_HEADERS )
 	{
-		if ( requestBuffer.find( "\r\n" ) != std::string::npos )
+		if ( requestBuffer.find( '\n' ) != std::string::npos )
 		{
-			request->parseHeaders( requestBuffer.substr( 0, requestBuffer.find( "\r\n" ) ) );
-			requestBuffer = requestBuffer.substr( requestBuffer.find( "\r\n" ) + 1 );
+			request->parseHeaders( requestBuffer.substr( 0, requestBuffer.find( '\n' ) ) );
+			requestBuffer = requestBuffer.substr( requestBuffer.find( '\n' ) + 1 );
 		}
 	}
 	if ( request->parseState == STATE_BODY )

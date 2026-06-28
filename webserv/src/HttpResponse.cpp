@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 07:35:38 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 09:21:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <dirent.h>
 #include <fstream>
 #include <sstream>
+
+#define READ_BUFFER_SIZE 8
 
 HttpResponse::HttpResponse( void ) {}
 
@@ -37,7 +39,7 @@ HttpResponse& HttpResponse::operator=( HttpResponse const& other )
 
 void HttpResponse::handleGet( LocationConfig const& locationConfig, std::string const& uriPath )
 {
-	std::string	  readLine;
+	char readBuffer[READ_BUFFER_SIZE];
 	std::string	  extension;
 	std::ifstream ifs;
 	std::string	  fullPath( locationConfig.root + '/' + uriPath );
@@ -52,8 +54,14 @@ void HttpResponse::handleGet( LocationConfig const& locationConfig, std::string 
 	if ( fullPath.find( '.' ) != std::string::npos )
 		extension = fullPath.substr( fullPath.find( '.' ) );
 	ifs.open( fullPath.c_str(), std::ios::binary );
-	while ( std::getline( ifs, readLine ) )
-		body_ += readLine;
+	while ( true )
+	{
+		ifs.read(readBuffer, sizeof(readBuffer) - 1);
+		if ( !ifs.gcount() )
+			break;
+		readBuffer[ifs.gcount()] = 0;
+		body_ += readBuffer;
+	}
 	ifs.close();
 	std::stringstream ss;
 	ss << body_.size();
@@ -99,9 +107,15 @@ void HttpResponse::generateErrorPage( int short code, std::map< int, std::string
 	}
 	else
 	{
-		std::string readLine;
-		while ( std::getline( ifs, readLine ) )
-			ss << readLine;
+		char readBuffer[READ_BUFFER_SIZE];
+		while ( true )
+		{
+			ifs.read(readBuffer, sizeof(readBuffer) - 1);
+			if ( !ifs.gcount() )
+				break;
+			readBuffer[ifs.gcount()] = 0;
+			ss << readBuffer;
+		}
 		ifs.close();
 	}
 	body_ = ss.str();
