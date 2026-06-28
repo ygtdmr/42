@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 13:27:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 14:31:18 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void HttpResponse::handleGet( LocationConfig const& locationConfig, std::string 
 {
 	char		  readBuffer[READ_BUFFER_SIZE];
 	std::string	  extension;
-	std::string	  fullPath( locationConfig.root + '/' + uriPath );
+	std::string	  fullPath( locationConfig.root + uriPath );
 	std::ifstream ifs;
 
 	if ( ServerConfig::isDir( fullPath ) )
@@ -126,7 +126,7 @@ void HttpResponse::generateErrorPage( int short code, std::map< int, std::string
 void HttpResponse::generateDirectoryListing( std::string const& rootPath, std::string const& uriPath )
 {
 	std::stringstream ss;
-	DIR*			  dir( opendir( ( rootPath ).c_str() ) );
+	DIR*			  dir( opendir( ( rootPath + '/' + uriPath ).c_str() ) );
 
 	ss << "<html>" << std::endl;
 	ss << "<head><title>Index of " << uriPath << "</title></head>" << std::endl;

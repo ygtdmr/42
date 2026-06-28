@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 13:17:06 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 14:13:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,18 @@ LocationConfig const* ServerConfig::matchLocationConfig( std::string uri ) const
 {
 	std::map< std::string, LocationConfig >::const_iterator it( locations.begin() );
 	LocationConfig const*									location( 0 );
+	std::string												locationUri;
 
 	uri = uriToPath( uri );
 	while ( it != locations.end() )
 	{
 		if ( uri.find( it->first ) == 0 )
 		{
-			if ( !location || ( it->first.size() >= uri.size() ) )
-				location = &it->second;
+			if ( !location || ( it->first.size() >= locationUri.size() ) )
+			{
+				location	= &it->second;
+				locationUri = it->first;
+			}
 		}
 		it++;
 	}

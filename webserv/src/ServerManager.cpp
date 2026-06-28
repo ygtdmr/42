@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 14:53:00 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 12:29:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 14:36:20 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void ServerManager::handleRead( std::vector< pollfd >::iterator& itPoll )
 		client.requestBuffer += buffer;
 		if ( client.parseRequest() )
 		{
-			ServerLog( "INFO" ) << "Request received from: " << inet_ntoa( client.address.sin_addr )
+			ServerLog( client.serverConfig, "INFO" ) << "Request received from: " << inet_ntoa( client.address.sin_addr )
 								<< ", assigned socket: " << itPoll->fd << ", request_uri=["
 								<< client.request->uri << "], method=[" << client.request->method << "]"
 								<< '\n';
@@ -155,7 +155,7 @@ void ServerManager::handleWrite( std::vector< pollfd >::iterator& itPoll )
 		httpResponse.handleDelete( *httpRequest.locationConfig, ServerConfig::uriToPath( httpRequest.uri ) );
 	std::string data( httpResponse.build( connection ) );
 	send( itPoll->fd, data.c_str(), data.length(), 0 );
-	ServerLog( "INFO" ) << "Response sent to: " << inet_ntoa( client.address.sin_addr )
+	ServerLog( client.serverConfig, "INFO" ) << "Response sent to: " << inet_ntoa( client.address.sin_addr )
 						<< ", assigned socket: " << itPoll->fd << ", request_uri=[" << httpRequest.uri
 						<< "], method=[" << httpRequest.method << "]" << '\n';
 	client.clear();
@@ -170,7 +170,7 @@ void ServerManager::closeConnection( std::vector< pollfd >::iterator& itPoll, st
 	Client& client( clients_->find( clientFd )->second );
 
 	close( clientFd );
-	ServerLog( "WARNING" ) << "Connection closed from: " << inet_ntoa( client.address.sin_addr )
+	ServerLog( client.serverConfig, "WARNING" ) << "Connection closed from: " << inet_ntoa( client.address.sin_addr )
 						   << ", assigned socket: " << clientFd << ", reason: " << reason << '\n';
 	pollFds_->erase( itPoll );
 	clients_->erase( clientFd );

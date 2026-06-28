@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 13:27:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/28 14:14:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sstream>
 #include "../include/HttpRequest.hpp"
+#include <sstream>
 
 HttpRequest::HttpRequest( void )
 	: parseState( 0 )
@@ -65,8 +65,8 @@ void HttpRequest::parseFirstLine( std::string const& line )
 		errorCode = 505;
 	if ( errorCode )
 	{
-		method = "";
-		uri = "";
+		method	= "";
+		uri		= "";
 		version = "";
 	}
 }
@@ -181,14 +181,13 @@ void HttpRequest::parseIsDirectoryListing( void )
 {
 	if ( !locationConfig->autoindex )
 		return;
-	std::string fullPath( ServerConfig::uriToPath( locationConfig->root ) );
+	std::string fullPath( ServerConfig::uriToPath( locationConfig->root + uri ) );
 	if ( !ServerConfig::isDir( fullPath ) )
 		return;
 	std::string indexFileName( locationConfig->index );
 	if ( indexFileName.empty() )
 		indexFileName = "index.html";
 	fullPath += '/' + indexFileName;
-
 	isDirectoryListing = ( ServerConfig::statusLocationAccess( *locationConfig, fullPath ) == 404 );
 }
 
