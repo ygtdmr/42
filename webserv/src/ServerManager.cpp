@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 14:53:00 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 14:36:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/29 10:37:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,10 @@ void ServerManager::handleRead( std::vector< pollfd >::iterator& itPoll )
 		client.requestBuffer += buffer;
 		if ( client.parseRequest() )
 		{
-			ServerLog( client.serverConfig, "INFO" ) << "Request received from: " << inet_ntoa( client.address.sin_addr )
-								<< ", assigned socket: " << itPoll->fd << ", request_uri=["
-								<< client.request->uri << "], method=[" << client.request->method << "]"
-								<< '\n';
+			ServerLog( client.serverConfig, "INFO" )
+				<< "Request received from: " << inet_ntoa( client.address.sin_addr )
+				<< ", assigned socket: " << itPoll->fd << ", request_uri=[" << client.request->uri
+				<< "], method=[" << client.request->method << "]" << '\n';
 			itPoll->events = POLLOUT;
 		}
 	}
@@ -144,20 +144,22 @@ void ServerManager::handleWrite( std::vector< pollfd >::iterator& itPoll )
 		connection = httpRequest.headers.find( "Connection" )->second;
 	if ( httpRequest.errorCode )
 		httpResponse.generateErrorPage( httpRequest.errorCode, client.serverConfig.errorPages );
+	else if ( httpRequest.isRedirect )
+		httpResponse.generateRedirect( httpRequest.location->redirect );
 	else if ( httpRequest.isDirectoryListing )
-		httpResponse.generateDirectoryListing( httpRequest.locationConfig->root,
+		httpResponse.generateDirectoryListing( httpRequest.location->root,
 											   ServerConfig::uriToPath( httpRequest.uri ) );
 	else if ( httpRequest.method == "GET" )
-		httpResponse.handleGet( *httpRequest.locationConfig, ServerConfig::uriToPath( httpRequest.uri ) );
+		httpResponse.handleGet( *httpRequest.location, ServerConfig::uriToPath( httpRequest.uri ) );
 	else if ( httpRequest.method == "POST" )
-		httpResponse.handlePost( *httpRequest.locationConfig, ServerConfig::uriToPath( httpRequest.uri ) );
+		httpResponse.handlePost( *httpRequest.location, ServerConfig::uriToPath( httpRequest.uri ) );
 	else if ( httpRequest.method == "DELETE" )
-		httpResponse.handleDelete( *httpRequest.locationConfig, ServerConfig::uriToPath( httpRequest.uri ) );
+		httpResponse.handleDelete( *httpRequest.location, ServerConfig::uriToPath( httpRequest.uri ) );
 	std::string data( httpResponse.build( connection ) );
 	send( itPoll->fd, data.c_str(), data.length(), 0 );
-	ServerLog( client.serverConfig, "INFO" ) << "Response sent to: " << inet_ntoa( client.address.sin_addr )
-						<< ", assigned socket: " << itPoll->fd << ", request_uri=[" << httpRequest.uri
-						<< "], method=[" << httpRequest.method << "]" << '\n';
+	ServerLog( client.serverConfig, "INFO" )
+		<< "Response sent to: " << inet_ntoa( client.address.sin_addr ) << ", assigned socket: " << itPoll->fd
+		<< ", uri=[" << httpRequest.uri << "], status=[" << httpResponse.statusCode << "]" << '\n';
 	client.clear();
 	if ( connection == "close" )
 		closeConnection( itPoll, "server side closed" );
@@ -170,8 +172,9 @@ void ServerManager::closeConnection( std::vector< pollfd >::iterator& itPoll, st
 	Client& client( clients_->find( clientFd )->second );
 
 	close( clientFd );
-	ServerLog( client.serverConfig, "WARNING" ) << "Connection closed from: " << inet_ntoa( client.address.sin_addr )
-						   << ", assigned socket: " << clientFd << ", reason: " << reason << '\n';
+	ServerLog( client.serverConfig, "WARNING" )
+		<< "Connection closed from: " << inet_ntoa( client.address.sin_addr )
+		<< ", assigned socket: " << clientFd << ", reason: " << reason << '\n';
 	pollFds_->erase( itPoll );
 	clients_->erase( clientFd );
 	itPoll = pollFds_->begin();

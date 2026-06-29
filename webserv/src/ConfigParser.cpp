@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 13:21:58 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/27 18:47:56 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/29 10:30:53 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void ConfigParser::parseStateServer( void )
 void ConfigParser::parseStateLocation( ServerConfig& serverConfig, std::string const& path )
 {
 	std::string	   word;
-	LocationConfig location = LocationConfig();
+	Location location = Location();
 
 	if ( ( ( *raw_ ) >> word ) && ( word != "{" ) )
 		throw ConfigException( serverConfig, path ) << "invalid location syntax: " << word;
@@ -168,8 +168,8 @@ void ConfigParser::parseStateLocation( ServerConfig& serverConfig, std::string c
 		}
 		else if ( word == ";" )
 		{
-			validateLocationConfig( serverConfig, path );
-			putDataLocationConfig( location );
+			validateLocation( serverConfig, path );
+			putDataLocation( location );
 			key_ = "";
 			values_.clear();
 		}
@@ -226,7 +226,7 @@ void ConfigParser::validateServerConfig( ServerConfig const& serverConfig )
 		throw ConfigException( serverConfig ) << key_ << ": value error";
 }
 
-void ConfigParser::validateLocationConfig( ServerConfig const& serverConfig, std::string const& locationPath )
+void ConfigParser::validateLocation( ServerConfig const& serverConfig, std::string const& locationPath )
 {
 	bool valid( false );
 
@@ -293,7 +293,7 @@ void ConfigParser::putDataServerConfig( ServerConfig& serverConfig )
 	}
 }
 
-void ConfigParser::putDataLocationConfig( LocationConfig& location )
+void ConfigParser::putDataLocation( Location& location )
 {
 	std::stringstream ss( *( values_.begin() ) );
 

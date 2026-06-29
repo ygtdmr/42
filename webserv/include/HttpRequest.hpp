@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:02:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 11:45:56 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/29 10:33:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,19 @@ class HttpRequest
 		int short							 errorCode;
 		bool								 isBodyChunked;
 		bool								 isDirectoryListing;
+		bool								 isRedirect;
 		size_t								 contentLength;
 		std::string							 method;
 		std::string							 uri;
 		std::string							 version;
 		std::map< std::string, std::string > headers;
 		std::string							 body;
-		LocationConfig const*				 locationConfig;
+		Location const*				 location;
 
 	private:
 		void parseIsBodyChunked( void );
 		void parseIsDirectoryListing( void );
+		void parseIsRedirect( void );
 		void parseContentLength( void );
 };
 

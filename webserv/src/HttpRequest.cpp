@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 18:39:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/29 10:35:06 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ HttpRequest::HttpRequest( void )
 	, errorCode( 0 )
 	, isBodyChunked( false )
 	, isDirectoryListing( false )
+	, isRedirect( false )
 	, contentLength( 0 )
-	, locationConfig( 0 )
+	, location( 0 )
 {}
 
 HttpRequest::HttpRequest( HttpRequest const& other )
@@ -43,7 +44,7 @@ HttpRequest& HttpRequest::operator=( HttpRequest const& other )
 		version			   = other.version;
 		headers			   = other.headers;
 		body			   = other.body;
-		locationConfig	   = other.locationConfig;
+		location	   = other.location;
 	}
 	return *this;
 }
@@ -179,40 +180,50 @@ void HttpRequest::parseContentLength( void )
 
 void HttpRequest::parseIsDirectoryListing( void )
 {
-	if ( !locationConfig->autoindex )
+	if ( !location->autoindex )
 		return;
-	std::string fullPath( ServerConfig::uriToPath( locationConfig->root + uri ) );
+	std::string fullPath( ServerConfig::uriToPath( location->root + uri ) );
 	if ( !ServerConfig::isDir( fullPath ) )
 		return;
-	std::string indexFileName( locationConfig->index );
+	std::string indexFileName( location->index );
 	if ( indexFileName.empty() )
 		indexFileName = "index.html";
 	fullPath += '/' + indexFileName;
-	isDirectoryListing = ( ServerConfig::statusLocationAccess( *locationConfig, fullPath ) == 404 );
+	isDirectoryListing = ( ServerConfig::statusLocationAccess( *location, fullPath ) == 404 );
+}
+
+void HttpRequest::parseIsRedirect( void )
+{
+	int short		   redirectCode( location->redirect.first );
+	std::string const& redirectUri( location->redirect.second );
+
+	isRedirect = ( redirectCode >= 300 ) && ( redirectCode <= 308 ) && !redirectUri.empty();
 }
 
 void HttpRequest::validate( ServerConfig const& serverConfig )
 {
-	locationConfig = serverConfig.matchLocationConfig( uri );
-	if ( !locationConfig )
+	location = serverConfig.matchLocation( uri );
+	if ( !location )
 	{
 		errorCode = 404;
 		return;
 	}
-	parseIsDirectoryListing();
-	if ( !isDirectoryListing )
+	parseIsRedirect();
+	if ( !isRedirect )
+		parseIsDirectoryListing();
+	if ( !isRedirect && !isDirectoryListing )
 	{
-		std::string fullPath( ServerConfig::uriToPath( locationConfig->root + uri ) );
-		bool		isDir(ServerConfig::isDir( fullPath ));
+		std::string fullPath( ServerConfig::uriToPath( location->root + uri ) );
+		bool		isDir( ServerConfig::isDir( fullPath ) );
 		if ( isDir )
-			fullPath += '/' + ServerConfig::indexFileName( *locationConfig );
-		errorCode = ServerConfig::statusLocationAccess( *locationConfig, fullPath );
-		if ( isDir && (errorCode == 404) )
+			fullPath += '/' + ServerConfig::indexFileName( *location );
+		errorCode = ServerConfig::statusLocationAccess( *location, fullPath );
+		if ( isDir && ( errorCode == 404 ) )
 			errorCode = 403;
 		if ( errorCode )
 			return;
 	}
-	std::vector< std::string > const& allowMethods( locationConfig->allowMethods );
+	std::vector< std::string > const& allowMethods( location->allowMethods );
 	bool							  methodAllwed( false );
 	for ( size_t i = 0; !methodAllwed && ( i < allowMethods.size() ); i++ )
 		methodAllwed = method == allowMethods[i];

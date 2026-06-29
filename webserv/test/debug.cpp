@@ -18,11 +18,11 @@ std::ostream	&operator<<( std::ostream &os, ServerConfig const &sc )
 		error_page_it++;
 	}
 	os	<< "]" << std::endl;
-	std::map<std::string, LocationConfig>::const_iterator	location_it( sc.locations.begin() );
+	std::map<std::string, Location>::const_iterator	location_it( sc.locations.begin() );
 
 	while ( location_it != sc.locations.end() )
 	{
-		LocationConfig const	&location( location_it->second );
+		Location const	&location( location_it->second );
 
 		os	<< "\t\tlocation:\n\t\t\t["
 		<< "path=" << location_it->first

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 19:15:25 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 11:36:52 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/29 10:33:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,17 @@ class HttpResponse
 		~HttpResponse();
 
 		HttpResponse& operator=( HttpResponse const& other );
-		void		  handleGet( LocationConfig const& locationConfig, std::string const& uriPath );
-		void		  handlePost( LocationConfig const& locationConfig, std::string const& uriPath );
-		void		  handleDelete( LocationConfig const& locationConfig, std::string const& uriPath );
+		void		  handleGet( Location const& location, std::string const& uriPath );
+		void		  handlePost( Location const& location, std::string const& uriPath );
+		void		  handleDelete( Location const& location, std::string const& uriPath );
 		void		  generateErrorPage( int short code, std::map< int, std::string > const& errorPages );
 		void		  generateDirectoryListing( std::string const& rootPath, std::string const& uriPath );
+		void		  generateRedirect( std::pair< int short, std::string > const& redirect );
 		std::string	  build( std::string& connection );
 
-	private:
-		char const* getReasonPhrase( int statusCode );
-		char const* getContentType( std::string const& ext );
+		int short statusCode;
 
-		int short							 statusCode_;
+	private:
 		std::string							 body_;
 		std::map< std::string, std::string > headers_;
 };

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 16:52:14 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/26 16:43:34 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/29 10:32:52 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ class ConfigParser
 		void parseStateLocation( ServerConfig& serverConfig, std::string const& path );
 
 		void validateServerConfig( ServerConfig const& serverConfig );
-		void validateLocationConfig( ServerConfig const& serverConfig, std::string const& locationPath );
+		void validateLocation( ServerConfig const& serverConfig, std::string const& locationPath );
 
 		void putDataServerConfig( ServerConfig& serverConfig );
-		void putDataLocationConfig( LocationConfig& locationConfig );
+		void putDataLocation( Location& location );
 
 		bool isValidDigit( std::string const& value );
 		bool isValidIPv4( std::string const& value );

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:02:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 11:54:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/29 10:34:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@
 #include <string>
 #include <vector>
 
-typedef struct LocationConfig
+typedef struct Location
 {
-		bool						  autoindex;
-		std::string					  index;
-		std::string					  root;
-		std::string					  uploadDir;
-		std::string					  cgiExtension;
-		std::string					  cgiPath;
-		std::pair< int, std::string > redirect;
-		std::vector< std::string >	  allowMethods;
-} LocationConfig;
+		bool								autoindex;
+		std::string							index;
+		std::string							root;
+		std::string							uploadDir;
+		std::string							cgiExtension;
+		std::string							cgiPath;
+		std::pair< int short, std::string > redirect;
+		std::vector< std::string >			allowMethods;
+} Location;
 
 class ServerConfig
 {
@@ -37,19 +37,19 @@ class ServerConfig
 		~ServerConfig();
 
 		ServerConfig&		  operator=( ServerConfig const& other );
-		LocationConfig const* matchLocationConfig( std::string uri ) const;
+		Location const* matchLocation( std::string uri ) const;
 
 		static std::string uriToPath( std::string const& uri );
-		static int short   statusLocationAccess( LocationConfig const& locationConfig,
+		static int short   statusLocationAccess( Location const& location,
 												 std::string const&	   fullPath );
 		static bool		   isDir( std::string const& path );
-		static std::string indexFileName( LocationConfig const& locationConfig );
+		static std::string indexFileName( Location const& location );
 
 		size_t									clientMaxBodySize;
 		std::string								host;
 		std::string								port;
 		std::map< int, std::string >			errorPages;
-		std::map< std::string, LocationConfig > locations;
+		std::map< std::string, Location > locations;
 };
 
 #endif

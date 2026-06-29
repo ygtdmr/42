@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/06/28 07:37:32 by yidemir          ###   ########.fr        #
+#    Updated: 2026/06/29 10:14:52 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS		=	src/main.cpp \
 				src/ConfigParser.cpp \
 				src/ServerManager.cpp \
 				src/Client.cpp \
+				src/HttpConversion.cpp \
 				src/HttpRequest.cpp \
 				src/HttpResponse.cpp
 

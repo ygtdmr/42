@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 18:06:19 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/29 10:36:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ ServerConfig& ServerConfig::operator=( ServerConfig const& other )
 	return *this;
 }
 
-LocationConfig const* ServerConfig::matchLocationConfig( std::string uri ) const
+Location const* ServerConfig::matchLocation( std::string uri ) const
 {
-	std::map< std::string, LocationConfig >::const_iterator it( locations.begin() );
-	LocationConfig const*									location( 0 );
+	std::map< std::string, Location >::const_iterator it( locations.begin() );
+	Location const*									location( 0 );
 	std::string												locationUri;
 
 	uri = uriToPath( uri );
@@ -66,15 +66,15 @@ std::string ServerConfig::uriToPath( std::string const& uri )
 	return uri;
 }
 
-std::string ServerConfig::indexFileName( LocationConfig const& locationConfig )
+std::string ServerConfig::indexFileName( Location const& location )
 {
-	std::string indexFileName( locationConfig.index );
+	std::string indexFileName( location.index );
 	if ( indexFileName.empty() )
 		indexFileName = "index.html";
 	return indexFileName;
 }
 
-int short ServerConfig::statusLocationAccess( LocationConfig const& locationConfig,
+int short ServerConfig::statusLocationAccess( Location const& location,
 											  std::string const&	fullPath )
 {
 	std::ifstream ifs( fullPath.c_str() );
@@ -89,10 +89,10 @@ int short ServerConfig::statusLocationAccess( LocationConfig const& locationConf
 	}
 	if ( isDir( fullPath ) )
 	{
-		std::string index( locationConfig.index );
+		std::string index( location.index );
 		if ( index.empty() )
 			index = "index.html";
-		if ( ServerConfig::statusLocationAccess( locationConfig, fullPath + '/' + index ) == 403 )
+		if ( ServerConfig::statusLocationAccess( location, fullPath + '/' + index ) == 403 )
 			return 403;
 	}
 	ifs.close();
