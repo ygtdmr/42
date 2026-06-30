@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/29 10:40:35 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/30 13:15:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <dirent.h>
 #include <fstream>
 #include <sstream>
+#include <ctime>
+#include <cstdlib>
 #include "../include/HttpConversion.hpp"
 
 #define READ_BUFFER_SIZE 8
@@ -66,16 +68,16 @@ void HttpResponse::handleGet( Location const& location, std::string const& uriPa
 	statusCode				   = 200;
 }
 
-void HttpResponse::handlePost( Location const& location, std::string const& uriPath )
+void HttpResponse::handleDelete( Location const& location, std::string const& uriPath )
 {
 	( void )location;
 	( void )uriPath;
 }
 
-void HttpResponse::handleDelete( Location const& location, std::string const& uriPath )
+void HttpResponse::handlePost( Location const& location, HttpRequest const& httpRequest )
 {
-	( void )location;
-	( void )uriPath;
+	(void) location;
+	( void )httpRequest;
 }
 
 void HttpResponse::generateErrorPage( int short code, std::map< int, std::string > const& errorPages )
@@ -168,14 +170,15 @@ void HttpResponse::generateRedirect( std::pair< int short, std::string > const& 
 	statusCode				   = redirect.first;
 }
 
-std::string HttpResponse::build( std::string& connection )
+std::string HttpResponse::build( std::string const& version, std::string& connection )
 {
 	std::stringstream ss;
-	ss << "HTTP/1.1 " << statusCode << " " << getReasonPhrase( statusCode ) << "\r\n";
-	if ( headers_.find( "Connection" ) == headers_.end() )
-		headers_["Connection"] = connection;
-	else
+	ss << version << " " << statusCode << " " << getReasonPhrase( statusCode ) << "\r\n";
+	if ( version == "HTTP/1.0" )
+		connection = "close";
+	if ( headers_.find( "Connection" ) != headers_.end() )
 		connection = headers_["Connection"];
+	headers_["Connection"] = connection;
 	std::map< std::string, std::string >::iterator it( headers_.begin() );
 	while ( it != headers_.end() )
 	{

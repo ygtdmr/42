@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:59:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/29 10:35:06 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/29 12:37:20 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ HttpRequest& HttpRequest::operator=( HttpRequest const& other )
 		version			   = other.version;
 		headers			   = other.headers;
 		body			   = other.body;
-		location	   = other.location;
+		location		   = other.location;
 	}
 	return *this;
 }
@@ -62,7 +62,7 @@ void HttpRequest::parseFirstLine( std::string const& line )
 		errorCode = 405;
 	else if ( *uri.begin() != '/' )
 		errorCode = 400;
-	else if ( version != "HTTP/1.1" )
+	else if ( ( version != "HTTP/1.0" ) && ( version != "HTTP/1.1" ) )
 		errorCode = 505;
 	if ( errorCode )
 	{
@@ -124,7 +124,10 @@ void HttpRequest::parseBody( std::string const& data )
 	else if ( contentLength )
 	{
 		if ( data.size() >= contentLength )
+		{
+			body	   = data;
 			parseState = STATE_VALIDATE;
+		}
 	}
 	else
 		parseState = STATE_VALIDATE;
@@ -156,7 +159,7 @@ void HttpRequest::unchunkBody( std::string& data )
 		cleanBody += data.substr( pos, chunkSize );
 		pos += chunkSize + 2;
 	}
-	data	   = cleanBody;
+	body	   = cleanBody;
 	parseState = STATE_VALIDATE;
 }
 
@@ -217,7 +220,8 @@ void HttpRequest::validate( ServerConfig const& serverConfig )
 		bool		isDir( ServerConfig::isDir( fullPath ) );
 		if ( isDir )
 			fullPath += '/' + ServerConfig::indexFileName( *location );
-		errorCode = ServerConfig::statusLocationAccess( *location, fullPath );
+		if ( method != "POST" )
+			errorCode = ServerConfig::statusLocationAccess( *location, fullPath );
 		if ( isDir && ( errorCode == 404 ) )
 			errorCode = 403;
 		if ( errorCode )

@@ -36,19 +36,18 @@ class ServerConfig
 		ServerConfig( ServerConfig const& other );
 		~ServerConfig();
 
-		ServerConfig&		  operator=( ServerConfig const& other );
+		ServerConfig&	operator=( ServerConfig const& other );
 		Location const* matchLocation( std::string uri ) const;
 
 		static std::string uriToPath( std::string const& uri );
-		static int short   statusLocationAccess( Location const& location,
-												 std::string const&	   fullPath );
+		static int short   statusLocationAccess( Location const& location, std::string const& fullPath );
 		static bool		   isDir( std::string const& path );
 		static std::string indexFileName( Location const& location );
 
-		size_t									clientMaxBodySize;
-		std::string								host;
-		std::string								port;
-		std::map< int, std::string >			errorPages;
+		size_t							  clientMaxBodySize;
+		std::string						  host;
+		std::string						  port;
+		std::map< int, std::string >	  errorPages;
 		std::map< std::string, Location > locations;
 };
 

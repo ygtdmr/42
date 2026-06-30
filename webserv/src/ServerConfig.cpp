@@ -40,8 +40,8 @@ ServerConfig& ServerConfig::operator=( ServerConfig const& other )
 Location const* ServerConfig::matchLocation( std::string uri ) const
 {
 	std::map< std::string, Location >::const_iterator it( locations.begin() );
-	Location const*									location( 0 );
-	std::string												locationUri;
+	Location const*									  location( 0 );
+	std::string										  locationUri;
 
 	uri = uriToPath( uri );
 	while ( it != locations.end() )
@@ -74,8 +74,7 @@ std::string ServerConfig::indexFileName( Location const& location )
 	return indexFileName;
 }
 
-int short ServerConfig::statusLocationAccess( Location const& location,
-											  std::string const&	fullPath )
+int short ServerConfig::statusLocationAccess( Location const& location, std::string const& fullPath )
 {
 	std::ifstream ifs( fullPath.c_str() );
 	bool		  isOpen( ifs.is_open() );

@@ -149,8 +149,8 @@ void ConfigParser::parseStateServer( void )
 
 void ConfigParser::parseStateLocation( ServerConfig& serverConfig, std::string const& path )
 {
-	std::string	   word;
-	Location location = Location();
+	std::string word;
+	Location	location = Location();
 
 	if ( ( ( *raw_ ) >> word ) && ( word != "{" ) )
 		throw ConfigException( serverConfig, path ) << "invalid location syntax: " << word;

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 14:53:00 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/29 10:37:05 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/29 12:35:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,7 @@ void ServerManager::handleRead( std::vector< pollfd >::iterator& itPoll )
 		return closeConnection( itPoll, "client side close" );
 	else if ( bytesRead > 0 )
 	{
-		buffer[bytesRead] = 0;
-		client.requestBuffer += buffer;
+		client.requestBuffer.append( buffer, bytesRead );
 		if ( client.parseRequest() )
 		{
 			ServerLog( client.serverConfig, "INFO" )
@@ -151,11 +150,11 @@ void ServerManager::handleWrite( std::vector< pollfd >::iterator& itPoll )
 											   ServerConfig::uriToPath( httpRequest.uri ) );
 	else if ( httpRequest.method == "GET" )
 		httpResponse.handleGet( *httpRequest.location, ServerConfig::uriToPath( httpRequest.uri ) );
-	else if ( httpRequest.method == "POST" )
-		httpResponse.handlePost( *httpRequest.location, ServerConfig::uriToPath( httpRequest.uri ) );
 	else if ( httpRequest.method == "DELETE" )
 		httpResponse.handleDelete( *httpRequest.location, ServerConfig::uriToPath( httpRequest.uri ) );
-	std::string data( httpResponse.build( connection ) );
+	else if ( httpRequest.method == "POST" )
+		httpResponse.handlePost( *httpRequest.location, httpRequest );
+	std::string data( httpResponse.build( httpRequest.version, connection ) );
 	send( itPoll->fd, data.c_str(), data.length(), 0 );
 	ServerLog( client.serverConfig, "INFO" )
 		<< "Response sent to: " << inet_ntoa( client.address.sin_addr ) << ", assigned socket: " << itPoll->fd

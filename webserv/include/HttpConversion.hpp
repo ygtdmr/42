@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/29 10:09:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/29 10:10:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/30 12:09:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <string>
 
 char const* getReasonPhrase( int statusCode );
+char const* getExtension( std::string const& mimeType );
 char const* getContentType( std::string const& ext );
 
 #endif

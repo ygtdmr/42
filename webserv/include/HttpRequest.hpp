@@ -48,7 +48,7 @@ class HttpRequest
 		std::string							 version;
 		std::map< std::string, std::string > headers;
 		std::string							 body;
-		Location const*				 location;
+		Location const*						 location;
 
 	private:
 		void parseIsBodyChunked( void );

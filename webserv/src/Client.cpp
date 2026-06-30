@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/27 04:03:51 by yidemir           #+#    #+#             */
-/*   Updated: 2026/06/28 13:27:30 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/06/29 13:01:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,17 @@ bool Client::parseRequest( void )
 		errorCode = 413;
 	if ( !errorCode && ( request->parseState == STATE_HEADERS ) )
 	{
-		size_t posEnd( requestBuffer.find( "\r\n\r\n" ) );
+		std::string end( "\r\n\r\n" );
+		size_t		posEnd( requestBuffer.find( end ) );
 		if ( posEnd == std::string::npos )
-			posEnd = requestBuffer.find( "\n\n" );
+		{
+			end	   = "\n\n";
+			posEnd = requestBuffer.find( end );
+		}
 		if ( posEnd != std::string::npos )
 		{
 			request->parseHeaders( requestBuffer.substr( 0, posEnd ) );
-			requestBuffer = requestBuffer.substr( posEnd + 1 );
+			requestBuffer = requestBuffer.substr( posEnd + end.size() );
 		}
 	}
 	if ( !errorCode && ( request->parseState == STATE_BODY ) )
