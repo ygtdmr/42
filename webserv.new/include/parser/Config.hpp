@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 12:47:49 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 12:07:06 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/01 20:16:38 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ namespace parser
 class Config
 {
 	public:
-		Config( std::string const& path );
+		Config( void );
 		Config( Config const& other );
 		~Config();
 		Config&								 operator=( Config const& other );
-		void								 parse( void );
+		void								 parse( char const* path );
 		void								 printServers( void ) const;
 		std::vector< config::Server > const* getServers( void ) const;
 
@@ -42,14 +42,15 @@ class Config
 		void parseStateServer( void );
 		void parseStateLocation( config::Server& server, std::string const& path );
 
-		void validateServer( config::Server const& server );
-		void validateLocation( config::Server const& server, std::string const& locationPath );
+		void validateServer( config::Server const& server ) const;
+		void validateLocation( config::Server const& server, std::string const& locationPath ) const;
 
 		bool isValidDigit( std::string const& value ) const;
 		bool isValidIPv4( std::string const& value ) const;
+		bool isValidServerName( std::string const& value ) const;
+		bool isValidMethod( std::string const& value ) const;
 		bool isValidPath( std::string const& value, bool root = true ) const;
 
-		std::string					   path_;
 		std::string					   key_;
 		std::vector< std::string >	   values_;
 		std::stringstream*			   raw_;

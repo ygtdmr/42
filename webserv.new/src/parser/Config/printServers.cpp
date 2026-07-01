@@ -6,12 +6,40 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:38:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 12:46:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/01 21:17:20 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "../../../include/parser/Config.hpp"
+
+static void printCgi( std::map< std::string, std::string > const& cgi )
+{
+	std::cout << "{";
+	std::map< std::string, std::string >::const_iterator it( cgi.begin() );
+	while ( it != cgi.end() )
+	{
+		std::cout << "\"" << it->first << "\":\"" << it->second << "\"";
+		it++;
+		if ( it != cgi.end() )
+			std::cout << ",";
+	}
+	std::cout << "},";
+}
+
+static void printServerNames( std::vector< std::string > const& serverNames )
+{
+	std::cout << "[";
+	std::vector< std::string >::const_iterator it( serverNames.begin() );
+	while ( it != serverNames.end() )
+	{
+		std::cout << "\"" << *it << "\"";
+		it++;
+		if ( it != serverNames.end() )
+			std::cout << ",";
+	}
+	std::cout << "],";
+}
 
 static void printAllowMethods( std::vector< std::string > const& allowMethods )
 {
@@ -35,7 +63,7 @@ static void printLocations( std::map< std::string, webserv::config::Location > c
 		std::cout << "\"" << it->first << "\":{";
 
 		std::cout << "\"autoindex\":";
-		if (location.autoindex)
+		if ( location.autoindex )
 			std::cout << "true,";
 		else
 			std::cout << "false,";
@@ -43,17 +71,17 @@ static void printLocations( std::map< std::string, webserv::config::Location > c
 		std::cout << "\"root\":\"" << location.root << "\",";
 		std::cout << "\"clientMaxBodySize\":" << location.clientMaxBodySize << ",";
 		std::cout << "\"uploadDir\":\"" << location.uploadDir << "\",";
-		std::cout << "\"cgiPath\":\"" << location.cgiPath << "\",";
-		std::cout << "\"cgiExtension\":\"" << location.cgiExtension << "\",";
 
-		std::cout << "\"redirect\":";
+		std::cout << "\"cgi\":";
+		printCgi( location.cgi );
+
+		std::cout << "\"redirect\":{";
 		if ( location.redirect.first > 0 )
 		{
-			std::cout << "{\"" << location.redirect.first << "\": \"";
-			std::cout << location.redirect.second << "\"},";
+			std::cout << "\"" << location.redirect.first << "\": \"";
+			std::cout << location.redirect.second << "\"";
 		}
-		else
-			std::cout << "null,";
+		std::cout << "},";
 
 		std::cout << "\"allowMethods\":[";
 		printAllowMethods( location.allowMethods );
@@ -89,23 +117,21 @@ void webserv::parser::Config::printServers( void ) const
 	{
 		std::cout << "{";
 
-		std::cout << "\"serverName\":\"" << it->serverName << "\",";
 		std::cout << "\"host\":\"" << it->host << "\",";
 		std::cout << "\"port\":\"" << it->port << "\",";
+
+		std::cout << "\"serverNames\":";
+		printServerNames( it->serverNames );
+
 		std::cout << "\"root\":\"" << it->root << "\",";
 		std::cout << "\"clientMaxBodySize\":" << it->clientMaxBodySize << ",";
 
 		std::cout << "\"errorPages\":";
-		if ( !it->errorPages.empty() )
-			printErrorPages( it->errorPages );
-		else
-			std::cout << "null,";
+		printErrorPages( it->errorPages );
 
 		std::cout << "\"locations\":";
-		if (!it->locations.empty())
 			printLocations( it->locations );
-		else
-			std::cout << "null,";
+
 		std::cout << "}";
 
 		it++;

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:50:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 12:15:09 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/01 20:51:20 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,22 @@
 #include "../../../include/parser/Config.hpp"
 
 void webserv::parser::Config::validateLocation( config::Server const& server,
-												std::string const&	  locationPath )
+												std::string const&	  locationPath ) const
 {
 	bool valid( false );
 
-	if ( ( key_ == "index" ) && ( values_.size() == 1 ) )
-		valid = isValidPath( *values_.begin(), false );
-	else if ( ( key_ == "root" || key_ == "cgi_path" || key_ == "upload_dir" ) && ( values_.size() == 1 ) )
-		valid = isValidPath( *values_.begin() );
+	if ( ( key_ == "root" || key_ == "index" || key_ == "upload_dir" ) && ( values_.size() == 1 ) )
+		valid = isValidPath( values_[0], key_ != "index" );
 	else if ( ( key_ == "autoindex" ) && ( values_.size() == 1 ) )
-		valid = ( *values_.begin() == "on" ) || ( *values_.begin() == "off" );
-	else if ( ( key_ == "cgi_extension" ) && ( values_.size() == 1 ) )
-		valid = ( *( *values_.begin() ).begin() == '.' ) && ( ( *values_.begin() ).size() > 1 );
+		valid = ( values_[0] == "on" ) || ( values_[0] == "off" );
+	else if ( key_ == "cgi" && ( values_.size() == 2 ) )
+	{
+		std::string extension( values_[0] );
+		std::string path( values_[1] );
+		valid = ( *extension.begin() == '.' ) && ( extension.size() > 1 ) && isValidPath( path );
+	}
 	else if ( ( key_ == "return" ) && ( values_.size() == 2 ) )
-		valid = ( ( *values_.begin() == "301" || *values_.begin() == "302" ) );
+		valid = ( ( values_[0] == "301" || values_[0] == "302" ) );
 	else if ( ( key_ == "allow_methods" ) && ( values_.size() > 0 ) )
 	{
 		std::vector< std::string >::const_iterator it( values_.begin() );
@@ -36,16 +38,19 @@ void webserv::parser::Config::validateLocation( config::Server const& server,
 		valid = true;
 		while ( valid && ( it != values_.end() ) )
 		{
-			if ( !( *it == "GET" || *it == "POST" || *it == "DELETE" ) )
-				valid = false;
-			else
-			{
-				for ( size_t i = 0; valid && ( i < validMethods.size() ); i++ )
-					valid = ( *it != validMethods[i] );
-				validMethods.push_back( *it );
-			}
+			valid = isValidMethod( *it );
+			for ( size_t i = 0; valid && ( i < validMethods.size() ); i++ )
+				valid = ( *it != validMethods[i] );
+			validMethods.push_back( *it );
 			it++;
 		}
+	}
+	else if ( ( key_ == "client_max_body_size" ) && ( values_.size() == 1 ) )
+	{
+		std::string const& value( values_[0] );
+		char			   lastChar( *( value.end() - 1 ) );
+		bool			   formatMb( lastChar == 'M' || lastChar == 'm' );
+		valid = isValidDigit( value.substr( 0, value.size() - formatMb ) );
 	}
 	if ( !valid )
 		throw config::Exception( server, locationPath ) << key_ << ": value error";

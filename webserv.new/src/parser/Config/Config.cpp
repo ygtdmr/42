@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 13:21:58 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 10:37:56 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/01 20:17:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/parser/Config.hpp"
 
-webserv::parser::Config::Config( std::string const& path ) : path_( path ), raw_( 0 ), servers_( 0 ) {}
+webserv::parser::Config::Config( void ) : raw_( 0 ), servers_( 0 ) {}
 
 webserv::parser::Config::Config( Config const& other )
 {
@@ -31,7 +31,6 @@ webserv::parser::Config& webserv::parser::Config::operator=( Config const& other
 {
 	if ( this != &other )
 	{
-		path_	= other.path_;
 		key_	= other.key_;
 		values_ = other.values_;
 		if ( raw_ )

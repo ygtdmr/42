@@ -1,33 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.cpp                                          :+:      :+:    :+:   */
+/*   isValidServerName.cpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/01 10:39:11 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 20:16:33 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/01 10:26:02 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/01 19:22:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <fstream>
-#include "../../../include/config/Exception.tpp"
 #include "../../../include/parser/Config.hpp"
 
-void webserv::parser::Config::parse( char const* path )
+bool webserv::parser::Config::isValidServerName( std::string const& value ) const
 {
-	std::ifstream ifs( path, std::ios::in );
-	std::string*  line;
-
-	if ( !ifs.is_open() )
-		throw config::Exception() << strerror( errno );
-	line = new std::string;
-	raw_ = new std::stringstream;
-	while ( std::getline( ifs, *line ) )
-		putRaw( *line );
-	delete line;
-	parseStateGlobal();
-	delete raw_;
-	raw_ = 0;
+	char const* str( "abcdefghijklmnopqrstuvwxyz0123456789-.*" );
+	return value.find_first_not_of( str ) == std::string::npos;
 }

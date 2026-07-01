@@ -1,37 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
+/*   Convertion.tpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/26 12:02:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 19:49:28 by yidemir          ###   ########.fr       */
+/*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/01 18:11:53 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_CONFIG_SERVER_HPP
-#define WEBSERV_CONFIG_SERVER_HPP
+#ifndef WEBSERV_UTILS_CONVERTION_TPP
+#define WEBSERV_UTILS_CONVERTION_TPP
 
-#include "Location.hpp"
+#include <sstream>
 
 namespace webserv
 {
-namespace config
+
+namespace utils
 {
 
-typedef struct
+template < typename T >
+T strTo( std::string const& str )
 {
-		size_t							   clientMaxBodySize;
-		std::string						   host;
-		std::string						   port;
-		std::string						   root;
-		std::vector< std::string >		   serverNames;
-		std::map< int short, std::string > errorPages;
-		std::map< std::string, Location >  locations;
-} Server;
+	std::stringstream ss( str );
+	T				  value;
+	ss >> value;
+	return value;
+}
 
-}  // namespace config
+template < typename T >
+std::string toStr( T const& value )
+{
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
+}
+
+}  // namespace utils
 
 }  // namespace webserv
 

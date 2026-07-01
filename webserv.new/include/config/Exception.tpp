@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 12:11:21 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/01 20:19:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,19 @@ class Exception : public std::exception
 {
 	public:
 		Exception( void ) : msg_( "config: " ) {}
+		Exception( Exception const& other ) : msg_( other.msg_ ) {}
+		Exception& operator=( Exception const& other )
+		{
+			if ( this != &other )
+				msg_ = other.msg_;
+			return *this;
+		}
+		virtual ~Exception() throw() {}
 
 		Exception( config::Server const& server, std::string const& locationPath )
 		{
 			std::ostringstream ss;
 			std::string		   host( server.host );
-			if ( host.empty() )
-				host = "::";
 			ss << "config: "
 			   << "server=[" << host << "], port=[" << server.port << "]"
 			   << ", location[" << locationPath << "]: ";
@@ -43,14 +49,10 @@ class Exception : public std::exception
 		{
 			std::ostringstream ss;
 			std::string		   host( server.host );
-			if ( host.empty() )
-				host = "::";
 			ss << "config: "
 			   << "server=[" << host << "], port=[" << server.port << "]: ";
 			msg_ = ss.str();
 		}
-
-		virtual ~Exception() throw() {}
 
 		virtual char const* what() const throw() { return msg_.c_str(); }
 

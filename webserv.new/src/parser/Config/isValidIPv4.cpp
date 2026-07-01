@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:23:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 10:25:35 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/01 18:14:38 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sstream>
 #include "../../../include/parser/Config.hpp"
+#include "../../../include/utils/Convertion.tpp"
 
 bool webserv::parser::Config::isValidIPv4( std::string const& value ) const
 {
@@ -42,10 +42,9 @@ bool webserv::parser::Config::isValidIPv4( std::string const& value ) const
 			return false;
 		if ( !isValidDigit( octets[i] ) )
 			return false;
-		std::stringstream ss( octets[i] );
-		int				  value;
 
-		ss >> value;
+		int value( utils::strTo< int >( octets[i] ) );
+
 		if ( !( value >= 0 && value <= 255 ) )
 			return false;
 	}
