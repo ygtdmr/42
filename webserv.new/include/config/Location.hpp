@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ServerConfig.hpp                                   :+:      :+:    :+:   */
+/*   Location.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/26 12:02:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 12:55:48 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/01 11:48:02 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/01 11:48:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_CONFIG_HPP
-#define SERVER_CONFIG_HPP
+#ifndef WEBSERV_CONFIG_LOCATION_HPP
+#define WEBSERV_CONFIG_LOCATION_HPP
 
-#include <map>
 #include <string>
 #include <vector>
 
+namespace webserv
+{
+namespace config
+{
+
 typedef struct
 {
-		size_t							  	clientMaxBodySize;
 		bool								autoindex;
+		size_t								clientMaxBodySize;
 		std::string							index;
 		std::string							root;
 		std::string							uploadDir;
@@ -30,25 +34,8 @@ typedef struct
 		std::vector< std::string >			allowMethods;
 } Location;
 
-class ServerConfig
-{
-	public:
-		ServerConfig( void );
-		ServerConfig( ServerConfig const& other );
-		~ServerConfig();
+}  // namespace config
 
-		ServerConfig&	operator=( ServerConfig const& other );
-		Location const* matchLocation( std::string uri ) const;
-
-		size_t							  clientMaxBodySize;
-		std::string						  root;
-		std::string						  serverName;
-		std::string						  host;
-		std::string						  port;
-		std::map< int short, std::string >	  errorPages;
-		std::map< std::string, Location > locations;
-};
-
-std::ostream	&operator<<( std::ostream &os, ServerConfig const &serverConfig );
+}  // namespace webserv
 
 #endif

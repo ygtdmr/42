@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   putRaw.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/14 19:58:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 12:16:39 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/01 10:49:25 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/01 10:49:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include "../include/parser/Config.hpp"
+#include "../../../include/parser/Config.hpp"
 
-int main( int argc, char** argv )
+void webserv::parser::Config::putRaw( std::string const& line ) const
 {
-	if ( argc != 2 )
+	std::string::const_iterator it( line.begin() );
+
+	while ( it != line.end() )
 	{
-		std::cerr << "usage: ./webserv [configuration file]" << std::endl;
-		return 1;
+		if ( *it == '#' )
+			return;
+		if ( *it == '{' || *it == '}' || *it == ';' )
+			( *raw_ ) << ' ' << *it << ' ';
+		else
+			( *raw_ ) << *it;
+		it++;
 	}
-	try
-	{
-		webserv::parser::Config config( argv[1] );
-		config.parse();
-		config.printServers();
-	}
-	catch ( std::exception const& e )
-	{
-		std::cerr << "webserv: " << e.what() << std::endl;
-		return 1;
-	}
-	return 0;
+	( *raw_ ) << ' ';
 }

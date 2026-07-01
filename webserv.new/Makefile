@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/06/30 13:15:32 by yidemir          ###   ########.fr        #
+#    Updated: 2026/07/01 12:17:04 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,22 @@ CXXFLAGS	=	-g -Wall -Wextra -Werror -std=c++98 -Wparentheses # DELETE AFTER DEVE
 NAME		=	webserv
 
 SRCS		=	src/main.cpp \
-				src/ServerConfig.cpp \
-				src/ConfigParser.cpp \
-				src/ServerManager.cpp \
-				src/Client.cpp \
-				src/HttpConversion.cpp \
-				src/HttpRequest.cpp \
-				src/HttpResponse.cpp
+				src/parser/Config/Config.cpp \
+				src/parser/Config/getServers.cpp \
+				src/parser/Config/printServers.cpp \
+				src/parser/Config/isValidDigit.cpp \
+				src/parser/Config/isValidIPv4.cpp \
+				src/parser/Config/isValidPath.cpp \
+				src/parser/Config/parse.cpp \
+				src/parser/Config/parseStateGlobal.cpp \
+				src/parser/Config/parseStateLocation.cpp \
+				src/parser/Config/parseStateServer.cpp \
+				src/parser/Config/putDataLocation.cpp \
+				src/parser/Config/putDataServer.cpp \
+				src/parser/Config/putRaw.cpp \
+				src/parser/Config/validateLocation.cpp \
+				src/parser/Config/validateServer.cpp
+
 
 OBJS		=	$(SRCS:.cpp=.o)
 
