@@ -1,44 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Convertion.tpp                                     :+:      :+:    :+:   */
+/*   Request.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 10:45:24 by yidemir          ###   ########.fr       */
+/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/02 17:43:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_UTILS_CONVERTION_TPP
-#define WEBSERV_UTILS_CONVERTION_TPP
+#ifndef WEBSERV_HTTP_REQUEST_HPP
+#define WEBSERV_HTTP_REQUEST_HPP
 
-#include "../../hpp/utils/Convertion.hpp"
+#include "Message.hpp"
 
 namespace webserv
 {
 
-namespace utils
+namespace http
 {
 
-template < typename T >
-T strTo( std::string const& str )
+class Request : public Message
 {
-	std::stringstream ss( str );
-	T				  value;
-	ss >> value;
-	return value;
-}
+	public:
+		Request( void );
+		Request( Request const& other );
+		~Request();
+		Request& operator=( Request const& other );
 
-template < typename T >
-std::string toStr( T const& value )
-{
-	std::stringstream ss;
-	ss << value;
-	return ss.str();
-}
+		std::string method;
+		std::string uri;
+};
 
-}  // namespace utils
+}  // namespace http
 
 }  // namespace webserv
 

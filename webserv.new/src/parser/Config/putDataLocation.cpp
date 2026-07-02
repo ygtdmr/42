@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:48:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 10:47:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 18:10:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/hpp/parser/Config.hpp"
-#include "../../../inc/hpp/utils/Convertion.hpp"
+#include "../../../inc/hpp/utils/conv.hpp"
 
 void webserv::parser::Config::putDataLocation( config::Location& location ) const
 {
@@ -29,14 +29,14 @@ void webserv::parser::Config::putDataLocation( config::Location& location ) cons
 		location.cgi[values_[0]] = values_[1];
 	else if ( key_ == "return" )
 	{
-		location.redirect.first	 = utils::strTo< int short >( values_[0] );
+		location.redirect.first	 = utils::conv::strTo< int short >( values_[0] );
 		location.redirect.second = values_[1];
 	}
 	else if ( key_ == "client_max_body_size" )
 	{
 		char lastChar( *( values_[0].end() - 1 ) );
 		bool formatMb( lastChar == 'M' || lastChar == 'm' );
-		location.clientMaxBodySize = utils::strTo< size_t >( values_[0] );
+		location.clientMaxBodySize = utils::conv::strTo< size_t >( values_[0] );
 		if ( formatMb )
 			location.clientMaxBodySize *= 1024 * 1024;
 	}

@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:50:31 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 10:49:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 18:10:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/parser/Config.hpp"
 #include "../../../inc/hpp/config/Exception.hpp"
-#include "../../../inc/hpp/utils/Convertion.hpp"
+#include "../../../inc/hpp/parser/Config.hpp"
+#include "../../../inc/hpp/utils/conv.hpp"
 
 void webserv::parser::Config::validateServer( void ) const
 {
@@ -53,7 +53,7 @@ void webserv::parser::Config::validateServer( void ) const
 		valid = true;
 		while ( valid && ( it != ( values_.end() - 1 ) ) )
 		{
-			int statusCode( utils::strTo< int short >( *it ) );
+			int statusCode( utils::conv::strTo< int short >( *it ) );
 			valid = ( statusCode >= 400 && statusCode <= 599 );
 			for ( size_t i = 0; valid && ( i < validCodes.size() ); i++ )
 				valid = ( statusCode != validCodes[i] );

@@ -1,36 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Convertion.hpp                                     :+:      :+:    :+:   */
+/*   isChunkedBodyDone.cpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 10:52:25 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/02 19:27:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_UTILS_CONVERTION_HPP
-#define WEBSERV_UTILS_CONVERTION_HPP
+#include "../../../inc/hpp/parser/Request.hpp"
+#include "../../../inc/hpp/utils/str.hpp"
 
-#include <sstream>
-
-namespace webserv
+bool webserv::parser::Request::isChunkedBodyDone( std::string const& data ) const
 {
-
-namespace utils
-{
-
-template < typename T >
-inline T strTo( std::string const& str );
-
-template < typename T >
-inline std::string toStr( T const& value );
-
-}  // namespace utils
-
-}  // namespace webserv
-
-#include "../../tpp/utils/Convertion.tpp"
-
-#endif
+	return utils::str::has( data, "0\r\n" ) || utils::str::has( data, "0\n" );
+}

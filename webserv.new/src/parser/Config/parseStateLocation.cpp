@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/parser/Config.hpp"
 #include "../../../inc/hpp/config/Exception.hpp"
+#include "../../../inc/hpp/parser/Config.hpp"
 
 void webserv::parser::Config::parseStateLocation( config::Server& server, std::string const& path )
 {
@@ -27,7 +27,7 @@ void webserv::parser::Config::parseStateLocation( config::Server& server, std::s
 		if ( word == "}" )
 		{
 			if ( !key_.empty() )
-				throw config::Exception(servers_->size(), path) << "missing semicolon: " << key_;
+				throw config::Exception( servers_->size(), path ) << "missing semicolon: " << key_;
 			if ( server.locations.find( path ) == server.locations.end() )
 				server.locations.insert( std::make_pair( path, location ) );
 			else

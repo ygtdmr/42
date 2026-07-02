@@ -6,17 +6,17 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:48:54 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 10:48:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 18:10:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/hpp/parser/Config.hpp"
-#include "../../../inc/hpp/utils/Convertion.hpp"
+#include "../../../inc/hpp/utils/conv.hpp"
 
 void webserv::parser::Config::putDataServer( config::Server& server )
 {
 	if ( key_ == "listen" )
-		server.listens.push_back(values_[0]);
+		server.listens.push_back( values_[0] );
 	else if ( key_ == "root" )
 		server.root = values_[0];
 	else if ( key_ == "server_name" )
@@ -25,7 +25,7 @@ void webserv::parser::Config::putDataServer( config::Server& server )
 	{
 		char lastChar( *( values_[0].end() - 1 ) );
 		bool formatMb( lastChar == 'M' || lastChar == 'm' );
-		server.clientMaxBodySize = utils::strTo< size_t >( values_[0] );
+		server.clientMaxBodySize = utils::conv::strTo< size_t >( values_[0] );
 		if ( formatMb )
 			server.clientMaxBodySize *= 1024 * 1024;
 	}
@@ -34,6 +34,6 @@ void webserv::parser::Config::putDataServer( config::Server& server )
 		std::string								   path( *( values_.end() - 1 ) );
 		std::vector< std::string >::const_iterator it( values_.begin() );
 		while ( it != values_.end() - 1 )
-			server.errorPages[utils::strTo< int short >( *it++ )] = path;
+			server.errorPages[utils::conv::strTo< int short >( *it++ )] = path;
 	}
 }

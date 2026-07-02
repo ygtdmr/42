@@ -37,6 +37,7 @@ class Exception : public std::exception
 
 		template < typename T >
 		inline Exception& operator<<( T const& any );
+
 	private:
 		std::string msg_;
 };

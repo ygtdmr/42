@@ -12,8 +12,8 @@
 
 #include <string.h>
 #include <fstream>
-#include "../../../inc/hpp/parser/Config.hpp"
 #include "../../../inc/hpp/config/Exception.hpp"
+#include "../../../inc/hpp/parser/Config.hpp"
 
 void webserv::parser::Config::parse( char const* path )
 {

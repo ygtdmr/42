@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/parser/Config.hpp"
 #include "../../../inc/hpp/config/Exception.hpp"
+#include "../../../inc/hpp/parser/Config.hpp"
 
 void webserv::parser::Config::parseStateGlobal( void )
 {
