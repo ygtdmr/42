@@ -1,42 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Message.hpp                                        :+:      :+:    :+:   */
+/*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 18:14:25 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 20:16:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_MESSAGE_HPP
-#define WEBSERV_HTTP_MESSAGE_HPP
+#ifndef WEBSERV_CLIENT_HPP
+#define WEBSERV_CLIENT_HPP
 
-#include <map>
-#include <string>
+#include "http/Request.hpp"
 
 namespace webserv
 {
 
-namespace http
+namespace manager
 {
-
-class Message
+class Client
 {
 	public:
-		Message( void );
-		Message( Message const& other );
-		virtual ~Message()								   = 0;
-		virtual Message& operator=( Message const& other ) = 0;
+		Client( void );
+		Client( Client const& other );
+		~Client();
+		Client& operator=( Client const& other );
 
-		std::map< std::string, std::string > headers;
-		std::string							 body;
-		std::string							 version;
-		int short							 status;
+		std::string	  receiveData;
+		http::Request request;
 };
-
-}  // namespace http
+}  // namespace manager
 
 }  // namespace webserv
 

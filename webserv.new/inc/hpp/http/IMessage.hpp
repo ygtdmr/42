@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Request.hpp                                        :+:      :+:    :+:   */
+/*   IMessage.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 20:12:29 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 20:13:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_REQUEST_HPP
-#define WEBSERV_HTTP_REQUEST_HPP
+#ifndef WEBSERV_HTTP_IMESSAGE_HPP
+#define WEBSERV_HTTP_IMESSAGE_HPP
 
-#include "IMessage.hpp"
+#include <map>
+#include <string>
 
 namespace webserv
 {
@@ -21,16 +22,15 @@ namespace webserv
 namespace http
 {
 
-class Request : public IMessage
+class IMessage
 {
 	public:
-		Request( void );
-		Request( Request const& other );
-		virtual ~Request();
-		Request& operator=( Request const& other );
+		virtual ~IMessage() = 0;
 
-		std::string method;
-		std::string uri;
+		std::map< std::string, std::string > headers;
+		std::string							 body;
+		std::string							 version;
+		int short							 status;
 };
 
 }  // namespace http

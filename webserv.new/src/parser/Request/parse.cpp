@@ -57,6 +57,6 @@ void webserv::parser::Request::parse( void )
 	catch ( std::exception const& _ )
 	{
 		request->status = 400;
-		currentState = DONE;
+		currentState	= DONE;
 	}
 }
