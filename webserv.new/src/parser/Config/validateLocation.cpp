@@ -6,15 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:50:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 20:51:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 09:18:28 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/config/Exception.tpp"
 #include "../../../include/parser/Config.hpp"
 
-void webserv::parser::Config::validateLocation( config::Server const& server,
-												std::string const&	  locationPath ) const
+void webserv::parser::Config::validateLocation( std::string const&	  locationPath ) const
 {
 	bool valid( false );
 
@@ -53,5 +52,5 @@ void webserv::parser::Config::validateLocation( config::Server const& server,
 		valid = isValidDigit( value.substr( 0, value.size() - formatMb ) );
 	}
 	if ( !valid )
-		throw config::Exception( server, locationPath ) << key_ << ": value error";
+		throw config::Exception( servers_->size(), locationPath ) << key_ << ": value error";
 }

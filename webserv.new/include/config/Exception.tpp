@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 20:19:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 09:16:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,20 @@ class Exception : public std::exception
 		}
 		virtual ~Exception() throw() {}
 
-		Exception( config::Server const& server, std::string const& locationPath )
+		Exception( size_t serverIndex, std::string const& locationPath )
 		{
 			std::ostringstream ss;
-			std::string		   host( server.host );
 			ss << "config: "
-			   << "server=[" << host << "], port=[" << server.port << "]"
-			   << ", location[" << locationPath << "]: ";
+			   << "server_index=[" << serverIndex << "], "
+			   << "location[" << locationPath << "]: ";
 			msg_ = ss.str();
 		}
 
-		Exception( config::Server const& server )
+		Exception( size_t serverIndex )
 		{
 			std::ostringstream ss;
-			std::string		   host( server.host );
 			ss << "config: "
-			   << "server=[" << host << "], port=[" << server.port << "]: ";
+			   << "server=[" << serverIndex << "]: ";
 			msg_ = ss.str();
 		}
 

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:02:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 19:49:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 09:02:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ namespace config
 typedef struct
 {
 		size_t							   clientMaxBodySize;
-		std::string						   host;
-		std::string						   port;
 		std::string						   root;
+		std::vector< std::string >		   listens;
 		std::vector< std::string >		   serverNames;
 		std::map< int short, std::string > errorPages;
 		std::map< std::string, Location >  locations;

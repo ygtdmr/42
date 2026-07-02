@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:50:31 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 20:13:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 09:19:29 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../../include/parser/Config.hpp"
 #include "../../../include/utils/Convertion.tpp"
 
-void webserv::parser::Config::validateServer( config::Server const& server ) const
+void webserv::parser::Config::validateServer( void ) const
 {
 	bool valid( false );
 
@@ -63,5 +63,5 @@ void webserv::parser::Config::validateServer( config::Server const& server ) con
 		valid = valid && isValidPath( *( values_.end() - 1 ) );
 	}
 	if ( !valid )
-		throw config::Exception( server ) << key_ << ": value error";
+		throw config::Exception( servers_->size() ) << key_ << ": value error";
 }

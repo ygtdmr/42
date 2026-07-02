@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:38:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 21:17:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 09:06:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,6 @@ static void printCgi( std::map< std::string, std::string > const& cgi )
 			std::cout << ",";
 	}
 	std::cout << "},";
-}
-
-static void printServerNames( std::vector< std::string > const& serverNames )
-{
-	std::cout << "[";
-	std::vector< std::string >::const_iterator it( serverNames.begin() );
-	while ( it != serverNames.end() )
-	{
-		std::cout << "\"" << *it << "\"";
-		it++;
-		if ( it != serverNames.end() )
-			std::cout << ",";
-	}
-	std::cout << "],";
 }
 
 static void printAllowMethods( std::vector< std::string > const& allowMethods )
@@ -95,6 +81,34 @@ static void printLocations( std::map< std::string, webserv::config::Location > c
 	std::cout << "}";
 }
 
+static void printListens( std::vector< std::string > const& listens )
+{
+	std::cout << "[";
+	std::vector< std::string >::const_iterator it( listens.begin() );
+	while ( it != listens.end() )
+	{
+		std::cout << "\"" << *it << "\"";
+		it++;
+		if ( it != listens.end() )
+			std::cout << ",";
+	}
+	std::cout << "],";
+}
+
+static void printServerNames( std::vector< std::string > const& serverNames )
+{
+	std::cout << "[";
+	std::vector< std::string >::const_iterator it( serverNames.begin() );
+	while ( it != serverNames.end() )
+	{
+		std::cout << "\"" << *it << "\"";
+		it++;
+		if ( it != serverNames.end() )
+			std::cout << ",";
+	}
+	std::cout << "],";
+}
+
 static void printErrorPages( std::map< int short, std::string > const& errorPages )
 {
 	std::cout << "{";
@@ -111,14 +125,14 @@ static void printErrorPages( std::map< int short, std::string > const& errorPage
 
 void webserv::parser::Config::printServers( void ) const
 {
-	std::vector< webserv::config::Server >::const_iterator it( servers_->begin() );
+	std::vector< config::Server >::const_iterator it( servers_->begin() );
 	std::cout << "[";
 	while ( it != servers_->end() )
 	{
 		std::cout << "{";
 
-		std::cout << "\"host\":\"" << it->host << "\",";
-		std::cout << "\"port\":\"" << it->port << "\",";
+		std::cout << "\"listens\":";
+		printListens( it->listens );
 
 		std::cout << "\"serverNames\":";
 		printServerNames( it->serverNames );
@@ -130,7 +144,7 @@ void webserv::parser::Config::printServers( void ) const
 		printErrorPages( it->errorPages );
 
 		std::cout << "\"locations\":";
-			printLocations( it->locations );
+		printLocations( it->locations );
 
 		std::cout << "}";
 
