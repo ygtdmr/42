@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 19:58:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 20:18:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 10:49:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include "../include/parser/Config.hpp"
+#include "../inc/hpp/parser/Config.hpp"
 
 int main( int argc, char** argv )
 {

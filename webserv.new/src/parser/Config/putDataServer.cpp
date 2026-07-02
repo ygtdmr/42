@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:48:54 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 09:04:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 10:48:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/parser/Config.hpp"
-#include "../../../include/utils/Convertion.tpp"
+#include "../../../inc/hpp/parser/Config.hpp"
+#include "../../../inc/hpp/utils/Convertion.hpp"
 
 void webserv::parser::Config::putDataServer( config::Server& server )
 {

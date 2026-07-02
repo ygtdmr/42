@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:50:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 09:18:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 10:48:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/config/Exception.tpp"
-#include "../../../include/parser/Config.hpp"
+#include "../../../inc/hpp/parser/Config.hpp"
+#include "../../../inc/hpp/config/Exception.hpp"
 
 void webserv::parser::Config::validateLocation( std::string const&	  locationPath ) const
 {

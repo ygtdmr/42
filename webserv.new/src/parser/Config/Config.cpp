@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 13:21:58 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 08:54:25 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 10:41:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/parser/Config.hpp"
+#include "../../../inc/hpp/parser/Config.hpp"
 
 webserv::parser::Config::Config( void ) : raw_( 0 ), servers_( 0 ) {}
 

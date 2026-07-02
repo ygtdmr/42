@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:49:25 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 10:49:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 10:48:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/parser/Config.hpp"
+#include "../../../inc/hpp/parser/Config.hpp"
 
 void webserv::parser::Config::putRaw( std::string const& line ) const
 {

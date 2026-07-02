@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:48:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 20:44:29 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 10:47:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/parser/Config.hpp"
-#include "../../../include/utils/Convertion.tpp"
+#include "../../../inc/hpp/parser/Config.hpp"
+#include "../../../inc/hpp/utils/Convertion.hpp"
 
 void webserv::parser::Config::putDataLocation( config::Location& location ) const
 {

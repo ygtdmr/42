@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:23:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 18:14:38 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 10:46:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/parser/Config.hpp"
-#include "../../../include/utils/Convertion.tpp"
+#include "../../../inc/hpp/parser/Config.hpp"
+#include "../../../inc/hpp/utils/Convertion.hpp"
 
 bool webserv::parser::Config::isValidIPv4( std::string const& value ) const
 {

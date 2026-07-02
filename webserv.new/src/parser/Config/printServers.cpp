@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:38:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 09:06:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/02 10:47:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include "../../../include/parser/Config.hpp"
+#include "../../../inc/hpp/parser/Config.hpp"
 
 static void printCgi( std::map< std::string, std::string > const& cgi )
 {
