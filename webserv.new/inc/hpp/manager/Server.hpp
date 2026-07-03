@@ -1,48 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.hpp                                         :+:      :+:    :+:   */
+/*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/03 12:50:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/03 11:45:27 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_MANAGER_CLIENT_HPP
-#define WEBSERV_MANAGER_CLIENT_HPP
+#ifndef WEBSERV_MANAGER_SERVER_HPP
+#define WEBSERV_MANAGER_SERVER_HPP
 
+#include "../config/Server.hpp"
+#include "Client.hpp"
 #include "IManager.hpp"
-#include "Server.hpp"
-#include "http/Request.hpp"
-#include "http/Response.hpp"
-#include "parser/Request.hpp"
 
 namespace webserv
 {
 
 namespace manager
 {
-class Client : public IManager
+class Server : public IManager
 {
 	public:
-		Client( void );
-		Client( Client const& other );
-		~Client();
-		Client& operator=( Client const& other );
-		void	receive( void );
-		void	deliver( void );
-		void	process( void );
-		void	clear( void );
+		Server( void );
+		Server( Server const& other );
+		~Server();
+		Server& operator=( Server const& other );
+		Client	acceptClient( void ) const;
 
-		bool			isConnectionClose;
-		std::string		receiveData;
-		std::string		deliverData;
-		http::Request	httpRequest;
-		http::Response	httpResponse;
-		parser::Request parserRequest;
-		Server*			server;
+		config::Server* config;
 };
 }  // namespace manager
 

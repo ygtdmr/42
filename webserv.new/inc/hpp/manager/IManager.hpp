@@ -1,48 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.hpp                                         :+:      :+:    :+:   */
+/*   IManager.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/03 12:50:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/03 12:55:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_MANAGER_CLIENT_HPP
-#define WEBSERV_MANAGER_CLIENT_HPP
+#ifndef WEBSERV_HTTP_IMANAGER_HPP
+#define WEBSERV_HTTP_IMANAGER_HPP
 
-#include "IManager.hpp"
-#include "Server.hpp"
-#include "http/Request.hpp"
-#include "http/Response.hpp"
-#include "parser/Request.hpp"
+#include <netinet/in.h>
+#include <poll.h>
 
 namespace webserv
 {
 
 namespace manager
 {
-class Client : public IManager
+class IManager
 {
 	public:
-		Client( void );
-		Client( Client const& other );
-		~Client();
-		Client& operator=( Client const& other );
-		void	receive( void );
-		void	deliver( void );
-		void	process( void );
-		void	clear( void );
+		virtual ~IManager() = 0;
 
-		bool			isConnectionClose;
-		std::string		receiveData;
-		std::string		deliverData;
-		http::Request	httpRequest;
-		http::Response	httpResponse;
-		parser::Request parserRequest;
-		Server*			server;
+		struct pollfd	   pollfd;
+		struct sockaddr_in addr;
 };
 }  // namespace manager
 

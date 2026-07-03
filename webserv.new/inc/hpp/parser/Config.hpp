@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 12:47:49 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 09:19:40 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/03 12:31:13 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ class Config
 		Config( void );
 		Config( Config const& other );
 		~Config();
-		Config&										  operator=( Config const& other );
-		void										  parse( char const* path );
-		void										  printServers( void ) const;
-		std::vector< webserv::config::Server > const* getServers( void ) const;
+		Config&								 operator=( Config const& other );
+		void								 parse( char const* path );
+		void								 printServers( void ) const;
+		std::vector< config::Server > const* getServers( void ) const;
 
 	private:
 		void putRaw( std::string const& line ) const;
