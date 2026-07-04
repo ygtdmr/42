@@ -30,8 +30,8 @@ class DirectoryListing : public IHandler
 		DirectoryListing( DirectoryListing const& other );
 		virtual ~DirectoryListing();
 		DirectoryListing& operator=( DirectoryListing const& other );
-		void buildBody( void );
-		void buildHeaders( void );
+		void			  buildBody( void );
+		void			  buildHeaders( void );
 };
 }  // namespace handler
 

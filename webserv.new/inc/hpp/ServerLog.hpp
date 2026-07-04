@@ -1,39 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Exception.hpp                                      :+:      :+:    :+:   */
+/*   ServerLog.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 13:13:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/04 18:51:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HANDLER_EXCEPTION_HPP
-#define WEBSERV_HANDLER_EXCEPTION_HPP
+#ifndef WEBSERV_SERVER_LOG_HPP
+#define WEBSERV_SERVER_LOG_HPP
 
-#include <exception>
+#include <string>
+#include "manager/Server.hpp"
 
 namespace webserv
 {
 
-namespace handler
-{
-class Exception : public std::exception
+#define RESET "\033[0m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define CYAN "\033[36m"
+
+class ServerLog
 {
 	public:
-		Exception( void );
-		Exception( Exception const& other );
-		Exception& operator=( Exception const& other );
-		virtual ~Exception() throw();
+		ServerLog( std::string const& level );
+		ServerLog( manager::IManager const& server, std::string const& level );
+		template < typename T >
+		ServerLog& operator<<( T const& any );
 
-		Exception( int short status );
+	private:
+		void printLog( void );
 
-		int short status;
+		std::string const& level_;
+		std::string		   msg_;
 };
-}  // namespace handler
 
 }  // namespace webserv
+
+#include "../../tpp/ServerLog.tpp"
 
 #endif

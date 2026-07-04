@@ -1,41 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
+/*   clear.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 17:09:49 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/04 18:20:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_MANAGER_SERVER_HPP
-#define WEBSERV_MANAGER_SERVER_HPP
-
-#include "../config/Server.hpp"
-#include "Client.hpp"
-#include "IManager.hpp"
+#include "../../hpp/Controller.hpp"
+#include "unistd.h"
 
 namespace webserv
 {
 
-namespace manager
+void Controller::clear( void ) const
 {
-class Server : public IManager
-{
-	public:
-		Server( void );
-		Server( Server const& other );
-		~Server();
-		Server& operator=( Server const& other );
-		Client	acceptClient( void ) const;
-
-		config::Server const* config;
-		char const*			  port;
-};
-}  // namespace manager
+	for ( size_t i = 0; i < pollfds_->size(); i++ )
+		close( ( pollfds_->begin() + i )->fd );
+}
 
 }  // namespace webserv
-
-#endif

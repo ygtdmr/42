@@ -13,8 +13,8 @@
 #ifndef WEBSERV_HTTP_HANDLER_IHANDLER_HPP
 #define WEBSERV_HTTP_HANDLER_IHANDLER_HPP
 
-#include "../../manager/Client.hpp"
 #include "../../config/Location.hpp"
+#include "../../manager/Client.hpp"
 #include "../Response.hpp"
 
 namespace webserv

@@ -1,54 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Config.cpp                                         :+:      :+:    :+:   */
+/*   Controller.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/26 13:21:58 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 13:24:50 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/04 13:18:28 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/04 17:19:42 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/parser/Config.hpp"
+#include "../hpp/Controller.hpp"
 
 namespace webserv
 {
-namespace parser
+
+Controller::Controller( void )
 {
+	connections_ = new std::vector< manager::IManager >;
+	pollfds_	 = new std::vector< struct pollfd >;
+}
 
-Config::Config( void ) : raw_( 0 ), servers_( 0 ) {}
-
-Config::Config( Config const& other )
+Controller::Controller( Controller const& other )
 {
 	*this = other;
 }
 
-Config::~Config()
+Controller::~Controller()
 {
-	if ( servers_ )
-		delete servers_;
-	if ( raw_ )
-		delete raw_;
+	delete connections_;
+	delete pollfds_;
 }
 
-Config& Config::operator=( Config const& other )
+Controller& Controller::operator=( Controller const& other )
 {
 	if ( this != &other )
 	{
-		key_	= other.key_;
-		values_ = other.values_;
-		if ( raw_ )
-		{
-			raw_->clear();
-			raw_->str( other.raw_->str() );
-		}
-		if ( servers_ )
-			*servers_ = *other.servers_;
+		*connections_ = *other.connections_;
+		*pollfds_	  = *other.pollfds_;
 	}
 	return *this;
 }
-
-}  // namespace parser
 
 }  // namespace webserv

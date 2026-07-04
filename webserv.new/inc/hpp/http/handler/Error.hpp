@@ -30,8 +30,8 @@ class Error : public IHandler
 		Error( Error const& other );
 		virtual ~Error();
 		Error& operator=( Error const& other );
-		void buildBody( void ) throw();
-		void buildHeaders( void ) throw();
+		void   buildBody( void ) throw();
+		void   buildHeaders( void ) throw();
 };
 }  // namespace handler
 

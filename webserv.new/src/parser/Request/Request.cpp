@@ -6,22 +6,27 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:28:05 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 18:08:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/04 13:29:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/hpp/parser/Request.hpp"
 
-webserv::parser::Request::Request( void ) : currentState( REQUEST_FIRST_LINE ) {}
+namespace webserv
+{
+namespace parser
+{
 
-webserv::parser::Request::Request( Request const& other )
+Request::Request( void ) : currentState( REQUEST_FIRST_LINE ) {}
+
+Request::Request( Request const& other )
 {
 	*this = other;
 }
 
-webserv::parser::Request::~Request() {}
+Request::~Request() {}
 
-webserv::parser::Request& webserv::parser::Request::operator=( webserv::parser::Request const& other )
+Request& Request::operator=( Request const& other )
 {
 	if ( this != &other )
 	{
@@ -31,3 +36,6 @@ webserv::parser::Request& webserv::parser::Request::operator=( webserv::parser::
 	}
 	return *this;
 }
+
+}  // namespace parser
+}  // namespace webserv

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 19:58:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 08:15:54 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/04 17:55:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int main( int argc, char** argv )
 		config.parse( argv[1] );
 		webserv::Controller controller;
 		controller.setup( config.getServers() );
-		controller.runPoll();
+		controller.run();
 		controller.clear();
 	}
 	catch ( std::exception const& e )

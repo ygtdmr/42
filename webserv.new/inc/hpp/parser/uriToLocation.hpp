@@ -19,7 +19,7 @@ namespace webserv
 {
 namespace parser
 {
-config::Location	uriToLocation( std::string const& uri );
+config::Location uriToLocation( std::string const& uri );
 }  // namespace parser
 }  // namespace webserv
 

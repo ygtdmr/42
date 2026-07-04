@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 11:48:40 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 08:15:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/04 18:18:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ class Controller
 		Controller( Controller const& other );
 		~Controller();
 		Controller& operator=( Controller const& other );
-		void		closeConnection( manager::IManager const& manager ) throw();
+		void		closeConnection( size_t index ) const throw();
 		void		setup( std::vector< config::Server > const* servers );
-		void		runPoll() const throw();
-		void		clear() const throw();
+		void		run( void ) const throw();
+		void		clear( void ) const throw();
 
 	private:
 		std::vector< manager::IManager >* connections_;
+		std::vector< struct pollfd >*	  pollfds_;
 };
 
 }  // namespace webserv
