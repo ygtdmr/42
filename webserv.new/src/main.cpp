@@ -6,11 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/14 19:58:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 10:49:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/04 08:15:54 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include "../inc/hpp/Controller.hpp"
 #include "../inc/hpp/parser/Config.hpp"
 
 int main( int argc, char** argv )
@@ -24,7 +25,10 @@ int main( int argc, char** argv )
 	{
 		webserv::parser::Config config;
 		config.parse( argv[1] );
-		config.printServers();
+		webserv::Controller controller;
+		controller.setup( config.getServers() );
+		controller.runPoll();
+		controller.clear();
 	}
 	catch ( std::exception const& e )
 	{

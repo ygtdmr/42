@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Response.hpp                                       :+:      :+:    :+:   */
+/*   DirectoryListing.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/03 08:16:50 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 12:10:50 by yidemir          ###   ########.fr       */
+/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/04 12:36:55 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_RESPONSE_HPP
-#define WEBSERV_HTTP_RESPONSE_HPP
+#ifndef WEBSERV_HTTP_HANDLER_GET_HPP
+#define WEBSERV_HTTP_HANDLER_GET_HPP
 
-#include <fstream>
-#include <sstream>
-#include "IMessage.hpp"
+#include "IHandler.hpp"
 
 namespace webserv
 {
@@ -23,14 +21,19 @@ namespace webserv
 namespace http
 {
 
-class Response : public IMessage
+namespace handler
+{
+class DirectoryListing : public IHandler
 {
 	public:
-		Response( void );
-		Response( Response const& other );
-		virtual ~Response();
-		Response& operator=( Response const& other );
+		DirectoryListing( void );
+		DirectoryListing( DirectoryListing const& other );
+		virtual ~DirectoryListing();
+		DirectoryListing& operator=( DirectoryListing const& other );
+		void buildBody( void );
+		void buildHeaders( void );
 };
+}  // namespace handler
 
 }  // namespace http
 

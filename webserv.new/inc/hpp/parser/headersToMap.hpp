@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   requestFirstLine.hpp                               :+:      :+:    :+:   */
+/*   headersToMap.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/02 17:54:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 12:06:18 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/02 14:30:44 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/04 12:05:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_PARSER_REQUEST_FIRST_LINE_HPP
-#define WEBSERV_PARSER_REQUEST_FIRST_LINE_HPP
+#ifndef WEBSERV_PARSER_HEADERS_TO_MAP_HPP
+#define WEBSERV_PARSER_HEADERS_TO_MAP_HPP
 
 #include <map>
 #include <string>
-#include "../http/Request.hpp"
 
 namespace webserv
 {
 namespace parser
 {
-void requestFirstLine( std::string& data, http::Request& request );
+std::map< std::string, std::string > headersToMap( std::string& data );
 }  // namespace parser
 }  // namespace webserv
 

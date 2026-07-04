@@ -1,28 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   requestFirstLine.hpp                               :+:      :+:    :+:   */
+/*   Error.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/02 17:54:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 12:06:18 by yidemir          ###   ########.fr       */
+/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/04 13:12:28 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_PARSER_REQUEST_FIRST_LINE_HPP
-#define WEBSERV_PARSER_REQUEST_FIRST_LINE_HPP
+#ifndef WEBSERV_HTTP_HANDLER_GET_HPP
+#define WEBSERV_HTTP_HANDLER_GET_HPP
 
-#include <map>
-#include <string>
-#include "../http/Request.hpp"
+#include "IHandler.hpp"
 
 namespace webserv
 {
-namespace parser
+
+namespace http
 {
-void requestFirstLine( std::string& data, http::Request& request );
-}  // namespace parser
+
+namespace handler
+{
+class Error : public IHandler
+{
+	public:
+		Error( void );
+		Error( Error const& other );
+		virtual ~Error();
+		Error& operator=( Error const& other );
+		void buildBody( void ) throw();
+		void buildHeaders( void ) throw();
+};
+}  // namespace handler
+
+}  // namespace http
+
 }  // namespace webserv
 
 #endif

@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   requestFirstLine.hpp                               :+:      :+:    :+:   */
+/*   uriToLocation.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/02 17:54:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 12:06:18 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/02 14:30:44 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/04 12:43:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_PARSER_REQUEST_FIRST_LINE_HPP
-#define WEBSERV_PARSER_REQUEST_FIRST_LINE_HPP
+#ifndef WEBSERV_PARSER_URI_TO_LOCATION_HPP
+#define WEBSERV_PARSER_URI_TO_LOCATION_HPP
 
-#include <map>
-#include <string>
-#include "../http/Request.hpp"
+#include "../config/Location.hpp"
 
 namespace webserv
 {
 namespace parser
 {
-void requestFirstLine( std::string& data, http::Request& request );
+config::Location	uriToLocation( std::string const& uri );
 }  // namespace parser
 }  // namespace webserv
 

@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   requestFirstLine.hpp                               :+:      :+:    :+:   */
+/*   unchunkBody.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/02 17:54:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 12:06:18 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/02 14:30:44 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/04 12:06:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_PARSER_REQUEST_FIRST_LINE_HPP
-#define WEBSERV_PARSER_REQUEST_FIRST_LINE_HPP
+#ifndef WEBSERV_PARSER_UNCHUNK_BODY_HPP
+#define WEBSERV_PARSER_UNCHUNK_BODY_HPP
 
-#include <map>
 #include <string>
-#include "../http/Request.hpp"
 
 namespace webserv
 {
 namespace parser
 {
-void requestFirstLine( std::string& data, http::Request& request );
+std::string unchunkBody( std::string const& data );
 }  // namespace parser
 }  // namespace webserv
 

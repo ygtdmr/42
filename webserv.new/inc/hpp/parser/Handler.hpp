@@ -1,27 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   requestFirstLine.hpp                               :+:      :+:    :+:   */
+/*   Handler.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/02 17:54:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 12:06:18 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/04 09:01:14 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/04 09:42:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_PARSER_REQUEST_FIRST_LINE_HPP
-#define WEBSERV_PARSER_REQUEST_FIRST_LINE_HPP
+#ifndef WEBSERV_PARSER_HANDLER_HPP
+#define WEBSERV_PARSER_HANDLER_HPP
 
-#include <map>
-#include <string>
 #include "../http/Request.hpp"
+#include "../http/handler/IHandler.hpp"
 
 namespace webserv
 {
 namespace parser
 {
-void requestFirstLine( std::string& data, http::Request& request );
+
+class Handler
+{
+	public:
+		Handler( void );
+		Handler( Handler const& other );
+		~Handler();
+		Handler&				operator=( Handler const& other );
+		http::handler::IHandler parse( http::Request const& request ) const;
+};
+
 }  // namespace parser
 }  // namespace webserv
 

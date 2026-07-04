@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   chunkedBody.cpp                                    :+:      :+:    :+:   */
+/*   unchunkBody.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:05:20 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 17:10:29 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/04 12:00:59 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/parser/chunkedBody.hpp"
+#include "../../inc/hpp/parser/unchunkBody.hpp"
 #include <sstream>
 
-std::string webserv::parser::chunkedBody( std::string const& data )
+std::string webserv::parser::unchunkBody( std::string const& data )
 {
 	std::string decoded;
 	std::size_t pos( 0 );

@@ -6,14 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 19:36:59 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/04 12:04:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/hpp/parser/Request.hpp"
-#include "../../../inc/hpp/parser/chunkedBody.hpp"
-#include "../../../inc/hpp/parser/headers.hpp"
+#include "../../../inc/hpp/parser/headersToMap.hpp"
 #include "../../../inc/hpp/parser/requestFirstLine.hpp"
+#include "../../../inc/hpp/parser/unchunkBody.hpp"
 #include "../../../inc/hpp/utils/map.hpp"
 #include "../../../inc/hpp/utils/str.hpp"
 
@@ -32,7 +32,7 @@ void webserv::parser::Request::parse( void )
 		{
 			if ( !( utils::str::has( *receiveData, "\r\n\r\n" ) || utils::str::has( *receiveData, "\n\n" ) ) )
 				return;
-			request->headers = headers( *receiveData );
+			request->headers = headersToMap( *receiveData );
 			if ( utils::map::isEq< std::string, std::string >(
 					 request->headers, "Transfer-Encoding", "chunked" ) )
 				currentState = CHUNKED_BODY;
@@ -43,7 +43,7 @@ void webserv::parser::Request::parse( void )
 		}
 		if ( currentState == CHUNKED_BODY )
 		{
-			request->body += chunkedBody( *receiveData );
+			request->body += unchunkBody( *receiveData );
 			if ( isChunkedBodyDone( *receiveData ) )
 				currentState = DONE;
 		}

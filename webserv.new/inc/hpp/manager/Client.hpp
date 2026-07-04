@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/03 12:50:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/04 09:57:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "IManager.hpp"
 #include "Server.hpp"
 #include "http/Request.hpp"
-#include "http/Response.hpp"
+#include "http/handler/IHandler.hpp"
 #include "parser/Request.hpp"
 
 namespace webserv
@@ -37,12 +37,12 @@ class Client : public IManager
 		void	clear( void );
 
 		bool			isConnectionClose;
+		Server*			server;
 		std::string		receiveData;
 		std::string		deliverData;
+		parser::Request parserRequest;
 		http::Request	httpRequest;
 		http::Response	httpResponse;
-		parser::Request parserRequest;
-		Server*			server;
 };
 }  // namespace manager
 

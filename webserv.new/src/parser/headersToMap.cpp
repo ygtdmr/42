@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   headers.cpp                                        :+:      :+:    :+:   */
+/*   headersToMap.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 14:37:15 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 18:08:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/04 12:01:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/parser/headers.hpp"
+#include "../../inc/hpp/parser/headersToMap.hpp"
 #include <exception>
 #include <sstream>
 #include "../../inc/hpp/utils/str.hpp"
 
-std::map< std::string, std::string > webserv::parser::headers( std::string& data )
+std::map< std::string, std::string > webserv::parser::headersToMap( std::string& data )
 {
 	std::map< std::string, std::string > headers;
 	std::stringstream					 ss( data );
