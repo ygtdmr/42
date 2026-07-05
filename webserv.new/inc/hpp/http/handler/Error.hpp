@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 13:12:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 09:02:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ namespace handler
 class Error : public IHandler
 {
 	public:
-		Error( void );
+		Error( int short status );
 		Error( Error const& other );
 		virtual ~Error();
 		Error& operator=( Error const& other );
+		void   build( void ) const throw();
 		void   buildBody( void ) throw();
 		void   buildHeaders( void ) throw();
 };

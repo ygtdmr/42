@@ -6,17 +6,17 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 18:44:41 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 08:28:28 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <arpa/inet.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>
 #include <string.h>
-#include "../../hpp/ServerLog.hpp"
+#include <sys/socket.h>
 #include "../../hpp/Controller.hpp"
+#include "../../hpp/ServerLog.hpp"
 #include "../../hpp/config/Exception.hpp"
 #include "../../hpp/manager/Server.hpp"
 #include "../../hpp/utils/str.hpp"

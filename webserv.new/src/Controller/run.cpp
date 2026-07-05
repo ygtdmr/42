@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 19:50:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 08:41:21 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../hpp/ServerLog.hpp"
 #include "../../hpp/Controller.hpp"
+#include "../../hpp/ServerLog.hpp"
 #include "../../hpp/manager/Client.hpp"
 #include "../../hpp/manager/Server.hpp"
 #include "signal.h"
@@ -40,17 +40,17 @@ void Controller::run( void ) const
 		{
 			manager::Server* server( dynamic_cast< manager::Server* >( &( *connections_ )[i] ) );
 			if ( server )
-				server->acceptClient();
+				acceptConnection( i );
 			else
 			{
 				manager::Client* client( dynamic_cast< manager::Client* >( &( *connections_ )[i] ) );
 				client->process();
 				if ( client->isConnectionClose )
-					closeConnection( i-- );
+					closeConnection( i--, "client side" );
 			}
 		}
 	}
-	ServerLog("WARNING") << "webserv closing..." << '\n';
+	ServerLog( "WARNING" ) << "webserv closing..." << '\n';
 }
 
 }  // namespace webserv

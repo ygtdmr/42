@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Response.hpp                                       :+:      :+:    :+:   */
+/*   clear.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/03 08:16:50 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 04:48:35 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/05 08:50:20 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_RESPONSE_HPP
-#define WEBSERV_HTTP_RESPONSE_HPP
+#include "../../../inc/hpp/manager/Client.hpp"
 
-#include <fstream>
-#include <sstream>
-#include "IMessage.hpp"
-
-namespace webserv
+void webserv::manager::Client::clear( void )
 {
+	receiveData = std::string();
+	deliverData = std::string();
 
-namespace http
-{
+	httpRequest = http::Request();
 
-class Response : public IMessage
-{
-	public:
-		Response( void );
-		Response( Response const& other );
-		virtual ~Response();
-		Response& operator=( Response const& other );
-};
+	parserRequest			  = parser::Request();
+	parserRequest.receiveData = &receiveData;
+	parserRequest.request	  = &httpRequest;
 
-}  // namespace http
-
-}  // namespace webserv
-
-#endif
+	if ( handler )
+	{
+		delete handler;
+		handler = 0;
+	}
+}

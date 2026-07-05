@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 12:44:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 09:21:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ class IHandler : public Response
 		virtual ~IHandler()						 = 0;
 		virtual void build( void ) const throw() = 0;
 
-		manager::Client client;
+		manager::Client* client;
 		enum state
 		{
 			DELIVER,

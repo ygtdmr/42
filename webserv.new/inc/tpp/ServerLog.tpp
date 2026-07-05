@@ -25,12 +25,12 @@ ServerLog::ServerLog( std::string const& level ) : level_( level ), msg_( "" ) {
 
 ServerLog::ServerLog( manager::IManager const& manager, std::string const& level ) : level_( level )
 {
-	manager::Server const* server(dynamic_cast<manager::Server const*>(&manager));
+	manager::Server const* server( dynamic_cast< manager::Server const* >( &manager ) );
 	if ( server )
-		msg_ =  std::string() + "host=[" + server->addr + "], port=[" + server->port + "], ";
+		msg_ = std::string() + "host=[" + server->addr + "], port=[" + server->port + "], ";
 	else
-		msg_ =  std::string() + "addr=[" + manager.addr + "], ";
-	msg_ += "fd=[" + utils::conv::toStr<int>(manager.pollfd.fd) + "], ";
+		msg_ = std::string() + "addr=[" + manager.addr + "], ";
+	msg_ += "fd=[" + utils::conv::toStr< int >( manager.pollfd.fd ) + "], ";
 }
 
 template < typename T >

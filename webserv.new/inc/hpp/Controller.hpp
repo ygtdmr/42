@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 11:48:40 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 18:18:23 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 08:35:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <vector>
 #include "config/Server.hpp"
-#include "manager/IManager.hpp"
+#include "manager/Server.hpp"
 
 namespace webserv
 {
@@ -27,7 +27,8 @@ class Controller
 		Controller( Controller const& other );
 		~Controller();
 		Controller& operator=( Controller const& other );
-		void		closeConnection( size_t index ) const throw();
+		void		acceptConnection( size_t index ) const throw();
+		void		closeConnection( size_t index, char const* reason ) const throw();
 		void		setup( std::vector< config::Server > const* servers );
 		void		run( void ) const throw();
 		void		clear( void ) const throw();

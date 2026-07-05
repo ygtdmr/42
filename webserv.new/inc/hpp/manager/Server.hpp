@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 17:09:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/04 20:25:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #define WEBSERV_MANAGER_SERVER_HPP
 
 #include "../config/Server.hpp"
-#include "Client.hpp"
 #include "IManager.hpp"
 
 namespace webserv
@@ -29,7 +28,6 @@ class Server : public IManager
 		Server( Server const& other );
 		~Server();
 		Server& operator=( Server const& other );
-		Client	acceptClient( void ) const;
 
 		config::Server const* config;
 		char const*			  port;

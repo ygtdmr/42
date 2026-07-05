@@ -1,39 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Response.hpp                                       :+:      :+:    :+:   */
+/*   process.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/03 08:16:50 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 04:48:35 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/05 04:37:21 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_RESPONSE_HPP
-#define WEBSERV_HTTP_RESPONSE_HPP
+#include "../../../inc/hpp/manager/Client.hpp"
 
-#include <fstream>
-#include <sstream>
-#include "IMessage.hpp"
-
-namespace webserv
+void webserv::manager::Client::process( void )
 {
-
-namespace http
-{
-
-class Response : public IMessage
-{
-	public:
-		Response( void );
-		Response( Response const& other );
-		virtual ~Response();
-		Response& operator=( Response const& other );
-};
-
-}  // namespace http
-
-}  // namespace webserv
-
-#endif
+	if ( pollfd.revents & POLLIN )
+		receive();
+	if ( pollfd.revents & POLLOUT )
+		deliver();
+}

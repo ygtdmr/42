@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 09:57:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 05:01:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,20 @@ class Client : public IManager
 		Client( Client const& other );
 		~Client();
 		Client& operator=( Client const& other );
-		void	receive( void );
-		void	deliver( void );
 		void	process( void );
-		void	clear( void );
 
-		bool			isConnectionClose;
-		Server*			server;
-		std::string		receiveData;
-		std::string		deliverData;
-		parser::Request parserRequest;
-		http::Request	httpRequest;
-		http::Response	httpResponse;
+		bool					 isConnectionClose;
+		Server*					 server;
+		std::string				 receiveData;
+		std::string				 deliverData;
+		parser::Request			 parserRequest;
+		http::Request			 httpRequest;
+		http::handler::IHandler* handler;
+
+	private:
+		void receive( void );
+		void deliver( void );
+		void clear( void );
 };
 }  // namespace manager
 
