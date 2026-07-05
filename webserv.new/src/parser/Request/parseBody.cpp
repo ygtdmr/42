@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   isChunkedBodyDone.cpp                              :+:      :+:    :+:   */
+/*   parseBody.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 19:27:26 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 14:41:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/hpp/parser/Request.hpp"
-#include "../../../inc/hpp/utils/str.hpp"
+#include "../../../inc/hpp/utils/conv.hpp"
 
-bool webserv::parser::Request::isChunkedBodyDone( std::string const& data ) const
+void webserv::parser::Request::parseBody( void )
 {
-	return utils::str::has( data, "0\r\n" ) || utils::str::has( data, "0\n" );
+	request->body += *receiveData;
+	size_t contentLength( utils::conv::strTo< size_t >( request->headers["Content-Length"] ) );
+	bool   isBodyDone( request->body.size() >= contentLength );
+	if ( isBodyDone )
+		currentState = DONE;
 }

@@ -1,20 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   isBodyDone.cpp                                     :+:      :+:    :+:   */
+/*   Handler.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 19:32:37 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/05 10:19:33 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/05 13:05:29 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/parser/Request.hpp"
-#include "../../../inc/hpp/utils/conv.hpp"
+#include "../../../inc/hpp/parser/Handler.hpp"
 
-bool webserv::parser::Request::isBodyDone( void ) const
+namespace webserv
 {
-	size_t contentLength( utils::conv::strTo< size_t >( request->headers["Content-Length"] ) );
-	return request->body.size() < contentLength;
+namespace parser
+{
+
+Handler::Handler( void ) : handler_( 0 ) {}
+
+Handler::Handler( Handler const& other )
+{
+	*this = other;
 }
+
+Handler::~Handler() {}
+
+Handler& Handler::operator=( Handler const& other )
+{
+	if ( this != &other )
+		handler_ = other.handler_;
+	return *this;
+}
+
+}  // namespace parser
+
+}  // namespace webserv

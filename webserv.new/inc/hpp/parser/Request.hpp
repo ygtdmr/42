@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 12:47:49 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 19:26:13 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 14:28:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ class Request
 		} currentState;
 
 	private:
-		bool isBodyDone() const;
-		bool isChunkedBodyDone( std::string const& data ) const;
+		void parseFirstLine( void );
+		void parseHeaders( void );
+		void parseChunkedBody( void );
+		void parseBody( void );
 };
 
 }  // namespace parser

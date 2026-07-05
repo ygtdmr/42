@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.cpp                                          :+:      :+:    :+:   */
+/*   parseChunkedBody.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 14:27:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 14:33:18 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/hpp/parser/Request.hpp"
+#include "../../../inc/hpp/parser/unchunkBody.hpp"
+#include "../../../inc/hpp/utils/str.hpp"
 
-void webserv::parser::Request::parse( void )
+void webserv::parser::Request::parseChunkedBody( void )
 {
-	try
-	{
-		if ( currentState == REQUEST_FIRST_LINE )
-			parseFirstLine();
-		if ( currentState == HEADERS )
-			parseHeaders();
-		if ( currentState == CHUNKED_BODY )
-			parseChunkedBody();
-		if ( currentState == BODY )
-			parseBody();
-	}
-	catch ( std::exception const& _ )
-	{
-		request->status = 400;
-		currentState	= DONE;
-	}
+	request->body += unchunkBody( *receiveData );
+	bool isChunkedBodyDone( utils::str::has( *receiveData, "0\r\n" ) ||
+							utils::str::has( *receiveData, "0\n" ) );
+	if ( isChunkedBodyDone )
+		currentState = DONE;
 }

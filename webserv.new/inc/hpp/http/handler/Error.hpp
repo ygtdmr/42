@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 09:02:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 12:51:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_HANDLER_GET_HPP
-#define WEBSERV_HTTP_HANDLER_GET_HPP
+#ifndef WEBSERV_HTTP_HANDLER_ERROR_HPP
+#define WEBSERV_HTTP_HANDLER_ERROR_HPP
 
 #include "IHandler.hpp"
 

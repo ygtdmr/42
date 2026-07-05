@@ -1,41 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Request.hpp                                        :+:      :+:    :+:   */
+/*   Get.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 12:42:28 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/04 21:00:32 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/05 08:42:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_REQUEST_HPP
-#define WEBSERV_HTTP_REQUEST_HPP
-
-#include "IMessage.hpp"
+#include "../../../inc/hpp/http/handler/Get.hpp"
 
 namespace webserv
 {
-
 namespace http
 {
 
-class Request : public IMessage
+namespace handler
 {
-	public:
-		Request( void );
-		Request( Request const& other );
-		virtual ~Request();
-		Request& operator=( Request const& other );
 
-		std::string method;
-		std::string uri;
-		std::string uriPath;
-};
+Get::Get( void ) {}
+
+Get::Get( Get const& other )
+{
+	*this = other;
+}
+
+Get::~Get() {}
+
+Get& Get::operator=( Get const& other )
+{
+	return *this;
+}
+
+}  // namespace handler
 
 }  // namespace http
 
 }  // namespace webserv
-
-#endif

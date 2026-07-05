@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   requestFirstLine.hpp                               :+:      :+:    :+:   */
+/*   mapToHeaders.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/02 17:54:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 12:06:18 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/05 13:43:34 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/05 13:50:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_PARSER_REQUEST_FIRST_LINE_HPP
-#define WEBSERV_PARSER_REQUEST_FIRST_LINE_HPP
+#include "../../inc/hpp/parser/headersToMap.hpp"
 
-#include <map>
-#include <string>
-#include "../http/Request.hpp"
-
-namespace webserv
+std::string mapToHeaders( std::map< std::string, std::string > const& data )
 {
-namespace parser
-{
-void requestFirstLine( std::string& data, http::Request& request );
-}  // namespace parser
-}  // namespace webserv
-
-#endif
+	std::map< std::string, std::string >::const_iterator it( data.begin() );
+	std::string											 headers;
+	while ( it != data.end() )
+	{
+		headers += it->first + ": " + it->second + "\r\n";
+		it++;
+	}
+	headers += "\r\n";
+	return headers;
+}

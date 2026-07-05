@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 09:36:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 13:18:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void webserv::manager::Client::deliver( void )
 		handler->build();
 	}
 	send( pollfd.fd, deliverData.c_str(), deliverData.length(), 0 );
+	deliverData = std::string();
 	if ( handler->currentState == handler->DONE )
 	{
 		isConnectionClose =

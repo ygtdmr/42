@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 09:21:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 13:13:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ namespace handler
 class IHandler : public Response
 {
 	public:
-		virtual ~IHandler()						 = 0;
-		virtual void build( void ) const throw() = 0;
+		virtual ~IHandler()				 = 0;
+		virtual void build( void ) const = 0;
 
-		manager::Client* client;
+		manager::Client const*	client;
+		config::Location const* location;
 		enum state
 		{
 			DELIVER,

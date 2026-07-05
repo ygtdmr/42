@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Request.hpp                                        :+:      :+:    :+:   */
+/*   Cgi.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 12:42:28 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/05 12:48:35 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/05 12:52:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_REQUEST_HPP
-#define WEBSERV_HTTP_REQUEST_HPP
+#ifndef WEBSERV_HTTP_HANDLER_CGI_HPP
+#define WEBSERV_HTTP_HANDLER_CGI_HPP
 
-#include "IMessage.hpp"
+#include "IHandler.hpp"
 
 namespace webserv
 {
@@ -21,18 +21,22 @@ namespace webserv
 namespace http
 {
 
-class Request : public IMessage
+namespace handler
+{
+class Cgi : public IHandler
 {
 	public:
-		Request( void );
-		Request( Request const& other );
-		virtual ~Request();
-		Request& operator=( Request const& other );
+		Cgi( void );
+		Cgi( Cgi const& other );
+		virtual ~Cgi();
+		Cgi& operator=( Cgi const& other );
+		void build( void ) const;
+		void buildHeaders( void );
+		void buildBody( void );
 
-		std::string method;
-		std::string uri;
-		std::string uriPath;
+		config::Location location;
 };
+}  // namespace handler
 
 }  // namespace http
 
