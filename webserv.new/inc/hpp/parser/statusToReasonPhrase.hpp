@@ -1,43 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Request.hpp                                        :+:      :+:    :+:   */
+/*   statusToReasonPhrase.hpp                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 09:10:32 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/05 21:57:14 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/05 21:58:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_REQUEST_HPP
-#define WEBSERV_HTTP_REQUEST_HPP
-
-#include "../../config/Location.hpp"
-#include "Message.hpp"
+#ifndef WEBSERV_PARSER_STATUS_TO_REASON_PHRASE_HPP
+#define WEBSERV_PARSER_STATUS_TO_REASON_PHRASE_HPP
 
 namespace webserv
 {
-
-namespace http
+namespace parser
 {
-
-class Request : public Message
-{
-	public:
-		Request( void );
-		Request( Request const& other );
-		virtual ~Request();
-		Request& operator=( Request const& other );
-
-		std::string				method;
-		std::string				uri;
-		std::string				uriPath;
-		config::Location const* location;
-};
-
-}  // namespace http
-
+char const* webserv::parser::statusToReasonPhrase( int short status );
+}  // namespace parser
 }  // namespace webserv
 
 #endif

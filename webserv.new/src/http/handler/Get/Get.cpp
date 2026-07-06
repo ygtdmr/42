@@ -1,26 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   uriToLocation.hpp                                  :+:      :+:    :+:   */
+/*   Get.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/02 14:30:44 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 12:43:49 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/04 21:00:32 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/05 08:42:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_PARSER_URI_TO_LOCATION_HPP
-#define WEBSERV_PARSER_URI_TO_LOCATION_HPP
-
-#include "../config/Location.hpp"
+#include "../../../inc/hpp/http/handler/Get.hpp"
 
 namespace webserv
 {
-namespace parser
+namespace http
 {
-config::Location uriToLocation( std::string const& uri );
-}  // namespace parser
-}  // namespace webserv
 
-#endif
+namespace handler
+{
+
+Get::Get( void )
+{
+	currentState = HEADERS;
+}
+
+Get::Get( Get const& other )
+{
+	*this = other;
+}
+
+Get::~Get() {}
+
+Get& Get::operator=( Get const& other )
+{
+	if ( this != &other )
+	{
+		client		= other.client;
+		realPath	= other.realPath;
+	}
+	return *this;
+}
+
+}  // namespace handler
+
+}  // namespace http
+
+}  // namespace webserv

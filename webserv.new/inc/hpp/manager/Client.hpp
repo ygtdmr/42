@@ -6,17 +6,17 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 05:01:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 08:44:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WEBSERV_MANAGER_CLIENT_HPP
 #define WEBSERV_MANAGER_CLIENT_HPP
 
-#include "IManager.hpp"
+#include "Manager.hpp"
 #include "Server.hpp"
 #include "http/Request.hpp"
-#include "http/handler/IHandler.hpp"
+#include "http/handler/Handler.hpp"
 #include "parser/Request.hpp"
 
 namespace webserv
@@ -24,7 +24,7 @@ namespace webserv
 
 namespace manager
 {
-class Client : public IManager
+class Client : public Manager
 {
 	public:
 		Client( void );
@@ -33,13 +33,13 @@ class Client : public IManager
 		Client& operator=( Client const& other );
 		void	process( void );
 
-		bool					 isConnectionClose;
-		Server*					 server;
-		std::string				 receiveData;
-		std::string				 deliverData;
-		parser::Request			 parserRequest;
-		http::Request			 httpRequest;
-		http::handler::IHandler* handler;
+		bool					isConnectionClose;
+		Server*					server;
+		std::string				receiveData;
+		std::string				deliverData;
+		parser::Request			parserRequest;
+		http::Request			httpRequest;
+		http::handler::Handler* handler;
 
 	private:
 		void receive( void );

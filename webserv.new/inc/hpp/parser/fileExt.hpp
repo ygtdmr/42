@@ -1,42 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Exception.hpp                                      :+:      :+:    :+:   */
+/*   fileExt.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 09:07:31 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/02 14:30:44 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/05 22:06:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HANDLER_EXCEPTION_HPP
-#define WEBSERV_HANDLER_EXCEPTION_HPP
+#ifndef WEBSERV_PARSER_FILE_EXT_HPP
+#define WEBSERV_PARSER_FILE_EXT_HPP
 
-#include <exception>
+#include <string>
 
 namespace webserv
 {
-
-namespace http
+namespace parser
 {
-
-namespace handler
-{
-class Exception : public std::exception
-{
-	public:
-		Exception( int short status );
-		Exception( Exception const& other );
-		Exception& operator=( Exception const& other );
-		virtual ~Exception() throw();
-
-		int short status;
-};
-}  // namespace handler
-
-}  // namespace http
-
+char const* fileExt( std::string const& fileName );
+}  // namespace parser
 }  // namespace webserv
 
 #endif

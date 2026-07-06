@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 18:51:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 08:53:27 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class ServerLog
 {
 	public:
 		ServerLog( std::string const& level );
-		ServerLog( manager::IManager const& server, std::string const& level );
+		ServerLog( manager::Manager const& server, std::string const& level );
 		template < typename T >
 		ServerLog& operator<<( T const& any );
 

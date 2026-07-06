@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IHandler.hpp                                       :+:      :+:    :+:   */
+/*   Exception.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 13:13:57 by yidemir          ###   ########.fr       */
+/*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/05 18:14:13 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_HANDLER_IHANDLER_HPP
-#define WEBSERV_HTTP_HANDLER_IHANDLER_HPP
+#ifndef WEBSERV_HANDLER_EXCEPTION_HPP
+#define WEBSERV_HANDLER_EXCEPTION_HPP
 
-#include "../../config/Location.hpp"
-#include "../../manager/Client.hpp"
-#include "../Response.hpp"
+#include <exception>
 
 namespace webserv
 {
@@ -23,23 +21,16 @@ namespace webserv
 namespace http
 {
 
-namespace handler
-{
-class IHandler : public Response
+class Exception : public std::exception
 {
 	public:
-		virtual ~IHandler()				 = 0;
-		virtual void build( void ) const = 0;
+		Exception( int short status );
+		Exception( Exception const& other );
+		Exception& operator=( Exception const& other );
+		virtual ~Exception() throw();
 
-		manager::Client const*	client;
-		config::Location const* location;
-		enum state
-		{
-			DELIVER,
-			DONE
-		} currentState;
+		int short status;
 };
-}  // namespace handler
 
 }  // namespace http
 

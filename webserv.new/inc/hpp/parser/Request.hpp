@@ -6,15 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 12:47:49 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 14:28:10 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 19:24:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WEBSERV_PARSER_REQUEST_HPP
 #define WEBSERV_PARSER_REQUEST_HPP
 
-#include <string>
-#include "../http/Request.hpp"
+#include "../manager/Client.hpp"
 
 namespace webserv
 {
@@ -30,22 +29,24 @@ class Request
 		Request& operator=( Request const& other );
 		void	 parse( void );
 
-		std::string*   receiveData;
-		http::Request* request;
 		enum state
 		{
 			REQUEST_FIRST_LINE,
+			LOCATION,
 			HEADERS,
 			CHUNKED_BODY,
 			BODY,
 			DONE
 		} currentState;
+		manager::Client* client;
 
 	private:
 		void parseFirstLine( void );
+		void parseLocation( void );
 		void parseHeaders( void );
 		void parseChunkedBody( void );
 		void parseBody( void );
+		void checkMaxBodySize( void );
 };
 
 }  // namespace parser

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 14:33:18 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 19:24:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 void webserv::parser::Request::parseChunkedBody( void )
 {
-	request->body += unchunkBody( *receiveData );
-	bool isChunkedBodyDone( utils::str::has( *receiveData, "0\r\n" ) ||
-							utils::str::has( *receiveData, "0\n" ) );
+	client->httpRequest.body += unchunkBody( client->receiveData );
+	bool isChunkedBodyDone( utils::str::has( client->receiveData, "0\r\n" ) ||
+							utils::str::has( client->receiveData, "0\n" ) );
 	if ( isChunkedBodyDone )
 		currentState = DONE;
 }

@@ -6,15 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 13:18:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 11:25:48 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/socket.h>
-#include "../../../inc/hpp/http/handler/Error.hpp"
-#include "../../../inc/hpp/http/handler/Exception.hpp"
-#include "../../../inc/hpp/manager/Client.hpp"
-#include "../../../inc/hpp/parser/Handler.hpp"
+#include "../../../inc/hpp/http/handler/Handler.hpp"
 #include "../../../inc/hpp/utils/map.hpp"
 
 void webserv::manager::Client::deliver( void )
@@ -23,10 +20,10 @@ void webserv::manager::Client::deliver( void )
 	{
 		handler->build();
 	}
-	catch ( http::handler::Exception const& e )
+	catch ( http::handler::Handler* handler )
 	{
-		deliverData		= std::string();
-		handler			= new http::handler::Error( e.status );
+		delete this->handler;
+		this->handler	= handler;
 		handler->client = this;
 		handler->build();
 	}

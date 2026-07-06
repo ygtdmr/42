@@ -1,35 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matchLocation.cpp                                  :+:      :+:    :+:   */
+/*   parseLocation.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 10:20:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 13:41:49 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 19:24:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/parser/Handler.hpp"
+#include "../../../inc/hpp/http/Exception.hpp"
+#include "../../../inc/hpp/parser/Request.hpp"
 
-webserv::config::Location const* webserv::parser::Handler::matchLocation(
-	std::string const& uri, std::map< std::string, config::Location > const& locations ) const
+void webserv::parser::Request::parseLocation()
 {
-	config::Location const*									  location( 0 );
-	std::string												  locationUri;
+	std::map< std::string, config::Location > const&		  locations( client->server->config->locations );
 	std::map< std::string, config::Location >::const_iterator it( locations.begin() );
+	std::string												  locationUri;
 
 	while ( it != locations.end() )
 	{
-		if ( it->first.find( uri ) == 0 )
+		if ( it->first.find( client->httpRequest.uri ) == 0 )
 		{
-			if ( !location || ( it->first.size() >= locationUri.size() ) )
+			if ( !client->httpRequest.location || ( it->first.size() >= locationUri.size() ) )
 			{
-				location	= &it->second;
-				locationUri = it->first;
+				client->httpRequest.location = &it->second;
+				locationUri					 = it->first;
 			}
 		}
 		it++;
 	}
-	return location;
+	if ( !client->httpRequest.location )
+		throw http::Exception( 404 );
+	currentState = HEADERS;
 }

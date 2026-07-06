@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   DirectoryListing.hpp                               :+:      :+:    :+:   */
+/*   IMessage.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 08:50:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 08:40:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_HANDLER_DIRECTORY_LISTING_HPP
-#define WEBSERV_HTTP_HANDLER_DIRECTORY_LISTING_HPP
+#ifndef WEBSERV_HTTP_IMESSAGE_HPP
+#define WEBSERV_HTTP_IMESSAGE_HPP
 
-#include "Handler.hpp"
+#include <map>
+#include <string>
 
 namespace webserv
 {
@@ -21,20 +22,16 @@ namespace webserv
 namespace http
 {
 
-namespace handler
-{
-class DirectoryListing : public Handler
+class Message
 {
 	public:
-		DirectoryListing( void );
-		DirectoryListing( DirectoryListing const& other );
-		virtual ~DirectoryListing();
-		DirectoryListing& operator=( DirectoryListing const& other );
-		void			  build( void );
-		void			  buildBody( void );
-		void			  buildHeaders( void );
+		virtual ~Message() = 0;
+
+		std::map< std::string, std::string > headers;
+		std::string							 body;
+		std::string							 version;
+		int short							 status;
 };
-}  // namespace handler
 
 }  // namespace http
 

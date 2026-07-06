@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getHandler.cpp                                     :+:      :+:    :+:   */
+/*   fileExt.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/05 10:22:58 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 12:29:31 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/05 22:07:22 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/05 22:11:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/parser/Handler.hpp"
+#include "../../../inc/hpp/parser/fileExt.hpp"
+#include "../../../inc/hpp/utils/str.hpp"
 
-webserv::http::handler::IHandler* webserv::parser::Handler::getHandler( void ) const
+char const* webserv::parser::fileExt( std::string const& fileName )
 {
-	return handler_;
+	if ( utils::str::has( fileName, "." ) )
+		return fileName.substr( fileName.find( "." ) + 1 ).c_str();
+	return "";
 }

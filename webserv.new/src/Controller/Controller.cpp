@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:18:28 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 17:19:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 08:54:13 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ namespace webserv
 
 Controller::Controller( void )
 {
-	connections_ = new std::vector< manager::IManager >;
+	connections_ = new std::vector< manager::Manager >;
 	pollfds_	 = new std::vector< struct pollfd >;
 }
 

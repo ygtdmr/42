@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 20:25:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 08:44:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #define WEBSERV_MANAGER_SERVER_HPP
 
 #include "../config/Server.hpp"
-#include "IManager.hpp"
+#include "Manager.hpp"
 
 namespace webserv
 {
 
 namespace manager
 {
-class Server : public IManager
+class Server : public Manager
 {
 	public:
 		Server( void );

@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IManager.hpp                                       :+:      :+:    :+:   */
+/*   extToMimeType.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 20:26:00 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/05 21:58:31 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/05 21:59:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_IMANAGER_HPP
-#define WEBSERV_HTTP_IMANAGER_HPP
-
-#include <poll.h>
+#ifndef WEBSERV_PARSER_EXT_TO_MIME_TYPE_HPP
+#define WEBSERV_PARSER_EXT_TO_MIME_TYPE_HPP
 
 namespace webserv
 {
-
-namespace manager
+namespace parser
 {
-class IManager
-{
-	public:
-		virtual ~IManager() = 0;
-
-		struct pollfd pollfd;
-		char const*	  addr;
-};
-}  // namespace manager
-
+char const* extToMimeType( char const* ext );
+}  // namespace parser
 }  // namespace webserv
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 09:29:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/05 19:38:53 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/socket.h>
 #include "../../../inc/hpp/manager/Client.hpp"
-#include "../../../inc/hpp/parser/Handler.hpp"
+#include "../../../inc/hpp/parser/handler.hpp"
 
 #define RECV_BUFFER_SIZE 8
 
@@ -26,9 +26,7 @@ void webserv::manager::Client::receive( void )
 		parserRequest.parse();
 		if ( parserRequest.currentState == parserRequest.DONE )
 		{
-			parser::Handler parserHandler;
-			parserHandler.parse( this );
-			handler		  = parserHandler.getHandler();
+			parser::handler( this );
 			pollfd.events = POLLOUT;
 		}
 	}

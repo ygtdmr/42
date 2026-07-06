@@ -1,41 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Get.cpp                                         :+:      :+:    :+:   */
+/*   build.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/04 21:00:32 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 08:42:07 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/06 11:16:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/hpp/http/handler/Get.hpp"
 
-namespace webserv
+void webserv::http::handler::Get::build( void )
 {
-namespace http
-{
-
-namespace handler
-{
-
-Get::Get( void ) {}
-
-Get::Get( Get const& other )
-{
-	*this = other;
+	switch (currentState)
+	{
+	case HEADERS:
+		buildHeaders();
+		break;
+	case BODY:
+		buildBody();
+		break;
+	}
 }
-
-Get::~Get() {}
-
-Get& Get::operator=( Get const& other )
-{
-	return *this;
-}
-
-}  // namespace handler
-
-}  // namespace http
-
-}  // namespace webserv
