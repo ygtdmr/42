@@ -6,24 +6,24 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 08:39:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 13:20:27 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../hpp/Controller.hpp"
-#include "../../hpp/ServerLog.hpp"
-#include "../../hpp/manager/Client.hpp"
+#include "../../inc/hpp/Controller.hpp"
+#include "../../inc/hpp/ServerLog.hpp"
+#include "../../inc/hpp/manager/Client.hpp"
 #include "unistd.h"
 
 namespace webserv
 {
 
-void Controller::closeConnection( size_t index, char const* reason ) const
+void Controller::closeConnection( size_t index, char const* reason ) const throw()
 {
 	struct pollfd const& pfd( ( *pollfds_ )[index] );
-	std::string const&	 addr( ( *connections_ )[index].addr );
+	std::string const&	 addr( ( *connections_ )[index]->addr );
 	close( pfd.fd );
-	ServerLog( ( *connections_ )[index], "WARNING" )
+	ServerLog( *( *connections_ )[index], "WARNING" )
 		<< "Connection closed from: " << addr << ", assigned socket: " << pfd.fd << ", reason: " << reason
 		<< '\n';
 	pollfds_->erase( pollfds_->begin() + index );

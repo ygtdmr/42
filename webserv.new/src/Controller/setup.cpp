@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 08:28:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 19:24:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 #include <netdb.h>
 #include <string.h>
 #include <sys/socket.h>
-#include "../../hpp/Controller.hpp"
-#include "../../hpp/ServerLog.hpp"
-#include "../../hpp/config/Exception.hpp"
-#include "../../hpp/manager/Server.hpp"
-#include "../../hpp/utils/str.hpp"
+#include "../../inc/hpp/Controller.hpp"
+#include "../../inc/hpp/ServerLog.hpp"
+#include "../../inc/hpp/config/Exception.hpp"
+#include "../../inc/hpp/manager/Server.hpp"
+#include "../../inc/hpp/utils/str.hpp"
 
 namespace webserv
 {
@@ -52,9 +52,12 @@ static manager::Server setupServer( config::Server const* config, char const* ho
 	if ( listen( fd, 128 ) < 0 )
 		throw config::Exception() << host << ":" << port << ", listen: " << strerror( errno );
 
-	server.config		  = config;
-	server.addr			  = host;
+	if (host)
+		server.addr			  = host;
+	else
+		server.addr = "";
 	server.port			  = port;
+	server.config		  = config;
 	server.pollfd.fd	  = fd;
 	server.pollfd.events  = POLLIN;
 	server.pollfd.revents = 0;
@@ -66,7 +69,7 @@ void Controller::setup( std::vector< config::Server > const* servers )
 	ServerLog( "INFO" ) << "Initializing servers..." << '\n';
 	for ( size_t cI = 0; cI < servers->size(); cI++ )
 	{
-		for ( size_t sI = 0; cI < ( *servers )[cI].listens.size(); cI++ )
+		for ( size_t sI = 0; sI < ( *servers )[cI].listens.size(); sI++ )
 		{
 			std::string listen( ( *servers )[cI].listens[sI] );
 			char const* host( 0 );
@@ -80,7 +83,7 @@ void Controller::setup( std::vector< config::Server > const* servers )
 				port = listen.c_str();
 			manager::Server server( setupServer( &( *servers )[cI], host, port ) );
 			pollfds_->push_back( server.pollfd );
-			connections_->push_back( server );
+			connections_->push_back( new manager::Server(server) );
 			ServerLog( server, "SUCCESS" ) << "Server initialized." << '\n';
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 21:57:14 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 21:58:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 12:01:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ namespace webserv
 {
 namespace parser
 {
-char const* webserv::parser::statusToReasonPhrase( int short status );
+char const* statusToReasonPhrase( int short status );
 }  // namespace parser
 }  // namespace webserv
 

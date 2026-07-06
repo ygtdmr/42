@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 08:53:27 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 18:38:20 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ namespace webserv
 class ServerLog
 {
 	public:
-		ServerLog( std::string const& level );
-		ServerLog( manager::Manager const& server, std::string const& level );
+		inline ServerLog( std::string const& level );
+		inline ServerLog( manager::Manager const& server, std::string const& level );
 		template < typename T >
-		ServerLog& operator<<( T const& any );
+		inline ServerLog& operator<<( T const& any );
 
 	private:
-		void printLog( void );
+		inline void printLog( void );
 
 		std::string const& level_;
 		std::string		   msg_;
@@ -42,6 +42,6 @@ class ServerLog
 
 }  // namespace webserv
 
-#include "../../tpp/ServerLog.tpp"
+#include "../tpp/ServerLog.tpp"
 
 #endif

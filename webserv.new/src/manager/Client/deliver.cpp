@@ -6,11 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 11:25:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 13:21:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/socket.h>
+#include "../../../inc/hpp/manager/Client.hpp"
 #include "../../../inc/hpp/http/handler/Handler.hpp"
 #include "../../../inc/hpp/utils/map.hpp"
 

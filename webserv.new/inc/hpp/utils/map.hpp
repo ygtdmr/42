@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 14:58:54 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 19:12:06 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 12:57:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ inline bool isEq( std::map< K, V > map, K const& key, V const& value );
 }  // namespace utils
 
 }  // namespace webserv
+
+#include "../../tpp/utils/map.tpp"
 
 #endif

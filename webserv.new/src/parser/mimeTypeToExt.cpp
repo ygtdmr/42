@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 21:53:03 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 08:51:31 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 12:58:46 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/hpp/parser/mimeTypeToExt.hpp"
 
-char const* webserv::parser::mimeTypeToExt( char const* mimeType )
+char const* webserv::parser::mimeTypeToExt( std::string const& mimeType )
 {
 	if ( mimeType == "text/html" )
 		return ".html";

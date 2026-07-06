@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 08:50:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 19:03:46 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ class DirectoryListing : public Handler
 		virtual ~DirectoryListing();
 		DirectoryListing& operator=( DirectoryListing const& other );
 		void			  build( void );
-		void			  buildBody( void );
-		void			  buildHeaders( void );
 };
 }  // namespace handler
 

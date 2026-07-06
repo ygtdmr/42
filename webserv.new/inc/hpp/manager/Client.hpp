@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 08:44:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 12:39:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 #include "Manager.hpp"
 #include "Server.hpp"
-#include "http/Request.hpp"
-#include "http/handler/Handler.hpp"
-#include "parser/Request.hpp"
+#include "../http/Request.hpp"
+#include "../http/handler/Handler.hpp"
+#include "../parser/Request.hpp"
 
 namespace webserv
 {

@@ -6,19 +6,20 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 11:26:35 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 13:23:22 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
 #include <unistd.h>
-#include "../../../inc/hpp/http/handler/DirectoryListing.hpp"
-#include "../../../inc/hpp/http/handler/Error.hpp"
-#include "../../../inc/hpp/http/handler/Get.hpp"
-#include "../../../inc/hpp/parser/extToMimeType.hpp"
-#include "../../../inc/hpp/parser/fileExt.hpp"
-#include "../../../inc/hpp/parser/mapToHeaders.hpp"
-#include "../../../inc/hpp/utils/conv.hpp"
+#include "../../../../inc/hpp/http/handler/DirectoryListing.hpp"
+#include "../../../../inc/hpp/http/handler/Error.hpp"
+#include "../../../../inc/hpp/http/handler/Get.hpp"
+#include "../../../../inc/hpp/parser/extToMimeType.hpp"
+#include "../../../../inc/hpp/parser/fileExt.hpp"
+#include "../../../../inc/hpp/parser/mapToHeaders.hpp"
+#include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/utils/conv.hpp"
 
 void webserv::http::handler::Get::buildHeaders( void )
 {
@@ -48,5 +49,5 @@ void webserv::http::handler::Get::buildHeaders( void )
 	headers["Content-Length"] = utils::conv::toStr< off_t >( st.st_size );
 	headers["Content-Type"]	  = parser::extToMimeType( parser::fileExt( realPath ) );
 	client->deliverData		  = parser::mapToHeaders( headers );
-	currentState = BODY;
+	currentState			  = BODY;
 }

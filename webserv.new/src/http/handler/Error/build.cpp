@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear.cpp                                          :+:      :+:    :+:   */
+/*   build.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 13:20:33 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/06 19:00:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/Controller.hpp"
-#include "unistd.h"
+#include "../../../../inc/hpp/http/handler/Error.hpp"
 
-namespace webserv
+void webserv::http::handler::Error::build( void ) throw()
 {
-
-void Controller::clear( void ) const throw()
-{
-	for ( size_t i = 0; i < pollfds_->size(); i++ )
-		close( ( pollfds_->begin() + i )->fd );
+	if ( currentState == HEADERS )
+		buildHeaders();
+	if ( currentState == BODY )
+		buildHeaders();
 }
-
-}  // namespace webserv

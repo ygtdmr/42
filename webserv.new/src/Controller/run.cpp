@@ -6,14 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 08:41:21 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 13:18:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../hpp/Controller.hpp"
-#include "../../hpp/ServerLog.hpp"
-#include "../../hpp/manager/Client.hpp"
-#include "../../hpp/manager/Server.hpp"
+#include "../../inc/hpp/Controller.hpp"
+#include "../../inc/hpp/ServerLog.hpp"
+#include "../../inc/hpp/manager/Client.hpp"
+#include "../../inc/hpp/manager/Server.hpp"
 #include "signal.h"
 
 bool g_webserv_exit( 0 );
@@ -26,7 +26,7 @@ static void webserv_exit( int )
 namespace webserv
 {
 
-void Controller::run( void ) const
+void Controller::run( void ) const throw()
 {
 	signal( SIGQUIT, SIG_IGN );
 	signal( SIGTSTP, SIG_IGN );
@@ -38,12 +38,12 @@ void Controller::run( void ) const
 			continue;
 		for ( size_t i = 0; i < pollfds_->size(); i++ )
 		{
-			manager::Server* server( dynamic_cast< manager::Server* >( &( *connections_ )[i] ) );
+			manager::Server* server( dynamic_cast< manager::Server* >( ( *connections_ )[i] ) );
 			if ( server )
 				acceptConnection( i );
 			else
 			{
-				manager::Client* client( dynamic_cast< manager::Client* >( &( *connections_ )[i] ) );
+				manager::Client* client( dynamic_cast< manager::Client* >( ( *connections_ )[i] ) );
 				client->process();
 				if ( client->isConnectionClose )
 					closeConnection( i--, "client side" );

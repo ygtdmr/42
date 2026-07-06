@@ -1,25 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear.cpp                                          :+:      :+:    :+:   */
+/*   Manager.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 13:20:33 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/06 18:42:16 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/06 19:16:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/Controller.hpp"
-#include "unistd.h"
+#include "../../inc/hpp/manager/Manager.hpp"
 
 namespace webserv
 {
-
-void Controller::clear( void ) const throw()
+namespace manager
 {
-	for ( size_t i = 0; i < pollfds_->size(); i++ )
-		close( ( pollfds_->begin() + i )->fd );
+
+Manager::Manager( void ) {}
+
+Manager::Manager( Manager const& other )
+{
+	*this = other;
 }
+
+Manager::~Manager() {}
+
+Manager& Manager::operator=( Manager const& other )
+{
+	if ( this != &other )
+	{
+		pollfd = other.pollfd;
+		addr   = other.addr;
+	}
+	return *this;
+}
+
+}  // namespace manager
 
 }  // namespace webserv

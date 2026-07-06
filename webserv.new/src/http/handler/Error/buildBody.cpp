@@ -6,28 +6,32 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 14:53:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 18:32:38 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fstream>
+#include <sstream>
 #include "../../../../inc/hpp/manager/Client.hpp"
-#include "../../../../inc/hpp/http/handler/Get.hpp"
+#include "../../../../inc/hpp/parser/statusToReasonPhrase.hpp"
+#include "../../../../inc/hpp/parser/mapToHeaders.hpp"
+#include "../../../../inc/hpp/http/handler/Error.hpp"
 
-#define READ_BUFFER_SIZE 32
-
-void webserv::http::handler::Get::buildBody( void )
+void webserv::http::handler::Error::buildBody( void ) throw()
 {
-	static std::ifstream ifs;
-	char				 readBuffer[READ_BUFFER_SIZE];
-	if ( ifs.is_open() )
-		ifs.open( realPath.c_str(), std::ios::binary );
-	ifs.read( readBuffer, READ_BUFFER_SIZE );
-	if ( ifs.gcount() )
-		client->deliverData.append( readBuffer, ifs.gcount() );
-	else
+	if ( errorPagePath.empty() )
 	{
-		ifs.close();
+		std::stringstream	ss;
+		ss << "<html>" << std::endl;
+		ss << "<head><title>" << status << " " << parser::statusToReasonPhrase(status) << "</title></head>" << std::endl;
+		ss << "<body>" << std::endl;
+		ss << "<center><h1>" << status << " " << parser::statusToReasonPhrase(status) << "</h1></center>" << std::endl;
+		ss << "</body>" << std::endl;
+		ss << "</html>";
+		body = ss.str();
+		headers["Content-Length"] = body.size();
+		client->deliverData	 = parser::mapToHeaders( headers ) + body;
 		currentState = DONE;
 	}
+	else
+		readErrorPageFile();
 }

@@ -6,18 +6,18 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:18:28 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 08:54:13 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 19:36:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../hpp/Controller.hpp"
-
+#include "../../inc/hpp/Controller.hpp"
+#include <iostream>
 namespace webserv
 {
 
 Controller::Controller( void )
 {
-	connections_ = new std::vector< manager::Manager >;
+	connections_ = new std::vector< manager::Manager* >;
 	pollfds_	 = new std::vector< struct pollfd >;
 }
 
@@ -26,8 +26,11 @@ Controller::Controller( Controller const& other )
 	*this = other;
 }
 
+
 Controller::~Controller()
 {
+	for (size_t i = 0; i < connections_->size(); i++)
+		delete (*connections_)[i];
 	delete connections_;
 	delete pollfds_;
 }

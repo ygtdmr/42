@@ -6,11 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 19:25:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 12:56:38 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/hpp/http/Exception.hpp"
+#include "../../../inc/hpp/manager/Client.hpp"
 #include "../../../inc/hpp/parser/Request.hpp"
 
 void webserv::parser::Request::checkMaxBodySize( void )

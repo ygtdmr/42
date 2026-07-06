@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 08:49:07 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/06 18:33:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ class Error : public Handler
 		void   build( void ) throw();
 		void   buildBody( void ) throw();
 		void   buildHeaders( void ) throw();
+		void   readErrorPageFile( void ) throw();
+
+		std::string	errorPagePath;
 };
 }  // namespace handler
 

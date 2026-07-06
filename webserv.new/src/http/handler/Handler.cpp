@@ -1,25 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear.cpp                                          :+:      :+:    :+:   */
+/*   Handler.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 13:20:33 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/06 18:42:16 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/06 19:13:11 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/Controller.hpp"
-#include "unistd.h"
+#include "../../../inc/hpp/http/handler/Handler.hpp"
 
 namespace webserv
 {
-
-void Controller::clear( void ) const throw()
+namespace http
 {
-	for ( size_t i = 0; i < pollfds_->size(); i++ )
-		close( ( pollfds_->begin() + i )->fd );
+namespace handler
+{
+
+Handler::Handler( void ) {}
+
+Handler::Handler( Handler const& other ): Response(other)
+{
+	*this = other;
 }
+
+Handler::~Handler() {}
+
+Handler& Handler::operator=( Handler const& other )
+{
+	if ( this != &other )
+	{
+		realPath = other.realPath;
+		client   = other.client;
+	}
+	return *this;
+}
+
+} // namespace handler
+
+}  // namespace manager
 
 }  // namespace webserv

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Get.cpp                                         :+:      :+:    :+:   */
+/*   DirectoryListing.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/04 21:00:32 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 08:42:07 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/06 19:01:23 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/06 19:11:54 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../inc/hpp/http/handler/Get.hpp"
+#include "../../../../inc/hpp/http/handler/DirectoryListing.hpp"
 
 namespace webserv
 {
@@ -20,19 +20,19 @@ namespace http
 namespace handler
 {
 
-Get::Get( void )
+DirectoryListing::DirectoryListing( void )
 {
 	currentState = HEADERS;
 }
 
-Get::Get( Get const& other ): Handler(other)
+DirectoryListing::DirectoryListing( DirectoryListing const& other ): Handler(other)
 {
 	*this = other;
 }
 
-Get::~Get() {}
+DirectoryListing::~DirectoryListing() {}
 
-Get& Get::operator=( Get const& other )
+DirectoryListing& DirectoryListing::operator=( DirectoryListing const& other )
 {
 	(void) other;
 	return *this;
