@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 19:00:06 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 11:27:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ void webserv::http::handler::Error::buildBody( void ) throw()
 		ss << "<hr><center>webserv</center>" << std::endl;
 		ss << "</body>" << std::endl;
 		ss << "</html>";
-		body					  = ss.str();
+		body					  = ss.str() + "\r\n";
 		headers["Content-Length"] = utils::conv::toStr< size_t >( body.size() );
-		client->deliverData += parser::mapToHeaders( headers ) + body + "\r\n";
+		client->deliverData += parser::mapToHeaders( headers );
+		if ( client->httpRequest.method != "HEAD" )
+			client->deliverData += body;
 		currentState = DONE;
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 10:20:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 14:38:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 12:02:59 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,14 @@ void webserv::parser::Request::parseLocation()
 	}
 	if ( !client->httpRequest.location )
 		throw http::Exception( 404 );
+
+	bool allowMethod( false );
+	for ( size_t i = 0; !allowMethod && ( i < client->httpRequest.location->allowMethods.size() ); i++ )
+		allowMethod =
+			client->httpRequest.method == *( client->httpRequest.location->allowMethods.begin() + i );
+
+	if ( !allowMethod )
+		throw http::Exception( 405 );
+
 	currentState = HEADERS;
 }

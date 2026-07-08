@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 18:53:08 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 11:32:28 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,10 @@ void webserv::http::handler::Error::buildHeaders( void ) throw()
 			errorPagePath			= "";
 		}
 	}
-	currentState = BODY;
+	else
+		headers["Content-Type"] = "text/html";
+	if ( !errorPagePath.empty() && client->httpRequest.method == "HEAD" )
+		currentState = DONE;
+	else
+		currentState = BODY;
 }

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 14:24:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 13:14:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include "../../inc/hpp/manager/Client.hpp"
 #include "../../inc/hpp/manager/Server.hpp"
 #include "signal.h"
+#include <errno.h>
+
+#define CLIENT_TIMEOUT 30
 
 bool g_webserv_exit( 0 );
 
@@ -28,14 +31,20 @@ namespace webserv
 
 void Controller::run( void ) const throw()
 {
+	std::time_t currentTime;
 	signal( SIGQUIT, SIG_IGN );
 	signal( SIGTSTP, SIG_IGN );
 	signal( SIGPIPE, SIG_IGN );
 	signal( SIGINT, webserv_exit );
 	while ( !g_webserv_exit )
 	{
-		if ( poll( &( *( pollfds_->begin() ) ), pollfds_->size(), -1 ) <= 0 )
-			continue;
+		if ( poll( &( *( pollfds_->begin() ) ), pollfds_->size(), 1000 ) < 0 )
+		{
+			if (errno == EINTR)
+				continue;
+			break;
+		}
+		currentTime = std::time(0);
 		for ( size_t i = 0; i < pollfds_->size(); i++ )
 		{
 			( *connections_ )[i]->pollfd = &( *pollfds_ )[i];
@@ -45,9 +54,14 @@ void Controller::run( void ) const throw()
 			else
 			{
 				manager::Client* client( dynamic_cast< manager::Client* >( ( ( *connections_ )[i] ) ) );
-				client->process();
-				if ( client->isConnectionClose )
-					closeConnection( i--, "client side" );
+				if ((currentTime - client->lastActivity) > CLIENT_TIMEOUT)
+					closeConnection( i--, "timeout" );
+				else
+				{
+					client->process();
+					if ( client->isConnectionClose )
+						closeConnection( i--, "client side" );
+				}
 			}
 		}
 	}

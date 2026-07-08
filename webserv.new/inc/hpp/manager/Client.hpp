@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 12:39:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 12:52:11 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "../parser/Request.hpp"
 #include "Manager.hpp"
 #include "Server.hpp"
+#include <ctime>
 
 namespace webserv
 {
@@ -34,6 +35,7 @@ class Client : public Manager
 		void	process( void );
 
 		bool					isConnectionClose;
+		std::time_t				lastActivity;
 		Server*					server;
 		std::string				receiveData;
 		std::string				deliverData;

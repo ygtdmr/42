@@ -6,12 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 14:25:25 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 12:52:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include <ctime>
 #include "../../inc/hpp/Controller.hpp"
 #include "../../inc/hpp/ServerLog.hpp"
 #include "../../inc/hpp/manager/Client.hpp"
@@ -33,6 +34,7 @@ void Controller::acceptConnection( size_t index ) const throw()
 	manager::Client* client( new manager::Client() );
 	client->server = dynamic_cast< manager::Server* >( ( *connections_ )[index] );
 	client->addr   = inet_ntoa( addr.sin_addr );
+	client->lastActivity = std::time(0);
 	newConnection( fd, client );
 
 	ServerLog( client, "WARNING" ) << "New connection from: " << client->addr << ", assigned socket: " << fd

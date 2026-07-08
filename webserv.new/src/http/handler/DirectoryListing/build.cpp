@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 10:08:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 11:22:48 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void webserv::http::handler::DirectoryListing::build( void )
 	body					  = ss.str();
 	headers["Content-Length"] = utils::conv::toStr< size_t >( body.size() );
 	status					  = 200;
-	client->deliverData		  = getFirstLine() + parser::mapToHeaders( headers ) + body;
-	currentState			  = DONE;
+	client->deliverData		  = getFirstLine() + parser::mapToHeaders( headers );
+	if ( client->httpRequest.method != "HEAD" )
+		client->deliverData += body;
+	currentState = DONE;
 }
