@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/07/08 09:15:44 by yidemir          ###   ########.fr        #
+#    Updated: 2026/07/08 19:50:28 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,14 @@ SRCS		=	src/main.cpp \
 				src/http/handler/Error/buildBody.cpp \
 				src/http/handler/Error/buildHeaders.cpp \
 				src/http/handler/Error/build.cpp \
+				src/http/handler/Upload/build.cpp \
+				src/http/handler/Upload/writeBoundary.cpp \
+				src/http/handler/Upload/writeRaw.cpp \
+				src/http/handler/Upload/generateFileName.cpp \
+				src/http/handler/Upload/uploadFiles.cpp \
+				src/http/handler/Upload/Upload.cpp \
+				src/http/handler/Delete/Delete.cpp \
+				src/http/handler/Delete/build.cpp \
 				src/http/Message.cpp \
 				src/http/Exception.cpp \
 				src/http/Request.cpp \

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 11:21:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 19:47:46 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void webserv::http::handler::Get::buildHeaders( void )
 {
 	struct stat st;
 	if ( stat( realPath.c_str(), &st ) < 0 )
-		throw new handler::Error( client, 404 );
+		throw new Error( client, 404 );
 	if ( S_ISDIR( st.st_mode ) )
 	{
 		if ( *( client->httpRequest.uriPath.end() - 1 ) != '/' )
-			throw new handler::Redirection( client, 301, client->httpRequest.uriPath + '/' );
+			throw new Redirection( client, 301, client->httpRequest.uriPath + '/' );
 		std::string indexFile( client->httpRequest.location->index );
 		if ( indexFile.empty() )
 			indexFile = "index.html";
@@ -38,15 +38,15 @@ void webserv::http::handler::Get::buildHeaders( void )
 		if ( stat( realPath.c_str(), &st ) < 0 )
 		{
 			if ( client->httpRequest.location->autoindex )
-				throw new handler::DirectoryListing( client );
+				throw new DirectoryListing( client );
 			else
-				throw new handler::Error( client, 403 );
+				throw new Error( client, 403 );
 		}
 		if ( S_ISDIR( st.st_mode ) )
-			throw new handler::Error( client, 403 );
+			throw new Error( client, 403 );
 	}
 	if ( access( realPath.c_str(), R_OK ) < 0 )
-		throw new handler::Error( client, 403 );
+		throw new Error( client, 403 );
 	headers["Content-Length"] = utils::conv::toStr< off_t >( st.st_size );
 	headers["Content-Type"]	  = parser::extToMimeType( parser::fileExt( realPath ) );
 	status					  = 200;

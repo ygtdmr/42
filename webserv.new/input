@@ -1,4 +1,4 @@
-GET /assets/../../ HTTP/1.1
+DELETE /assets/test.html HTTP/1.1
 Connection: close
 Host: localhost
 

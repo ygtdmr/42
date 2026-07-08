@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 17:28:59 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 15:18:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void webserv::parser::Request::parseHeaders( void )
 			throw http::Exception( 400 );
 		if ( headers["Transfer-Encoding"] == "chunked" )
 			currentState = CHUNKED_BODY;
+		else if ( !headers["Content-Length"].empty() )
+			currentState = BODY;
 		else
 			currentState = DONE;
 	}

@@ -1,43 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Post.hpp                                           :+:      :+:    :+:   */
+/*   Delete.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/05 12:48:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 08:50:58 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/08 19:39:17 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/08 19:40:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_HANDLER_POST_HPP
-#define WEBSERV_HTTP_HANDLER_POST_HPP
-
-#include "Handler.hpp"
+#include "../../../../inc/hpp/http/handler/Delete.hpp"
 
 namespace webserv
 {
-
 namespace http
 {
 
 namespace handler
 {
-class Post : public Handler
+
+Delete::Delete( manager::Client* client ) : Handler( client )
+{}
+
+Delete::Delete( Delete const& other ) : Handler( other )
 {
-	public:
-		Post( void );
-		Post( Post const& other );
-		virtual ~Post();
-		Post& operator=( Post const& other );
-		void  build( void );
-		void  buildHeaders( void );
-		void  buildBody( void );
-};
+	*this = other;
+}
+
+Delete::~Delete() {}
+
+Delete& Delete::operator=( Delete const& other )
+{
+	Handler::operator=( other );
+	return *this;
+}
+
 }  // namespace handler
 
 }  // namespace http
 
 }  // namespace webserv
-
-#endif

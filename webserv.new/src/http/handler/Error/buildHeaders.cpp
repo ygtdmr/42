@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 11:32:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 15:19:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 #include "../../../../inc/hpp/parser/mapToHeaders.hpp"
 #include "../../../../inc/hpp/parser/statusToReasonPhrase.hpp"
 #include "../../../../inc/hpp/utils/conv.hpp"
-
-#include <iostream>
 
 void webserv::http::handler::Error::buildHeaders( void ) throw()
 {

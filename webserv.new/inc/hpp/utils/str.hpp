@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 14:58:54 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 17:19:13 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 17:13:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ namespace str
 {
 inline bool has( std::string const& str, char const* src );
 inline void skip( std::string& str, char const* src );
+inline std::string crop( std::string const& str, char const* start, char const* end = 0 );
 }  // namespace str
 
 }  // namespace utils
