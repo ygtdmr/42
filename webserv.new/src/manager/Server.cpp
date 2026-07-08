@@ -19,7 +19,7 @@ namespace manager
 
 Server::Server( void ) {}
 
-Server::Server( Server const& other ): Manager(other)
+Server::Server( Server const& other ) : Manager( other )
 {
 	*this = other;
 }

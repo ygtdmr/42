@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 12:56:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 17:28:59 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "../../../inc/hpp/manager/Client.hpp"
 #include "../../../inc/hpp/parser/Request.hpp"
 #include "../../../inc/hpp/parser/headersToMap.hpp"
-#include "../../../inc/hpp/utils/map.hpp"
 #include "../../../inc/hpp/utils/str.hpp"
 
 void webserv::parser::Request::parseHeaders( void )
@@ -23,15 +22,24 @@ void webserv::parser::Request::parseHeaders( void )
 			utils::str::has( client->receiveData, "\n\n" ) ) )
 		return;
 	std::map< std::string, std::string >& headers( client->httpRequest.headers );
-	headers = headersToMap( client->receiveData );
+	try
+	{
+		headers = headersToMap( client->receiveData );
+	}
+	catch ( std::exception const& _ )
+	{
+		throw http::Exception( 400 );
+	}
 	if ( client->httpRequest.version == "HTTP/1.1" )
 	{
-		if ( utils::map::has< std::string, std::string >( headers, "Host" ) && headers["Host"].empty() )
+		if ( headers["Host"].empty() )
 			throw http::Exception( 400 );
-		if ( utils::map::isEq< std::string, std::string >( headers, "Transfer-Encoding", "chunked" ) )
+		if ( headers["Transfer-Encoding"] == "chunked" )
 			currentState = CHUNKED_BODY;
+		else
+			currentState = DONE;
 	}
-	else if ( utils::map::has< std::string, std::string >( headers, "Content-Length" ) )
+	else if ( !headers["Content-Length"].empty() )
 		currentState = BODY;
 	else
 		currentState = DONE;

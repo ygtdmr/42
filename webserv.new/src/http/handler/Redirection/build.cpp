@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str.cpp                                            :+:      :+:    :+:   */
+/*   build.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/02 15:03:08 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 21:42:41 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/08 09:16:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/utils/str.hpp"
+#include "../../../../inc/hpp/http/handler/Redirection.hpp"
+#include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/parser/mapToHeaders.hpp"
 
-namespace webserv
+void webserv::http::handler::Redirection::build( void ) throw()
 {
-
-namespace utils
-{
-
-namespace str
-{
-bool has( std::string const& str, char const* src )
-{
-	return str.find( src ) != std::string::npos;
+	headers["Location"] = uri_;
+	client->deliverData = getFirstLine() + parser::mapToHeaders( headers );
+	currentState		= DONE;
 }
-
-void skip( std::string& str, char const* src )
-{
-	str = str.substr( str.find( src ) + std::string( src ).size() );
-}
-}  // namespace str
-
-}  // namespace utils
-}  // namespace webserv

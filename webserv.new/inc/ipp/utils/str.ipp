@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.hpp                                            :+:      :+:    :+:   */
+/*   str.ipp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/02 14:58:54 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 12:57:39 by yidemir          ###   ########.fr       */
+/*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/07 17:18:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_UTILS_MAP_HPP
-#define WEBSERV_UTILS_MAP_HPP
+#ifndef WEBSERV_UTILS_STR_IPP
+#define WEBSERV_UTILS_STR_IPP
 
-#include <map>
-#include <string>
+#include "../../hpp/utils/str.hpp"
 
 namespace webserv
 {
@@ -22,19 +21,23 @@ namespace webserv
 namespace utils
 {
 
-namespace map
+namespace str
 {
-template < typename K, typename V >
-inline bool has( std::map< K, V > map, K const& key );
 
-template < typename K, typename V >
-inline bool isEq( std::map< K, V > map, K const& key, V const& value );
-}  // namespace map
+bool has( std::string const& str, char const* src )
+{
+	return str.find( src ) != std::string::npos;
+}
+
+void skip( std::string& str, char const* src )
+{
+	str = str.substr( str.find( src ) );
+}
+
+}  // namespace str
 
 }  // namespace utils
 
 }  // namespace webserv
-
-#include "../../tpp/utils/map.tpp"
 
 #endif

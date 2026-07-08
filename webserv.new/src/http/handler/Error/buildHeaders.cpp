@@ -6,35 +6,40 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 18:24:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 18:53:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
 #include "../../../../inc/hpp/http/handler/Error.hpp"
-#include "../../../../inc/hpp/utils/conv.hpp"
-#include "../../../../inc/hpp/utils/map.hpp"
+#include "../../../../inc/hpp/manager/Client.hpp"
 #include "../../../../inc/hpp/parser/extToMimeType.hpp"
 #include "../../../../inc/hpp/parser/fileExt.hpp"
-#include "../../../../inc/hpp/manager/Client.hpp"
 #include "../../../../inc/hpp/parser/mapToHeaders.hpp"
+#include "../../../../inc/hpp/parser/statusToReasonPhrase.hpp"
+#include "../../../../inc/hpp/utils/conv.hpp"
+
+#include <iostream>
 
 void webserv::http::handler::Error::buildHeaders( void ) throw()
 {
 	struct stat st;
-	if (utils::map::has<int short, std::string>(client->server->config->errorPages, status))
+	client->deliverData = getFirstLine();
+	if ( status == 400 || status == 413 || status == 408 || status == 500 || status == 503 || status == 504 )
+		headers["Connection"] = "close";
+	if ( client->server->config->errorPages.find( status ) != client->server->config->errorPages.end() )
 	{
-		errorPagePath = client->server->config->errorPages.find(status)->second;
+		errorPagePath = client->server->config->errorPages.find( status )->second;
 		if ( !stat( errorPagePath.c_str(), &st ) )
 		{
 			headers["Content-Length"] = utils::conv::toStr< off_t >( st.st_size );
-			headers["Content-Type"]	  = parser::extToMimeType( parser::fileExt( realPath ) );
-			client->deliverData		  = parser::mapToHeaders( headers );
+			headers["Content-Type"]	  = parser::extToMimeType( parser::fileExt( errorPagePath ) );
+			client->deliverData += parser::mapToHeaders( headers );
 		}
 		else
 		{
 			headers["Content-Type"] = "text/html";
-			errorPagePath = "";
+			errorPagePath			= "";
 		}
 	}
 	currentState = BODY;

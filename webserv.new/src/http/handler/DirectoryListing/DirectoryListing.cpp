@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 19:01:23 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 19:11:54 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 09:07:55 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,9 @@ namespace http
 namespace handler
 {
 
-DirectoryListing::DirectoryListing( void )
-{
-	currentState = HEADERS;
-}
+DirectoryListing::DirectoryListing( manager::Client* client ) : Handler( client ) {}
 
-DirectoryListing::DirectoryListing( DirectoryListing const& other ): Handler(other)
+DirectoryListing::DirectoryListing( DirectoryListing const& other ) : Handler( other )
 {
 	*this = other;
 }
@@ -34,7 +31,7 @@ DirectoryListing::~DirectoryListing() {}
 
 DirectoryListing& DirectoryListing::operator=( DirectoryListing const& other )
 {
-	(void) other;
+	Handler::operator=( other );
 	return *this;
 }
 

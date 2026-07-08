@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 18:37:54 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 10:02:21 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ namespace webserv
 
 ServerLog::ServerLog( std::string const& level ) : level_( level ), msg_( "" ) {}
 
-ServerLog::ServerLog( manager::Manager const& manager, std::string const& level ) : level_( level )
+ServerLog::ServerLog( manager::Manager const* manager, std::string const& level ) : level_( level )
 {
-	manager::Server const* server( dynamic_cast< manager::Server const* >( &manager ) );
+	manager::Server const* server( dynamic_cast< manager::Server const* >( manager ) );
 	if ( server )
 		msg_ = std::string() + "host=[" + server->addr + "], port=[" + server->port + "], ";
 	else
-		msg_ = std::string() + "addr=[" + manager.addr + "], ";
-	msg_ += "fd=[" + utils::conv::toStr< int >( manager.pollfd.fd ) + "], ";
+		msg_ = std::string() + "addr=[" + manager->addr + "], ";
+	msg_ += "fd=[" + utils::conv::toStr< int >( manager->pollfd->fd ) + "], ";
 }
 
 template < typename T >

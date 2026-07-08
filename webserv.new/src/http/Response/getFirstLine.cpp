@@ -1,39 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Manager.hpp                                        :+:      :+:    :+:   */
+/*   getFirstLine.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 14:02:33 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/07 12:42:54 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/07 16:44:21 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_MANAGER_HPP
-#define WEBSERV_HTTP_MANAGER_HPP
+#include "../../../inc/hpp/http/Response.hpp"
+#include "../../../inc/hpp/parser/statusToReasonPhrase.hpp"
+#include "../../../inc/hpp/utils/conv.hpp"
 
-#include <poll.h>
-#include <string>
-
-namespace webserv
+std::string webserv::http::Response::getFirstLine( void ) const
 {
-
-namespace manager
-{
-class Manager
-{
-	public:
-		Manager( void );
-		Manager( Manager const& other );
-		virtual ~Manager() = 0;
-		Manager& operator=( Manager const& other );
-
-		struct pollfd* pollfd;
-		std::string	   addr;
-};
-}  // namespace manager
-
-}  // namespace webserv
-
-#endif
+	return version + " " + utils::conv::toStr< int short >( status ) + " " +
+		   parser::statusToReasonPhrase( status ) + "\r\n";
+}

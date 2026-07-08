@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/07/06 19:08:08 by yidemir          ###   ########.fr        #
+#    Updated: 2026/07/08 09:15:44 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ CXXFLAGS	=	-g -Wall -Wextra -Werror -std=c++98 -Wparentheses # DELETE AFTER DEVE
 NAME		=	webserv
 
 SRCS		=	src/main.cpp \
-				src/utils/str.cpp \
 				src/parser/statusToReasonPhrase.cpp \
 				src/parser/Config/parseStateGlobal.cpp \
 				src/parser/Config/putDataLocation.cpp \
@@ -51,8 +50,10 @@ SRCS		=	src/main.cpp \
 				src/parser/mimeTypeToExt.cpp \
 				src/parser/handler.cpp \
 				src/Controller/acceptConnection.cpp \
+				src/Controller/newConnection.cpp \
 				src/Controller/run.cpp \
 				src/Controller/setup.cpp \
+				src/Controller/setupServer.cpp \
 				src/Controller/clear.cpp \
 				src/Controller/Controller.cpp \
 				src/Controller/closeConnection.cpp \
@@ -63,6 +64,8 @@ SRCS		=	src/main.cpp \
 				src/manager/Client/deliver.cpp \
 				src/manager/Client/receive.cpp \
 				src/manager/Server.cpp \
+				src/http/handler/Redirection/Redirection.cpp \
+				src/http/handler/Redirection/build.cpp \
 				src/http/handler/Get/buildBody.cpp \
 				src/http/handler/Get/buildHeaders.cpp \
 				src/http/handler/Get/build.cpp \
@@ -78,7 +81,8 @@ SRCS		=	src/main.cpp \
 				src/http/Message.cpp \
 				src/http/Exception.cpp \
 				src/http/Request.cpp \
-				src/http/Response.cpp
+				src/http/Response/Response.cpp \
+				src/http/Response/getFirstLine.cpp 
 
 
 

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 13:18:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 14:24:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,13 @@ void Controller::run( void ) const throw()
 			continue;
 		for ( size_t i = 0; i < pollfds_->size(); i++ )
 		{
+			( *connections_ )[i]->pollfd = &( *pollfds_ )[i];
 			manager::Server* server( dynamic_cast< manager::Server* >( ( *connections_ )[i] ) );
 			if ( server )
 				acceptConnection( i );
 			else
 			{
-				manager::Client* client( dynamic_cast< manager::Client* >( ( *connections_ )[i] ) );
+				manager::Client* client( dynamic_cast< manager::Client* >( ( ( *connections_ )[i] ) ) );
 				client->process();
 				if ( client->isConnectionClose )
 					closeConnection( i--, "client side" );

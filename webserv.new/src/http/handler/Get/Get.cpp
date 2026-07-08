@@ -20,12 +20,9 @@ namespace http
 namespace handler
 {
 
-Get::Get( void )
-{
-	currentState = HEADERS;
-}
+Get::Get( manager::Client* client ) : Handler( client ) {}
 
-Get::Get( Get const& other ): Handler(other)
+Get::Get( Get const& other ) : Handler( other )
 {
 	*this = other;
 }
@@ -34,7 +31,7 @@ Get::~Get() {}
 
 Get& Get::operator=( Get const& other )
 {
-	(void) other;
+	Handler::operator=( other );
 	return *this;
 }
 

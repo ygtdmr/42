@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 12:47:49 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 12:53:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 15:25:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ namespace webserv
 {
 namespace manager
 {
-	class Client;
+class Client;
 }
 
 namespace parser

@@ -6,12 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:18:28 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 19:36:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 16:44:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/hpp/Controller.hpp"
-#include <iostream>
 namespace webserv
 {
 
@@ -26,11 +25,10 @@ Controller::Controller( Controller const& other )
 	*this = other;
 }
 
-
 Controller::~Controller()
 {
-	for (size_t i = 0; i < connections_->size(); i++)
-		delete (*connections_)[i];
+	for ( size_t i = 0; i < connections_->size(); i++ )
+		delete ( *connections_ )[i];
 	delete connections_;
 	delete pollfds_;
 }

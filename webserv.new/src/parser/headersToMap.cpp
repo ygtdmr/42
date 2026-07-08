@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 14:37:15 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 12:01:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 17:06:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ std::map< std::string, std::string > webserv::parser::headersToMap( std::string&
 	std::stringstream					 ss( data );
 	std::string							 line;
 
+	std::getline( ss, line );
 	while ( std::getline( ss, line ) )
 	{
-		if ( line.empty() )
+		if ( line.empty() || line[0] == '\r' )
 			break;
 		if ( line.find( ':' ) == std::string::npos )
 			throw std::exception();
@@ -43,8 +44,6 @@ std::map< std::string, std::string > webserv::parser::headersToMap( std::string&
 			headers[key] = value;
 		}
 	}
-	if ( headers.empty() )
-		throw std::exception();
 	if ( utils::str::has( data, "\r\n\r\n" ) )
 		utils::str::skip( data, "\r\n\r\n" );
 	else if ( utils::str::has( data, "\n\n" ) )

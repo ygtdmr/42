@@ -14,20 +14,20 @@
 
 namespace webserv
 {
-	namespace http
-	{
-		Exception::Exception( int short status ): status(status) {}
-		Exception::Exception( Exception const& other )
-		{
-			*this = other;
-		}
-		Exception& Exception::operator=( Exception const& other )
-		{
-			if ( this != &other )
-				status = other.status;
-			return *this;
-		}
-		Exception::~Exception() throw() {}
-	} // namespace http
-	
-} // namespace webserv
+namespace http
+{
+Exception::Exception( int short status ) : status( status ) {}
+Exception::Exception( Exception const& other )
+{
+	*this = other;
+}
+Exception& Exception::operator=( Exception const& other )
+{
+	if ( this != &other )
+		status = other.status;
+	return *this;
+}
+Exception::~Exception() throw() {}
+}  // namespace http
+
+}  // namespace webserv

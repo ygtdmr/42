@@ -1,38 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Manager.hpp                                        :+:      :+:    :+:   */
+/*   Redirection.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 14:02:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 09:12:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_MANAGER_HPP
-#define WEBSERV_HTTP_MANAGER_HPP
+#ifndef WEBSERV_HTTP_HANDLER_REDIRECTION_HPP
+#define WEBSERV_HTTP_HANDLER_REDIRECTION_HPP
 
-#include <poll.h>
-#include <string>
+#include "Handler.hpp"
 
 namespace webserv
 {
 
-namespace manager
+namespace http
 {
-class Manager
+
+namespace handler
+{
+class Redirection : public Handler
 {
 	public:
-		Manager( void );
-		Manager( Manager const& other );
-		virtual ~Manager() = 0;
-		Manager& operator=( Manager const& other );
+		Redirection( manager::Client* client, int short status, std::string const& uri );
+		Redirection( Redirection const& other );
+		virtual ~Redirection();
+		Redirection& operator=( Redirection const& other );
+		void		 build( void ) throw();
 
-		struct pollfd* pollfd;
-		std::string	   addr;
+	private:
+		std::string uri_;
 };
-}  // namespace manager
+}  // namespace handler
+
+}  // namespace http
 
 }  // namespace webserv
 

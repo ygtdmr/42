@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 14:58:54 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 19:27:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 17:19:13 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ namespace utils
 
 namespace str
 {
-bool has( std::string const& str, char const* src );
-void skip( std::string& str, char const* src );
+inline bool has( std::string const& str, char const* src );
+inline void skip( std::string& str, char const* src );
 }  // namespace str
 
 }  // namespace utils
 
 }  // namespace webserv
+
+#include "../../ipp/utils/str.ipp"
 
 #endif

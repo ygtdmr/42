@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 08:16:50 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 09:20:06 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 12:46:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ class Response : public Message
 		Response( Response const& other );
 		virtual ~Response();
 		Response& operator=( Response const& other );
+
+	protected:
+		std::string getFirstLine( void ) const;
 };
 
 }  // namespace http

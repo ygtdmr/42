@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 14:30:44 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 22:06:47 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 11:03:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ namespace webserv
 {
 namespace parser
 {
-char const* fileExt( std::string const& fileName );
+std::string fileExt( std::string const& fileName );
 }  // namespace parser
 }  // namespace webserv
 

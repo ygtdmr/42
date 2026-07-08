@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:02:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 09:02:23 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 10:19:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ namespace config
 
 typedef struct
 {
+		bool							   autoindex;
 		size_t							   clientMaxBodySize;
+		std::string						   index;
 		std::string						   root;
 		std::vector< std::string >		   listens;
 		std::vector< std::string >		   serverNames;

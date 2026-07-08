@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:00:32 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 19:32:05 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 08:57:38 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,21 @@ namespace webserv
 namespace manager
 {
 
-Client::Client( void ) : isConnectionClose(false), handler( 0 )
+Client::Client( void ) : isConnectionClose( false ), handler( 0 )
 {
 	clear();
 }
 
-Client::Client( Client const& other ): Manager(other)
+Client::Client( Client const& other ) : Manager( other )
 {
 	*this = other;
 }
 
-Client::~Client() {}
+Client::~Client()
+{
+	if ( handler )
+		delete handler;
+}
 
 Client& Client::operator=( Client const& other )
 {

@@ -25,7 +25,7 @@ namespace http
 class Message
 {
 	public:
-		Message(void);
+		Message( void );
 		Message( Message const& other );
 		virtual ~Message() = 0;
 		Message& operator=( Message const& other );

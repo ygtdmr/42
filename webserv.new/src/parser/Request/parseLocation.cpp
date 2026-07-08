@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 10:20:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 12:56:47 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 14:38:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void webserv::parser::Request::parseLocation()
 
 	while ( it != locations.end() )
 	{
-		if ( it->first.find( client->httpRequest.uri ) == 0 )
+		if ( client->httpRequest.uri.find( it->first ) == 0 )
 		{
 			if ( !client->httpRequest.location || ( it->first.size() >= locationUri.size() ) )
 			{

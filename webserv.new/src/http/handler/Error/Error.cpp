@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 14:04:49 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 19:10:38 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 09:07:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ namespace http
 namespace handler
 {
 
-Error::Error( int short status )
+Error::Error( manager::Client* client, int short status ) : Handler( client )
 {
 	this->status = status;
-	currentState = HEADERS;
 }
 
-Error::Error( Error const& other ): Handler(other)
+Error::Error( Error const& other ) : Handler( other )
 {
 	*this = other;
 }
@@ -35,6 +34,7 @@ Error::~Error() {}
 
 Error& Error::operator=( Error const& other )
 {
+	Handler::operator=( other );
 	if ( this != &other )
 	{
 		errorPagePath = other.errorPagePath;

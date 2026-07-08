@@ -6,13 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 18:33:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 16:35:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WEBSERV_HTTP_HANDLER_ERROR_HPP
 #define WEBSERV_HTTP_HANDLER_ERROR_HPP
 
+#include <fstream>
 #include "Handler.hpp"
 
 namespace webserv
@@ -26,7 +27,7 @@ namespace handler
 class Error : public Handler
 {
 	public:
-		Error( int short status );
+		Error( manager::Client* client, int short status );
 		Error( Error const& other );
 		virtual ~Error();
 		Error& operator=( Error const& other );
@@ -35,7 +36,10 @@ class Error : public Handler
 		void   buildHeaders( void ) throw();
 		void   readErrorPageFile( void ) throw();
 
-		std::string	errorPagePath;
+		std::string errorPagePath;
+
+	private:
+		std::ifstream fileStream_;
 };
 }  // namespace handler
 

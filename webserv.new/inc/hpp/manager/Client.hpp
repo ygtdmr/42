@@ -13,11 +13,11 @@
 #ifndef WEBSERV_MANAGER_CLIENT_HPP
 #define WEBSERV_MANAGER_CLIENT_HPP
 
-#include "Manager.hpp"
-#include "Server.hpp"
 #include "../http/Request.hpp"
 #include "../http/handler/Handler.hpp"
 #include "../parser/Request.hpp"
+#include "Manager.hpp"
+#include "Server.hpp"
 
 namespace webserv
 {

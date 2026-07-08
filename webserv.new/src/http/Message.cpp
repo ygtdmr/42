@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 18:42:16 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 19:16:38 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 13:11:58 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ namespace webserv
 namespace http
 {
 
-Message::Message( void ) {}
+Message::Message( void ) : status( 0 ) {}
 
 Message::Message( Message const& other )
 {
@@ -31,13 +31,13 @@ Message& Message::operator=( Message const& other )
 	if ( this != &other )
 	{
 		headers = other.headers;
-		body = other.body;
+		body	= other.body;
 		version = other.version;
-		status = other.status;
+		status	= other.status;
 	}
 	return *this;
 }
 
-}  // namespace manager
+}  // namespace http
 
 }  // namespace webserv

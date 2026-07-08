@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 12:55:45 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/08 10:11:54 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 static std::string filterQuery( std::string& uri )
 {
 	if ( webserv::utils::str::has( uri, "?" ) )
-		return uri.substr( 0, uri.find( "?" ) );
+		uri = uri.substr( 0, uri.find( "?" ) );
+	while (webserv::utils::str::has(uri, "//"))
+		uri.replace(uri.find("//"), 2, "/");
 	return uri;
 }
 
@@ -27,10 +29,9 @@ void webserv::parser::Request::parseFirstLine( void )
 {
 	if ( !utils::str::has( client->receiveData, "\n" ) )
 		return;
-	std::string& method( client->httpRequest.method );
-	std::string& uri( client->httpRequest.uri );
-	std::string& version( client->httpRequest.version );
-	std::string& uriPath( client->httpRequest.uriPath );
+	std::string method;
+	std::string uri;
+	std::string version;
 
 	std::stringstream ss( client->receiveData );
 	ss >> method;
@@ -41,13 +42,17 @@ void webserv::parser::Request::parseFirstLine( void )
 		throw http::Exception( 400 );
 	else if ( uri[0] != '/' )
 		throw http::Exception( 400 );
-	else if ( ( uri != "HTTP/1.0" ) && ( uri != "HTTP/1.1" ) )
+	else if ( ( version != "HTTP/1.0" ) && ( version != "HTTP/1.1" ) )
 		throw http::Exception( 400 );
+	client->httpRequest.method	= method;
+	client->httpRequest.uri		= uri;
+	client->httpRequest.version = version;
+	client->httpRequest.uriPath = filterQuery( uri );
 
-	uriPath = filterQuery( uri );
 	if ( utils::str::has( client->receiveData, "\r\n" ) )
 		utils::str::skip( client->receiveData, "\r\n" );
 	else if ( utils::str::has( client->receiveData, "\n" ) )
 		utils::str::skip( client->receiveData, "\n" );
+
 	currentState = LOCATION;
 }

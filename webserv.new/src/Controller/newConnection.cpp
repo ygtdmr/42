@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Manager.hpp                                        :+:      :+:    :+:   */
+/*   newConnection.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 14:02:33 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/07 08:57:18 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/07 16:44:15 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_MANAGER_HPP
-#define WEBSERV_HTTP_MANAGER_HPP
+#include "../../inc/hpp/Controller.hpp"
 
-#include <poll.h>
-#include <string>
-
-namespace webserv
+void webserv::Controller::newConnection( int fd, manager::Manager* connection ) const
 {
+	struct pollfd pfd;
+	pfd.events	= POLLIN;
+	pfd.revents = 0;
+	pfd.fd		= fd;
 
-namespace manager
-{
-class Manager
-{
-	public:
-		Manager( void );
-		Manager( Manager const& other );
-		virtual ~Manager() = 0;
-		Manager& operator=( Manager const& other );
+	pollfds_->push_back( pfd );
 
-		struct pollfd* pollfd;
-		std::string	   addr;
-};
-}  // namespace manager
-
-}  // namespace webserv
-
-#endif
+	connection->pollfd = &( *( pollfds_->end() - 1 ) );
+	connections_->push_back( connection );
+}

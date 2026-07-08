@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 18:52:56 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/07 16:30:55 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ namespace webserv
 
 namespace manager
 {
-	class Client;
+class Client;
 }
 
 namespace http
@@ -31,10 +31,10 @@ namespace handler
 class Handler : public Response
 {
 	public:
-		Handler(void);
+		Handler( manager::Client* client );
 		Handler( Handler const& other );
 		virtual ~Handler() = 0;
-		Handler& operator=( Handler const& other );
+		Handler&	 operator=( Handler const& other );
 		virtual void build( void ) = 0;
 
 		enum state
@@ -43,8 +43,10 @@ class Handler : public Response
 			BODY,
 			DONE
 		} currentState;
+		std::string realPath;
+
+	protected:
 		manager::Client* client;
-		std::string		 realPath;
 };
 }  // namespace handler
 
