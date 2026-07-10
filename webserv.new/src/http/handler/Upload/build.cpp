@@ -11,10 +11,10 @@
 /* ************************************************************************** */
 
 #include <sstream>
+#include "../../../../inc/hpp/http/handler/Upload.hpp"
 #include "../../../../inc/hpp/manager/Client.hpp"
 #include "../../../../inc/hpp/parser/mapToHeaders.hpp"
 #include "../../../../inc/hpp/utils/conv.hpp"
-#include "../../../../inc/hpp/http/handler/Upload.hpp"
 
 void webserv::http::handler::Upload::build( void )
 {
@@ -25,14 +25,14 @@ void webserv::http::handler::Upload::build( void )
 	ss << "<body>" << std::endl;
 	ss << "<h1>File(s) succesfuly uploaded</h1>" << std::endl;
 	ss << "<hr><pre>" << std::endl;
-	for (size_t i = 0; i < fileNames_.size(); i++)
+	for ( size_t i = 0; i < fileNames_.size(); i++ )
 		ss << "<p>" << fileNames_[i] << "</p>" << std::endl;
 	ss << "</pre><hr></body>" << std::endl;
 	ss << "</html>";
 	body					  = ss.str();
-	headers["Content-Type"] = "text/html";
+	headers["Content-Type"]	  = "text/html";
 	headers["Content-Length"] = utils::conv::toStr< size_t >( body.size() );
 	status					  = 201;
 	client->deliverData		  = getFirstLine() + parser::mapToHeaders( headers ) + body;
-	currentState = DONE;
+	currentState			  = DONE;
 }

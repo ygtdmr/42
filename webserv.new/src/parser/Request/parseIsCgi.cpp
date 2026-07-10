@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.cpp                                        :+:      :+:    :+:   */
+/*   parseIsCgi.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 10:41:59 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/09 11:07:57 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/09 11:12:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/http/handler/Cgi.hpp"
 #include "../../../inc/hpp/manager/Client.hpp"
+#include "../../../inc/hpp/parser/Request.hpp"
+#include "../../../inc/hpp/utils/str.hpp"
 
-void webserv::manager::Client::process( void )
+void webserv::parser::Request::parseIsCgi( void )
 {
-	if (pollfd->revents)
-		lastActivity = std::time( 0 );
-	if ( dynamic_cast< http::handler::Cgi* >( handler ) )
-		deliver();
-	else
-	{
-		if ( pollfd->revents & POLLIN )
-			receive();
-		if ( pollfd->revents & POLLOUT )
-			deliver();
-	}
+	if ( client->httpRequest.location->cgi.empty() )
+		return;
+	std::string path( client->httpRequest.uriPath );
+	std::string extension( client->httpRequest.location->cgi.begin()->first );
+	utils::str::skip( path, extension.c_str() );
+	client->httpRequest.isCgi = path.empty();
 }

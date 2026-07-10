@@ -1,0 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setupEnv.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/09 09:44:55 by yidemir          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <algorithm>
+#include "../../../../inc/hpp/http/handler/Cgi.hpp"
+#include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/utils/str.hpp"
+
+static char* newValue( std::string const& key, std::string const& value )
+{
+	std::string str( key + "=" + value );
+	char*		cStr( new char[str.size() + 1] );
+	std::copy( str.begin(), str.end(), cStr );
+	cStr[str.size()] = 0;
+	return cStr;
+}
+
+void webserv::http::handler::Cgi::setupEnv( void )
+{
+	env_.push_back( newValue( "REQUEST_METHOD", client->httpRequest.method ) );
+	env_.push_back( newValue( "QUERY_STRING", utils::str::crop( client->httpRequest.uri, "?" ) ) );
+	env_.push_back( newValue( "SERVER_PROTOCOL", client->httpRequest.version ) );
+	env_.push_back( newValue( "PATH_INFO", realPath ) );
+	env_.push_back( newValue( "SCRIPT_NAME", realPath ) );
+	if ( !client->httpRequest.headers["Content-Length"].empty() )
+		env_.push_back( newValue( "CONTENT_LENGTH", client->httpRequest.headers["Content-Length"] ) );
+	if ( !client->httpRequest.headers["Content-Type"].empty() )
+		env_.push_back( newValue( "CONTENT_TYPE", client->httpRequest.headers["Content-Type"] ) );
+	env_.push_back( 0 );
+}

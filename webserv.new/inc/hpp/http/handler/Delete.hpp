@@ -30,7 +30,7 @@ class Delete : public Handler
 		Delete( Delete const& other );
 		virtual ~Delete();
 		Delete& operator=( Delete const& other );
-		void build( void );
+		void	build( void );
 };
 }  // namespace handler
 

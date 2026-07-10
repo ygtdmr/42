@@ -72,7 +72,7 @@ void webserv::parser::Request::parseFirstLine( void )
 	client->httpRequest.version = version;
 	client->httpRequest.uriPath = filterQuery( uri );
 
-	if (!isSafeUriPath(client->httpRequest.uriPath))
+	if ( !isSafeUriPath( client->httpRequest.uriPath ) )
 		throw http::Exception( 404 );
 
 	currentState = LOCATION;

@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/07/08 19:50:28 by yidemir          ###   ########.fr        #
+#    Updated: 2026/07/09 15:19:52 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS		=	src/main.cpp \
 				src/parser/Request/parse.cpp \
 				src/parser/Request/Request.cpp \
 				src/parser/Request/parseLocation.cpp \
+				src/parser/Request/parseIsCgi.cpp \
 				src/parser/Request/parseBody.cpp \
 				src/parser/Request/parseChunkedBody.cpp \
 				src/parser/Request/parseHeaders.cpp \
@@ -86,6 +87,10 @@ SRCS		=	src/main.cpp \
 				src/http/handler/Upload/Upload.cpp \
 				src/http/handler/Delete/Delete.cpp \
 				src/http/handler/Delete/build.cpp \
+				src/http/handler/Cgi/Cgi.cpp \
+				src/http/handler/Cgi/setupEnv.cpp \
+				src/http/handler/Cgi/execute.cpp \
+				src/http/handler/Cgi/build.cpp \
 				src/http/Message.cpp \
 				src/http/Exception.cpp \
 				src/http/Request.cpp \

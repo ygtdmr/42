@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 14:37:15 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 17:06:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/09 08:34:39 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ std::map< std::string, std::string > webserv::parser::headersToMap( std::string&
 			headers[key] = value;
 		}
 	}
-	if ( utils::str::has( data, "\r\n\r\n" ) )
-		utils::str::skip( data, "\r\n\r\n" );
-	else if ( utils::str::has( data, "\n\n" ) )
+	if ( !utils::str::skip( data, "\r\n\r\n" ) )
 		utils::str::skip( data, "\n\n" );
 	return headers;
 }

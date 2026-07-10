@@ -13,8 +13,8 @@
 #ifndef WEBSERV_HTTP_HANDLER_UPLOAD_HPP
 #define WEBSERV_HTTP_HANDLER_UPLOAD_HPP
 
-#include "Handler.hpp"
 #include <vector>
+#include "Handler.hpp"
 
 namespace webserv
 {
@@ -31,15 +31,16 @@ class Upload : public Handler
 		Upload( Upload const& other );
 		virtual ~Upload();
 		Upload& operator=( Upload const& other );
-		void  build( void );
-	private:
-		void 	uploadFiles( void );
-		void	writeBoundary( std::string const& boundary );
-		void	writeRaw( std::string const& mimeType );
-		std::string	generateFileName( std::string const& mimeType );
+		void	build( void );
 
-		std::vector<std::string>	fileNames_;
-		std::string					uploadPath_;
+	private:
+		void		uploadFiles( void );
+		void		writeBoundary( std::string const& boundary );
+		void		writeRaw( std::string const& mimeType );
+		std::string generateFileName( std::string const& mimeType );
+
+		std::vector< std::string > fileNames_;
+		std::string				   uploadPath_;
 };
 }  // namespace handler
 

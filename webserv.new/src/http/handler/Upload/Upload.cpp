@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../inc/hpp/manager/Client.hpp"
 #include "../../../../inc/hpp/http/handler/Upload.hpp"
+#include "../../../../inc/hpp/manager/Client.hpp"
 
 namespace webserv
 {

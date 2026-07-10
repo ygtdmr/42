@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 17:13:56 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 10:38:20 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #define WEBSERV_UTILS_STR_IPP
 
 #include "../../hpp/utils/str.hpp"
-#include <iostream>
 
 namespace webserv
 {
@@ -30,22 +29,25 @@ bool has( std::string const& str, char const* src )
 	return str.find( src ) != std::string::npos;
 }
 
-void skip( std::string& str, char const* src )
+bool skip( std::string& str, char const* src )
 {
-	str = str.substr( str.find( src ) + std::string(src).size() );
+	if ( !has( str, src ) )
+		return false;
+	str = str.substr( str.find( src ) + std::string( src ).size() );
+	return true;
 }
 
 std::string crop( std::string const& str, char const* start, char const* end )
 {
-	if ( !(start && has(str, start)) )
+	if ( !( start && has( str, start ) ) )
 		return "";
-	size_t	startPos(str.find(start) + std::string(start).size());
+	size_t startPos( str.find( start ) + std::string( start ).size() );
 	if ( end )
 	{
-		size_t	endPos(str.find(end, startPos));
-		return str.substr(startPos, endPos - startPos);
+		size_t endPos( str.find( end, startPos ) );
+		return str.substr( startPos, endPos - startPos );
 	}
-	return str.substr(startPos);
+	return str.substr( startPos );
 }
 
 }  // namespace str

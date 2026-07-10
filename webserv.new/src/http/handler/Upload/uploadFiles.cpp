@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../inc/hpp/manager/Client.hpp"
-#include "../../../../inc/hpp/utils/str.hpp"
 #include "../../../../inc/hpp/http/handler/Error.hpp"
 #include "../../../../inc/hpp/http/handler/Upload.hpp"
+#include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/utils/str.hpp"
 
 void webserv::http::handler::Upload::uploadFiles( void )
 {
-	if (client->httpRequest.location->uploadDir.empty())
-		throw new Error(client, 500);
-	std::string	contentType(client->httpRequest.headers["Content-Type"]);
-	if ( utils::str::has(contentType, "boundary=") )
-		writeBoundary(utils::str::crop(contentType, "boundary="));
+	if ( client->httpRequest.location->uploadDir.empty() )
+		throw new Error( client, 500 );
+	std::string contentType( client->httpRequest.headers["Content-Type"] );
+	if ( utils::str::has( contentType, "boundary=" ) )
+		writeBoundary( utils::str::crop( contentType, "boundary=" ) );
 	else
-		writeRaw(contentType);
+		writeRaw( contentType );
 }

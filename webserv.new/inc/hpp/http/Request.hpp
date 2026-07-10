@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 12:03:04 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/09 11:05:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ class Request : public Message
 		std::string				uri;
 		std::string				uriPath;
 		config::Location const* location;
+		bool					isCgi;
 };
 
 }  // namespace http

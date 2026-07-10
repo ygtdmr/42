@@ -6,17 +6,17 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 10:20:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 19:48:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/09 11:18:40 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/hpp/parser/handler.hpp"
-#include "../../inc/hpp/http/Exception.hpp"
+#include "../../inc/hpp/http/handler/Cgi.hpp"
+#include "../../inc/hpp/http/handler/Delete.hpp"
 #include "../../inc/hpp/http/handler/Error.hpp"
 #include "../../inc/hpp/http/handler/Get.hpp"
-#include "../../inc/hpp/http/handler/Upload.hpp"
-#include "../../inc/hpp/http/handler/Delete.hpp"
 #include "../../inc/hpp/http/handler/Redirection.hpp"
+#include "../../inc/hpp/http/handler/Upload.hpp"
 
 void webserv::parser::handler( manager::Client* client )
 {
@@ -27,6 +27,8 @@ void webserv::parser::handler( manager::Client* client )
 		std::pair< int short, std::string > const& redirect( client->httpRequest.location->redirect );
 		client->handler = new http::handler::Redirection( client, redirect.first, redirect.second );
 	}
+	else if ( client->httpRequest.isCgi )
+		client->handler = new http::handler::Cgi( client );
 	else if ( client->httpRequest.method == "GET" || client->httpRequest.method == "HEAD" )
 		client->handler = new http::handler::Get( client );
 	else if ( client->httpRequest.method == "POST" )

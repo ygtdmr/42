@@ -32,9 +32,9 @@ void Controller::acceptConnection( size_t index ) const throw()
 		return;
 
 	manager::Client* client( new manager::Client() );
-	client->server = dynamic_cast< manager::Server* >( ( *connections_ )[index] );
-	client->addr   = inet_ntoa( addr.sin_addr );
-	client->lastActivity = std::time(0);
+	client->server		 = dynamic_cast< manager::Server* >( ( *connections_ )[index] );
+	client->addr		 = inet_ntoa( addr.sin_addr );
+	client->lastActivity = std::time( 0 );
 	newConnection( fd, client );
 
 	ServerLog( client, "WARNING" ) << "New connection from: " << client->addr << ", assigned socket: " << fd

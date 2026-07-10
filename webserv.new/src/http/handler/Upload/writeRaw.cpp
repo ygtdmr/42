@@ -11,17 +11,17 @@
 /* ************************************************************************** */
 
 #include <fstream>
-#include "../../../../inc/hpp/manager/Client.hpp"
 #include "../../../../inc/hpp/http/handler/Error.hpp"
 #include "../../../../inc/hpp/http/handler/Upload.hpp"
+#include "../../../../inc/hpp/manager/Client.hpp"
 
-void	webserv::http::handler::Upload::writeRaw( std::string const& mimeType )
+void webserv::http::handler::Upload::writeRaw( std::string const& mimeType )
 {
-	std::string	fileName(generateFileName(mimeType));
-	std::ofstream ofs((uploadPath_ + fileName).c_str(), std::ios::out);
-	if (!ofs.is_open())
-		throw new Error(client, 500);
-	ofs.write(client->httpRequest.body.c_str(), client->httpRequest.body.size());
+	std::string	  fileName( generateFileName( mimeType ) );
+	std::ofstream ofs( ( uploadPath_ + fileName ).c_str(), std::ios::out );
+	if ( !ofs.is_open() )
+		throw new Error( client, 500 );
+	ofs.write( client->httpRequest.body.c_str(), client->httpRequest.body.size() );
 	ofs.close();
-	fileNames_.push_back(fileName);
+	fileNames_.push_back( fileName );
 }
