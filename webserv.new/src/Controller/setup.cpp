@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 14:01:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 18:07:30 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void webserv::Controller::setup( std::vector< config::Server > const* servers ) 
 			else
 				port = listen.c_str();
 			setupServer( &( *servers )[cI], host, port );
-			ServerLog( *( connections_->end() - 1 ), "SUCCESS" ) << "Server initialized." << '\n';
+			ServerLog( *( connections->end() - 1 ), "SUCCESS" ) << "Server initialized." << '\n';
 		}
 	}
 }

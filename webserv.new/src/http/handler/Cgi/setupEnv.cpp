@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/09 09:44:55 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 18:30:13 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ static char* newValue( std::string const& key, std::string const& value )
 
 void webserv::http::handler::Cgi::setupEnv( void )
 {
+	env_.push_back( newValue( "REDIRECT_STATUS", "200" ) );
 	env_.push_back( newValue( "REQUEST_METHOD", client->httpRequest.method ) );
 	env_.push_back( newValue( "QUERY_STRING", utils::str::crop( client->httpRequest.uri, "?" ) ) );
 	env_.push_back( newValue( "SERVER_PROTOCOL", client->httpRequest.version ) );
-	env_.push_back( newValue( "PATH_INFO", realPath ) );
 	env_.push_back( newValue( "SCRIPT_NAME", realPath ) );
+	env_.push_back( newValue( "SCRIPT_FILENAME", realPath ) );
 	if ( !client->httpRequest.headers["Content-Length"].empty() )
 		env_.push_back( newValue( "CONTENT_LENGTH", client->httpRequest.headers["Content-Length"] ) );
 	if ( !client->httpRequest.headers["Content-Type"].empty() )

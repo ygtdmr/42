@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 11:48:40 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 14:01:35 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 17:12:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ class Controller
 		void		run( void ) const throw();
 		void		clear( void ) const throw();
 
+		std::vector< manager::Manager* >* connections;
+		std::vector< struct pollfd >*	  pollfds;
+
 	private:
 		void setupServer( config::Server const* config, char const* host, char const* port ) const;
 		void newConnection( int fd, manager::Manager* connection ) const;
-
-		std::vector< manager::Manager* >* connections_;
-		std::vector< struct pollfd >*	  pollfds_;
 };
 
 }  // namespace webserv

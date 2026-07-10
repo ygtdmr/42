@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 14:30:44 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 12:05:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 18:42:48 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ namespace webserv
 {
 namespace parser
 {
-std::map< std::string, std::string > headersToMap( std::string& data );
+std::map< std::string, std::string > headersToMap( std::string& data, bool skipFirstLine = true );
 }  // namespace parser
 }  // namespace webserv
 

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 13:20:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 17:59:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ namespace webserv
 
 void Controller::clear( void ) const throw()
 {
-	for ( size_t i = 0; i < pollfds_->size(); i++ )
-		close( ( pollfds_->begin() + i )->fd );
+	for ( size_t i = 0; i < pollfds->size(); i++ )
+		close( ( pollfds->begin() + i )->fd );
 }
 
 }  // namespace webserv

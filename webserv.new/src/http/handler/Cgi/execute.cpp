@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 10:36:32 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 17:54:59 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ bool webserv::http::handler::Cgi::execute( void )
 		{
 			pfd.fd	   = pipeIn[1];
 			pfd.events = POLLOUT;
-			pollfds->push_back( pfd );
-			connections->push_back( client );
-			indexWrite = pollfds->size() - 1;
+			client->controller->pollfds->push_back( pfd );
+			client->controller->connections->push_back( client );
+			indexWrite = client->controller->pollfds->size() - 1;
 		}
 		else
 		{
@@ -80,9 +80,9 @@ bool webserv::http::handler::Cgi::execute( void )
 
 		pfd.fd	   = pipeOut[0];
 		pfd.events = POLLIN;
-		pollfds->push_back( pfd );
-		connections->push_back( client );
-		indexRead = pollfds->size() - 1;
+		client->controller->pollfds->push_back( pfd );
+		client->controller->connections->push_back( client );
+		indexRead = client->controller->pollfds->size() - 1;
 	}
 	return true;
 }

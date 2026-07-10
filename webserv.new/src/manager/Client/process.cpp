@@ -15,7 +15,7 @@
 
 void webserv::manager::Client::process( void )
 {
-	if (pollfd->revents)
+	if ( pollfd->revents )
 		lastActivity = std::time( 0 );
 	if ( dynamic_cast< http::handler::Cgi* >( handler ) )
 		deliver();

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 12:52:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 17:26:26 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define WEBSERV_MANAGER_CLIENT_HPP
 
 #include <ctime>
+#include "../Controller.hpp"
 #include "../http/Request.hpp"
 #include "../http/handler/Handler.hpp"
 #include "../parser/Request.hpp"
@@ -36,7 +37,10 @@ class Client : public Manager
 
 		bool					isConnectionClose;
 		std::time_t				lastActivity;
+		size_t					index;
+		size_t*					posPoll;
 		Server*					server;
+		Controller const*		controller;
 		std::string				receiveData;
 		std::string				deliverData;
 		parser::Request			parserRequest;

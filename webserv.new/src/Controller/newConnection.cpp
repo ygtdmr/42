@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/07 08:57:18 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 16:44:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 17:59:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void webserv::Controller::newConnection( int fd, manager::Manager* connection ) 
 	pfd.revents = 0;
 	pfd.fd		= fd;
 
-	pollfds_->push_back( pfd );
+	pollfds->push_back( pfd );
 
-	connection->pollfd = &( *( pollfds_->end() - 1 ) );
-	connections_->push_back( connection );
+	connection->pollfd = &( *( pollfds->end() - 1 ) );
+	connections->push_back( connection );
 }

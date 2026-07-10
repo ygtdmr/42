@@ -6,12 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 19:47:46 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 18:31:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
 #include <unistd.h>
+#include "../../../../inc/hpp/http/handler/Cgi.hpp"
 #include "../../../../inc/hpp/http/handler/DirectoryListing.hpp"
 #include "../../../../inc/hpp/http/handler/Error.hpp"
 #include "../../../../inc/hpp/http/handler/Get.hpp"
@@ -34,9 +35,19 @@ void webserv::http::handler::Get::buildHeaders( void )
 		std::string indexFile( client->httpRequest.location->index );
 		if ( indexFile.empty() )
 			indexFile = "index.html";
-		realPath += "/" + indexFile;
-		if ( stat( realPath.c_str(), &st ) < 0 )
+		if ( stat( ( realPath + '/' + indexFile ).c_str(), &st ) < 0 )
 		{
+			if ( !client->httpRequest.location->cgi.empty() )
+			{
+				std::string cgiIndexFile( "index" + client->httpRequest.location->cgi.begin()->first );
+				std::string cgiIndexPath( realPath + '/' + cgiIndexFile );
+				if ( stat( ( realPath + '/' + cgiIndexFile ).c_str(), &st ) == 0 )
+				{
+					handler::Cgi* cgiHandler = new Cgi( client );
+					cgiHandler->realPath	 = cgiIndexPath;
+					throw cgiHandler;
+				}
+			}
 			if ( client->httpRequest.location->autoindex )
 				throw new DirectoryListing( client );
 			else
@@ -44,6 +55,7 @@ void webserv::http::handler::Get::buildHeaders( void )
 		}
 		if ( S_ISDIR( st.st_mode ) )
 			throw new Error( client, 403 );
+		realPath += '/' + indexFile;
 	}
 	if ( access( realPath.c_str(), R_OK ) < 0 )
 		throw new Error( client, 403 );

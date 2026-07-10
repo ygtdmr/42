@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 10:34:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 18:47:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,26 @@
 #include "../../../../inc/hpp/http/handler/Cgi.hpp"
 #include "../../../../inc/hpp/http/handler/Error.hpp"
 #include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/parser/headersToMap.hpp"
+#include "../../../../inc/hpp/parser/mapToHeaders.hpp"
+#include "../../../../inc/hpp/utils/conv.hpp"
 
 #define RECV_BUFFER_SIZE 8
 
 void webserv::http::handler::Cgi::build( void )
 {
-	if ( !isExec_ )
+	if ( pid_ == -1 )
 	{
 		setupEnv();
 		if ( !execute() )
 			throw new Error( client, 500 );
-		isExec_ = true;
 	}
 	else
 	{
 		int short const& revents( client->pollfd->revents );
 		int const&		 fd( client->pollfd->fd );
 
-		if ( ( indexWrite != -1 ) && ( fd == ( *pollfds )[indexWrite].fd ) )
+		if ( ( indexWrite != -1 ) && ( fd == ( *client->controller->pollfds )[indexWrite].fd ) )
 		{
 			if ( revents & POLLOUT )
 			{
@@ -45,34 +47,44 @@ void webserv::http::handler::Cgi::build( void )
 				if ( bodyBytesWritten_ >= client->httpRequest.body.size() )
 				{
 					close( fd );
-					( *posPollds )--;
-					pollfds->erase( pollfds->begin() + indexWrite );
-					connections->erase( connections->begin() + indexWrite );
+					( *client->posPoll )--;
+					client->controller->pollfds->erase( client->controller->pollfds->begin() + indexWrite );
+					client->controller->connections->erase( client->controller->connections->begin() +
+															indexWrite );
 					indexWrite = -1;
 				}
 			}
 		}
-		if ( ( fd == ( *pollfds )[indexRead].fd ) )
+		if ( ( fd == ( *client->controller->pollfds )[indexRead].fd ) )
 		{
 			if ( revents & POLLIN )
 			{
 				char	buffer[RECV_BUFFER_SIZE];
 				ssize_t bytesRead( read( fd, buffer, sizeof( buffer ) - 1 ) );
 				if ( bytesRead > 0 )
-					client->deliverData.append( buffer, bytesRead );
+					body.append( buffer, bytesRead );
 			}
 			else if ( revents & POLLHUP )
 			{
-				int status;
-				waitpid( pid_, &status, WNOHANG );
+				int pidStatus;
+				waitpid( pid_, &pidStatus, WNOHANG );
 				close( fd );
-				( *posPollds )--;
-				pollfds->erase( pollfds->begin() + indexRead );
-				connections->erase( connections->begin() + indexRead );
-				status		 = 200;
-				currentState = DONE;
+				( *client->posPoll )--;
+				client->controller->pollfds->erase( client->controller->pollfds->begin() + indexRead );
+				client->controller->connections->erase( client->controller->connections->begin() +
+														indexRead );
+
+				std::map< std::string, std::string > cgiHeaders( parser::headersToMap( body, false ) );
+				headers.insert( cgiHeaders.begin(), cgiHeaders.end() );
+				if ( headers.find( "Status" ) == headers.end() )
+					status = 200;
+				else
+					status = utils::conv::strTo< int short >( headers["Status"] );
+				headers["Content-Length"] = utils::conv::toStr< size_t >( body.size() );
+				client->deliverData		  = getFirstLine() + parser::mapToHeaders( headers ) + body;
+				currentState			  = DONE;
 			}
 		}
-		client->pollfd = &( *pollfds )[indexClient];
+		client->pollfd = &( *client->controller->pollfds )[client->index];
 	}
 }

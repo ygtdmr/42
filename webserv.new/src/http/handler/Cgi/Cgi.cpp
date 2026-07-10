@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 19:01:23 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/09 15:03:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 17:49:55 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ namespace http
 namespace handler
 {
 
-Cgi::Cgi( manager::Client* client ) : Handler( client ), indexClient( -1 ), isExec_( false ) {}
+Cgi::Cgi( manager::Client* client ) : Handler( client ), pid_( -1 ) {}
 
 Cgi::Cgi( Cgi const& other ) : Handler( other )
 {

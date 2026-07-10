@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 14:37:15 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/09 08:34:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/10 18:42:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 #include <sstream>
 #include "../../inc/hpp/utils/str.hpp"
 
-std::map< std::string, std::string > webserv::parser::headersToMap( std::string& data )
+std::map< std::string, std::string > webserv::parser::headersToMap( std::string& data, bool skipFirstLine )
 {
 	std::map< std::string, std::string > headers;
 	std::stringstream					 ss( data );
 	std::string							 line;
 
-	std::getline( ss, line );
+	if ( skipFirstLine )
+		std::getline( ss, line );
 	while ( std::getline( ss, line ) )
 	{
 		if ( line.empty() || line[0] == '\r' )
