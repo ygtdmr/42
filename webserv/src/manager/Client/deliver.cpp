@@ -19,9 +19,16 @@ void webserv::manager::Client::deliver( void )
 {
 	if ( !deliverData.empty() )
 	{
-		ssize_t bytesSent( send( pollfd->fd, deliverData.c_str(), deliverData.length(), 0 ) );
+		ssize_t bytesSent( send( pollfd->fd, deliverData.c_str() + deliverOffset, deliverData.length() - deliverOffset, 0 ) );
 		if ( bytesSent > 0 )
-			deliverData.erase( 0, bytesSent );
+		{
+			deliverOffset += bytesSent;
+			if ( deliverOffset >= deliverData.length() )
+			{
+				deliverData.clear();
+				deliverOffset = 0;
+			}
+		}
 	}
 	if ( ( handler->currentState == handler->DONE ) && deliverData.empty() )
 	{

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 13:43:42 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 18:47:52 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../../../inc/hpp/manager/Client.hpp"
 #include "../../../inc/hpp/parser/handler.hpp"
 
-#define RECV_BUFFER_SIZE 8
+#define RECV_BUFFER_SIZE 65536
 
 void webserv::manager::Client::receive( void )
 {

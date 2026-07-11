@@ -43,6 +43,7 @@ class Client : public Manager
 		Controller const*		controller;
 		std::string				receiveData;
 		std::string				deliverData;
+		size_t					deliverOffset;
 		parser::Request			parserRequest;
 		http::Request			httpRequest;
 		http::handler::Handler* handler;

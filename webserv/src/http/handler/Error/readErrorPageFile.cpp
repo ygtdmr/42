@@ -13,7 +13,7 @@
 #include "../../../../inc/hpp/http/handler/Error.hpp"
 #include "../../../../inc/hpp/manager/Client.hpp"
 
-#define READ_BUFFER_SIZE 32
+#define READ_BUFFER_SIZE 65536
 
 void webserv::http::handler::Error::readErrorPageFile( void ) throw()
 {

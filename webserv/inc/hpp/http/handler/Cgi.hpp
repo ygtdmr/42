@@ -42,6 +42,7 @@ class Cgi : public Handler
 		int					 pipeOutFd;
 		pid_t				 pid_;
 		std::vector< char* > env_;
+		size_t				 bodySent;
 };
 }  // namespace handler
 

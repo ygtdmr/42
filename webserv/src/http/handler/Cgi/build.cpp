@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 10:49:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 19:52:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "../../../../inc/hpp/parser/mapToHeaders.hpp"
 #include "../../../../inc/hpp/utils/conv.hpp"
 
-#define RECV_BUFFER_SIZE 8
+#define RECV_BUFFER_SIZE 65536
 
 void webserv::http::handler::Cgi::build( void )
 {
@@ -40,10 +40,10 @@ void webserv::http::handler::Cgi::build( void )
 			if ( revents & POLLOUT )
 			{
 				ssize_t bytesWritten(
-					write( fd, client->httpRequest.body.c_str(), client->httpRequest.body.size() ) );
+					write( fd, client->httpRequest.body.c_str() + bodySent, client->httpRequest.body.size() - bodySent ) );
 				if ( bytesWritten > 0 )
-					client->httpRequest.body.erase( 0, bytesWritten );
-				if ( client->httpRequest.body.empty() )
+					bodySent += bytesWritten;
+				if ( bodySent >= client->httpRequest.body.size() )
 				{
 					client->controller->removeFd( pipeInFd, client->posPoll );
 					pipeInFd = -1;
@@ -52,14 +52,17 @@ void webserv::http::handler::Cgi::build( void )
 		}
 		if ( ( pipeOutFd != -1 ) && ( fd == pipeOutFd ) )
 		{
+			bool	eof( false );
 			if ( revents & POLLIN )
 			{
 				char	buffer[RECV_BUFFER_SIZE];
 				ssize_t bytesRead( read( fd, buffer, sizeof( buffer ) - 1 ) );
 				if ( bytesRead > 0 )
 					body.append( buffer, bytesRead );
+				else if ( bytesRead == 0 )
+					eof = true;
 			}
-			else if ( revents & POLLHUP )
+			if ( eof || ( revents & POLLHUP ) )
 			{
 				int pidStatus;
 				if ( waitpid( pid_, &pidStatus, WNOHANG ) == 0 )

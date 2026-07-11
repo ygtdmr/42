@@ -21,7 +21,7 @@ namespace http
 namespace handler
 {
 
-Cgi::Cgi( manager::Client* client ) : Handler( client ), pipeInFd( -1 ), pipeOutFd( -1 ), pid_( -1 ) {}
+Cgi::Cgi( manager::Client* client ) : Handler( client ), pipeInFd( -1 ), pipeOutFd( -1 ), pid_( -1 ), bodySent( 0 ) {}
 
 Cgi::Cgi( Cgi const& other ) : Handler( other )
 {

@@ -19,8 +19,8 @@
 
 bool webserv::http::handler::Cgi::execute( void )
 {
-	char const* scriptPath( realPath.substr( 0, realPath.find_last_of( "/" ) ).c_str() );
-	char const* scriptFile( realPath.substr( realPath.find_last_of( "/" ) + 1 ).c_str() );
+	std::string const scriptPath = realPath.substr( 0, realPath.find_last_of( "/" ) );
+	std::string const scriptFile = realPath.substr( realPath.find_last_of( "/" ) + 1 );
 	char const* binPath( client->httpRequest.location->cgi.begin()->second.c_str() );
 	int			pipeIn[2];
 	int			pipeOut[2];
@@ -46,11 +46,12 @@ bool webserv::http::handler::Cgi::execute( void )
 		close( pipeIn[0] );
 		close( pipeOut[1] );
 
-		chdir( scriptPath );
+		if ( chdir( scriptPath.c_str() ) < 0 )
+			std::exit( 1 );
 
 		char* args[3];
 		args[0] = const_cast< char* >( binPath );
-		args[1] = const_cast< char* >( scriptFile );
+		args[1] = const_cast< char* >( scriptFile.c_str() );
 		args[2] = 0;
 
 		execve( args[0], args, &env_[0] );

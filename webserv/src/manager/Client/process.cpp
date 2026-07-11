@@ -34,6 +34,7 @@ void webserv::manager::Client::process( void )
 				handler->build();
 			}
 		}
+		pollfd = &( *controller->pollfds )[*posPoll];
 		if ( pollfd->fd == socketFd )
 			deliver();
 	}
