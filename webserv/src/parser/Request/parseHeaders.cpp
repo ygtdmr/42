@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 15:18:39 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 10:40:04 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "../../../inc/hpp/manager/Client.hpp"
 #include "../../../inc/hpp/parser/Request.hpp"
 #include "../../../inc/hpp/parser/headersToMap.hpp"
+#include "../../../inc/hpp/utils/conv.hpp"
 #include "../../../inc/hpp/utils/str.hpp"
 
 void webserv::parser::Request::parseHeaders( void )
@@ -45,4 +46,19 @@ void webserv::parser::Request::parseHeaders( void )
 		currentState = BODY;
 	else
 		currentState = DONE;
+
+	if ( !headers["Content-Length"].empty() )
+	{
+		size_t clientMaxBodySize( 0 );
+		if ( client->httpRequest.location )
+			clientMaxBodySize = client->httpRequest.location->clientMaxBodySize;
+		else
+			clientMaxBodySize = client->server->config->clientMaxBodySize;
+		if ( clientMaxBodySize )
+		{
+			size_t contentLength( utils::conv::strTo< size_t >( headers["Content-Length"] ) );
+			if ( contentLength > clientMaxBodySize )
+				throw http::Exception( 413 );
+		}
+	}
 }

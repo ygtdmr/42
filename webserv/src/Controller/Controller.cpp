@@ -6,11 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:18:28 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 17:12:15 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 10:52:29 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/hpp/Controller.hpp"
+#include <unistd.h>
+
 namespace webserv
 {
 
@@ -27,6 +29,8 @@ Controller::Controller( Controller const& other )
 
 Controller::~Controller()
 {
+	for ( size_t i = 0; i < pollfds->size(); i++ )
+		close( ( pollfds->begin() + i )->fd );
 	for ( size_t i = 0; i < connections->size(); i++ )
 		delete ( *connections )[i];
 	delete connections;

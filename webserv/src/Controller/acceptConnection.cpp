@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 18:22:23 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 10:32:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void Controller::acceptConnection( size_t index ) const throw()
 	client->addr		 = inet_ntoa( addr.sin_addr );
 	client->lastActivity = std::time( 0 );
 	client->controller	 = this;
+	client->socketFd	 = fd;
 	newConnection( fd, client );
-	client->index = client->controller->pollfds->size() - 1;
 
 	ServerLog( client, "WARNING" ) << "New connection from: " << client->addr << ", assigned socket: " << fd
 								   << '\n';

@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear.cpp                                          :+:      :+:    :+:   */
+/*   removeFd.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 17:59:47 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/11 12:00:00 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/11 12:00:00 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "../../inc/hpp/Controller.hpp"
-#include "unistd.h"
 
 namespace webserv
 {
 
-void Controller::clear( void ) const throw()
+void Controller::removeFd( int fd, size_t* posPoll ) const throw()
 {
+	if ( fd < 0 )
+		return;
 	for ( size_t i = 0; i < pollfds->size(); i++ )
-		close( ( pollfds->begin() + i )->fd );
+	{
+		if ( ( *pollfds )[i].fd == fd )
+		{
+			close( fd );
+			pollfds->erase( pollfds->begin() + i );
+			connections->erase( connections->begin() + i );
+			if ( posPoll && *posPoll >= i )
+				( *posPoll )--;
+			break;
+		}
+	}
 }
 
 }  // namespace webserv

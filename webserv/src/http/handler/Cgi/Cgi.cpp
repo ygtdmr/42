@@ -6,11 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 19:01:23 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 17:49:55 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 10:54:53 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../inc/hpp/http/handler/Cgi.hpp"
+#include "../../../../inc/hpp/manager/Client.hpp"
 
 namespace webserv
 {
@@ -20,7 +21,7 @@ namespace http
 namespace handler
 {
 
-Cgi::Cgi( manager::Client* client ) : Handler( client ), pid_( -1 ) {}
+Cgi::Cgi( manager::Client* client ) : Handler( client ), pipeInFd( -1 ), pipeOutFd( -1 ), pid_( -1 ) {}
 
 Cgi::Cgi( Cgi const& other ) : Handler( other )
 {
@@ -29,6 +30,10 @@ Cgi::Cgi( Cgi const& other ) : Handler( other )
 
 Cgi::~Cgi()
 {
+	if ( pipeInFd != -1 )
+		client->controller->removeFd( pipeInFd, client->posPoll );
+	if ( pipeOutFd != -1 )
+		client->controller->removeFd( pipeOutFd, client->posPoll );
 	for ( size_t i = 0; i < ( env_.size() - 1 ); i++ )
 		delete[] env_[i];
 }

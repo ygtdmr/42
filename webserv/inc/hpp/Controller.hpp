@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 11:48:40 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 17:12:26 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 10:54:06 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ class Controller
 		Controller& operator=( Controller const& other );
 		void		acceptConnection( size_t index ) const throw();
 		void		closeConnection( size_t index, char const* reason ) const throw();
+		void		removeFd( int fd, size_t* posPoll ) const throw();
 		void		setup( std::vector< config::Server > const* servers ) const;
 		void		run( void ) const throw();
-		void		clear( void ) const throw();
 
 		std::vector< manager::Manager* >* connections;
 		std::vector< struct pollfd >*	  pollfds;

@@ -21,6 +21,6 @@ void webserv::parser::Request::checkMaxBodySize( void )
 		clientMaxBodySize = client->server->config->clientMaxBodySize;
 	if ( !clientMaxBodySize )
 		return;
-	if ( client->receiveData.size() > clientMaxBodySize )
+	if ( ( client->httpRequest.body.size() + client->receiveData.size() ) > clientMaxBodySize )
 		throw http::Exception( 413 );
 }

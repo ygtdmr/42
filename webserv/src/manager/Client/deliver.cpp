@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 17:24:30 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 11:41:20 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,17 @@
 
 void webserv::manager::Client::deliver( void )
 {
-	try
+	if ( !deliverData.empty() )
 	{
-		handler->build();
+		ssize_t bytesSent( send( pollfd->fd, deliverData.c_str(), deliverData.length(), 0 ) );
+		if ( bytesSent > 0 )
+			deliverData.erase( 0, bytesSent );
 	}
-	catch ( http::handler::Handler* handler )
+	if ( ( handler->currentState == handler->DONE ) && deliverData.empty() )
 	{
-		delete this->handler;
-		this->handler = handler;
-		handler->build();
-	}
-	send( pollfd->fd, deliverData.c_str(), deliverData.length(), 0 );
-	deliverData = std::string();
-	if ( handler->currentState == handler->DONE )
-	{
-		ServerLog( server, "INFO" ) << "Response sent to: " << addr << ", assigned socket: " << pollfd->fd
-									<< ", uri=[" << httpRequest.uri << "], status=[" << handler->status << "]"
-									<< '\n';
+		ServerLog( server, "INFO" )
+			<< "Response sent to: " << addr << ", assigned socket: " << pollfd->fd << ", uri=["
+			<< httpRequest.uri << "], status=[" << handler->status << "]" << '\n';
 		isConnectionClose = ( handler->headers["Connection"] == "close" );
 		clear();
 		if ( !isConnectionClose )

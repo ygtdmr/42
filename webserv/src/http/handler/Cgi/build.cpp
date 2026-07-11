@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 18:47:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 10:49:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,27 +35,22 @@ void webserv::http::handler::Cgi::build( void )
 		int short const& revents( client->pollfd->revents );
 		int const&		 fd( client->pollfd->fd );
 
-		if ( ( indexWrite != -1 ) && ( fd == ( *client->controller->pollfds )[indexWrite].fd ) )
+		if ( ( pipeInFd != -1 ) && ( fd == pipeInFd ) )
 		{
 			if ( revents & POLLOUT )
 			{
-				size_t	bytesLeft( client->httpRequest.body.size() - bodyBytesWritten_ );
-				ssize_t bytesWritten( write( fd, client->httpRequest.body.c_str(), bytesLeft ) );
-
+				ssize_t bytesWritten(
+					write( fd, client->httpRequest.body.c_str(), client->httpRequest.body.size() ) );
 				if ( bytesWritten > 0 )
-					bodyBytesWritten_ += bytesWritten;
-				if ( bodyBytesWritten_ >= client->httpRequest.body.size() )
+					client->httpRequest.body.erase( 0, bytesWritten );
+				if ( client->httpRequest.body.empty() )
 				{
-					close( fd );
-					( *client->posPoll )--;
-					client->controller->pollfds->erase( client->controller->pollfds->begin() + indexWrite );
-					client->controller->connections->erase( client->controller->connections->begin() +
-															indexWrite );
-					indexWrite = -1;
+					client->controller->removeFd( pipeInFd, client->posPoll );
+					pipeInFd = -1;
 				}
 			}
 		}
-		if ( ( fd == ( *client->controller->pollfds )[indexRead].fd ) )
+		if ( ( pipeOutFd != -1 ) && ( fd == pipeOutFd ) )
 		{
 			if ( revents & POLLIN )
 			{
@@ -67,12 +62,13 @@ void webserv::http::handler::Cgi::build( void )
 			else if ( revents & POLLHUP )
 			{
 				int pidStatus;
-				waitpid( pid_, &pidStatus, WNOHANG );
-				close( fd );
-				( *client->posPoll )--;
-				client->controller->pollfds->erase( client->controller->pollfds->begin() + indexRead );
-				client->controller->connections->erase( client->controller->connections->begin() +
-														indexRead );
+				if ( waitpid( pid_, &pidStatus, WNOHANG ) == 0 )
+				{
+					kill( pid_, SIGKILL );
+					waitpid( pid_, &pidStatus, 0 );
+				}
+				client->controller->removeFd( pipeOutFd, client->posPoll );
+				pipeOutFd = -1;
 
 				std::map< std::string, std::string > cgiHeaders( parser::headersToMap( body, false ) );
 				headers.insert( cgiHeaders.begin(), cgiHeaders.end() );
@@ -85,6 +81,5 @@ void webserv::http::handler::Cgi::build( void )
 				currentState			  = DONE;
 			}
 		}
-		client->pollfd = &( *client->controller->pollfds )[client->index];
 	}
 }

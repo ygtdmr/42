@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/07/09 15:19:52 by yidemir          ###   ########.fr        #
+#    Updated: 2026/07/11 10:54:34 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ SRCS		=	src/main.cpp \
 				src/Controller/run.cpp \
 				src/Controller/setup.cpp \
 				src/Controller/setupServer.cpp \
-				src/Controller/clear.cpp \
+				src/Controller/removeFd.cpp \
 				src/Controller/Controller.cpp \
 				src/Controller/closeConnection.cpp \
 				src/manager/Manager.cpp \

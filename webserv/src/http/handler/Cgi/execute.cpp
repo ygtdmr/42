@@ -70,19 +70,19 @@ bool webserv::http::handler::Cgi::execute( void )
 			pfd.events = POLLOUT;
 			client->controller->pollfds->push_back( pfd );
 			client->controller->connections->push_back( client );
-			indexWrite = client->controller->pollfds->size() - 1;
+			pipeInFd = pipeIn[1];
 		}
 		else
 		{
 			close( pipeIn[1] );
-			indexWrite = -1;
+			pipeInFd = -1;
 		}
 
 		pfd.fd	   = pipeOut[0];
 		pfd.events = POLLIN;
 		client->controller->pollfds->push_back( pfd );
 		client->controller->connections->push_back( client );
-		indexRead = client->controller->pollfds->size() - 1;
+		pipeOutFd = pipeOut[0];
 	}
 	return true;
 }

@@ -17,7 +17,7 @@ namespace webserv
 namespace manager
 {
 
-Client::Client( void ) : isConnectionClose( false ), handler( 0 )
+Client::Client( void ) : isConnectionClose( false ), socketFd( -1 ), handler( 0 )
 {
 	clear();
 }
@@ -38,6 +38,7 @@ Client& Client::operator=( Client const& other )
 	if ( this != &other )
 	{
 		isConnectionClose = other.isConnectionClose;
+		socketFd		  = other.socketFd;
 		server			  = other.server;
 		receiveData		  = other.receiveData;
 		deliverData		  = other.deliverData;

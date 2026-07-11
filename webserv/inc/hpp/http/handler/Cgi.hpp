@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 12:48:35 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 17:49:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 10:47:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,8 @@ class Cgi : public Handler
 		void setupEnv( void );
 		bool execute( void );
 
-		ssize_t				 indexWrite;
-		size_t				 indexRead;
-		size_t				 bodyBytesWritten_;
+		int					 pipeInFd;
+		int					 pipeOutFd;
 		pid_t				 pid_;
 		std::vector< char* > env_;
 };
