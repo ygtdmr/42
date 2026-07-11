@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:38:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 10:47:19 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 13:40:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ static void printAllowMethods( std::vector< std::string > const& allowMethods )
 	}
 }
 
-static void printLocations( std::map< std::string, webserv::config::Location > const& locations )
+static void printLocations( std::vector< webserv::config::Location > const& locations )
 {
 	std::cout << "{";
-	std::map< std::string, webserv::config::Location >::const_iterator it( locations.begin() );
+	std::vector< webserv::config::Location >::const_iterator it( locations.begin() );
 	while ( it != locations.end() )
 	{
-		webserv::config::Location const& location( it->second );
-		std::cout << "\"" << it->first << "\":{";
+		webserv::config::Location const& location( *it );
+		std::cout << "\"" << it->uriPath << "\":{";
 
 		std::cout << "\"autoindex\":";
 		if ( location.autoindex )

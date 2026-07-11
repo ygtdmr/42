@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 12:02:59 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 10:19:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 13:13:21 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct
 		std::vector< std::string >		   listens;
 		std::vector< std::string >		   serverNames;
 		std::map< int short, std::string > errorPages;
-		std::map< std::string, Location >  locations;
+		std::vector< Location >			   locations;
 } Server;
 
 }  // namespace config

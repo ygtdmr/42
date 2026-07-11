@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:50:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 10:48:41 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 12:20:02 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void webserv::parser::Config::validateLocation( std::string const& locationPath 
 	{
 		std::string extension( values_[0] );
 		std::string path( values_[1] );
-		valid = ( *extension.begin() == '.' ) && ( extension.size() > 1 ) && isValidPath( path );
+		valid = ( *extension.begin() == '.' ) && ( extension.size() > 1 ) && isValidPath( path, false );
 	}
 	else if ( ( key_ == "return" ) && ( values_.size() == 2 ) )
 		valid = ( ( values_[0] == "301" || values_[0] == "302" ) );

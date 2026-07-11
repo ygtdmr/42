@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:47:44 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 10:47:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 12:39:11 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void webserv::parser::Config::parseStateServer( void )
 {
 	bool		   on_location( false );
 	std::string	   word;
-	config::Server server;
+	config::Server server = config::Server();
 
 	while ( ( *raw_ ) >> word )
 	{

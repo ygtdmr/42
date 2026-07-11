@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 10:20:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 14:54:19 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 13:43:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,17 @@
 
 void webserv::parser::Request::parseLocation()
 {
-	std::map< std::string, config::Location > const&		  locations( client->server->config->locations );
-	std::map< std::string, config::Location >::const_iterator it( locations.begin() );
-	std::string												  locationUri;
+	std::vector< config::Location >::const_iterator it( client->server->config->locations.begin() );
+	std::string										locationUri;
 
-	while ( it != locations.end() )
+	while ( it != client->server->config->locations.end() )
 	{
-		if ( client->httpRequest.uri.find( it->first ) == 0 )
+		if ( client->httpRequest.uri.find( it->uriPath ) == 0 )
 		{
-			if ( !client->httpRequest.location || ( it->first.size() >= locationUri.size() ) )
+			if ( !client->httpRequest.location || ( it->uriPath.size() > locationUri.size() ) )
 			{
-				client->httpRequest.location = &it->second;
-				locationUri					 = it->first;
+				client->httpRequest.location = &( *it );
+				locationUri					 = it->uriPath;
 			}
 		}
 		it++;
@@ -44,6 +43,5 @@ void webserv::parser::Request::parseLocation()
 		if ( !allowMethod )
 			throw http::Exception( 405 );
 	}
-
 	currentState = HEADERS;
 }

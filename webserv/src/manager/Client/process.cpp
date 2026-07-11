@@ -21,7 +21,7 @@ void webserv::manager::Client::process( void )
 		receive();
 	if ( handler )
 	{
-		if ( (pollfd->fd != socketFd) || ( pollfd->revents & POLLOUT ) )
+		if ( ( pollfd->fd != socketFd ) || ( pollfd->revents & POLLOUT ) )
 		{
 			try
 			{

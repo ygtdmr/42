@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 11:48:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/01 19:49:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 13:37:45 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct
 {
 		bool								 autoindex;
 		size_t								 clientMaxBodySize;
+		std::string							 uriPath;
 		std::string							 index;
 		std::string							 root;
 		std::string							 uploadDir;

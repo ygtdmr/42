@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 18:31:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 13:46:38 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void webserv::http::handler::Get::buildHeaders( void )
 			if ( client->httpRequest.location->autoindex )
 				throw new DirectoryListing( client );
 			else
-				throw new Error( client, 403 );
+				throw new Error( client, 404 );
 		}
 		if ( S_ISDIR( st.st_mode ) )
 			throw new Error( client, 403 );

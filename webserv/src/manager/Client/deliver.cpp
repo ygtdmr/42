@@ -25,9 +25,9 @@ void webserv::manager::Client::deliver( void )
 	}
 	if ( ( handler->currentState == handler->DONE ) && deliverData.empty() )
 	{
-		ServerLog( server, "INFO" )
-			<< "Response sent to: " << addr << ", assigned socket: " << pollfd->fd << ", uri=["
-			<< httpRequest.uri << "], status=[" << handler->status << "]" << '\n';
+		ServerLog( server, "INFO" ) << "Response sent to: " << addr << ", assigned socket: " << pollfd->fd
+									<< ", uri=[" << httpRequest.uri << "], status=[" << handler->status << "]"
+									<< '\n';
 		isConnectionClose = ( handler->headers["Connection"] == "close" );
 		clear();
 		if ( !isConnectionClose )
