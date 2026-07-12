@@ -19,7 +19,7 @@ namespace webserv
 {
 namespace parser
 {
-std::string unchunkBody( std::string const& data );
+std::string unchunkBody( std::string& data );
 }  // namespace parser
 }  // namespace webserv
 

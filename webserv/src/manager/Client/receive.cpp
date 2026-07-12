@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 18:47:52 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/12 09:36:22 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ void webserv::manager::Client::receive( void )
 	{
 		receiveData.append( buffer, bytesRead );
 		parserRequest.parse();
+		receiveData.clear();
+		receiveData = "";
+		ServerLog( server, "INFO" )
+			<< "received bytes: " << bytesRead << ", assigned socket: " << pollfd->fd << '\n';
 		if ( parserRequest.currentState == parserRequest.DONE )
 		{
 			ServerLog( server, "INFO" )

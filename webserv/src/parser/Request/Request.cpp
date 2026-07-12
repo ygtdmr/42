@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:28:05 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 19:25:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/12 11:33:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ Request& Request::operator=( Request const& other )
 	{
 		currentState = other.currentState;
 		client		 = other.client;
+		chunkedBuffer = other.chunkedBuffer;
 	}
 	return *this;
 }

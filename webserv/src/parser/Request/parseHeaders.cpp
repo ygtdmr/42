@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 10:40:04 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/12 11:33:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@
 
 void webserv::parser::Request::parseHeaders( void )
 {
-	if ( !( utils::str::has( client->receiveData, "\r\n\r\n" ) ||
-			utils::str::has( client->receiveData, "\n\n" ) ) )
+	client->httpRequest.body += client->receiveData;
+	client->receiveData.clear();
+	if ( !( utils::str::has( client->httpRequest.body, "\r\n\r\n" ) ||
+			utils::str::has( client->httpRequest.body, "\n\n" ) ) )
 		return;
 	std::map< std::string, std::string >& headers( client->httpRequest.headers );
 	try
 	{
-		headers = headersToMap( client->receiveData );
+		headers = headersToMap( client->httpRequest.body );
 	}
 	catch ( std::exception const& _ )
 	{
@@ -36,7 +38,11 @@ void webserv::parser::Request::parseHeaders( void )
 		if ( headers["Host"].empty() )
 			throw http::Exception( 400 );
 		if ( headers["Transfer-Encoding"] == "chunked" )
+		{
+			chunkedBuffer = client->httpRequest.body;
+			client->httpRequest.body.clear();
 			currentState = CHUNKED_BODY;
+		}
 		else if ( !headers["Content-Length"].empty() )
 			currentState = BODY;
 		else
@@ -46,7 +52,6 @@ void webserv::parser::Request::parseHeaders( void )
 		currentState = BODY;
 	else
 		currentState = DONE;
-
 	if ( !headers["Content-Length"].empty() )
 	{
 		size_t clientMaxBodySize( 0 );

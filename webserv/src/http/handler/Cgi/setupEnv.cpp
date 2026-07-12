@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 14:55:27 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/11 22:17:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,28 @@ static char* newValue( std::string const& key, std::string const& value )
 
 void webserv::http::handler::Cgi::setupEnv( void )
 {
+	std::map<std::string, std::string>::const_iterator it(client->httpRequest.headers.begin());
+	while (it != client->httpRequest.headers.end())
+	{
+		if (it->first == "Content-Length")
+			env_.push_back( newValue( "CONTENT_LENGTH", it->second ) );
+		else if (it->first == "Content-Type")
+			env_.push_back( newValue( "CONTENT_TYPE", it->second ) );
+		else
+		{
+			std::string	key(it->first);
+			for (size_t i = 0; i < key.size(); i++)
+			{
+				if (key[i] >= 'a' && key[i] >= 'z')
+					key[i] -= 32;
+				else if (key[i] == '-')
+					key[i] = '_';
+			}
+			key.insert(0, "HTTP_");
+			env_.push_back( newValue( key, it->second ) );
+		}
+		it++;
+	}
 	env_.push_back( newValue( "REDIRECT_STATUS", "200" ) );
 	env_.push_back( newValue( "GATEWAY_INTERFACE", "CGI/1.1" ) );
 	env_.push_back( newValue( "REQUEST_METHOD", client->httpRequest.method ) );
@@ -35,11 +57,5 @@ void webserv::http::handler::Cgi::setupEnv( void )
 	env_.push_back( newValue( "PATH_INFO", client->httpRequest.uriPath ) );
 	env_.push_back( newValue( "SCRIPT_NAME", client->httpRequest.uriPath ) );
 	env_.push_back( newValue( "SCRIPT_FILENAME", realPath ) );
-	if ( !client->httpRequest.headers["Content-Length"].empty() )
-		env_.push_back( newValue( "CONTENT_LENGTH", client->httpRequest.headers["Content-Length"] ) );
-	if ( !client->httpRequest.headers["Content-Type"].empty() )
-		env_.push_back( newValue( "CONTENT_TYPE", client->httpRequest.headers["Content-Type"] ) );
-	if ( !client->httpRequest.headers["Host"].empty() )
-		env_.push_back( newValue( "HTTP_HOST", client->httpRequest.headers["Host"] ) );
 	env_.push_back( 0 );
 }

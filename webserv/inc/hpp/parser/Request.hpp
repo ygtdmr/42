@@ -6,12 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 12:47:49 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/09 11:08:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/12 11:33:22 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WEBSERV_PARSER_REQUEST_HPP
 #define WEBSERV_PARSER_REQUEST_HPP
+
+#include <string>
 
 namespace webserv
 {
@@ -42,6 +44,7 @@ class Request
 			DONE
 		} currentState;
 		manager::Client* client;
+		std::string chunkedBuffer;
 
 	private:
 		void parseFirstLine( void );

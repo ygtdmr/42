@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 12:21:06 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/12 09:44:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,15 @@ static std::string filterQuery( std::string& uri )
 
 void webserv::parser::Request::parseFirstLine( void )
 {
-	if ( !utils::str::has( client->receiveData, "\n" ) )
+	client->httpRequest.body += client->receiveData;
+	client->receiveData.clear();
+	if ( !utils::str::has( client->httpRequest.body, "\n" ) )
 		return;
 	std::string method;
 	std::string uri;
 	std::string version;
 
-	std::stringstream ss( client->receiveData );
+	std::stringstream ss( client->httpRequest.body );
 	ss >> method;
 	ss >> uri;
 	ss >> version;
@@ -74,6 +76,5 @@ void webserv::parser::Request::parseFirstLine( void )
 
 	if ( !isSafeUriPath( client->httpRequest.uriPath ) )
 		throw http::Exception( 404 );
-
 	currentState = LOCATION;
 }

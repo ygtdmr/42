@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/09 11:13:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/12 09:54:12 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void webserv::parser::Request::parse( void )
 {
 	try
 	{
-		if ( client->httpRequest.location )
-			checkMaxBodySize();
 		if ( currentState == REQUEST_FIRST_LINE )
 			parseFirstLine();
 		if ( currentState == LOCATION )

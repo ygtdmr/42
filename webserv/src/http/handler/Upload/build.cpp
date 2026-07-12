@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 17:59:55 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/12 07:35:50 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void webserv::http::handler::Upload::build( void )
 	for ( size_t i = 0; i < fileNames_.size(); i++ )
 		ss << "<p>" << fileNames_[i] << "</p>" << std::endl;
 	ss << "</pre><hr></body>" << std::endl;
-	ss << "</html>";
+	ss << "</html>" << std::endl;
 	body					  = ss.str();
 	headers["Content-Type"]	  = "text/html";
 	headers["Content-Length"] = utils::conv::toStr< size_t >( body.size() );
