@@ -14,8 +14,8 @@
 
 void webserv::manager::Client::clear( void )
 {
-	receiveData = std::string();
-	deliverData = std::string();
+	receiveData	  = std::string();
+	deliverData	  = std::string();
 	deliverOffset = 0;
 
 	httpRequest			 = http::Request();

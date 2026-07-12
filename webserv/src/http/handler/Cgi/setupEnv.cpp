@@ -26,24 +26,24 @@ static char* newValue( std::string const& key, std::string const& value )
 
 void webserv::http::handler::Cgi::setupEnv( void )
 {
-	std::map<std::string, std::string>::const_iterator it(client->httpRequest.headers.begin());
-	while (it != client->httpRequest.headers.end())
+	std::map< std::string, std::string >::const_iterator it( client->httpRequest.headers.begin() );
+	while ( it != client->httpRequest.headers.end() )
 	{
-		if (it->first == "Content-Length")
+		if ( it->first == "Content-Length" )
 			env_.push_back( newValue( "CONTENT_LENGTH", it->second ) );
-		else if (it->first == "Content-Type")
+		else if ( it->first == "Content-Type" )
 			env_.push_back( newValue( "CONTENT_TYPE", it->second ) );
 		else
 		{
-			std::string	key(it->first);
-			for (size_t i = 0; i < key.size(); i++)
+			std::string key( it->first );
+			for ( size_t i = 0; i < key.size(); i++ )
 			{
-				if (key[i] >= 'a' && key[i] >= 'z')
+				if ( key[i] >= 'a' && key[i] >= 'z' )
 					key[i] -= 32;
-				else if (key[i] == '-')
+				else if ( key[i] == '-' )
 					key[i] = '_';
 			}
-			key.insert(0, "HTTP_");
+			key.insert( 0, "HTTP_" );
 			env_.push_back( newValue( key, it->second ) );
 		}
 		it++;

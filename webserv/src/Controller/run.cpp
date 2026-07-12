@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
 #include <signal.h>
+#include <cerrno>
 #include "../../inc/hpp/Controller.hpp"
 #include "../../inc/hpp/ServerLog.hpp"
 #include "../../inc/hpp/manager/Client.hpp"

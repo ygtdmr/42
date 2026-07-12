@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 12:47:49 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/03 12:31:13 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/12 12:41:44 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ class Config
 		bool isValidIPv4( std::string const& value ) const;
 		bool isValidServerName( std::string const& value ) const;
 		bool isValidMethod( std::string const& value ) const;
-		bool isValidPath( std::string const& value, bool root = true ) const;
+		bool isValidPath( std::string const& value, bool root = false ) const;
 
 		std::stringstream*			   raw_;
 		std::string					   key_;

@@ -23,13 +23,13 @@ std::string webserv::parser::unchunkBody( std::string& data )
 		std::size_t nextLineEnd( data.find( "\r\n", pos ) );
 		if ( nextLineEnd == std::string::npos )
 			break;
-		std::string		  hexSize( data.substr( pos, nextLineEnd - pos ) );
+		std::string hexSize( data.substr( pos, nextLineEnd - pos ) );
 
-		std::size_t semicolonPos = hexSize.find(';');
+		std::size_t semicolonPos = hexSize.find( ';' );
 		if ( semicolonPos != std::string::npos )
-			hexSize = hexSize.substr(0, semicolonPos);
+			hexSize = hexSize.substr( 0, semicolonPos );
 
-		std::size_t		  chunkSize(0);
+		std::size_t		  chunkSize( 0 );
 		std::stringstream ss;
 		ss << std::hex << hexSize;
 		ss >> chunkSize;
@@ -38,15 +38,15 @@ std::string webserv::parser::unchunkBody( std::string& data )
 			break;
 		if ( chunkSize == 0 )
 			break;
-			
+
 		std::size_t payloadStart = nextLineEnd + 2;
-		
+
 		if ( payloadStart + chunkSize + 2 > data.size() )
 			break;
-			
-		if ( data.substr(payloadStart + chunkSize, 2) != "\r\n" )
+
+		if ( data.substr( payloadStart + chunkSize, 2 ) != "\r\n" )
 			break;
-			
+
 		decoded += data.substr( payloadStart, chunkSize );
 		pos = payloadStart + chunkSize + 2;
 	}

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include <cstring>
 #include <fstream>
 #include "../../../inc/hpp/config/Exception.hpp"
 #include "../../../inc/hpp/parser/Config.hpp"

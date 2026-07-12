@@ -12,6 +12,7 @@
 
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <ctime>
 #include "../../inc/hpp/Controller.hpp"
 #include "../../inc/hpp/ServerLog.hpp"
@@ -22,25 +23,35 @@ namespace webserv
 
 void Controller::acceptConnection( size_t index ) const throw()
 {
-	sockaddr_in addr;
-	socklen_t	len( sizeof( addr ) );
-	int			fd( accept( ( *pollfds )[index].fd, ( sockaddr* )&addr, &len ) );
-
-	if ( fd < 0 )
-		return;
-	if ( fcntl( fd, F_SETFL, O_NONBLOCK ) < 0 )
+	if ( !( ( *pollfds )[index].revents & POLLIN ) )
 		return;
 
-	manager::Client* client( new manager::Client() );
-	client->server		 = dynamic_cast< manager::Server* >( ( *connections )[index] );
-	client->addr		 = inet_ntoa( addr.sin_addr );
-	client->lastActivity = std::time( 0 );
-	client->controller	 = this;
-	client->socketFd	 = fd;
-	newConnection( fd, client );
+	int server_fd = ( *pollfds )[index].fd;
+	while ( true )
+	{
+		sockaddr_in addr;
+		socklen_t	len( sizeof( addr ) );
+		int			fd( accept( server_fd, ( sockaddr* )&addr, &len ) );
 
-	ServerLog( client, "WARNING" ) << "New connection from: " << client->addr << ", assigned socket: " << fd
-								   << '\n';
+		if ( fd < 0 )
+			break;
+		if ( fcntl( fd, F_SETFL, O_NONBLOCK ) < 0 )
+		{
+			close( fd );
+			break;
+		}
+
+		manager::Client* client( new manager::Client() );
+		client->server		 = dynamic_cast< manager::Server* >( ( *connections )[index] );
+		client->addr		 = inet_ntoa( addr.sin_addr );
+		client->lastActivity = std::time( 0 );
+		client->controller	 = this;
+		client->socketFd	 = fd;
+		newConnection( fd, client );
+
+		ServerLog( client, "WARNING" )
+			<< "New connection from: " << client->addr << ", assigned socket: " << fd << '\n';
+	}
 }
 
 }  // namespace webserv

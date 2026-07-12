@@ -26,9 +26,9 @@ void webserv::manager::Client::receive( void )
 		receiveData.append( buffer, bytesRead );
 		parserRequest.parse();
 		receiveData.clear();
-		receiveData = "";
-		ServerLog( server, "INFO" )
-			<< "received bytes: " << bytesRead << ", assigned socket: " << pollfd->fd << '\n';
+		receiveData = std::string();
+		ServerLog( server, "INFO" ) << "received bytes: " << bytesRead << ", assigned socket: " << pollfd->fd
+									<< '\n';
 		if ( parserRequest.currentState == parserRequest.DONE )
 		{
 			ServerLog( server, "INFO" )

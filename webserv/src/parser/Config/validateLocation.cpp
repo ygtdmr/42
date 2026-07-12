@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:50:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 12:20:02 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/12 12:42:25 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ void webserv::parser::Config::validateLocation( std::string const& locationPath 
 	bool valid( false );
 
 	if ( ( key_ == "root" || key_ == "index" || key_ == "upload_dir" ) && ( values_.size() == 1 ) )
-		valid = isValidPath( values_[0], key_ != "index" );
+		valid = isValidPath( values_[0] );
 	else if ( ( key_ == "autoindex" ) && ( values_.size() == 1 ) )
 		valid = ( values_[0] == "on" ) || ( values_[0] == "off" );
 	else if ( key_ == "cgi" && ( values_.size() == 2 ) )
 	{
 		std::string extension( values_[0] );
 		std::string path( values_[1] );
-		valid = ( *extension.begin() == '.' ) && ( extension.size() > 1 ) && isValidPath( path, false );
+		valid = ( *extension.begin() == '.' ) && ( extension.size() > 1 ) && isValidPath( path );
 	}
 	else if ( ( key_ == "return" ) && ( values_.size() == 2 ) )
 		valid = ( ( values_[0] == "301" || values_[0] == "302" ) );

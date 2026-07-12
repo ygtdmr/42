@@ -21,7 +21,9 @@ namespace http
 namespace handler
 {
 
-Cgi::Cgi( manager::Client* client ) : Handler( client ), pipeInFd( -1 ), pipeOutFd( -1 ), pid_( -1 ), bodySent( 0 ) {}
+Cgi::Cgi( manager::Client* client )
+	: Handler( client ), pipeInFd( -1 ), pipeOutFd( -1 ), pid_( -1 ), bodySent( 0 )
+{}
 
 Cgi::Cgi( Cgi const& other ) : Handler( other )
 {
@@ -34,8 +36,11 @@ Cgi::~Cgi()
 		client->controller->removeFd( pipeInFd, client->posPoll );
 	if ( pipeOutFd != -1 )
 		client->controller->removeFd( pipeOutFd, client->posPoll );
-	for ( size_t i = 0; i < ( env_.size() - 1 ); i++ )
-		delete[] env_[i];
+	if ( !env_.empty() )
+	{
+		for ( size_t i = 0; i < ( env_.size() - 1 ); i++ )
+			delete[] env_[i];
+	}
 }
 
 Cgi& Cgi::operator=( Cgi const& other )

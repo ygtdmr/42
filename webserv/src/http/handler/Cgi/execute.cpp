@@ -21,9 +21,9 @@ bool webserv::http::handler::Cgi::execute( void )
 {
 	std::string const scriptPath = realPath.substr( 0, realPath.find_last_of( "/" ) );
 	std::string const scriptFile = realPath.substr( realPath.find_last_of( "/" ) + 1 );
-	char const* binPath( client->httpRequest.location->cgi.begin()->second.c_str() );
-	int			pipeIn[2];
-	int			pipeOut[2];
+	char const*		  binPath( client->httpRequest.location->cgi.begin()->second.c_str() );
+	int				  pipeIn[2];
+	int				  pipeOut[2];
 
 	if ( pipe( pipeIn ) < 0 || pipe( pipeOut ) < 0 )
 		return false;

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:47:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 13:37:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/12 12:42:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void webserv::parser::Config::parseStateLocation( config::Server& server, std::s
 
 	if ( ( ( *raw_ ) >> word ) && ( word != "{" ) )
 		throw config::Exception( servers_->size(), path ) << "invalid location syntax: " << word;
-	else if ( !isValidPath( path ) )
+	else if ( !isValidPath( path, true ) )
 		throw config::Exception( servers_->size(), path ) << "invalid location path: " << word;
 	while ( ( *raw_ ) >> word )
 	{

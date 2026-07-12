@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>
-#include <string.h>
 #include <sys/socket.h>
+#include <cerrno>
+#include <cstring>
 #include "../../inc/hpp/Controller.hpp"
 #include "../../inc/hpp/config/Exception.hpp"
 

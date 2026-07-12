@@ -6,12 +6,12 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/07/11 10:54:34 by yidemir          ###   ########.fr        #
+#    Updated: 2026/07/12 12:39:15 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CXX			=	g++
-CXXFLAGS	=	-g -Wall -Wextra -Werror -std=c++98 -Wparentheses # DELETE AFTER DEVELOP (-Wparentheses)
+CXX			=	c++
+CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
 NAME		=	webserv
 

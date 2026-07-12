@@ -19,7 +19,8 @@ void webserv::manager::Client::deliver( void )
 {
 	if ( !deliverData.empty() )
 	{
-		ssize_t bytesSent( send( pollfd->fd, deliverData.c_str() + deliverOffset, deliverData.length() - deliverOffset, 0 ) );
+		ssize_t bytesSent( send(
+			pollfd->fd, deliverData.c_str() + deliverOffset, deliverData.length() - deliverOffset, 0 ) );
 		if ( bytesSent > 0 )
 		{
 			deliverOffset += bytesSent;
@@ -28,6 +29,11 @@ void webserv::manager::Client::deliver( void )
 				deliverData.clear();
 				deliverOffset = 0;
 			}
+		}
+		else if ( bytesSent < 0 )
+		{
+			isConnectionClose = true;
+			return;
 		}
 	}
 	if ( ( handler->currentState == handler->DONE ) && deliverData.empty() )

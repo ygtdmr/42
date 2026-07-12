@@ -44,7 +44,7 @@ class Request
 			DONE
 		} currentState;
 		manager::Client* client;
-		std::string chunkedBuffer;
+		std::string		 chunkedBuffer;
 
 	private:
 		void parseFirstLine( void );

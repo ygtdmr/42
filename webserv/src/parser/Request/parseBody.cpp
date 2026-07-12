@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/manager/Client.hpp"
 #include "../../../inc/hpp/http/Exception.hpp"
+#include "../../../inc/hpp/manager/Client.hpp"
 #include "../../../inc/hpp/parser/Request.hpp"
 #include "../../../inc/hpp/utils/conv.hpp"
 
@@ -23,7 +23,7 @@ void webserv::parser::Request::parseBody( void )
 	size_t contentLength( utils::conv::strTo< size_t >( client->httpRequest.headers["Content-Length"] ) );
 	if ( client->httpRequest.body.size() >= contentLength )
 	{
-		client->httpRequest.body = client->httpRequest.body.substr(0, contentLength);
-		currentState = DONE;
+		client->httpRequest.body = client->httpRequest.body.substr( 0, contentLength );
+		currentState			 = DONE;
 	}
 }

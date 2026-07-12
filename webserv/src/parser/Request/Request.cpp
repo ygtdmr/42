@@ -30,8 +30,8 @@ Request& Request::operator=( Request const& other )
 {
 	if ( this != &other )
 	{
-		currentState = other.currentState;
-		client		 = other.client;
+		currentState  = other.currentState;
+		client		  = other.client;
 		chunkedBuffer = other.chunkedBuffer;
 	}
 	return *this;

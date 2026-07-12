@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/manager/Client.hpp"
 #include "../../../inc/hpp/http/Exception.hpp"
+#include "../../../inc/hpp/manager/Client.hpp"
 #include "../../../inc/hpp/parser/Request.hpp"
 #include "../../../inc/hpp/parser/unchunkBody.hpp"
 #include "../../../inc/hpp/utils/str.hpp"
@@ -22,7 +22,7 @@ void webserv::parser::Request::parseChunkedBody( void )
 	client->receiveData.clear();
 	client->httpRequest.body += unchunkBody( chunkedBuffer );
 	checkMaxBodySize();
-	if (chunkedBuffer.find("0\r\n\r\n") == 0)
+	if ( chunkedBuffer.find( "0\r\n\r\n" ) == 0 )
 	{
 		currentState = DONE;
 	}

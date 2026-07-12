@@ -32,17 +32,20 @@ void webserv::http::handler::Cgi::build( void )
 	}
 	else
 	{
-		int short const& revents( client->pollfd->revents );
-		int const&		 fd( client->pollfd->fd );
+		int short const revents( client->pollfd->revents );
+		int const		fd( client->pollfd->fd );
 
 		if ( ( pipeInFd != -1 ) && ( fd == pipeInFd ) )
 		{
 			if ( revents & POLLOUT )
 			{
-				ssize_t bytesWritten(
-					write( fd, client->httpRequest.body.c_str() + bodySent, client->httpRequest.body.size() - bodySent ) );
+				ssize_t bytesWritten( write( fd,
+											 client->httpRequest.body.c_str() + bodySent,
+											 client->httpRequest.body.size() - bodySent ) );
 				if ( bytesWritten > 0 )
 					bodySent += bytesWritten;
+				else
+					bodySent = client->httpRequest.body.size();
 				if ( bodySent >= client->httpRequest.body.size() )
 				{
 					client->controller->removeFd( pipeInFd, client->posPoll );
@@ -52,14 +55,14 @@ void webserv::http::handler::Cgi::build( void )
 		}
 		if ( ( pipeOutFd != -1 ) && ( fd == pipeOutFd ) )
 		{
-			bool	eof( false );
+			bool eof( false );
 			if ( revents & POLLIN )
 			{
 				char	buffer[RECV_BUFFER_SIZE];
 				ssize_t bytesRead( read( fd, buffer, sizeof( buffer ) - 1 ) );
 				if ( bytesRead > 0 )
 					body.append( buffer, bytesRead );
-				else if ( bytesRead == 0 )
+				else
 					eof = true;
 			}
 			if ( eof || ( revents & POLLHUP ) )

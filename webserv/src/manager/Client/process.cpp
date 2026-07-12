@@ -35,7 +35,7 @@ void webserv::manager::Client::process( void )
 			}
 		}
 		pollfd = &( *controller->pollfds )[*posPoll];
-		if ( pollfd->fd == socketFd )
+		if ( ( pollfd->fd == socketFd ) && ( pollfd->revents & POLLOUT ) )
 			deliver();
 	}
 }
