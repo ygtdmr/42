@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 17:25:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/13 20:33:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include "../../inc/hpp/ServerLog.hpp"
 #include "../../inc/hpp/manager/Client.hpp"
 #include "../../inc/hpp/manager/Server.hpp"
-#define CLIENT_TIMEOUT 300
+
+#define CLIENT_TIMEOUT 30
 
 bool g_webserv_exit( 0 );
 
