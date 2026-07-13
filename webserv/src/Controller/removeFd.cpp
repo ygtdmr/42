@@ -29,6 +29,8 @@ void Controller::removeFd( int fd, size_t* posPoll ) const throw()
 			connections->erase( connections->begin() + i );
 			if ( posPoll && *posPoll >= i )
 				( *posPoll )--;
+			for ( size_t j = 0; j < connections->size(); ++j )
+				( *connections )[j]->pollfd = &( *pollfds )[j];
 			break;
 		}
 	}

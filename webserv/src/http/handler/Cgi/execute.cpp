@@ -71,6 +71,8 @@ bool webserv::http::handler::Cgi::execute( void )
 			pfd.events = POLLOUT;
 			client->controller->pollfds->push_back( pfd );
 			client->controller->connections->push_back( client );
+			for ( size_t i = 0; i < client->controller->connections->size(); ++i )
+				( *client->controller->connections )[i]->pollfd = &( *client->controller->pollfds )[i];
 			pipeInFd = pipeIn[1];
 		}
 		else
@@ -83,6 +85,8 @@ bool webserv::http::handler::Cgi::execute( void )
 		pfd.events = POLLIN;
 		client->controller->pollfds->push_back( pfd );
 		client->controller->connections->push_back( client );
+		for ( size_t i = 0; i < client->controller->connections->size(); ++i )
+			( *client->controller->connections )[i]->pollfd = &( *client->controller->pollfds )[i];
 		pipeOutFd = pipeOut[0];
 	}
 	return true;

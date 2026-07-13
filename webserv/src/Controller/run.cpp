@@ -16,8 +16,7 @@
 #include "../../inc/hpp/ServerLog.hpp"
 #include "../../inc/hpp/manager/Client.hpp"
 #include "../../inc/hpp/manager/Server.hpp"
-
-#define CLIENT_TIMEOUT 30
+#define CLIENT_TIMEOUT 300
 
 bool g_webserv_exit( 0 );
 

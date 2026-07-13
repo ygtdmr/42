@@ -20,7 +20,8 @@ void webserv::Controller::newConnection( int fd, manager::Manager* connection ) 
 	pfd.fd		= fd;
 
 	pollfds->push_back( pfd );
-
-	connection->pollfd = &( *( pollfds->end() - 1 ) );
 	connections->push_back( connection );
+
+	for ( size_t i = 0; i < connections->size(); ++i )
+		( *connections )[i]->pollfd = &( *pollfds )[i];
 }
