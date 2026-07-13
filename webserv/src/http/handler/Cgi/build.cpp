@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 19:52:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/13 16:50:59 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void webserv::http::handler::Cgi::build( void )
 			}
 			if ( eof || ( revents & POLLHUP ) )
 			{
-				int pidStatus;
+				int pidStatus(0);
 				if ( waitpid( pid_, &pidStatus, WNOHANG ) == 0 )
 				{
 					kill( pid_, SIGKILL );
@@ -76,6 +76,8 @@ void webserv::http::handler::Cgi::build( void )
 				client->controller->removeFd( pipeOutFd, client->posPoll );
 				pipeOutFd = -1;
 
+				if (pidStatus != 0)
+					throw new Error( client, 500 );
 				std::map< std::string, std::string > cgiHeaders( parser::headersToMap( body, false ) );
 				headers.insert( cgiHeaders.begin(), cgiHeaders.end() );
 				if ( headers.find( "Status" ) == headers.end() )

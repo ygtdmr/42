@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 10:32:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/13 18:10:48 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void Controller::acceptConnection( size_t index ) const throw()
 		client->socketFd	 = fd;
 		newConnection( fd, client );
 
-		ServerLog( client, "WARNING" )
+		ServerLog( client->server, "WARNING" )
 			<< "New connection from: " << client->addr << ", assigned socket: " << fd << '\n';
 	}
 }
