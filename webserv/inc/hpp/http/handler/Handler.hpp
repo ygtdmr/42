@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 16:51:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 13:22:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ class Handler : public Response
 			DONE
 		} currentState;
 		std::string realPath;
-
-	protected:
 		http::Client* client;
+
 };
 }  // namespace handler
 

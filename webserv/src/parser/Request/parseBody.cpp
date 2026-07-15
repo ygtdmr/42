@@ -18,7 +18,8 @@
 void webserv::parser::Request::parseBody( void )
 {
 	client->httpRequest.body += client->receiveData;
-	client->httpRequest.bodySize += client->httpRequest.body.size();
-	client->receiveData.clear();
-	client->receiveData = "";
+	client->httpRequest.bodySize += client->receiveData.size();
+	checkMaxBodySize();
+	if ( client->httpRequest.bodySize >= contentLength_ )
+		currentState = DONE;
 }

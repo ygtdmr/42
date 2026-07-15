@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/15 14:59:35 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 13:23:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void webserv::http::Client::process( void )
 		{
 			handler::Cgi* cgiHandler( dynamic_cast<handler::Cgi*>(handler) );
 			if ( cgiHandler || ( revents & POLLOUT ) )
+			{
+				handler->client = this;
 				handler->build();
+			}
 		}
 	}
 	catch ( handler::Handler* handler_ )

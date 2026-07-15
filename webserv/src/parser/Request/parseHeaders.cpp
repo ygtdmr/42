@@ -20,8 +20,6 @@
 void webserv::parser::Request::parseHeaders( void )
 {
 	client->httpRequest.body += client->receiveData;
-	client->receiveData.clear();
-	client->receiveData = "";
 	if ( !( utils::str::has( client->httpRequest.body, "\r\n\r\n" ) ||
 			utils::str::has( client->httpRequest.body, "\n\n" ) ) )
 		return;
@@ -41,20 +39,14 @@ void webserv::parser::Request::parseHeaders( void )
 		if ( headers["Host"].empty() )
 			throw http::Exception( 400 );
 		if ( headers["Transfer-Encoding"] == "chunked" )
-		{
-			chunkedBuffer = client->httpRequest.body;
-			client->httpRequest.body.clear();
-			client->httpRequest.body = "";
 			currentState = CHUNKED_BODY;
-		}
 		else if ( contentLength_ > 0 )
 			currentState = BODY;
 		else
-		{
-			client->httpRequest.body.clear();
-			client->httpRequest.body = "";
 			currentState = DONE;
-		}
+		client->receiveData = client->httpRequest.body;
+		client->httpRequest.body.clear();
+		client->httpRequest.body = "";
 	}
 	else if ( contentLength_ > 0 )
 		currentState = BODY;

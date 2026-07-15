@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 23:10:47 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 13:32:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void webserv::http::Client::receive( void )
 	if ( bytesRead > 0 )
 	{
 		receiveData.append( buffer, bytesRead );
+		parserRequest.client = this;
 		parserRequest.parse();
 		receiveData.clear();
 		receiveData = "";

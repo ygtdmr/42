@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 15:01:24 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/15 15:06:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 13:36:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,7 @@ void webserv::http::handler::Cgi::process( void )
 					pipeInFd = -1;
 				}
 				else
-				{
-					client->httpRequest.body.clear();
-					client->httpRequest.body = "";
-					bodySent = 0;
 					client->controller->getPollfd(client->fd).events = POLLIN;
-				}
 			}
 		}
 	}

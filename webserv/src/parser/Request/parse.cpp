@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/15 14:49:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 13:30:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,6 @@ void webserv::parser::Request::parse( void )
 			parseChunkedBody();
 		if ( currentState == BODY )
 			parseBody();
-		if ( currentState == CHUNKED_BODY || currentState == BODY )
-		{
-			checkMaxBodySize();
-			bool isChunkedBodyDone( currentState == CHUNKED_BODY && ( chunkedBuffer.find( "0\r\n\r\n" ) == 0 ) );
-			bool isBodyDone( currentState == BODY && ( client->httpRequest.bodySize >= contentLength_ ) );
-			if ( isBodyDone || isChunkedBodyDone )
-				currentState = DONE;
-		}
 	}
 	catch ( http::Exception const& e )
 	{

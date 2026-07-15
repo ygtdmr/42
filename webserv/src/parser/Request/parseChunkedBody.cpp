@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 21:46:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 13:31:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 void webserv::parser::Request::parseChunkedBody( void )
 {
 	chunkedBuffer += client->receiveData;
-	client->receiveData.clear();
-	client->receiveData = "";
-
 	std::string const& unchunkData(unchunkBody( chunkedBuffer ));
-	client->httpRequest.body = unchunkData;
-	client->httpRequest.bodySize += client->httpRequest.body.size();
+	client->httpRequest.body += unchunkData;
+	client->httpRequest.bodySize += unchunkData.size();
+	checkMaxBodySize();
+	if ( chunkedBuffer.find( "0\r\n\r\n" ) == 0 )
+		currentState = DONE;
 }
