@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/15 13:15:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 15:05:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,8 @@ bool webserv::http::handler::Cgi::execute( void )
 		close( pipeIn[0] );
 		close( pipeOut[1] );
 
-		if ( !client->httpRequest.body.empty() )
-		{
-			pipeInFd = pipeIn[1];
-			client->controller->newPollFd(pipeInFd, POLLOUT);
-		}
-		else
-		{
-			close( pipeIn[1] );
-			pipeInFd = -1;
-		}
+		pipeInFd = pipeIn[1];
+		client->controller->newPollFd(pipeInFd, POLLOUT);
 		pipeOutFd = pipeOut[0];
 		client->controller->newPollFd(pipeOutFd, POLLIN);
 	}

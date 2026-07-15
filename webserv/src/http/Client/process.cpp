@@ -6,11 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 17:05:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 14:59:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/hpp/http/Client.hpp"
+#include "../../../inc/hpp/http/handler/Cgi.hpp"
 
 void webserv::http::Client::process( void )
 {
@@ -20,19 +21,23 @@ void webserv::http::Client::process( void )
 	if ( revents & POLLIN )
 		receive();
 	if ( revents & POLLOUT )
+		deliver();
+	try
 	{
-		try
+		if (handler)
 		{
-			if (handler)
+			handler::Cgi* cgiHandler( dynamic_cast<handler::Cgi*>(handler) );
+			if ( cgiHandler || ( revents & POLLOUT ) )
 				handler->build();
 		}
-		catch ( handler::Handler* handler_ )
-		{
-			if ( handler )
-				delete handler;
-			handler = handler_;
-			handler->build();
-		}
-		deliver();
 	}
+	catch ( handler::Handler* handler_ )
+	{
+		if ( handler )
+			delete handler;
+		handler = handler_;
+		deliverData.clear();
+		deliverData = "";
+	}
+	
 }

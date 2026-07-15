@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 19:01:23 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 22:40:51 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 14:13:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,7 @@ Cgi::Cgi( Cgi const& other ) : Handler( other )
 	*this = other;
 }
 
-Cgi::~Cgi()
-{
-	if ( pipeInFd != -1 )
-		client->controller->removePollfd(pipeInFd);
-	if ( pipeOutFd != -1 )
-		client->controller->removePollfd(pipeOutFd);
-}
+Cgi::~Cgi() {}
 
 Cgi& Cgi::operator=( Cgi const& other )
 {

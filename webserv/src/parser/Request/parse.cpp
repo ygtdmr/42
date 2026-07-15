@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 23:06:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 14:49:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void webserv::parser::Request::parse( void )
 			bool isBodyDone( currentState == BODY && ( client->httpRequest.bodySize >= contentLength_ ) );
 			if ( isBodyDone || isChunkedBodyDone )
 				currentState = DONE;
-			if ( client->httpRequest.isCgi && ( client->httpRequest.bodySize > 0 ) )
-				client->controller->getPollfd(client->fd).events = POLLOUT;
 		}
 	}
 	catch ( http::Exception const& e )
