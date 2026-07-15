@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 14:57:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 13:19:11 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void webserv::http::Client::clear( void )
 {
-	cgiFds.clear();
 	receiveData.clear();
 	deliverData.clear();
 	receiveData	  = "";

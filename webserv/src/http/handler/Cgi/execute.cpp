@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 22:36:09 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 13:15:20 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ bool webserv::http::handler::Cgi::execute( void )
 		{
 			pipeInFd = pipeIn[1];
 			client->controller->newPollFd(pipeInFd, POLLOUT);
-			client->cgiFds.push_back(pipeInFd);
 		}
 		else
 		{
@@ -75,7 +74,6 @@ bool webserv::http::handler::Cgi::execute( void )
 		}
 		pipeOutFd = pipeOut[0];
 		client->controller->newPollFd(pipeOutFd, POLLIN);
-		client->cgiFds.push_back(pipeOutFd);
 	}
 	return true;
 }

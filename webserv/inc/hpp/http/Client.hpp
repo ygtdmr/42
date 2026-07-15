@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 15:20:32 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 13:15:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ class Client
 		handler::Handler*	   handler;
 		Server const*	   server;
 		Controller *  controller;
-		std::vector< int > cgiFds;
 
 	private:
 		void receive( void );

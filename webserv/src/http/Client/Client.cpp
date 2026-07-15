@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:00:32 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 17:01:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 13:18:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ namespace http
 {
 
 Client::Client( void )
-: fd(-1), isConnectionClose(false), lastActivity(0), deliverOffset(0), deliverData(""), receiveData(""), addr(""), parserRequest(this), httpRequest(), handler(0), server(0), controller(0), cgiFds()
+: fd(-1), isConnectionClose(false), lastActivity(0), deliverOffset(0), deliverData(""), receiveData(""), addr(""), parserRequest(this), httpRequest(), handler(0), server(0), controller(0)
 {
 	clear();
 }
@@ -61,7 +61,6 @@ Client& Client::operator=( Client const& other )
 			handler = other.handler->clone(this);
 		server = other.server;
 		controller = other.controller;
-		cgiFds = other.cgiFds;
 	}
 	return *this;
 }
