@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/15 13:32:24 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 22:44:28 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,19 @@ void webserv::http::Client::receive( void )
 	ssize_t bytesRead( recv( fd, buffer, sizeof( buffer ) - 1, 0 ) );
 	if ( bytesRead > 0 )
 	{
+		Log( *server, "INFO" ) << "assigned socket: " << fd  << ", received bytes: " << bytesRead << '\n';
 		receiveData.append( buffer, bytesRead );
 		parserRequest.client = this;
 		parserRequest.parse();
 		receiveData.clear();
 		receiveData = "";
-		Log( *server, "INFO" ) << "received bytes: " << bytesRead << ", assigned socket: " << fd
-									<< '\n';
 		if ( !handler && ( parserRequest.currentState > parserRequest.HEADERS ) )
 			parser::handler( *this );
 		if ( parserRequest.currentState == parserRequest.DONE )
 		{
 			httpRequest.bodyEof = true;
 			Log( *server, "INFO" )
-				<< "Request received from: " << addr << ", assigned socket: " << fd
+				<< "assigned socket: " << fd << ", request received from: " << addr
 				<< ", request_uri=[" << httpRequest.uri << "], method=[" << httpRequest.method << "]" << '\n';
 			controller->getPollfd(fd).events = POLLOUT;
 		}

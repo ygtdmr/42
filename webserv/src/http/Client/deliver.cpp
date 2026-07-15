@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 17:44:10 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 22:46:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void webserv::http::Client::deliver( void )
 		ssize_t bytesSent( send( fd, deliverData.c_str() + deliverOffset, deliverData.length() - deliverOffset, 0 ) );
 		if ( bytesSent > 0 )
 		{
+			Log( *server, "INFO" ) << "assigned socket: " << fd <<  ", sent bytes: " << bytesSent << '\n';
 			deliverOffset += bytesSent;
 			if ( deliverOffset >= deliverData.length() )
 			{
@@ -37,7 +38,7 @@ void webserv::http::Client::deliver( void )
 	}
 	if ( ( handler->currentState == handler->DONE ) && deliverData.empty() )
 	{
-		http::Log( *server, "INFO" ) << "Response sent to: " << addr << ", assigned socket: " << fd
+		Log( *server, "INFO" )  << "assigned socket: " << fd << ", response sent to: " << addr
 									<< ", uri=[" << httpRequest.uri << "], status=[" << handler->status << "]"
 									<< '\n';
 		isConnectionClose = ( handler->headers["Connection"] == "close" );

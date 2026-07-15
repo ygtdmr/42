@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 15:01:24 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/15 13:36:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/15 22:58:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "../../../../inc/hpp/parser/headersToMap.hpp"
 #include "../../../../inc/hpp/parser/mapToHeaders.hpp"
 #include "../../../../inc/hpp/utils/conv.hpp"
+#include "../../../../inc/hpp/utils/str.hpp"
 
 #define RECV_BUFFER_SIZE 65536
 
@@ -55,7 +56,25 @@ void webserv::http::handler::Cgi::process( void )
 			char	buffer[RECV_BUFFER_SIZE];
 			ssize_t bytesRead( read( pipeOutFd, buffer, sizeof( buffer ) - 1 ) );
 			if ( bytesRead > 0 )
-				body.append( buffer, bytesRead );
+			{
+				if ( currentState == HEADERS )
+				{
+					body.append( buffer, bytesRead );
+					if ( utils::str::has(body, "\r\n\r\n") || utils::str::has(body, "\n\n") )
+					{
+						std::map< std::string, std::string > cgiHeaders( parser::headersToMap( body, false ) );
+						headers.insert( cgiHeaders.begin(), cgiHeaders.end() );
+						if ( headers.find( "Status" ) == headers.end() )
+							status = 200;
+						else
+							status = utils::conv::strTo< int short >( headers["Status"] );
+						client->deliverData =  getFirstLine() + parser::mapToHeaders( headers ) + body;
+						currentState = BODY;
+					}
+				}
+				else if ( currentState == BODY )
+					client->deliverData.append( buffer, bytesRead );
+			}
 			else
 				eof = true;
 		}
@@ -72,15 +91,7 @@ void webserv::http::handler::Cgi::process( void )
 			if ( pidStatus != 0 )
 				throw new Error( client, 500 );
 
-			std::map< std::string, std::string > cgiHeaders( parser::headersToMap( body, false ) );
-			headers.insert( cgiHeaders.begin(), cgiHeaders.end() );
-			if ( headers.find( "Status" ) == headers.end() )
-				status = 200;
-			else
-				status = utils::conv::strTo< int short >( headers["Status"] );
-			headers["Content-Length"] = utils::conv::toStr< size_t >( body.size() );
-			client->deliverData		  = getFirstLine() + parser::mapToHeaders( headers ) + body;
-			currentState			  = DONE;
+			currentState = DONE;
 		}
 	}
 }
