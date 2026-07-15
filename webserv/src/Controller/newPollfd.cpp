@@ -1,39 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Manager.hpp                                        :+:      :+:    :+:   */
+/*   newPollfd.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 14:02:33 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/07 08:57:18 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/14 14:43:56 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_HTTP_MANAGER_HPP
-#define WEBSERV_HTTP_MANAGER_HPP
+#include "../../inc/hpp/Controller.hpp"
 
-#include <poll.h>
-#include <string>
-
-namespace webserv
+void webserv::Controller::newPollFd( int fd, int short event ) throw()
 {
-
-namespace manager
-{
-class Manager
-{
-	public:
-		Manager( void );
-		Manager( Manager const& other );
-		virtual ~Manager() = 0;
-		Manager& operator=( Manager const& other );
-
-		struct pollfd* pollfd;
-		std::string	   addr;
-};
-}  // namespace manager
-
-}  // namespace webserv
-
-#endif
+	struct pollfd pfd;
+	pfd.events	= event;
+	pfd.revents = 0;
+	pfd.fd		= fd;
+	pollfds.push_back( pfd );
+}

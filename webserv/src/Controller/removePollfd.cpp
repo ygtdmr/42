@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear.cpp                                          :+:      :+:    :+:   */
+/*   removePollfd.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 12:33:24 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/11 12:00:00 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/13 23:08:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/manager/Client.hpp"
+#include "../../inc/hpp/Controller.hpp"
 
-void webserv::manager::Client::clear( void )
+void webserv::Controller::removePollfd( int fd ) throw()
 {
-	receiveData	  = std::string();
-	deliverData	  = std::string();
-	deliverOffset = 0;
-
-	httpRequest			 = http::Request();
-	parserRequest		 = parser::Request();
-	parserRequest.client = this;
-
-	if ( handler )
+	std::vector< struct pollfd >::iterator it( pollfds.begin() );
+	while (it != pollfds.end())
 	{
-		delete handler;
-		handler = 0;
+		if ( it->fd == fd )
+		{
+			pollfds.erase(it);
+			break;
+		}
+		it++;
 	}
 }

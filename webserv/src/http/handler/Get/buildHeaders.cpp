@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 13:46:38 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 13:52:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "../../../../inc/hpp/http/handler/Error.hpp"
 #include "../../../../inc/hpp/http/handler/Get.hpp"
 #include "../../../../inc/hpp/http/handler/Redirection.hpp"
-#include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/http/Client.hpp"
 #include "../../../../inc/hpp/parser/extToMimeType.hpp"
 #include "../../../../inc/hpp/parser/fileExt.hpp"
 #include "../../../../inc/hpp/parser/mapToHeaders.hpp"

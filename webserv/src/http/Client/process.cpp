@@ -6,36 +6,33 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 11:43:07 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 17:05:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/http/handler/Cgi.hpp"
-#include "../../../inc/hpp/manager/Client.hpp"
+#include "../../../inc/hpp/http/Client.hpp"
 
-void webserv::manager::Client::process( void )
+void webserv::http::Client::process( void )
 {
-	if ( pollfd->revents )
+	short int revents(controller->getPollfd(fd).revents);
+	if ( revents )
 		lastActivity = std::time( 0 );
-	if ( !handler && ( pollfd->revents & POLLIN ) )
+	if ( revents & POLLIN )
 		receive();
-	if ( handler )
+	if ( revents & POLLOUT )
 	{
-		if ( ( pollfd->fd != socketFd ) || ( pollfd->revents & POLLOUT ) )
+		try
 		{
-			try
-			{
+			if (handler)
 				handler->build();
-			}
-			catch ( http::handler::Handler* handler )
-			{
-				delete this->handler;
-				this->handler = handler;
-				handler->build();
-			}
 		}
-		pollfd = &( *controller->pollfds )[*posPoll];
-		if ( ( pollfd->fd == socketFd ) && ( pollfd->revents & POLLOUT ) )
-			deliver();
+		catch ( handler::Handler* handler_ )
+		{
+			if ( handler )
+				delete handler;
+			handler = handler_;
+			handler->build();
+		}
+		deliver();
 	}
 }

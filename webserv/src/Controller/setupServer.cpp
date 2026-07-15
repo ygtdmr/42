@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/07 08:57:18 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 14:03:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 15:29:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 
 void webserv::Controller::setupServer( config::Server const* config,
 									   char const*			 host,
-									   char const*			 port ) const
+									   char const*			 port )
 {
-	manager::Server* server( new manager::Server() );
 	int				 fd( socket( AF_INET, SOCK_STREAM, 0 ) );
 	int				 opt( 1 );
+	http::Server server;
 
 	if ( fd < 0 )
 		throw config::Exception() << host << ":" << port << ", socket: " << strerror( errno );
@@ -50,8 +50,10 @@ void webserv::Controller::setupServer( config::Server const* config,
 
 	if ( !host )
 		host = "";
-	server->addr   = std::string( host );
-	server->port   = std::string( port );
-	server->config = config;
-	newConnection( fd, server );
+	server.addr   = std::string( host );
+	server.port   = std::string( port );
+	server.config = config;
+	server.fd = fd;
+	newPollFd(fd);
+	servers.push_back(server);
 }

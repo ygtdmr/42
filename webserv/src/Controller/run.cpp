@@ -6,16 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/13 20:33:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 23:32:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <cerrno>
 #include "../../inc/hpp/Controller.hpp"
-#include "../../inc/hpp/ServerLog.hpp"
-#include "../../inc/hpp/manager/Client.hpp"
-#include "../../inc/hpp/manager/Server.hpp"
+#include "../../inc/hpp/http/Log.hpp"
 
 #define CLIENT_TIMEOUT 30
 
@@ -26,10 +24,7 @@ static void webserv_exit( int )
 	g_webserv_exit = true;
 }
 
-namespace webserv
-{
-
-void Controller::run( void ) const throw()
+void webserv::Controller::run( void ) throw()
 {
 	std::time_t currentTime;
 	signal( SIGQUIT, SIG_IGN );
@@ -38,35 +33,30 @@ void Controller::run( void ) const throw()
 	signal( SIGINT, webserv_exit );
 	while ( !g_webserv_exit )
 	{
-		if ( poll( &( *( pollfds->begin() ) ), pollfds->size(), 1000 ) < 0 )
+		if ( poll( &(*pollfds.begin()), pollfds.size(), 1000 ) < 0 )
 		{
 			if ( errno == EINTR )
 				continue;
 			break;
 		}
 		currentTime = std::time( 0 );
-		for ( size_t i = 0; i < pollfds->size(); i++ )
+		std::vector< http::Server >::const_iterator itServer(servers.begin());
+		while (itServer != servers.end())
+			acceptConnection(*itServer++);
+		std::vector< http::Client >::iterator itClient(clients.begin());
+		while (itClient != clients.end())
 		{
-			( *connections )[i]->pollfd = &( *pollfds )[i];
-			manager::Server* server( dynamic_cast< manager::Server* >( ( *connections )[i] ) );
-			if ( server )
-				acceptConnection( i );
+			if ( ( currentTime - itClient->lastActivity ) > CLIENT_TIMEOUT )
+					closeConnection( itClient, "timeout" );
 			else
 			{
-				manager::Client* client( dynamic_cast< manager::Client* >( ( ( *connections )[i] ) ) );
-				client->posPoll = &i;
-				if ( ( currentTime - client->lastActivity ) > CLIENT_TIMEOUT )
-					closeConnection( i--, "timeout" );
+				itClient->process();
+				if ( itClient->isConnectionClose )
+					closeConnection( itClient, "client side" );
 				else
-				{
-					client->process();
-					if ( client->isConnectionClose )
-						closeConnection( i--, "client side" );
-				}
+					itClient++;
 			}
 		}
 	}
-	ServerLog( "WARNING" ) << "webserv closing..." << '\n';
+	http::Log( "WARNING" ) << "webserv closing..." << '\n';
 }
-
-}  // namespace webserv

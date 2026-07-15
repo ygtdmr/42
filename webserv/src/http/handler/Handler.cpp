@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 18:42:16 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 14:33:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 14:12:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/hpp/http/handler/Handler.hpp"
-#include "../../../inc/hpp/manager/Client.hpp"
+#include "../../../inc/hpp/http/Client.hpp"
 
 namespace webserv
 {
@@ -20,7 +20,7 @@ namespace http
 namespace handler
 {
 
-Handler::Handler( manager::Client* client ) : currentState( HEADERS ), client( client )
+Handler::Handler( Client* client ) : currentState( HEADERS ), realPath(""), client( client )
 {
 	version = client->httpRequest.version;
 	if ( version.empty() )
@@ -50,10 +50,12 @@ Handler::~Handler() {}
 
 Handler& Handler::operator=( Handler const& other )
 {
+	Response::operator=(other);
 	if ( this != &other )
 	{
 		realPath = other.realPath;
 		client	 = other.client;
+		currentState = other.currentState;
 	}
 	return *this;
 }

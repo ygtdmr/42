@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 16:35:21 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 16:55:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ namespace handler
 class Get : public Handler
 {
 	public:
-		Get( manager::Client* client );
+		Get( Client* client );
 		Get( Get const& other );
 		virtual ~Get();
 		Get& operator=( Get const& other );
 		void build( void );
+		Handler* clone( http::Client* client );
 		void buildHeaders( void );
 		void buildBody( void );
 

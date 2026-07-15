@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 12:47:49 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/12 11:33:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 19:17:11 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 namespace webserv
 {
-namespace manager
+namespace http
 {
 class Client;
 }
@@ -28,7 +28,7 @@ namespace parser
 class Request
 {
 	public:
-		Request( void );
+		Request( http::Client *client );
 		Request( Request const& other );
 		~Request();
 		Request& operator=( Request const& other );
@@ -43,10 +43,12 @@ class Request
 			BODY,
 			DONE
 		} currentState;
-		manager::Client* client;
+		http::Client* client;
 		std::string		 chunkedBuffer;
 
 	private:
+		size_t		contentLength_;
+
 		void parseFirstLine( void );
 		void parseLocation( void );
 		void parseIsCgi( void );

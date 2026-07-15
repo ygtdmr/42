@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:38:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 10:41:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 14:25:40 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/hpp/parser/Config.hpp"
 
-std::vector< webserv::config::Server > const* webserv::parser::Config::getServers( void ) const
+std::vector< webserv::config::Server > const& webserv::parser::Config::getServers( void ) const
 {
 	return servers_;
 }

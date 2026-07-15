@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/12 07:35:50 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 13:54:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sstream>
 #include "../../../../inc/hpp/http/handler/Upload.hpp"
-#include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/http/Client.hpp"
 #include "../../../../inc/hpp/parser/mapToHeaders.hpp"
 #include "../../../../inc/hpp/utils/conv.hpp"
 

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 09:12:14 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 16:55:28 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ namespace handler
 class Redirection : public Handler
 {
 	public:
-		Redirection( manager::Client* client, int short status, std::string const& uri );
+		Redirection( Client* client, int short status, std::string const& uri );
 		Redirection( Redirection const& other );
 		virtual ~Redirection();
 		Redirection& operator=( Redirection const& other );
+		Handler* clone( http::Client* client );
 		void		 build( void ) throw();
 
 	private:

@@ -6,36 +6,38 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/12 09:36:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 23:10:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/socket.h>
-#include "../../../inc/hpp/ServerLog.hpp"
-#include "../../../inc/hpp/manager/Client.hpp"
+#include "../../../inc/hpp/http/Log.hpp"
+#include "../../../inc/hpp/http/Client.hpp"
 #include "../../../inc/hpp/parser/handler.hpp"
 
 #define RECV_BUFFER_SIZE 65536
 
-void webserv::manager::Client::receive( void )
+void webserv::http::Client::receive( void )
 {
 	char	buffer[RECV_BUFFER_SIZE];
-	ssize_t bytesRead( recv( pollfd->fd, buffer, sizeof( buffer ) - 1, 0 ) );
+	ssize_t bytesRead( recv( fd, buffer, sizeof( buffer ) - 1, 0 ) );
 	if ( bytesRead > 0 )
 	{
 		receiveData.append( buffer, bytesRead );
 		parserRequest.parse();
 		receiveData.clear();
-		receiveData = std::string();
-		ServerLog( server, "INFO" ) << "received bytes: " << bytesRead << ", assigned socket: " << pollfd->fd
+		receiveData = "";
+		Log( *server, "INFO" ) << "received bytes: " << bytesRead << ", assigned socket: " << fd
 									<< '\n';
+		if ( !handler && ( parserRequest.currentState > parserRequest.HEADERS ) )
+			parser::handler( *this );
 		if ( parserRequest.currentState == parserRequest.DONE )
 		{
-			ServerLog( server, "INFO" )
-				<< "Request received from: " << addr << ", assigned socket: " << pollfd->fd
+			httpRequest.bodyEof = true;
+			Log( *server, "INFO" )
+				<< "Request received from: " << addr << ", assigned socket: " << fd
 				<< ", request_uri=[" << httpRequest.uri << "], method=[" << httpRequest.method << "]" << '\n';
-			parser::handler( this );
-			pollfd->events = POLLOUT;
+			controller->getPollfd(fd).events = POLLOUT;
 		}
 	}
 	else

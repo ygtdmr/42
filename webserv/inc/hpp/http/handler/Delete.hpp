@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 19:40:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 16:55:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ namespace handler
 class Delete : public Handler
 {
 	public:
-		Delete( manager::Client* client );
+		Delete( Client* client );
 		Delete( Delete const& other );
 		virtual ~Delete();
 		Delete& operator=( Delete const& other );
+		Handler* clone( http::Client* client );
 		void	build( void );
 };
 }  // namespace handler

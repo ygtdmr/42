@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:47:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/12 12:42:05 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 14:27:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,20 @@ void webserv::parser::Config::parseStateLocation( config::Server& server, std::s
 	config::Location location = webserv::config::Location();
 	location.uriPath		  = path;
 
-	if ( ( ( *raw_ ) >> word ) && ( word != "{" ) )
-		throw config::Exception( servers_->size(), path ) << "invalid location syntax: " << word;
+	if ( ( raw_ >> word ) && ( word != "{" ) )
+		throw config::Exception( servers_.size(), path ) << "invalid location syntax: " << word;
 	else if ( !isValidPath( path, true ) )
-		throw config::Exception( servers_->size(), path ) << "invalid location path: " << word;
-	while ( ( *raw_ ) >> word )
+		throw config::Exception( servers_.size(), path ) << "invalid location path: " << word;
+	while ( raw_ >> word )
 	{
 		if ( word == "}" )
 		{
 			if ( !key_.empty() )
-				throw config::Exception( servers_->size(), path ) << "missing semicolon: " << key_;
+				throw config::Exception( servers_.size(), path ) << "missing semicolon: " << key_;
 			if ( !isDuplicate( server.locations, path ) )
 				server.locations.push_back( location );
 			else
-				throw config::Exception( servers_->size(), path ) << "duplicate location: " << path;
+				throw config::Exception( servers_.size(), path ) << "duplicate location: " << path;
 			return;
 		}
 		else if ( word == ";" )

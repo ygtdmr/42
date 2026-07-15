@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/08 17:40:31 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 19:11:25 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 13:54:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <fstream>
 #include "../../../../inc/hpp/http/handler/Error.hpp"
 #include "../../../../inc/hpp/http/handler/Upload.hpp"
-#include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/http/Client.hpp"
 #include "../../../../inc/hpp/parser/headersToMap.hpp"
 #include "../../../../inc/hpp/utils/conv.hpp"
 #include "../../../../inc/hpp/utils/str.hpp"

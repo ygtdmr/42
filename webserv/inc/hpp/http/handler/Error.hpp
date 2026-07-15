@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 16:35:30 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 16:55:16 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ namespace handler
 class Error : public Handler
 {
 	public:
-		Error( manager::Client* client, int short status );
+		Error( Client* client, int short status );
 		Error( Error const& other );
 		virtual ~Error();
 		Error& operator=( Error const& other );
+		Handler* clone( http::Client* client );
 		void   build( void ) throw();
 		void   buildBody( void ) throw();
 		void   buildHeaders( void ) throw();

@@ -1,2 +1,6 @@
-GET / HTTP/1.0
+GET /directory/youpi.bla HTTP/1.1
+Host: localhost
+Content-Length: 25
 
+request body
+test deneme

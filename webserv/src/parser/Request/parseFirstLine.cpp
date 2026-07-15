@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/12 09:44:10 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 19:10:48 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sstream>
 #include "../../../inc/hpp/http/Exception.hpp"
-#include "../../../inc/hpp/manager/Client.hpp"
+#include "../../../inc/hpp/http/Client.hpp"
 #include "../../../inc/hpp/parser/Request.hpp"
 #include "../../../inc/hpp/utils/str.hpp"
 
@@ -52,6 +52,7 @@ void webserv::parser::Request::parseFirstLine( void )
 {
 	client->httpRequest.body += client->receiveData;
 	client->receiveData.clear();
+	client->receiveData = "";
 	if ( !utils::str::has( client->httpRequest.body, "\n" ) )
 		return;
 	std::string method;

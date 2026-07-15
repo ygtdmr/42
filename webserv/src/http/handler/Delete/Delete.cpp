@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/08 19:39:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 19:40:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 16:53:43 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ namespace http
 namespace handler
 {
 
-Delete::Delete( manager::Client* client ) : Handler( client ) {}
+Delete::Delete( http::Client* client ) : Handler( client ) {}
 
 Delete::Delete( Delete const& other ) : Handler( other )
 {
@@ -33,6 +33,13 @@ Delete& Delete::operator=( Delete const& other )
 {
 	Handler::operator=( other );
 	return *this;
+}
+
+Handler* Delete::clone( http::Client* client )
+{
+	Delete *clone(new Delete(*this));
+	clone->client = client;
+	return clone;
 }
 
 }  // namespace handler

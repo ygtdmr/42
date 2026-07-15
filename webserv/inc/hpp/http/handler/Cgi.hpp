@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 12:48:35 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 10:47:07 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 22:28:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,24 @@ namespace handler
 class Cgi : public Handler
 {
 	public:
-		Cgi( manager::Client* client );
+		Cgi( Client* client );
 		Cgi( Cgi const& other );
 		virtual ~Cgi();
 		Cgi& operator=( Cgi const& other );
+		Handler* clone( http::Client* client );
 		void build( void );
 
 	private:
 		void setupEnv( void );
 		bool execute( void );
+		void process( void );
 
 		int					 pipeInFd;
 		int					 pipeOutFd;
 		pid_t				 pid_;
-		std::vector< char* > env_;
 		size_t				 bodySent;
+		std::vector< std::string > envStr_;
+		std::vector< char* > env_;
 };
 }  // namespace handler
 

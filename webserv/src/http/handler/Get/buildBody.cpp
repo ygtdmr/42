@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 17:26:08 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 13:52:28 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../inc/hpp/http/handler/Get.hpp"
-#include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/http/Client.hpp"
 
 #define READ_BUFFER_SIZE 65536
 

@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 19:01:23 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 10:54:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 22:40:51 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../inc/hpp/http/handler/Cgi.hpp"
-#include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/http/Client.hpp"
 
 namespace webserv
 {
@@ -21,8 +21,8 @@ namespace http
 namespace handler
 {
 
-Cgi::Cgi( manager::Client* client )
-	: Handler( client ), pipeInFd( -1 ), pipeOutFd( -1 ), pid_( -1 ), bodySent( 0 )
+Cgi::Cgi( http::Client* client )
+	: Handler( client ), pipeInFd( -1 ), pipeOutFd( -1 ), pid_( -1 ), bodySent( 0 ), envStr_(), env_()
 {}
 
 Cgi::Cgi( Cgi const& other ) : Handler( other )
@@ -33,20 +33,34 @@ Cgi::Cgi( Cgi const& other ) : Handler( other )
 Cgi::~Cgi()
 {
 	if ( pipeInFd != -1 )
-		client->controller->removeFd( pipeInFd, client->posPoll );
+		client->controller->removePollfd(pipeInFd);
 	if ( pipeOutFd != -1 )
-		client->controller->removeFd( pipeOutFd, client->posPoll );
-	if ( !env_.empty() )
-	{
-		for ( size_t i = 0; i < ( env_.size() - 1 ); i++ )
-			delete[] env_[i];
-	}
+		client->controller->removePollfd(pipeOutFd);
 }
 
 Cgi& Cgi::operator=( Cgi const& other )
 {
 	Handler::operator=( other );
+	if ( this != &other )
+	{
+		pipeInFd = other.pipeInFd;
+		pipeOutFd = other.pipeOutFd;
+		pid_ = other.pid_;
+		bodySent = other.bodySent;
+		envStr_ = other.envStr_;
+		env_.clear();
+		for (size_t i = 0; i < envStr_.size(); i++)
+			env_.push_back( const_cast<char *>( envStr_[i].c_str() ) );
+		env_.push_back(0);
+	}
 	return *this;
+}
+
+Handler* Cgi::clone( http::Client* client )
+{
+	Cgi *clone(new Cgi(*this));
+	clone->client = client;
+	return clone;
 }
 
 }  // namespace handler

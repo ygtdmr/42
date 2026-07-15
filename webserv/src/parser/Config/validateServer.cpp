@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:50:31 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 18:10:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 14:30:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ void webserv::parser::Config::validateServer( void ) const
 		valid = valid && isValidPath( *( values_.end() - 1 ) );
 	}
 	if ( !valid )
-		throw config::Exception( servers_->size() ) << key_ << ": value error";
+		throw config::Exception( servers_.size() ) << key_ << ": value error";
 }

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:44:43 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/09 15:19:08 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 20:41:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ namespace webserv
 {
 namespace http
 {
-Request::Request( void ) : location( 0 ), isCgi( false ) {}
+Request::Request( void ): method(""), uri(""), uriPath(""), location(0), bodySize(0), bodyEof(false), isCgi(false) {}
 
 Request::Request( Request const& other ) : Message( other )
 {
@@ -24,16 +24,16 @@ Request::Request( Request const& other ) : Message( other )
 }
 Request& Request::operator=( Request const& other )
 {
+	Message::operator=(other);
 	if ( this != &other )
 	{
-		headers	 = other.headers;
-		body	 = other.body;
-		version	 = other.version;
-		status	 = other.status;
 		method	 = other.method;
 		uri		 = other.uri;
 		uriPath	 = other.uriPath;
 		location = other.location;
+		bodySize = other.bodySize;
+		bodyEof = other.bodyEof;
+		isCgi = other.isCgi;
 	}
 	return *this;
 }

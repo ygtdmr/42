@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:38:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 13:40:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 14:28:22 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,9 @@ static void printErrorPages( std::map< int short, std::string > const& errorPage
 
 void webserv::parser::Config::printServers( void ) const
 {
-	std::vector< config::Server >::const_iterator it( servers_->begin() );
+	std::vector< config::Server >::const_iterator it( servers_.begin() );
 	std::cout << "[";
-	while ( it != servers_->end() )
+	while ( it != servers_.end() )
 	{
 		std::cout << "{";
 
@@ -149,7 +149,7 @@ void webserv::parser::Config::printServers( void ) const
 		std::cout << "}";
 
 		it++;
-		if ( it != servers_->end() )
+		if ( it != servers_.end() )
 			std::cout << ",";
 	}
 	std::cout << "]" << std::endl;

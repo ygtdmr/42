@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/08 14:34:01 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 19:06:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 16:55:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ namespace handler
 class Upload : public Handler
 {
 	public:
-		Upload( manager::Client* client );
+		Upload( Client* client );
 		Upload( Upload const& other );
 		virtual ~Upload();
 		Upload& operator=( Upload const& other );
 		void	build( void );
+		Handler* clone( http::Client* client );
 
 	private:
 		void		uploadFiles( void );

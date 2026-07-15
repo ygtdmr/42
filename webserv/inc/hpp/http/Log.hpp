@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ServerLog.hpp                                      :+:      :+:    :+:   */
+/*   Log.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/13 17:40:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/13 19:33:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_SERVER_LOG_HPP
-#define WEBSERV_SERVER_LOG_HPP
+#ifndef WEBSERV_HTTP_LOG_HPP
+#define WEBSERV_HTTP_LOG_HPP
 
 #include <string>
-#include "manager/Server.hpp"
+#include "Client.hpp"
+#include "Server.hpp"
 
 namespace webserv
+{
+
+namespace http
 {
 
 #define RESET "\033[0m"
@@ -25,13 +29,14 @@ namespace webserv
 #define YELLOW "\033[33m"
 #define CYAN "\033[36m"
 
-class ServerLog
+class Log
 {
 	public:
-		inline ServerLog( std::string const& level );
-		inline ServerLog( manager::Manager const* manager, std::string const& level );
+		inline Log( std::string const& level );
+		inline Log( http::Server const& server, std::string const& level );
+		inline Log( http::Client const& client, std::string const& level );
 		template < typename T >
-		inline ServerLog& operator<<( T const& any );
+		inline Log& operator<<( T const& any );
 
 	private:
 		inline void printLog( void );
@@ -40,8 +45,10 @@ class ServerLog
 		std::string		   msg_;
 };
 
+}  // namespace http
+
 }  // namespace webserv
 
-#include "../tpp/ServerLog.tpp"
+#include "../../tpp/Log.tpp"
 
 #endif

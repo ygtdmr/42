@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:54:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 12:43:10 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 14:10:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,7 @@ Response::Response( Response const& other ) : Message( other )
 }
 Response& Response::operator=( Response const& other )
 {
-	if ( this != &other )
-	{
-		headers = other.headers;
-		body	= other.body;
-		version = other.version;
-		status	= other.status;
-	}
+	Message::operator=(other);
 	return *this;
 }
 Response::~Response() {}

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:50:12 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/12 12:42:25 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 14:30:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ void webserv::parser::Config::validateLocation( std::string const& locationPath 
 		valid = isValidDigit( value.substr( 0, value.size() - formatMb ) );
 	}
 	if ( !valid )
-		throw config::Exception( servers_->size(), locationPath ) << key_ << ": value error";
+		throw config::Exception( servers_.size(), locationPath ) << key_ << ": value error";
 }

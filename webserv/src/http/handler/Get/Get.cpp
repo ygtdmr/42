@@ -20,7 +20,7 @@ namespace http
 namespace handler
 {
 
-Get::Get( manager::Client* client ) : Handler( client ) {}
+Get::Get( Client* client ) : Handler( client ), fileStream_() {}
 
 Get::Get( Get const& other ) : Handler( other )
 {
@@ -32,7 +32,19 @@ Get::~Get() {}
 Get& Get::operator=( Get const& other )
 {
 	Handler::operator=( other );
+	if ( this != &other )
+	{
+		fileStream_.close();
+		fileStream_.clear();
+	}
 	return *this;
+}
+
+Handler* Get::clone( http::Client* client )
+{
+	Get *clone(new Get(*this));
+	clone->client = client;
+	return clone;
 }
 
 }  // namespace handler

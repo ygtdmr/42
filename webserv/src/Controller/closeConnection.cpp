@@ -6,33 +6,21 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/12 13:05:37 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 23:30:59 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "../../inc/hpp/Controller.hpp"
-#include "../../inc/hpp/ServerLog.hpp"
-#include "../../inc/hpp/manager/Client.hpp"
+#include "../../inc/hpp/http/Log.hpp"
 
-namespace webserv
+void	webserv::Controller::closeConnection( std::vector< http::Client >::iterator& itClient, char const* reason ) throw()
 {
-
-void Controller::closeConnection( size_t index, char const* reason ) const throw()
-{
-	struct pollfd const& pfd( ( *pollfds )[index] );
-	manager::Client*	 client = dynamic_cast< manager::Client* >( ( *connections )[index] );
-	std::string const&	 addr( client->addr );
-	int					 fd = pfd.fd;
-
-	ServerLog( client->server, "WARNING" ) << "Connection closed from: " << addr
-										   << ", assigned socket: " << fd << ", reason: " << reason << '\n';
-
-	manager::Manager* conn = ( *connections )[index];
-	close( fd );
-	pollfds->erase( pollfds->begin() + index );
-	connections->erase( connections->begin() + index );
-	delete conn;
+	if (itClient->fd < 0)
+		return;
+	http::Log( *itClient->server, "WARNING" ) << "Connection closed from: " << itClient->addr
+										   << ", assigned socket: " << itClient->fd << ", reason: " << reason << '\n';
+	close(itClient->fd);
+	removePollfd(itClient->fd);
+	itClient = clients.erase(itClient);
 }
-
-}  // namespace webserv

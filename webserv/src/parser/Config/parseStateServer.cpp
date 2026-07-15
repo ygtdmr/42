@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:47:44 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 12:39:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 14:28:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void webserv::parser::Config::parseStateServer( void )
 	std::string	   word;
 	config::Server server = config::Server();
 
-	while ( ( *raw_ ) >> word )
+	while ( raw_ >> word )
 	{
 		if ( on_location )
 		{
 			if ( word == "{" || word == "}" || word == ";" )
-				throw config::Exception( servers_->size() ) << "invalid location syntax: " << word;
+				throw config::Exception( servers_.size() ) << "invalid location syntax: " << word;
 			else
 				parseStateLocation( server, word );
 			on_location = false;
@@ -32,7 +32,7 @@ void webserv::parser::Config::parseStateServer( void )
 		else if ( word == "location" )
 			on_location = true;
 		else if ( word == "}" )
-			return servers_->push_back( server );
+			return servers_.push_back( server );
 		else if ( word == ";" )
 		{
 			validateServer();
@@ -45,5 +45,5 @@ void webserv::parser::Config::parseStateServer( void )
 		else
 			values_.push_back( word );
 	}
-	throw config::Exception( servers_->size() ) << "invalid syntax: missing '}'";
+	throw config::Exception( servers_.size() ) << "invalid syntax: missing '}'";
 }

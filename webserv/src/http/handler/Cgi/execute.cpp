@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 17:54:59 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 22:36:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../inc/hpp/http/handler/Cgi.hpp"
 #include "../../../../inc/hpp/http/handler/Error.hpp"
-#include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/http/Client.hpp"
 
 #include <fcntl.h>
 #include <cstdlib>
@@ -21,7 +21,7 @@ bool webserv::http::handler::Cgi::execute( void )
 {
 	std::string const scriptPath = realPath.substr( 0, realPath.find_last_of( "/" ) );
 	std::string const scriptFile = realPath.substr( realPath.find_last_of( "/" ) + 1 );
-	char const*		  binPath( client->httpRequest.location->cgi.begin()->second.c_str() );
+	std::string const binPath( client->httpRequest.location->cgi.begin()->second );
 	int				  pipeIn[2];
 	int				  pipeOut[2];
 
@@ -50,7 +50,7 @@ bool webserv::http::handler::Cgi::execute( void )
 			std::exit( 1 );
 
 		char* args[3];
-		args[0] = const_cast< char* >( binPath );
+		args[0] = const_cast< char* >( binPath.c_str() );
 		args[1] = const_cast< char* >( scriptFile.c_str() );
 		args[2] = 0;
 
@@ -62,32 +62,20 @@ bool webserv::http::handler::Cgi::execute( void )
 		close( pipeIn[0] );
 		close( pipeOut[1] );
 
-		struct pollfd pfd;
-		pfd.revents = 0;
-
 		if ( !client->httpRequest.body.empty() )
 		{
-			pfd.fd	   = pipeIn[1];
-			pfd.events = POLLOUT;
-			client->controller->pollfds->push_back( pfd );
-			client->controller->connections->push_back( client );
-			for ( size_t i = 0; i < client->controller->connections->size(); ++i )
-				( *client->controller->connections )[i]->pollfd = &( *client->controller->pollfds )[i];
 			pipeInFd = pipeIn[1];
+			client->controller->newPollFd(pipeInFd, POLLOUT);
+			client->cgiFds.push_back(pipeInFd);
 		}
 		else
 		{
 			close( pipeIn[1] );
 			pipeInFd = -1;
 		}
-
-		pfd.fd	   = pipeOut[0];
-		pfd.events = POLLIN;
-		client->controller->pollfds->push_back( pfd );
-		client->controller->connections->push_back( client );
-		for ( size_t i = 0; i < client->controller->connections->size(); ++i )
-			( *client->controller->connections )[i]->pollfd = &( *client->controller->pollfds )[i];
 		pipeOutFd = pipeOut[0];
+		client->controller->newPollFd(pipeOutFd, POLLIN);
+		client->cgiFds.push_back(pipeOutFd);
 	}
 	return true;
 }

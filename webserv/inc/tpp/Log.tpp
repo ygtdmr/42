@@ -1,40 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ServerLog.tpp                                      :+:      :+:    :+:   */
+/*   Log.tpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 10:02:21 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/13 19:34:54 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/13 19:37:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_SERVER_LOG_TPP
-#define WEBSERV_SERVER_LOG_TPP
+#ifndef WEBSERV_HTTP_LOG_TPP
+#define WEBSERV_HTTP_LOG_TPP
 
 #include <ctime>
 #include <iostream>
-#include "../hpp/ServerLog.hpp"
+#include "../hpp/http/Log.hpp"
 #include "../hpp/utils/conv.hpp"
 
 namespace webserv
 {
 
-ServerLog::ServerLog( std::string const& level ) : level_( level ), msg_( "" ) {}
-
-ServerLog::ServerLog( manager::Manager const* manager, std::string const& level ) : level_( level )
+namespace http
 {
-	manager::Server const* server( dynamic_cast< manager::Server const* >( manager ) );
-	if ( server )
-		msg_ = std::string() + "host=[" + server->addr + "], port=[" + server->port + "], ";
-	else
-		msg_ = std::string() + "addr=[" + manager->addr + "], ";
-	msg_ += "fd=[" + utils::conv::toStr< int >( manager->pollfd->fd ) + "], ";
-}
+
+Log::Log( std::string const& level ) : level_( level ), msg_( "" ) {}
+
+Log::Log( http::Server const& server, std::string const& level )
+	: level_( level )
+	, msg_( "host=[" + server.addr + "], port=[" + server.port + "], fd=[" +
+			utils::conv::toStr< int >( server.fd ) + "], " )
+{}
+
+Log::Log( http::Client const& client, std::string const& level )
+	: level_( level )
+	, msg_( "addr=[" + client.addr + "], fd=[" + utils::conv::toStr< int >( client.fd ) + "], " )
+{}
 
 template < typename T >
-ServerLog& ServerLog::operator<<( T const& any )
+Log& Log::operator<<( T const& any )
 {
 	std::string str( utils::conv::toStr< T >( any ) );
 	if ( str == "\n" )
@@ -44,7 +48,7 @@ ServerLog& ServerLog::operator<<( T const& any )
 	return *this;
 }
 
-void ServerLog::printLog( void )
+void Log::printLog( void )
 {
 	char		buffer[80];
 	std::time_t rawtime;
@@ -65,6 +69,8 @@ void ServerLog::printLog( void )
 	msg_.clear();
 	msg_ = "";
 }
+
+}  // namespace http
 
 }  // namespace webserv
 

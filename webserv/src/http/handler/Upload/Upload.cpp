@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/08 14:33:43 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 20:02:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 16:54:53 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../inc/hpp/http/handler/Upload.hpp"
-#include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/http/Client.hpp"
 
 namespace webserv
 {
@@ -21,7 +21,7 @@ namespace http
 namespace handler
 {
 
-Upload::Upload( manager::Client* client ) : Handler( client )
+Upload::Upload( Client* client ) : Handler( client ), fileNames_(), uploadPath_("")
 {
 	uploadPath_ = client->httpRequest.location->uploadDir + '/';
 }
@@ -36,7 +36,19 @@ Upload::~Upload() {}
 Upload& Upload::operator=( Upload const& other )
 {
 	Handler::operator=( other );
+	if ( this != &other )
+	{
+		fileNames_ = other.fileNames_;
+		uploadPath_ = other.uploadPath_;
+	}
 	return *this;
+}
+
+Handler* Upload::clone( http::Client* client )
+{
+	Upload *clone(new Upload(*this));
+	clone->client = client;
+	return clone;
 }
 
 }  // namespace handler

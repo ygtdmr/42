@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:28:05 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/12 11:33:35 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 19:17:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ namespace webserv
 namespace parser
 {
 
-Request::Request( void ) : currentState( REQUEST_FIRST_LINE ) {}
+Request::Request( http::Client *client ) : currentState( REQUEST_FIRST_LINE ), client(client), chunkedBuffer(""), contentLength_(0) {}
 
 Request::Request( Request const& other )
 {
@@ -33,6 +33,7 @@ Request& Request::operator=( Request const& other )
 		currentState  = other.currentState;
 		client		  = other.client;
 		chunkedBuffer = other.chunkedBuffer;
+		contentLength_ = other.contentLength_;
 	}
 	return *this;
 }

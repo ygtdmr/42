@@ -6,31 +6,30 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/11 11:41:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 17:44:10 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/socket.h>
-#include "../../../inc/hpp/ServerLog.hpp"
-#include "../../../inc/hpp/http/handler/Handler.hpp"
-#include "../../../inc/hpp/manager/Client.hpp"
+#include "../../../inc/hpp/http/Log.hpp"
+#include "../../../inc/hpp/http/Client.hpp"
 
-void webserv::manager::Client::deliver( void )
+void webserv::http::Client::deliver( void )
 {
 	if ( !deliverData.empty() )
 	{
-		ssize_t bytesSent( send(
-			pollfd->fd, deliverData.c_str() + deliverOffset, deliverData.length() - deliverOffset, 0 ) );
+		ssize_t bytesSent( send( fd, deliverData.c_str() + deliverOffset, deliverData.length() - deliverOffset, 0 ) );
 		if ( bytesSent > 0 )
 		{
 			deliverOffset += bytesSent;
 			if ( deliverOffset >= deliverData.length() )
 			{
 				deliverData.clear();
+				deliverData = "";
 				deliverOffset = 0;
 			}
 		}
-		else if ( bytesSent < 0 )
+		else
 		{
 			isConnectionClose = true;
 			return;
@@ -38,12 +37,12 @@ void webserv::manager::Client::deliver( void )
 	}
 	if ( ( handler->currentState == handler->DONE ) && deliverData.empty() )
 	{
-		ServerLog( server, "INFO" ) << "Response sent to: " << addr << ", assigned socket: " << pollfd->fd
+		http::Log( *server, "INFO" ) << "Response sent to: " << addr << ", assigned socket: " << fd
 									<< ", uri=[" << httpRequest.uri << "], status=[" << handler->status << "]"
 									<< '\n';
 		isConnectionClose = ( handler->headers["Connection"] == "close" );
 		clear();
 		if ( !isConnectionClose )
-			pollfd->events = POLLIN;
+			controller->getPollfd(fd).events = POLLIN;
 	}
 }

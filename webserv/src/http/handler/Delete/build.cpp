@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 10:39:38 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 13:50:22 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <cstdio>
 #include "../../../../inc/hpp/http/handler/Delete.hpp"
 #include "../../../../inc/hpp/http/handler/Error.hpp"
-#include "../../../../inc/hpp/manager/Client.hpp"
+#include "../../../../inc/hpp/http/Client.hpp"
 #include "../../../../inc/hpp/parser/mapToHeaders.hpp"
 
 void webserv::http::handler::Delete::build( void )

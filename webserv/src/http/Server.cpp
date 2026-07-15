@@ -6,20 +6,20 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 11:52:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 19:10:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/13 22:10:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/manager/Server.hpp"
+#include "../../inc/hpp/http/Server.hpp"
 
 namespace webserv
 {
-namespace manager
+namespace http
 {
 
-Server::Server( void ) {}
+Server::Server( void ): fd(-1), addr(""), port(""), config(0) {}
 
-Server::Server( Server const& other ) : Manager( other )
+Server::Server( Server const& other )
 {
 	*this = other;
 }
@@ -30,8 +30,10 @@ Server& Server::operator=( Server const& other )
 {
 	if ( this != &other )
 	{
-		config = other.config;
+		fd = other.fd;
+		addr = other.addr;
 		port   = other.port;
+		config = other.config;
 	}
 	return *this;
 }

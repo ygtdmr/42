@@ -1,41 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Manager.cpp                                        :+:      :+:    :+:   */
+/*   getPollfd.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/06 18:42:16 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 19:16:30 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/14 21:53:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/manager/Manager.hpp"
+#include "../../inc/hpp/Controller.hpp"
+#include "../../inc/hpp/utils/conv.hpp"
+#include <stdexcept>
 
-namespace webserv
+struct pollfd& webserv::Controller::getPollfd( int fd )
 {
-namespace manager
-{
-
-Manager::Manager( void ) {}
-
-Manager::Manager( Manager const& other )
-{
-	*this = other;
-}
-
-Manager::~Manager() {}
-
-Manager& Manager::operator=( Manager const& other )
-{
-	if ( this != &other )
+	std::vector< struct pollfd >::iterator it(pollfds.begin());
+	while (it != pollfds.end())
 	{
-		pollfd = other.pollfd;
-		addr   = other.addr;
+		if ( it->fd == fd )
+			return *it;
+		it++;
 	}
-	return *this;
+	throw std::runtime_error("pollfd not found, fd: " + utils::conv::toStr<int>(fd));
 }
-
-}  // namespace manager
-
-}  // namespace webserv

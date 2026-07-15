@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:45:39 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 10:46:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 14:27:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ void webserv::parser::Config::parseStateGlobal( void )
 	bool		on_server( false );
 	std::string word;
 
-	if ( servers_ )
-		delete servers_;
-	servers_ = new std::vector< config::Server >;
-	while ( ( *raw_ ) >> word )
+	servers_ = std::vector< config::Server >();
+	while ( raw_  >> word )
 	{
 		if ( on_server )
 		{

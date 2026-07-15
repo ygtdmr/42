@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 12:47:49 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/12 12:41:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/14 14:30:15 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ class Config
 		Config&								 operator=( Config const& other );
 		void								 parse( char const* path );
 		void								 printServers( void ) const;
-		std::vector< config::Server > const* getServers( void ) const;
+		std::vector< config::Server > const& getServers( void ) const;
 
 	private:
-		void putRaw( std::string const& line ) const;
+		void putRaw( std::string const& line );
 		void putDataServer( config::Server& server );
 		void putDataLocation( config::Location& location ) const;
 
@@ -50,10 +50,10 @@ class Config
 		bool isValidMethod( std::string const& value ) const;
 		bool isValidPath( std::string const& value, bool root = false ) const;
 
-		std::stringstream*			   raw_;
+		std::stringstream			   raw_;
 		std::string					   key_;
 		std::vector< std::string >	   values_;
-		std::vector< config::Server >* servers_;
+		std::vector< config::Server > servers_;
 };
 
 }  // namespace parser

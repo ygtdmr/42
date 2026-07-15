@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   newConnection.cpp                                  :+:      :+:    :+:   */
+/*   clear.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/07 08:57:18 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 17:59:25 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/14 14:57:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/Controller.hpp"
+#include "../../../inc/hpp/http/Client.hpp"
 
-void webserv::Controller::newConnection( int fd, manager::Manager* connection ) const
+void webserv::http::Client::clear( void )
 {
-	struct pollfd pfd;
-	pfd.events	= POLLIN;
-	pfd.revents = 0;
-	pfd.fd		= fd;
+	cgiFds.clear();
+	receiveData.clear();
+	deliverData.clear();
+	receiveData	  = "";
+	deliverData	  = "";
+	
+	deliverOffset = 0;
 
-	pollfds->push_back( pfd );
-	connections->push_back( connection );
+	httpRequest			 = http::Request();
+	parserRequest		 = parser::Request(this);
 
-	for ( size_t i = 0; i < connections->size(); ++i )
-		( *connections )[i]->pollfd = &( *pollfds )[i];
+	if ( handler )
+	{
+		delete handler;
+		handler = 0;
+	}
 }

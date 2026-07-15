@@ -6,22 +6,21 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/07 13:59:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/13 19:19:24 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_MANAGER_SERVER_HPP
-#define WEBSERV_MANAGER_SERVER_HPP
+#ifndef WEBSERV_HTTP_SERVER_HPP
+#define WEBSERV_HTTP_SERVER_HPP
 
 #include "../config/Server.hpp"
-#include "Manager.hpp"
 
 namespace webserv
 {
 
-namespace manager
+namespace http
 {
-class Server : public Manager
+class Server
 {
 	public:
 		Server( void );
@@ -29,10 +28,12 @@ class Server : public Manager
 		~Server();
 		Server& operator=( Server const& other );
 
-		config::Server const* config;
+		int					  fd;
+		std::string			  addr;
 		std::string			  port;
+		config::Server const* config;
 };
-}  // namespace manager
+}  // namespace http
 
 }  // namespace webserv
 

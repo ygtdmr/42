@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/07/12 12:39:15 by yidemir          ###   ########.fr        #
+#    Updated: 2026/07/15 09:48:50 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,9 +39,9 @@ SRCS		=	src/main.cpp \
 				src/parser/mapToHeaders.cpp \
 				src/parser/Request/parseFirstLine.cpp \
 				src/parser/Request/parse.cpp \
+				src/parser/Request/parseIsCgi.cpp \
 				src/parser/Request/Request.cpp \
 				src/parser/Request/parseLocation.cpp \
-				src/parser/Request/parseIsCgi.cpp \
 				src/parser/Request/parseBody.cpp \
 				src/parser/Request/parseChunkedBody.cpp \
 				src/parser/Request/parseHeaders.cpp \
@@ -50,21 +50,17 @@ SRCS		=	src/main.cpp \
 				src/parser/headersToMap.cpp \
 				src/parser/mimeTypeToExt.cpp \
 				src/parser/handler.cpp \
+				src/Controller/newPollfd.cpp \
 				src/Controller/acceptConnection.cpp \
-				src/Controller/newConnection.cpp \
 				src/Controller/run.cpp \
 				src/Controller/setup.cpp \
-				src/Controller/setupServer.cpp \
-				src/Controller/removeFd.cpp \
+				src/Controller/removePollfd.cpp \
 				src/Controller/Controller.cpp \
 				src/Controller/closeConnection.cpp \
-				src/manager/Manager.cpp \
-				src/manager/Client/process.cpp \
-				src/manager/Client/Client.cpp \
-				src/manager/Client/clear.cpp \
-				src/manager/Client/deliver.cpp \
-				src/manager/Client/receive.cpp \
-				src/manager/Server.cpp \
+				src/Controller/setupServer.cpp \
+				src/Controller/getPollfd.cpp \
+				src/http/handler/Delete/Delete.cpp \
+				src/http/handler/Delete/build.cpp \
 				src/http/handler/Redirection/Redirection.cpp \
 				src/http/handler/Redirection/build.cpp \
 				src/http/handler/Get/buildBody.cpp \
@@ -73,31 +69,34 @@ SRCS		=	src/main.cpp \
 				src/http/handler/Get/Get.cpp \
 				src/http/handler/DirectoryListing/DirectoryListing.cpp \
 				src/http/handler/DirectoryListing/build.cpp \
+				src/http/handler/Cgi/process.cpp \
+				src/http/handler/Cgi/setupEnv.cpp \
+				src/http/handler/Cgi/execute.cpp \
+				src/http/handler/Cgi/Cgi.cpp \
+				src/http/handler/Cgi/build.cpp \
 				src/http/handler/Handler.cpp \
 				src/http/handler/Error/readErrorPageFile.cpp \
 				src/http/handler/Error/Error.cpp \
 				src/http/handler/Error/buildBody.cpp \
 				src/http/handler/Error/buildHeaders.cpp \
 				src/http/handler/Error/build.cpp \
-				src/http/handler/Upload/build.cpp \
 				src/http/handler/Upload/writeBoundary.cpp \
+				src/http/handler/Upload/Upload.cpp \
 				src/http/handler/Upload/writeRaw.cpp \
 				src/http/handler/Upload/generateFileName.cpp \
 				src/http/handler/Upload/uploadFiles.cpp \
-				src/http/handler/Upload/Upload.cpp \
-				src/http/handler/Delete/Delete.cpp \
-				src/http/handler/Delete/build.cpp \
-				src/http/handler/Cgi/Cgi.cpp \
-				src/http/handler/Cgi/setupEnv.cpp \
-				src/http/handler/Cgi/execute.cpp \
-				src/http/handler/Cgi/build.cpp \
+				src/http/handler/Upload/build.cpp \
+				src/http/Response/Response.cpp \
+				src/http/Response/getFirstLine.cpp \
 				src/http/Message.cpp \
 				src/http/Exception.cpp \
 				src/http/Request.cpp \
-				src/http/Response/Response.cpp \
-				src/http/Response/getFirstLine.cpp 
-
-
+				src/http/Client/process.cpp \
+				src/http/Client/Client.cpp \
+				src/http/Client/clear.cpp \
+				src/http/Client/deliver.cpp \
+				src/http/Client/receive.cpp \
+				src/http/Server.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 
