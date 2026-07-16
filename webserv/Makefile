@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/07/15 13:25:39 by yidemir          ###   ########.fr        #
+#    Updated: 2026/07/16 14:53:41 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ SRCS		=	src/main.cpp \
 				src/parser/mapToHeaders.cpp \
 				src/parser/Request/parseFirstLine.cpp \
 				src/parser/Request/parse.cpp \
-				src/parser/Request/parseIsCgi.cpp \
+				src/parser/Request/parseCgiExt.cpp \
 				src/parser/Request/Request.cpp \
 				src/parser/Request/parseLocation.cpp \
 				src/parser/Request/parseBody.cpp \

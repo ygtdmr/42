@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 12:47:49 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 19:17:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/16 14:52:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ class Request
 
 		void parseFirstLine( void );
 		void parseLocation( void );
-		void parseIsCgi( void );
+		void parseCgiExt( void );
 		void parseHeaders( void );
 		void parseChunkedBody( void );
 		void parseBody( void );
