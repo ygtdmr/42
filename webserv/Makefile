@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/07/16 15:33:19 by yidemir          ###   ########.fr        #
+#    Updated: 2026/07/16 18:11:02 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,6 @@ SRCS		=	src/main.cpp \
 				src/http/handler/Redirection/Redirection.cpp \
 				src/http/handler/Redirection/build.cpp \
 				src/http/handler/Get/buildBody.cpp \
-				src/http/handler/Get/buildHeaders.cpp \
 				src/http/handler/Get/build.cpp \
 				src/http/handler/Get/Get.cpp \
 				src/http/handler/DirectoryListing/DirectoryListing.cpp \
@@ -97,9 +96,11 @@ SRCS		=	src/main.cpp \
 				src/http/Client/receive.cpp \
 				src/http/Server.cpp
 
-SRCS_MND	= src/parser/Request/parseCgiBin.cpp
+SRCS_MND	=	src/parser/Request/parseCgiBin.cpp \
+				src/http/handler/Get/buildHeaders.cpp
 
-SRCS_BNS	= bonus/src/parser/Request/parseCgiBin_bonus.cpp
+SRCS_BNS	=	bonus/src/parser/Request/parseCgiBin_bonus.cpp \
+				bonus/src/http/handler/Get/buildHeaders_bonus.cpp
 
 OBJS		=	$(SRCS:.cpp=.o) $(SRCS_MND:.cpp=.o)
 

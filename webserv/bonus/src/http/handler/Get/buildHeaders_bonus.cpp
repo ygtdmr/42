@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buildHeaders.cpp                                   :+:      :+:    :+:   */
+/*   buildHeaders_bonus.cpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/16 18:32:40 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/16 18:41:49 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
 #include <unistd.h>
-#include "../../../../inc/hpp/http/handler/Cgi.hpp"
-#include "../../../../inc/hpp/http/handler/DirectoryListing.hpp"
-#include "../../../../inc/hpp/http/handler/Error.hpp"
-#include "../../../../inc/hpp/http/handler/Get.hpp"
-#include "../../../../inc/hpp/http/handler/Redirection.hpp"
-#include "../../../../inc/hpp/http/Client.hpp"
-#include "../../../../inc/hpp/parser/extToMimeType.hpp"
-#include "../../../../inc/hpp/parser/fileExt.hpp"
-#include "../../../../inc/hpp/parser/mapToHeaders.hpp"
-#include "../../../../inc/hpp/utils/conv.hpp"
+#include "../../../../../inc/hpp/http/handler/Cgi.hpp"
+#include "../../../../../inc/hpp/http/handler/DirectoryListing.hpp"
+#include "../../../../../inc/hpp/http/handler/Error.hpp"
+#include "../../../../../inc/hpp/http/handler/Get.hpp"
+#include "../../../../../inc/hpp/http/handler/Redirection.hpp"
+#include "../../../../../inc/hpp/http/Client.hpp"
+#include "../../../../../inc/hpp/parser/extToMimeType.hpp"
+#include "../../../../../inc/hpp/parser/fileExt.hpp"
+#include "../../../../../inc/hpp/parser/mapToHeaders.hpp"
+#include "../../../../../inc/hpp/utils/conv.hpp"
 
 void webserv::http::handler::Get::buildHeaders( void )
 {
@@ -39,14 +39,19 @@ void webserv::http::handler::Get::buildHeaders( void )
 		{
 			if ( !client->httpRequest.location->cgi.empty() )
 			{
-				std::string cgiIndexFile( "index" + client->httpRequest.location->cgi.begin()->first );
-				std::string cgiIndexPath( realPath + '/' + cgiIndexFile );
-				if ( access( cgiIndexPath.c_str(), R_OK ) == 0 )
+				std::map<std::string, std::string>::const_iterator it(client->httpRequest.location->cgi.begin());
+				while (it != client->httpRequest.location->cgi.end())
 				{
-					client->httpRequest.cgiBin = client->httpRequest.location->cgi.begin()->second;
-					handler::Cgi* cgiHandler = new Cgi( client );
-					cgiHandler->realPath	 = cgiIndexPath;
-					throw cgiHandler;
+					std::string cgiIndexFile( "index" + it->first );
+					std::string cgiIndexPath( realPath + '/' + cgiIndexFile );
+					if ( access( cgiIndexPath.c_str(), R_OK ) == 0 )
+					{
+						client->httpRequest.cgiBin = it->second;
+						handler::Cgi* cgiHandler = new Cgi( client );
+						cgiHandler->realPath	 = cgiIndexPath;
+						throw cgiHandler;
+					}
+					it++;
 				}
 			}
 			if ( client->httpRequest.location->autoindex )
