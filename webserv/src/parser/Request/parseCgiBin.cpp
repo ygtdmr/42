@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parseCgiExt.cpp                                    :+:      :+:    :+:   */
+/*   parseCgiBin.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 11:07:57 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/16 14:59:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/16 15:17:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../../inc/hpp/parser/Request.hpp"
 #include "../../../inc/hpp/utils/str.hpp"
 
-void webserv::parser::Request::parseCgiExt( void )
+void webserv::parser::Request::parseCgiBin( void )
 {
 	if ( client->httpRequest.location->cgi.empty() )
 		return;
@@ -22,5 +22,5 @@ void webserv::parser::Request::parseCgiExt( void )
 	std::string extension( client->httpRequest.location->cgi.begin()->first );
 	utils::str::skip( path, extension.c_str() );
 	if (path.empty())
-		client->httpRequest.cgiExt = extension;
+		client->httpRequest.cgiBin = client->httpRequest.location->cgi.begin()->second;
 }

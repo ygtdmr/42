@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/16 14:50:56 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/16 15:16:35 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ class Request : public Message
 		std::string				method;
 		std::string				uri;
 		std::string				uriPath;
-		std::string				cgiExt;
+		std::string				cgiBin;
 		config::Location const* location;
 		size_t					bodySize;
 		bool					bodyEof;

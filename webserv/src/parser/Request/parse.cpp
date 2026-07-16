@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/16 14:53:07 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/16 15:18:14 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void webserv::parser::Request::parse( void )
 		if ( currentState == LOCATION )
 		{
 			parseLocation();
-			parseCgiExt();
+			parseCgiBin();
 		}
 		if ( currentState == HEADERS )
 			parseHeaders();

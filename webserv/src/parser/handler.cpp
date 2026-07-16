@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 10:20:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/16 14:54:23 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/16 16:39:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void webserv::parser::handler( http::Client& client )
 		std::pair< int short, std::string > const& redirect( client.httpRequest.location->redirect );
 		client.handler = new http::handler::Redirection( &client, redirect.first, redirect.second );
 	}
-	else if ( !client.httpRequest.cgiExt.empty() )
+	else if ( !client.httpRequest.cgiBin.empty() )
 		client.handler = new http::handler::Cgi( &client );
 	else if ( client.httpRequest.method == "GET" || client.httpRequest.method == "HEAD" )
 		client.handler = new http::handler::Get( &client );

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 15:01:24 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/15 22:58:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/16 17:41:05 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void webserv::http::handler::Cgi::process( void )
 					{
 						std::map< std::string, std::string > cgiHeaders( parser::headersToMap( body, false ) );
 						headers.insert( cgiHeaders.begin(), cgiHeaders.end() );
+						if ( (headers.find( "Content-Length" ) == headers.end()) || (headers["Transfer-Encoding"] != "chunked") )
+							headers["Connection"] = "close";
 						if ( headers.find( "Status" ) == headers.end() )
 							status = 200;
 						else
@@ -88,7 +90,7 @@ void webserv::http::handler::Cgi::process( void )
 			kill( pid_, SIGKILL );
 			waitpid( pid_, &pidStatus, WNOHANG );
 
-			if ( pidStatus != 0 )
+			if ( (pidStatus != 0) || (status == 0) )
 				throw new Error( client, 500 );
 
 			currentState = DONE;

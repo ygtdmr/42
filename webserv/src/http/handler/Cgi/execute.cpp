@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/15 15:05:43 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/16 17:39:46 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool webserv::http::handler::Cgi::execute( void )
 {
 	std::string const scriptPath = realPath.substr( 0, realPath.find_last_of( "/" ) );
 	std::string const scriptFile = realPath.substr( realPath.find_last_of( "/" ) + 1 );
-	std::string const binPath( client->httpRequest.location->cgi.begin()->second );
+	std::string const binPath( client->httpRequest.cgiBin );
 	int				  pipeIn[2];
 	int				  pipeOut[2];
 
@@ -46,8 +46,7 @@ bool webserv::http::handler::Cgi::execute( void )
 		close( pipeIn[0] );
 		close( pipeOut[1] );
 
-		if ( chdir( scriptPath.c_str() ) < 0 )
-			std::exit( 1 );
+		chdir( scriptPath.c_str() );
 
 		char* args[3];
 		args[0] = const_cast< char* >( binPath.c_str() );
