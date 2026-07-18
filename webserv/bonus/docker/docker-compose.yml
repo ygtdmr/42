@@ -27,8 +27,6 @@ services:
       - webserv_network
     volumes:
       - wordpress_volume:/var/www/html
-      - /home/yidemir/42/webserv/webserv:/usr/local/bin/webserv:ro
-      - /home/yidemir/webserv/bonus/docker/wordpress.conf/etc/webserv/default.conf:ro
     secrets:
       - db_password
       - credentials
@@ -47,19 +45,19 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/yidemir/goinfre/webserv/data/mariadb
+      device: /home/yidemir/webserv/data/mariadb
   wordpress_volume:
     name: wordpress_volume
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/yidemir/goinfre/webserv/data/wordpress
+      device: /home/yidemir/webserv/data/wordpress
 
 secrets:
   db_password:
-    file: /home/yidemir/42/webserv/bonus/docker/secrets/db_password.txt
+    file: /home/yidemir/webserv/secrets/db_password.txt
   db_root_password:
-    file: /home/yidemir/42/webserv/bonus/docker/secrets/db_root_password.txt
+    file: /home/yidemir/webserv/secrets/db_root_password.txt
   credentials:
-    file: /home/yidemir/42/webserv/bonus/docker/secrets/credentials.txt
+    file: /home/yidemir/webserv/secrets/credentials.txt
