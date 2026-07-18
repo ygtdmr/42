@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 22:54:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/18 16:57:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void webserv::http::handler::Cgi::setupEnv( void )
 			std::string key( it->first );
 			for ( size_t i = 0; i < key.size(); i++ )
 			{
-				if ( key[i] >= 'a' && key[i] >= 'z' )
+				if ( key[i] >= 'a' && key[i] <= 'z' )
 					key[i] -= 32;
 				else if ( key[i] == '-' )
 					key[i] = '_';
@@ -38,13 +38,17 @@ void webserv::http::handler::Cgi::setupEnv( void )
 		}
 		it++;
 	}
+	envStr_.push_back( "SERVER_PORT=" + client->server->port );
+	if ( client->httpRequest.version == "HTTP/1.1" )
+		envStr_.push_back( "SERVER_NAME=" + client->httpRequest.headers["Host"].substr(0, client->httpRequest.headers["Host"].find(":")) );
 	envStr_.push_back( "REDIRECT_STATUS=200" );
 	envStr_.push_back( "GATEWAY_INTERFACE=CGI/1.1" );
+	envStr_.push_back( "PATH_INFO=" );
+	envStr_.push_back( "REMOTE_ADDR=" + client->addr );
 	envStr_.push_back( "REQUEST_METHOD=" + client->httpRequest.method );
 	envStr_.push_back( "REQUEST_URI=" + client->httpRequest.uri ) ;
 	envStr_.push_back( "QUERY_STRING=" + utils::str::crop( client->httpRequest.uri, "?" ) );
 	envStr_.push_back( "SERVER_PROTOCOL=" + client->httpRequest.version );
-	envStr_.push_back( "PATH_INFO=" + client->httpRequest.uriPath );
 	envStr_.push_back( "SCRIPT_NAME=" + client->httpRequest.uriPath );
 	envStr_.push_back( "SCRIPT_FILENAME=" + realPath );
 	for (size_t i = 0; i < envStr_.size(); i++)

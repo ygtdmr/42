@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 13:53:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/18 16:02:13 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,15 @@
 
 void webserv::http::handler::Redirection::build( void ) throw()
 {
-	headers["Location"] = uri_;
+	std::string host;
+	if ( client->httpRequest.version == "HTTP/1.1" )
+		host = client->httpRequest.headers["Host"];
+	if (host.empty())
+		host = client->server->addr;
+	if (host.empty())
+		host = "0.0.0.0";
+	headers["Connection"] = "close";
+	headers["Location"] = "http://" + host + uri_;
 	client->deliverData = getFirstLine() + parser::mapToHeaders( headers );
 	currentState		= DONE;
 }
