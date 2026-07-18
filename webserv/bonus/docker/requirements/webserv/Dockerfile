@@ -17,6 +17,9 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
+RUN mkdir -p /.wp-cli
+RUN chown -R 1000:1000 /.wp-cli
+
 copy conf/wordpress.conf /etc/webserv/default.conf
 COPY bin/webserv /usr/local/bin/webserv
 COPY tools/init.sh /usr/local/bin/init.sh
