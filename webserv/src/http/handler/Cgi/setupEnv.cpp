@@ -6,18 +6,20 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/18 16:57:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/19 12:43:27 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../inc/hpp/http/handler/Cgi.hpp"
 #include "../../../../inc/hpp/http/Client.hpp"
+#include "../../../../inc/hpp/http/Headers.hpp"
 #include "../../../../inc/hpp/utils/str.hpp"
 
 void webserv::http::handler::Cgi::setupEnv( void )
 {
-	std::map< std::string, std::string >::const_iterator it( client->httpRequest.headers.begin() );
-	while ( it != client->httpRequest.headers.end() )
+	std::vector< std::pair<std::string, std::string> > const& headersVector(client->httpRequest.headers.getVector());
+	std::vector< std::pair<std::string, std::string> >::const_iterator	it(headersVector.begin());
+	while ( it != headersVector.end() )
 	{
 		if ( it->first == "Content-Length" )
 			envStr_.push_back( "CONTENT_LENGTH=" + it->second );
@@ -43,7 +45,7 @@ void webserv::http::handler::Cgi::setupEnv( void )
 		envStr_.push_back( "SERVER_NAME=" + client->httpRequest.headers["Host"].substr(0, client->httpRequest.headers["Host"].find(":")) );
 	envStr_.push_back( "REDIRECT_STATUS=200" );
 	envStr_.push_back( "GATEWAY_INTERFACE=CGI/1.1" );
-	envStr_.push_back( "PATH_INFO=" );
+	envStr_.push_back( "PATH_INFO=" + client->httpRequest.uriPath );
 	envStr_.push_back( "REMOTE_ADDR=" + client->addr );
 	envStr_.push_back( "REQUEST_METHOD=" + client->httpRequest.method );
 	envStr_.push_back( "REQUEST_URI=" + client->httpRequest.uri ) ;

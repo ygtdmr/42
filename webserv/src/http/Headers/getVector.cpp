@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Response.cpp                                       :+:      :+:    :+:   */
+/*   getVector.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/06 13:54:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/18 20:00:56 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/18 19:01:41 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/18 19:56:13 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/http/Response.hpp"
+#include "../../../inc/hpp/http/Headers.hpp"
 
-namespace webserv
+std::vector< std::pair<std::string, std::string> > const& webserv::http::Headers::getVector( void ) const
 {
-namespace http
-{
-Response::Response( void ): Message() {}
-Response::Response( Response const& other ) : Message( other )
-{
-	*this = other;
+	return headers_;
 }
-Response& Response::operator=( Response const& other )
-{
-	Message::operator=(other);
-	return *this;
-}
-Response::~Response() {}
-}  // namespace http
-
-}  // namespace webserv

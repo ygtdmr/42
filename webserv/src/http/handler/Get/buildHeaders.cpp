@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/16 18:32:40 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/19 12:23:54 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include "../../../../inc/hpp/http/Client.hpp"
 #include "../../../../inc/hpp/parser/extToMimeType.hpp"
 #include "../../../../inc/hpp/parser/fileExt.hpp"
-#include "../../../../inc/hpp/parser/mapToHeaders.hpp"
 #include "../../../../inc/hpp/utils/conv.hpp"
 
 void webserv::http::handler::Get::buildHeaders( void )
@@ -60,10 +59,10 @@ void webserv::http::handler::Get::buildHeaders( void )
 	}
 	if ( access( realPath.c_str(), R_OK ) < 0 )
 		throw new Error( client, 403 );
-	headers["Content-Length"] = utils::conv::toStr< off_t >( st.st_size );
-	headers["Content-Type"]	  = parser::extToMimeType( parser::fileExt( realPath ) );
+	headers.set("Content-Length", utils::conv::toStr< off_t >( st.st_size ));
+	headers.set("Content-Type", parser::extToMimeType( parser::fileExt( realPath ) ));
 	status					  = 200;
-	client->deliverData		  = getFirstLine() + parser::mapToHeaders( headers );
+	client->deliverData		  = getFirstLine() + headers.str();
 
 	if ( client->httpRequest.method == "HEAD" )
 		currentState = DONE;

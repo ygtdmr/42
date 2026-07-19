@@ -6,14 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 23:11:34 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/19 12:27:01 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/hpp/http/Exception.hpp"
 #include "../../../inc/hpp/http/Client.hpp"
+#include "../../../inc/hpp/http/Headers.hpp"
 #include "../../../inc/hpp/parser/Request.hpp"
-#include "../../../inc/hpp/parser/headersToMap.hpp"
 #include "../../../inc/hpp/utils/conv.hpp"
 #include "../../../inc/hpp/utils/str.hpp"
 
@@ -23,22 +23,21 @@ void webserv::parser::Request::parseHeaders( void )
 	if ( !( utils::str::has( client->httpRequest.body, "\r\n\r\n" ) ||
 			utils::str::has( client->httpRequest.body, "\n\n" ) ) )
 		return;
-	std::map< std::string, std::string >& headers( client->httpRequest.headers );
+	http::Headers& headers( client->httpRequest.headers );
 	try
 	{
-		headers = headersToMap( client->httpRequest.body );
+		headers = http::Headers(client->httpRequest.body, true);
 	}
 	catch ( std::exception const& _ )
 	{
 		throw http::Exception( 400 );
 	}
-	if (!headers["Content-Length"].empty())
-		contentLength_ = utils::conv::strTo< size_t >( headers["Content-Length"] );
+	contentLength_ = utils::conv::strTo< size_t >( headers.get("Content-Length") );
 	if ( client->httpRequest.version == "HTTP/1.1" )
 	{
-		if ( headers["Host"].empty() )
+		if ( headers.get("Host").empty() )
 			throw http::Exception( 400 );
-		if ( headers["Transfer-Encoding"] == "chunked" )
+		if ( headers.match("Transfer-Encoding", "chunked") )
 			currentState = CHUNKED_BODY;
 		else if ( contentLength_ > 0 )
 			currentState = BODY;

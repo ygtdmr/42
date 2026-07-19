@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 13:50:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/19 12:53:47 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 #include <sstream>
 #include "../../../../inc/hpp/http/handler/DirectoryListing.hpp"
 #include "../../../../inc/hpp/http/Client.hpp"
-#include "../../../../inc/hpp/parser/mapToHeaders.hpp"
 #include "../../../../inc/hpp/utils/conv.hpp"
 
 void webserv::http::handler::DirectoryListing::build( void )
 {
 	DIR* dir( opendir( realPath.c_str() ) );
-	headers["Content-Type"] = "text/html";
 	std::stringstream ss;
 	ss << "<html>" << std::endl;
 	ss << "<head><title>Index of " << client->httpRequest.uriPath << "</title></head>" << std::endl;
@@ -48,9 +46,10 @@ void webserv::http::handler::DirectoryListing::build( void )
 	ss << "</pre><hr></body>" << std::endl;
 	ss << "</html>";
 	body					  = ss.str();
-	headers["Content-Length"] = utils::conv::toStr< size_t >( body.size() );
+	headers.set("Content-Type", "text/html");
+	headers.set("Content-Length", utils::conv::toStr< size_t >( body.size()));
 	status					  = 200;
-	client->deliverData		  = getFirstLine() + parser::mapToHeaders( headers );
+	client->deliverData		  = getFirstLine() + headers.str();
 	if ( client->httpRequest.method != "HEAD" )
 		client->deliverData += body;
 	currentState = DONE;

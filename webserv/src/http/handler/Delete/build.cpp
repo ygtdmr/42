@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 13:50:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/18 19:39:03 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "../../../../inc/hpp/http/handler/Delete.hpp"
 #include "../../../../inc/hpp/http/handler/Error.hpp"
 #include "../../../../inc/hpp/http/Client.hpp"
-#include "../../../../inc/hpp/parser/mapToHeaders.hpp"
 
 void webserv::http::handler::Delete::build( void )
 {
@@ -31,6 +30,6 @@ void webserv::http::handler::Delete::build( void )
 		throw new Error( client, 500 );
 
 	status				= 204;
-	client->deliverData = getFirstLine() + parser::mapToHeaders( headers );
+	client->deliverData = getFirstLine() + headers.str();
 	currentState		= DONE;
 }

@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mapToHeaders.cpp                                   :+:      :+:    :+:   */
+/*   match.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/05 13:43:34 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 19:49:21 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/18 19:01:41 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/18 19:56:23 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/parser/mapToHeaders.hpp"
+#include "../../../inc/hpp/http/Headers.hpp"
 
-std::string webserv::parser::mapToHeaders( std::map< std::string, std::string > const& data )
+bool webserv::http::Headers::match( std::string const& key, std::string const& value ) const
 {
-	std::map< std::string, std::string >::const_iterator it( data.begin() );
-	std::string											 headers;
-	while ( it != data.end() )
-	{
-		headers += it->first + ": " + it->second + "\r\n";
-		it++;
-	}
-	headers += "\r\n";
-	return headers;
+	if ( !has(key) )
+		return false;
+	return (*this)[key] == value;
 }

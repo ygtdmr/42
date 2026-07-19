@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/08 17:40:31 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 13:54:34 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/19 12:14:58 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "../../../../inc/hpp/http/handler/Error.hpp"
 #include "../../../../inc/hpp/http/handler/Upload.hpp"
 #include "../../../../inc/hpp/http/Client.hpp"
-#include "../../../../inc/hpp/parser/headersToMap.hpp"
+#include "../../../../inc/hpp/http/Headers.hpp"
 #include "../../../../inc/hpp/utils/conv.hpp"
 #include "../../../../inc/hpp/utils/str.hpp"
 
@@ -25,9 +25,9 @@ void webserv::http::handler::Upload::writeBoundary( std::string const& boundary 
 	std::string startBoundary( "\r\n--" + boundary );
 	while ( client->httpRequest.body != "--\r\n" )
 	{
-		std::map< std::string, std::string > headers( parser::headersToMap( client->httpRequest.body ) );
-		std::string fileName( utils::str::crop( headers["Content-Disposition"], "filename=\"", "\"" ) );
-		std::string boundaryContentType( headers["Content-Type"] );
+		Headers headers( Headers(client->httpRequest.body, true) );
+		std::string fileName(utils::str::crop( headers.get("Content-Disposition"), "filename=\"", "\"" ));
+		std::string boundaryContentType(headers.get("Content-Type"));
 		std::string writeFileName;
 		size_t		counter( 1 );
 		if ( fileName.empty() )

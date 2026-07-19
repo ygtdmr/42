@@ -6,14 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 13:51:41 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/18 20:12:27 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sstream>
 #include "../../../../inc/hpp/http/handler/Error.hpp"
 #include "../../../../inc/hpp/http/Client.hpp"
-#include "../../../../inc/hpp/parser/mapToHeaders.hpp"
 #include "../../../../inc/hpp/parser/statusToReasonPhrase.hpp"
 #include "../../../../inc/hpp/utils/conv.hpp"
 
@@ -32,8 +31,8 @@ void webserv::http::handler::Error::buildBody( void ) throw()
 		ss << "</body>" << std::endl;
 		ss << "</html>";
 		body					  = ss.str() + "\r\n";
-		headers["Content-Length"] = utils::conv::toStr< size_t >( body.size() );
-		client->deliverData += parser::mapToHeaders( headers );
+		headers.set("Content-Length", utils::conv::toStr< size_t >( body.size()));
+		client->deliverData += headers.str();
 		if ( client->httpRequest.method != "HEAD" )
 			client->deliverData += body;
 		currentState = DONE;

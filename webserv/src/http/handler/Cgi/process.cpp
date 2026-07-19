@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 15:01:24 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/16 17:41:05 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/19 12:20:34 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 #include "../../../../inc/hpp/http/handler/Cgi.hpp"
 #include "../../../../inc/hpp/http/handler/Error.hpp"
 #include "../../../../inc/hpp/http/Client.hpp"
-#include "../../../../inc/hpp/parser/headersToMap.hpp"
-#include "../../../../inc/hpp/parser/mapToHeaders.hpp"
+#include "../../../../inc/hpp/http/Headers.hpp"
 #include "../../../../inc/hpp/utils/conv.hpp"
 #include "../../../../inc/hpp/utils/str.hpp"
 
@@ -62,15 +61,14 @@ void webserv::http::handler::Cgi::process( void )
 					body.append( buffer, bytesRead );
 					if ( utils::str::has(body, "\r\n\r\n") || utils::str::has(body, "\n\n") )
 					{
-						std::map< std::string, std::string > cgiHeaders( parser::headersToMap( body, false ) );
-						headers.insert( cgiHeaders.begin(), cgiHeaders.end() );
-						if ( (headers.find( "Content-Length" ) == headers.end()) || (headers["Transfer-Encoding"] != "chunked") )
-							headers["Connection"] = "close";
-						if ( headers.find( "Status" ) == headers.end() )
+						headers.merge( Headers(body, false) );
+						if ( (!headers.has( "Content-Length" ) ) || !headers.match("Transfer-Encoding", "chunked") )
+							headers.set("Connection", "close");
+						if ( !headers.has( "Status" ) )
 							status = 200;
 						else
-							status = utils::conv::strTo< int short >( headers["Status"] );
-						client->deliverData =  getFirstLine() + parser::mapToHeaders( headers ) + body;
+							status = utils::conv::strTo< int short >( headers.get("Status") );
+						client->deliverData =  getFirstLine() + headers.str() + body;
 						currentState = BODY;
 					}
 				}

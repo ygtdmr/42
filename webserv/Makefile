@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/07/16 18:11:02 by yidemir          ###   ########.fr        #
+#    Updated: 2026/07/19 12:12:58 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,6 @@ SRCS		=	src/main.cpp \
 				src/parser/Config/isValidMethod.cpp \
 				src/parser/unchunkBody.cpp \
 				src/parser/fileExt.cpp \
-				src/parser/mapToHeaders.cpp \
 				src/parser/Request/parseFirstLine.cpp \
 				src/parser/Request/parse.cpp \
 				src/parser/Request/Request.cpp \
@@ -46,7 +45,6 @@ SRCS		=	src/main.cpp \
 				src/parser/Request/parseHeaders.cpp \
 				src/parser/Request/checkMaxBodySize.cpp \
 				src/parser/extToMimeType.cpp \
-				src/parser/headersToMap.cpp \
 				src/parser/mimeTypeToExt.cpp \
 				src/parser/handler.cpp \
 				src/Controller/newPollfd.cpp \
@@ -87,6 +85,15 @@ SRCS		=	src/main.cpp \
 				src/http/Response/Response.cpp \
 				src/http/Response/getFirstLine.cpp \
 				src/http/Message.cpp \
+				src/http/Headers/Headers.cpp \
+				src/http/Headers/append.cpp \
+				src/http/Headers/has.cpp \
+				src/http/Headers/get.cpp \
+				src/http/Headers/match.cpp \
+				src/http/Headers/merge.cpp \
+				src/http/Headers/set.cpp \
+				src/http/Headers/str.cpp \
+				src/http/Headers/getVector.cpp \
 				src/http/Exception.cpp \
 				src/http/Request.cpp \
 				src/http/Client/process.cpp \

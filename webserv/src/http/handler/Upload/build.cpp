@@ -6,14 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 13:54:08 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/19 12:25:07 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sstream>
 #include "../../../../inc/hpp/http/handler/Upload.hpp"
 #include "../../../../inc/hpp/http/Client.hpp"
-#include "../../../../inc/hpp/parser/mapToHeaders.hpp"
 #include "../../../../inc/hpp/utils/conv.hpp"
 
 void webserv::http::handler::Upload::build( void )
@@ -30,9 +29,9 @@ void webserv::http::handler::Upload::build( void )
 	ss << "</pre><hr></body>" << std::endl;
 	ss << "</html>" << std::endl;
 	body					  = ss.str();
-	headers["Content-Type"]	  = "text/html";
-	headers["Content-Length"] = utils::conv::toStr< size_t >( body.size() );
+	headers.set("Content-Type", "text/html");
+	headers.set("Content-Length", utils::conv::toStr< size_t >( body.size()));
 	status					  = 201;
-	client->deliverData		  = getFirstLine() + parser::mapToHeaders( headers ) + body;
+	client->deliverData		  = getFirstLine() + headers.str() + body;
 	currentState			  = DONE;
 }

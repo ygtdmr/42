@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Response.cpp                                       :+:      :+:    :+:   */
+/*   merge.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/06 13:54:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/18 20:00:56 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/18 19:01:41 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/18 19:56:27 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/http/Response.hpp"
+#include "../../../inc/hpp/http/Headers.hpp"
 
-namespace webserv
+void webserv::http::Headers::merge( Headers const& other )
 {
-namespace http
-{
-Response::Response( void ): Message() {}
-Response::Response( Response const& other ) : Message( other )
-{
-	*this = other;
+	std::vector< std::pair<std::string, std::string> >::const_iterator it(other.headers_.begin());
+	while (it != other.headers_.end())
+	{
+		append(it->first, it->second);
+		it++;
+	}
 }
-Response& Response::operator=( Response const& other )
-{
-	Message::operator=(other);
-	return *this;
-}
-Response::~Response() {}
-}  // namespace http
-
-}  // namespace webserv

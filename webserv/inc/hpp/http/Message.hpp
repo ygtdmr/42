@@ -6,15 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:58:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 18:58:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/18 18:42:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WEBSERV_HTTP_MESSAGE_HPP
 #define WEBSERV_HTTP_MESSAGE_HPP
 
-#include <map>
-#include <string>
+#include "Headers.hpp"
 
 namespace webserv
 {
@@ -30,7 +29,7 @@ class Message
 		virtual ~Message() = 0;
 		Message& operator=( Message const& other );
 
-		std::map< std::string, std::string > headers;
+		Headers								 headers;
 		std::string							 body;
 		std::string							 version;
 		int short							 status;

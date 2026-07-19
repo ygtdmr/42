@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/26 13:46:22 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 18:07:11 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/19 12:59:38 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ template < typename T >
 T strTo( std::string const& str )
 {
 	std::stringstream ss( str );
-	T				  value;
+	T				  value = T();
 	ss >> value;
 	return value;
 }

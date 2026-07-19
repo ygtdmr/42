@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Response.cpp                                       :+:      :+:    :+:   */
+/*   get.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/06 13:54:30 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/18 20:00:56 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/18 19:01:41 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/19 12:12:41 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/http/Response.hpp"
+#include "../../../inc/hpp/http/Headers.hpp"
 
-namespace webserv
+std::string webserv::http::Headers::get( std::string const& key ) const
 {
-namespace http
-{
-Response::Response( void ): Message() {}
-Response::Response( Response const& other ) : Message( other )
-{
-	*this = other;
+	if ( has(key) )
+		return (*this)[key];
+	return "";
 }
-Response& Response::operator=( Response const& other )
-{
-	Message::operator=(other);
-	return *this;
-}
-Response::~Response() {}
-}  // namespace http
-
-}  // namespace webserv

@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/15 22:46:09 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/19 12:17:33 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void webserv::http::Client::deliver( void )
 		Log( *server, "INFO" )  << "assigned socket: " << fd << ", response sent to: " << addr
 									<< ", uri=[" << httpRequest.uri << "], status=[" << handler->status << "]"
 									<< '\n';
-		isConnectionClose = ( handler->headers["Connection"] == "close" );
+		isConnectionClose = handler->headers.match("Connection", "close");
 		clear();
 		if ( !isConnectionClose )
 			controller->getPollfd(fd).events = POLLIN;

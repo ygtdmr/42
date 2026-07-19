@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   headersToMap.hpp                                   :+:      :+:    :+:   */
+/*   str.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/02 14:30:44 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/10 18:42:48 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/18 19:01:41 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/18 19:56:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_PARSER_HEADERS_TO_MAP_HPP
-#define WEBSERV_PARSER_HEADERS_TO_MAP_HPP
+#include "../../../inc/hpp/http/Headers.hpp"
 
-#include <map>
-#include <string>
-
-namespace webserv
+std::string webserv::http::Headers::str( void )
 {
-namespace parser
-{
-std::map< std::string, std::string > headersToMap( std::string& data, bool skipFirstLine = true );
-}  // namespace parser
-}  // namespace webserv
-
-#endif
+	std::string											 			   	str;
+	std::vector< std::pair<std::string, std::string> >::const_iterator	it( headers_.begin() );
+	while ( it != headers_.end() )
+	{
+		str += it->first + ": " + it->second + "\r\n";
+		it++;
+	}
+	str += "\r\n";
+	return str;
+}

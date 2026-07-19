@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 18:42:16 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 14:12:16 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/19 12:51:55 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,10 @@ Handler::Handler( Client* client ) : currentState( HEADERS ), realPath(""), clie
 		realPath =
 			root + '/' + client->httpRequest.uriPath.substr( client->httpRequest.location->uriPath.size() );
 	}
-	headers["Connection"] = "";
-	if ( version == "HTTP/1.1" )
-		headers["Connection"] = client->httpRequest.headers["Connection"];
-	if ( headers["Connection"].empty() )
-		headers["Connection"] = "close";
+	if ( version == "HTTP/1.1" && client->httpRequest.headers.match("Connection", "keep-alive") )
+		headers.set("Connection", "keep-alive");
+	else
+		headers.set("Connection", "close");
 }
 
 Handler::Handler( Handler const& other ) : Response( other )

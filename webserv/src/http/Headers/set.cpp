@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mapToHeaders.hpp                                   :+:      :+:    :+:   */
+/*   set.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/02 14:30:44 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/04 12:05:12 by yidemir          ###   ########.fr       */
+/*   Created: 2026/07/18 19:01:41 by yidemir           #+#    #+#             */
+/*   Updated: 2026/07/18 20:10:32 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEBSERV_PARSER_MAP_TO_HEADERS_HPP
-#define WEBSERV_PARSER_MAP_TO_HEADERS_HPP
+#include "../../../inc/hpp/http/Headers.hpp"
 
-#include <map>
-#include <string>
-
-namespace webserv
+void webserv::http::Headers::set( std::string const& key, std::string const& value )
 {
-namespace parser
-{
-std::string mapToHeaders( std::map< std::string, std::string > const& data );
-}  // namespace parser
-}  // namespace webserv
-
-#endif
+	if ( has(key) )
+		(*this)[key] = value;
+	else
+		append(key, value);
+}
