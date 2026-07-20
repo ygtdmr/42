@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 15:17:08 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,7 @@ void webserv::Controller::run( void ) throw()
 	while ( !g_webserv_exit )
 	{
 		if ( poll( &(*pollfds.begin()), pollfds.size(), 1000 ) < 0 )
-		{
-			if ( errno == EINTR )
-				continue;
-			break;
-		}
+			continue;
 		currentTime = std::time( 0 );
 		std::vector< http::Server >::const_iterator itServer(servers.begin());
 		while (itServer != servers.end())
