@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 14:48:58 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,15 @@ void webserv::parser::Request::parseHeaders( void )
 	{
 		if ( headers.get("Host").empty() )
 			throw http::Exception( 400 );
+		else if (!client->server->config->serverNames.empty())
+		{
+			bool	found(false);
+			std::vector<std::string>::const_iterator	it(client->server->config->serverNames.begin());
+			while (!found && (it != client->server->config->serverNames.end()))
+				found = (*it++ == headers["Host"]);
+			if (!found)
+				throw http::Exception( 404 );
+		}
 		if ( headers.match("Transfer-Encoding", "chunked") )
 			currentState = CHUNKED_BODY;
 		else if ( contentLength_ > 0 )

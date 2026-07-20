@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 14:54:18 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ void webserv::http::handler::Cgi::setupEnv( void )
 		it++;
 	}
 	envStr_.push_back( "SERVER_PORT=" + client->server->port );
-	if ( client->httpRequest.version == "HTTP/1.1" )
+	if (client->server->config->serverNames.empty())
+		envStr_.push_back( "SERVER_NAME=" + client->server->addr );
+	else if ( client->httpRequest.version == "HTTP/1.1" )
 		envStr_.push_back( "SERVER_NAME=" + client->httpRequest.headers["Host"].substr(0, client->httpRequest.headers["Host"].find(":")) );
 	envStr_.push_back( "REDIRECT_STATUS=200" );
 	envStr_.push_back( "GATEWAY_INTERFACE=CGI/1.1" );

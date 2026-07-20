@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/07 08:57:18 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 14:55:31 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void webserv::Controller::setupServer( config::Server const* config,
 		throw config::Exception() << host << ":" << port << ", listen: " << strerror( errno );
 
 	if ( !host )
-		host = "";
+		host = "0.0.0.0";
 	server.addr   = std::string( host );
 	server.port   = std::string( port );
 	server.config = config;
