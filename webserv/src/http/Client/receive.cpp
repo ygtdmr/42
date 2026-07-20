@@ -6,14 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/15 22:44:28 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/socket.h>
-#include "../../../inc/hpp/http/Log.hpp"
-#include "../../../inc/hpp/http/Client.hpp"
-#include "../../../inc/hpp/parser/handler.hpp"
+#include "http/Log.hpp"
+#include "http/Client.hpp"
+#include "parser/handler.hpp"
 
 #define RECV_BUFFER_SIZE 65536
 

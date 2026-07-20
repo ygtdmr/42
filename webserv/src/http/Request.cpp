@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:44:43 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/18 20:00:44 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/http/Request.hpp"
+#include "http/Request.hpp"
 
 namespace webserv
 {

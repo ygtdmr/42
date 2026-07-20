@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:47:44 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 14:28:09 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/config/Exception.hpp"
-#include "../../../inc/hpp/parser/Config.hpp"
+#include "config/Exception.hpp"
+#include "parser/Config.hpp"
 
 void webserv::parser::Config::parseStateServer( void )
 {

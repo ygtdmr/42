@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 11:07:57 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/16 15:17:57 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/http/Client.hpp"
-#include "../../../inc/hpp/parser/Request.hpp"
-#include "../../../inc/hpp/utils/str.hpp"
+#include "http/Client.hpp"
+#include "parser/Request.hpp"
+#include "utils/str.hpp"
 
 void webserv::parser::Request::parseCgiBin( void )
 {

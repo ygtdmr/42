@@ -6,18 +6,18 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/14 15:01:24 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/19 12:20:34 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/socket.h>
 #include <sys/wait.h>
-#include "../../../../inc/hpp/http/handler/Cgi.hpp"
-#include "../../../../inc/hpp/http/handler/Error.hpp"
-#include "../../../../inc/hpp/http/Client.hpp"
-#include "../../../../inc/hpp/http/Headers.hpp"
-#include "../../../../inc/hpp/utils/conv.hpp"
-#include "../../../../inc/hpp/utils/str.hpp"
+#include "http/handler/Cgi.hpp"
+#include "http/handler/Error.hpp"
+#include "http/Client.hpp"
+#include "http/Headers.hpp"
+#include "utils/conv.hpp"
+#include "utils/str.hpp"
 
 #define RECV_BUFFER_SIZE 65536
 

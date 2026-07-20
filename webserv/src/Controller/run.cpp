@@ -6,14 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 23:32:19 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <cerrno>
-#include "../../inc/hpp/Controller.hpp"
-#include "../../inc/hpp/http/Log.hpp"
+#include "Controller.hpp"
+#include "http/Log.hpp"
 
 #define CLIENT_TIMEOUT 30
 

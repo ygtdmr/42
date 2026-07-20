@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:26:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 10:42:32 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/parser/Config.hpp"
+#include "parser/Config.hpp"
 
 bool webserv::parser::Config::isValidServerName( std::string const& value ) const
 {

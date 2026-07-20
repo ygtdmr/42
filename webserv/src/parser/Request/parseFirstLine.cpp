@@ -6,15 +6,15 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 19:10:48 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sstream>
-#include "../../../inc/hpp/http/Exception.hpp"
-#include "../../../inc/hpp/http/Client.hpp"
-#include "../../../inc/hpp/parser/Request.hpp"
-#include "../../../inc/hpp/utils/str.hpp"
+#include "http/Exception.hpp"
+#include "http/Client.hpp"
+#include "parser/Request.hpp"
+#include "utils/str.hpp"
 
 static bool isSafeUriPath( std::string const& uriPath )
 {

@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/15 23:20:12 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/http/Client.hpp"
-#include "../../../inc/hpp/http/handler/Cgi.hpp"
+#include "http/Client.hpp"
+#include "http/handler/Cgi.hpp"
 
 void webserv::http::Client::process( void )
 {

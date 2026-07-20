@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 23:30:59 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "../../inc/hpp/Controller.hpp"
-#include "../../inc/hpp/http/Log.hpp"
+#include "Controller.hpp"
+#include "http/Log.hpp"
 
 void	webserv::Controller::closeConnection( std::vector< http::Client >::iterator& itClient, char const* reason ) throw()
 {

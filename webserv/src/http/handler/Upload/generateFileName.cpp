@@ -6,15 +6,15 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/08 17:40:31 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/08 19:00:35 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <ctime>
-#include "../../../../inc/hpp/http/handler/Upload.hpp"
-#include "../../../../inc/hpp/parser/mimeTypeToExt.hpp"
-#include "../../../../inc/hpp/utils/conv.hpp"
+#include "http/handler/Upload.hpp"
+#include "parser/mimeTypeToExt.hpp"
+#include "utils/conv.hpp"
 
 std::string webserv::http::handler::Upload::generateFileName( std::string const& mimeType )
 {

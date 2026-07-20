@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 11:52:17 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/13 22:10:03 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/http/Server.hpp"
+#include "http/Server.hpp"
 
 namespace webserv
 {

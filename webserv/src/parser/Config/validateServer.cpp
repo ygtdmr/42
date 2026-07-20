@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:50:31 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 14:30:32 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/config/Exception.hpp"
-#include "../../../inc/hpp/parser/Config.hpp"
-#include "../../../inc/hpp/utils/conv.hpp"
+#include "config/Exception.hpp"
+#include "parser/Config.hpp"
+#include "utils/conv.hpp"
 
 void webserv::parser::Config::validateServer( void ) const
 {

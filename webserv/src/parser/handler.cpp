@@ -6,17 +6,17 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 10:20:10 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/16 16:39:41 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/parser/handler.hpp"
-#include "../../inc/hpp/http/handler/Cgi.hpp"
-#include "../../inc/hpp/http/handler/Delete.hpp"
-#include "../../inc/hpp/http/handler/Error.hpp"
-#include "../../inc/hpp/http/handler/Get.hpp"
-#include "../../inc/hpp/http/handler/Redirection.hpp"
-#include "../../inc/hpp/http/handler/Upload.hpp"
+#include "parser/handler.hpp"
+#include "http/handler/Cgi.hpp"
+#include "http/handler/Delete.hpp"
+#include "http/handler/Error.hpp"
+#include "http/handler/Get.hpp"
+#include "http/handler/Redirection.hpp"
+#include "http/handler/Upload.hpp"
 
 void webserv::parser::handler( http::Client& client )
 {

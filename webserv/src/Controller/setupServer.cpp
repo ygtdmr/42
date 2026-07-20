@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/07 08:57:18 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 15:29:09 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include <sys/socket.h>
 #include <cerrno>
 #include <cstring>
-#include "../../inc/hpp/Controller.hpp"
-#include "../../inc/hpp/config/Exception.hpp"
+#include "Controller.hpp"
+#include "config/Exception.hpp"
 
 void webserv::Controller::setupServer( config::Server const* config,
 									   char const*			 host,

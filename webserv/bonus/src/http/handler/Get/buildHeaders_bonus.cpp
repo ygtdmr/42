@@ -6,21 +6,21 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/19 12:16:38 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/stat.h>
 #include <unistd.h>
-#include "../../../../../inc/hpp/http/handler/Cgi.hpp"
-#include "../../../../../inc/hpp/http/handler/DirectoryListing.hpp"
-#include "../../../../../inc/hpp/http/handler/Error.hpp"
-#include "../../../../../inc/hpp/http/handler/Get.hpp"
-#include "../../../../../inc/hpp/http/handler/Redirection.hpp"
-#include "../../../../../inc/hpp/http/Client.hpp"
-#include "../../../../../inc/hpp/parser/extToMimeType.hpp"
-#include "../../../../../inc/hpp/parser/fileExt.hpp"
-#include "../../../../../inc/hpp/utils/conv.hpp"
+#include "http/handler/Cgi.hpp"
+#include "http/handler/DirectoryListing.hpp"
+#include "http/handler/Error.hpp"
+#include "http/handler/Get.hpp"
+#include "http/handler/Redirection.hpp"
+#include "http/Client.hpp"
+#include "parser/extToMimeType.hpp"
+#include "parser/fileExt.hpp"
+#include "utils/conv.hpp"
 
 void webserv::http::handler::Get::buildHeaders( void )
 {

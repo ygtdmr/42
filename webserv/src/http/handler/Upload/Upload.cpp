@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/08 14:33:43 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 16:54:53 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../inc/hpp/http/handler/Upload.hpp"
-#include "../../../../inc/hpp/http/Client.hpp"
+#include "http/handler/Upload.hpp"
+#include "http/Client.hpp"
 
 namespace webserv
 {

@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:48:54 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/02 18:10:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/parser/Config.hpp"
-#include "../../../inc/hpp/utils/conv.hpp"
+#include "parser/Config.hpp"
+#include "utils/conv.hpp"
 
 void webserv::parser::Config::putDataServer( config::Server& server )
 {

@@ -6,16 +6,16 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:33:02 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/19 12:27:01 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/http/Exception.hpp"
-#include "../../../inc/hpp/http/Client.hpp"
-#include "../../../inc/hpp/http/Headers.hpp"
-#include "../../../inc/hpp/parser/Request.hpp"
-#include "../../../inc/hpp/utils/conv.hpp"
-#include "../../../inc/hpp/utils/str.hpp"
+#include "http/Exception.hpp"
+#include "http/Client.hpp"
+#include "http/Headers.hpp"
+#include "parser/Request.hpp"
+#include "utils/conv.hpp"
+#include "utils/str.hpp"
 
 void webserv::parser::Request::parseHeaders( void )
 {

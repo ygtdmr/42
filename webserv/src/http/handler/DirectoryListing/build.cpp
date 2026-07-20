@@ -6,15 +6,15 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/19 12:53:47 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <dirent.h>
 #include <sstream>
-#include "../../../../inc/hpp/http/handler/DirectoryListing.hpp"
-#include "../../../../inc/hpp/http/Client.hpp"
-#include "../../../../inc/hpp/utils/conv.hpp"
+#include "http/handler/DirectoryListing.hpp"
+#include "http/Client.hpp"
+#include "utils/conv.hpp"
 
 void webserv::http::handler::DirectoryListing::build( void )
 {

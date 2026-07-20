@@ -6,14 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 13:33:48 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 15:13:25 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/Controller.hpp"
-#include "../../inc/hpp/http/Log.hpp"
-#include "../../inc/hpp/http/Server.hpp"
-#include "../../inc/hpp/utils/str.hpp"
+#include "Controller.hpp"
+#include "http/Log.hpp"
+#include "http/Server.hpp"
+#include "utils/str.hpp"
 
 void webserv::Controller::setup( std::vector< config::Server > const& servers )
 {

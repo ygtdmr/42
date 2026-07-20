@@ -6,14 +6,14 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/19 12:15:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../inc/hpp/http/handler/Error.hpp"
-#include "../../../../inc/hpp/http/handler/Upload.hpp"
-#include "../../../../inc/hpp/http/Client.hpp"
-#include "../../../../inc/hpp/utils/str.hpp"
+#include "http/handler/Error.hpp"
+#include "http/handler/Upload.hpp"
+#include "http/Client.hpp"
+#include "utils/str.hpp"
 
 void webserv::http::handler::Upload::uploadFiles( void )
 {

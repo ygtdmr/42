@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/11 12:00:00 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/13 23:08:17 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/Controller.hpp"
+#include "Controller.hpp"
 
 void webserv::Controller::removePollfd( int fd ) throw()
 {

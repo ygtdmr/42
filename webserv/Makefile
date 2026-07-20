@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/09 17:38:22 by yidemir           #+#    #+#              #
-#    Updated: 2026/07/19 12:12:58 by yidemir          ###   ########.fr        #
+#    Updated: 2026/07/20 13:10:13 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,13 @@ CXX			=	c++
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
 NAME		=	webserv
+
+IFLAGS		=	-I inc/hpp \
+				-I inc/hpp/config \
+				-I inc/hpp/http \
+				-I inc/hpp/http/handler \
+				-I inc/hpp/parser \
+				-I inc/hpp/utils
 
 SRCS		=	src/main.cpp \
 				src/parser/statusToReasonPhrase.cpp \
@@ -113,13 +120,16 @@ OBJS		=	$(SRCS:.cpp=.o) $(SRCS_MND:.cpp=.o)
 
 OBJS_BNS	=	$(SRCS:.cpp=.o) $(SRCS_BNS:.cpp=.o)
 
+%.o: %.cpp
+	$(CXX) $(IFLAGS) $(CXXFLAGS) -c $< -o $@
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+	$(CXX) $(IFLAGS) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
 bonus: $(OBJS_BNS)
-	$(CXX) $(CXXFLAGS) $(OBJS_BNS) -o $(NAME)
+	$(CXX) $(IFLAGS) $(CXXFLAGS) $(OBJS_BNS) -o $(NAME)
 
 clean:
 	$(RM) $(OBJS) $(OBJS_BNS)

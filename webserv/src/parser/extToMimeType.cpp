@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 21:53:28 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/06 12:58:09 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/parser/extToMimeType.hpp"
+#include "parser/extToMimeType.hpp"
 
 char const* webserv::parser::extToMimeType( std::string const& ext )
 {

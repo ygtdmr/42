@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 21:53:51 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/05 21:56:20 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/parser/statusToReasonPhrase.hpp"
+#include "parser/statusToReasonPhrase.hpp"
 
 char const* webserv::parser::statusToReasonPhrase( int short status )
 {

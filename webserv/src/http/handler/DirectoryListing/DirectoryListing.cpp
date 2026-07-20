@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 19:01:23 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/14 16:54:00 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../inc/hpp/http/handler/DirectoryListing.hpp"
+#include "http/handler/DirectoryListing.hpp"
 
 namespace webserv
 {

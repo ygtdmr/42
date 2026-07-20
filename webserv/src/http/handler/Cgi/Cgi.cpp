@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 19:01:23 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/15 14:13:35 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../inc/hpp/http/handler/Cgi.hpp"
-#include "../../../../inc/hpp/http/Client.hpp"
+#include "http/handler/Cgi.hpp"
+#include "http/Client.hpp"
 
 namespace webserv
 {

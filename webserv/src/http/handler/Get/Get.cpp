@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../inc/hpp/http/handler/Get.hpp"
+#include "http/handler/Get.hpp"
 
 namespace webserv
 {

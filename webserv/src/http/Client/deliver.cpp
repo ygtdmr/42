@@ -6,13 +6,13 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/04 21:04:19 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/19 12:17:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/socket.h>
-#include "../../../inc/hpp/http/Log.hpp"
-#include "../../../inc/hpp/http/Client.hpp"
+#include "http/Log.hpp"
+#include "http/Client.hpp"
 
 void webserv::http::Client::deliver( void )
 {

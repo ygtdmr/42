@@ -6,12 +6,12 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 18:24:03 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/18 19:55:58 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../inc/hpp/http/Headers.hpp"
-#include "../../../inc/hpp/utils/str.hpp"
+#include "http/Headers.hpp"
+#include "utils/str.hpp"
 #include <stdexcept>
 #include <sstream>
 

@@ -6,11 +6,11 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 17:05:20 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/12 08:46:33 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/hpp/parser/unchunkBody.hpp"
+#include "parser/unchunkBody.hpp"
 #include <sstream>
 
 std::string webserv::parser::unchunkBody( std::string& data )
