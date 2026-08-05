@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/01 10:26:54 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/08/05 18:47:09 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ bool webserv::parser::Config::isValidPath( std::string const& value, bool root )
 	std::string::const_iterator it( value.begin() );
 
 	if ( root && ( *value.begin() != '/' ) )
-		return false;
-	if ( value.find( "../" ) != std::string::npos )
 		return false;
 	while ( it != value.end() )
 	{

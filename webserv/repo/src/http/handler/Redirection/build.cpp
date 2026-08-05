@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 19:50:55 by yidemir           #+#    #+#             */
-/*   Updated: 2026/07/20 12:58:36 by yidemir          ###   ########.fr       */
+/*   Updated: 2026/08/05 15:03:57 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,14 @@ void webserv::http::handler::Redirection::build( void ) throw()
 	if (host.empty())
 		host = "0.0.0.0";
 	headers.set("Connection", "close");
-	headers.set("Location", "http://" + host + uri_);
+	if ( uri_.find("http://") == 0 || uri_.find("https://") == 0 )
+		headers.set("Location", uri_);
+	else
+	{
+		if ( uri_[0] != '/' )
+			uri_.insert(0, "/");
+		headers.set("Location", "http://" + host + uri_);
+	}
 	client->deliverData = getFirstLine() + headers.str();
 	currentState		= DONE;
 }
