@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by ygtdmr.*
+*This project has been created as part of the 42 curriculum by ygtdmr, hialpagu.*
 
 # cub3d
 
@@ -34,4 +34,3 @@ The Makefile provides all, clean, fclean, re, and an empty bonus target. On this
 ### AI Usage
 
 AI was used during this repository task to inspect the parser, DDA/camera structures, rendering loop, assets, and Makefile, and to identify the missing MiniLibX dependency. The implementation was preserved and the README was checked against the source.
-
