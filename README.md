@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by yidemir.*
+*This project has been created as part of the 42 curriculum by ygtdmr.*
 
 ## Description
 This project aims to broaden system administration knowledge by setting up a small infrastructure using Docker. The mandatory infrastructure consists of NGINX, WordPress with PHP-FPM, and MariaDB, each running in separate containers based on Alpine Linux. The project introduces the concepts of containerization, service orchestration, and secure communication.
@@ -41,4 +41,6 @@ To completely remove the containers, networks, images, and clear all persistent 
 * NGINX Documentation: https://nginx.org/en/docs/
 * MariaDB Documentation: https://mariadb.com/kb/en/
 * WordPress Documentation: https://wordpress.org/documentation/
-* **AI Usage:** Artificial Intelligence tools were utilized to understand system administration concepts, debug Docker connection issues, configure the NGINX SSL setup, structure the Makefile rules, and draft the required documentation files.
+### AI Usage
+
+AI was used during this repository reorganization to inspect the Dockerfiles, Compose services, Makefile, and existing documentation; to verify the documented targets and required local secrets; and to prepare this README. The infrastructure implementation remains the checked-in project code.
