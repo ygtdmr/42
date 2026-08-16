@@ -43,6 +43,10 @@ Example:
 
 Once running, you can connect to the server using a standard web browser, `curl`, `telnet` at the host and port specified in your configuration file (e.g., `http://localhost:8080`).
 
+## Known Build Issue
+
+On the current macOS toolchain, the build stops in `src/http/handler/Cgi/process.cpp` because `kill` is used without the required declaration. This is an existing source-level portability issue; the implementation was not changed during the repository split. On a toolchain where that declaration is available through the included headers, the documented `make` command is the intended build entry point.
+
 ## Resources
 - [RFC 1945 - Hypertext Transfer Protocol -- HTTP/1.0](https://datatracker.ietf.org/doc/html/rfc1945)
 - [RFC 2616 - Hypertext Transfer Protocol -- HTTP/1.1](https://datatracker.ietf.org/doc/html/rfc2616)
