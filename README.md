@@ -6,16 +6,16 @@ This repository is an index of projects completed as part of the 42 curriculum. 
 
 | Project | Branch |
 |---|---|
-| [cpp-00](https://github.com/ygtdmr/42/tree/cpp-00) | `cpp-00` |
-| [cpp-01](https://github.com/ygtdmr/42/tree/cpp-01) | `cpp-01` |
-| [cpp-02](https://github.com/ygtdmr/42/tree/cpp-02) | `cpp-02` |
-| [cpp-03](https://github.com/ygtdmr/42/tree/cpp-03) | `cpp-03` |
-| [cpp-04](https://github.com/ygtdmr/42/tree/cpp-04) | `cpp-04` |
-| [cpp-05](https://github.com/ygtdmr/42/tree/cpp-05) | `cpp-05` |
-| [cpp-06](https://github.com/ygtdmr/42/tree/cpp-06) | `cpp-06` |
-| [cpp-07](https://github.com/ygtdmr/42/tree/cpp-07) | `cpp-07` |
-| [cpp-08](https://github.com/ygtdmr/42/tree/cpp-08) | `cpp-08` |
-| [cpp-09](https://github.com/ygtdmr/42/tree/cpp-09) | `cpp-09` |
+| [CPP Module 00](https://github.com/ygtdmr/42/tree/cpp-module-00) | `cpp-module-00` |
+| [CPP Module 01](https://github.com/ygtdmr/42/tree/cpp-module-01) | `cpp-module-01` |
+| [CPP Module 02](https://github.com/ygtdmr/42/tree/cpp-module-02) | `cpp-module-02` |
+| [CPP Module 03](https://github.com/ygtdmr/42/tree/cpp-module-03) | `cpp-module-03` |
+| [CPP Module 04](https://github.com/ygtdmr/42/tree/cpp-module-04) | `cpp-module-04` |
+| [CPP Module 05](https://github.com/ygtdmr/42/tree/cpp-module-05) | `cpp-module-05` |
+| [CPP Module 06](https://github.com/ygtdmr/42/tree/cpp-module-06) | `cpp-module-06` |
+| [CPP Module 07](https://github.com/ygtdmr/42/tree/cpp-module-07) | `cpp-module-07` |
+| [CPP Module 08](https://github.com/ygtdmr/42/tree/cpp-module-08) | `cpp-module-08` |
+| [CPP Module 09](https://github.com/ygtdmr/42/tree/cpp-module-09) | `cpp-module-09` |
 | [cub3d](https://github.com/ygtdmr/42/tree/cub3d) | `cub3d` |
 | [ft_printf](https://github.com/ygtdmr/42/tree/ft_printf) | `ft_printf` |
 | [get_next_line](https://github.com/ygtdmr/42/tree/get_next_line) | `get_next_line` |
