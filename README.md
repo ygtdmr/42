@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by yidemir, zkayadib, gurganci.*
+*This project has been created as part of the 42 curriculum by ygtdmr.*
 
 # Webserv
 
@@ -55,4 +55,4 @@ During this project, Artificial Intelligence tools were utilized in accordance w
 - **Concept Explanations:** AI was used to clarify complex networking concepts, such as non-blocking I/O multiplexing with `poll()`, socket states, and the specific environment variables required for CGI scripts.
 - **Brainstorming:** AI assisted in generating ideas for structuring the configuration file parser and architecting the core server loop.
 - **Debugging Assistance:** AI tools provided insights into potential causes of socket leaks or hanging connections without writing the final implementation code.
-All AI-generated insights were critically assessed, reviewed by peers, and tested by the team to ensure complete comprehension and ownership of the project.
+AI was used during this repository reorganization to inspect the HTTP, parser, CGI, and Makefile sources; verify the documented build and launch commands; and prepare this README. The server implementation remains the checked-in project code, and no claim is made that it was AI-generated.
