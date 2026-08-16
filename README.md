@@ -1,43 +1,78 @@
 # 42 Projects
 
-This repository is an index of projects completed as part of the 42 curriculum. Each project has been separated into its own Git branch so that it can be reviewed, built, and navigated independently.
+This repository is a structured portfolio of projects completed through the 42 curriculum. Each project is preserved in its own Git branch, keeping its source, build files, documentation, and project history together while `main` serves as the curriculum index.
+
+## Project Roadmap
+
+The project map follows the progression represented by the 42 curriculum roadmap: foundational C libraries, algorithmic and Unix projects, graphics, C++ modules, and later systems and infrastructure work. Only projects that exist in this repository are listed.
 
 ## Project Map
 
-| Project | Branch |
-|---|---|
-| [CPP Module 00](https://github.com/ygtdmr/42/tree/cpp-module-00) | `cpp-module-00` |
-| [CPP Module 01](https://github.com/ygtdmr/42/tree/cpp-module-01) | `cpp-module-01` |
-| [CPP Module 02](https://github.com/ygtdmr/42/tree/cpp-module-02) | `cpp-module-02` |
-| [CPP Module 03](https://github.com/ygtdmr/42/tree/cpp-module-03) | `cpp-module-03` |
-| [CPP Module 04](https://github.com/ygtdmr/42/tree/cpp-module-04) | `cpp-module-04` |
-| [CPP Module 05](https://github.com/ygtdmr/42/tree/cpp-module-05) | `cpp-module-05` |
-| [CPP Module 06](https://github.com/ygtdmr/42/tree/cpp-module-06) | `cpp-module-06` |
-| [CPP Module 07](https://github.com/ygtdmr/42/tree/cpp-module-07) | `cpp-module-07` |
-| [CPP Module 08](https://github.com/ygtdmr/42/tree/cpp-module-08) | `cpp-module-08` |
-| [CPP Module 09](https://github.com/ygtdmr/42/tree/cpp-module-09) | `cpp-module-09` |
-| [cub3d](https://github.com/ygtdmr/42/tree/cub3d) | `cub3d` |
-| [ft_printf](https://github.com/ygtdmr/42/tree/ft_printf) | `ft_printf` |
-| [get_next_line](https://github.com/ygtdmr/42/tree/get_next_line) | `get_next_line` |
-| [inception](https://github.com/ygtdmr/42/tree/inception) | `inception` |
-| [libft](https://github.com/ygtdmr/42/tree/libft) | `libft` |
-| [minishell](https://github.com/ygtdmr/42/tree/minishell) | `minishell` |
-| [minitalk](https://github.com/ygtdmr/42/tree/minitalk) | `minitalk` |
-| [philosophers](https://github.com/ygtdmr/42/tree/philosophers) | `philosophers` |
-| [push_swap](https://github.com/ygtdmr/42/tree/push_swap) | `push_swap` |
-| [so_long](https://github.com/ygtdmr/42/tree/so_long) | `so_long` |
-| [webserv](https://github.com/ygtdmr/42/tree/webserv) | `webserv` |
+### Core Projects
+
+| Project | Branch | Description |
+|---|---|---|
+| [Libft](https://github.com/ygtdmr/42/tree/libft) | `libft` | Reimplements essential C string, character, memory, conversion, output, and linked-list utilities as a static library. |
+| [ft_printf](https://github.com/ygtdmr/42/tree/ft_printf) | `ft_printf` | Implements a variadic printf-like library with character, string, pointer, integer, unsigned, hexadecimal, and percent formatting. |
+| [get_next_line](https://github.com/ygtdmr/42/tree/get_next_line) | `get_next_line` | Reads files one line at a time with persistent buffering and independent state for multiple file descriptors. |
+
+### Rank 02 Projects
+
+| Project | Branch | Description |
+|---|---|---|
+| [push_swap](https://github.com/ygtdmr/42/tree/push_swap) | `push_swap` | Sorts integer sequences with two stacks and a constrained set of operations, including a bonus checker. |
+| [Minitalk](https://github.com/ygtdmr/42/tree/minitalk) | `minitalk` | Transfers messages between processes by encoding bytes with UNIX signals. |
+| [so_long](https://github.com/ygtdmr/42/tree/so_long) | `so_long` | Builds a MiniLibX 2D game with validated maps, player movement, collectible paths, and rendered assets. |
+| [Minishell](https://github.com/ygtdmr/42/tree/minishell) | `minishell` | Implements a POSIX-like shell with parsing, environment expansion, builtins, redirections, pipelines, heredocs, and signals. |
+| [Philosophers](https://github.com/ygtdmr/42/tree/philosophers) | `philosophers` | Simulates dining philosophers with both mutex-based threads and semaphore-based processes. |
+
+### Graphics
+
+| Project | Branch | Description |
+|---|---|---|
+| [cub3d](https://github.com/ygtdmr/42/tree/cub3d) | `cub3d` | Renders a textured 3D scene with MiniLibX using map parsing, camera rays, DDA traversal, and player movement. |
+
+### C++ Modules
+
+| Project | Branch | Description |
+|---|---|---|
+| [CPP Module 00](https://github.com/ygtdmr/42/tree/cpp-module-00) | `cpp-module-00` | Introduces C++98 classes, member functions, standard I/O, object initialization, and basic object design. |
+| [CPP Module 01](https://github.com/ygtdmr/42/tree/cpp-module-01) | `cpp-module-01` | Explores memory allocation, references, pointers, object lifetime, file streams, and member-function pointers. |
+| [CPP Module 02](https://github.com/ygtdmr/42/tree/cpp-module-02) | `cpp-module-02` | Studies fixed-point arithmetic, operator overloading, and point-in-triangle checks. |
+| [CPP Module 03](https://github.com/ygtdmr/42/tree/cpp-module-03) | `cpp-module-03` | Applies inheritance and protected state through a family of combat-oriented classes. |
+| [CPP Module 04](https://github.com/ygtdmr/42/tree/cpp-module-04) | `cpp-module-04` | Explores subtype polymorphism, abstract interfaces, deep copying, and interface-based ownership. |
+| [CPP Module 05](https://github.com/ygtdmr/42/tree/cpp-module-05) | `cpp-module-05` | Introduces exception handling and structured bureaucrat, form, and request workflows. |
+| [CPP Module 06](https://github.com/ygtdmr/42/tree/cpp-module-06) | `cpp-module-06` | Covers explicit casts, scalar conversion, pointer serialization, and runtime type identification. |
+| [CPP Module 07](https://github.com/ygtdmr/42/tree/cpp-module-07) | `cpp-module-07` | Introduces function and class templates through generic algorithms and dynamic arrays. |
+| [CPP Module 08](https://github.com/ygtdmr/42/tree/cpp-module-08) | `cpp-module-08` | Applies STL containers, generic search, span calculations, and stack iterators. |
+| [CPP Module 09](https://github.com/ygtdmr/42/tree/cpp-module-09) | `cpp-module-09` | Uses standard containers for Bitcoin exchange processing, RPN evaluation, and merge-insertion sorting. |
+
+### Outer Projects
+
+| Project | Branch | Description |
+|---|---|---|
+| [Webserv](https://github.com/ygtdmr/42/tree/webserv) | `webserv` | Implements a non-blocking C++98 HTTP server with request parsing, static files, uploads, CGI, configuration, and multiple connections. |
+| [Inception](https://github.com/ygtdmr/42/tree/inception) | `inception` | Builds a Docker-based infrastructure with separate NGINX, WordPress/PHP-FPM, and MariaDB services. |
 
 ## Repository Structure
 
-The `main` branch is intentionally kept clean and contains only this landing page. Project source code, project documentation, Makefiles, assets, and dependencies live on the corresponding project branch listed above.
+The `main` branch intentionally contains only this landing page. Each project is maintained independently in its matching branch:
 
-To inspect a project locally, switch to its branch:
+- `libft` → Libft
+- `minishell` → Minishell
+- `cpp-module-00` → C++ Module 00
+- `webserv` → Webserv
 
-~~~sh
-git switch minishell
-~~~
+Open any project from the map above, or switch to its branch locally:
 
-## About
+```sh
+git switch <branch-name>
+```
 
-The projects cover C and C++ fundamentals, algorithms, Unix processes and signals, concurrency, graphics, networking, containers, and systems administration. Each project branch contains documentation appropriate to that project, including its build requirements and known limitations where applicable.
+## Curriculum Context
+
+Together, these projects cover progressively deeper work in C and C++, memory management, algorithms, Unix processes and signals, concurrency, graphics, networking, HTTP systems, containers, and infrastructure administration. This repository represents a selected set of the projects present in this portfolio, not the complete 42 curriculum.
+
+## Author
+
+Projects by [ygtdmr](https://github.com/ygtdmr).
