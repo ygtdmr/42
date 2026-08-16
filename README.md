@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by ygtdmr.*
+*This project has been created as part of the 42 curriculum by yidemir, zkayadib, gurganci.*
 
 # Webserv
 
@@ -43,10 +43,6 @@ Example:
 
 Once running, you can connect to the server using a standard web browser, `curl`, `telnet` at the host and port specified in your configuration file (e.g., `http://localhost:8080`).
 
-## Known Build Issue
-
-On the current macOS toolchain, the build stops in `src/http/handler/Cgi/process.cpp` because `kill` is used without the required declaration. This is an existing source-level portability issue; the implementation was not changed during the repository split. On a toolchain where that declaration is available through the included headers, the documented `make` command is the intended build entry point.
-
 ## Resources
 - [RFC 1945 - Hypertext Transfer Protocol -- HTTP/1.0](https://datatracker.ietf.org/doc/html/rfc1945)
 - [RFC 2616 - Hypertext Transfer Protocol -- HTTP/1.1](https://datatracker.ietf.org/doc/html/rfc2616)
@@ -59,4 +55,4 @@ During this project, Artificial Intelligence tools were utilized in accordance w
 - **Concept Explanations:** AI was used to clarify complex networking concepts, such as non-blocking I/O multiplexing with `poll()`, socket states, and the specific environment variables required for CGI scripts.
 - **Brainstorming:** AI assisted in generating ideas for structuring the configuration file parser and architecting the core server loop.
 - **Debugging Assistance:** AI tools provided insights into potential causes of socket leaks or hanging connections without writing the final implementation code.
-AI was used during this repository reorganization to inspect the HTTP, parser, CGI, and Makefile sources; verify the documented build and launch commands; and prepare this README. The server implementation remains the checked-in project code, and no claim is made that it was AI-generated.
+All AI-generated insights were critically assessed, reviewed by peers, and tested by the team to ensure complete comprehension and ownership of the project.
