@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:02:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/18 13:48:22 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/19 16:42:19 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # include "../get_next_line/get_next_line.h"
 # include "../minilibx-linux/mlx.h"
 
-typedef struct s_slva
+typedef struct t_slverify_path
 {
 	int	cc;
 	int	ise;
@@ -80,7 +80,7 @@ int		map_verify_path(t_sldata *sld, char **map);
 void	file_verify(char *s);
 int		str_clen(char *s, char c);
 void	verify_default_images(t_sldata *sld);
-
+void	scan_map(t_slverify_path *va, char **map, int x, int y);
 void	do_anim_player(t_sldata *sld, int code);
 void	do_anim_enemy(t_sldata *sld, t_enemy *enemy);
 int		enemy_handle(t_sldata *sld);

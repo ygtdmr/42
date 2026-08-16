@@ -15,7 +15,6 @@
 # include <stdarg.h>
 # include <unistd.h>
 
-int		ft_ispf(const char *s);
 int		ft_printf(const char *f, ...);
 int		ft_putf(const char *f, va_list args);
 int		ft_putbase(char *b, size_t v, int ise);

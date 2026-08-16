@@ -6,7 +6,7 @@
 #    By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/25 21:51:02 by yidemir           #+#    #+#              #
-#    Updated: 2025/03/18 14:18:00 by yidemir          ###   ########.fr        #
+#    Updated: 2025/03/19 14:11:25 by yidemir          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC		=		get_next_line/get_next_line.c \
 				map_verify.c \
 				strclen.c \
 				map_verify_path.c \
+				scan_map.c \
 				get_img.c \
 				get_default_path.c \
 				map_render.c \
@@ -41,6 +42,7 @@ SRC_BONUS	=	get_next_line/get_next_line.c \
 				map_render.c \
 				get_map.c \
 				init_p.c \
+				bonus/scan_map_bonus.c \
 				bonus/exit_sl_bonus.c \
 				bonus/get_default_path_bonus.c \
 				bonus/is_valid_char_bonus.c \

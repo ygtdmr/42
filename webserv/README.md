@@ -41,7 +41,7 @@ Example:
 ./webserv configs/default.conf
 ```
 
-Once running, you can connect to the server using a standard web browser, `curl`, `telnet`, or NGINX (for comparison testing) at the host and port specified in your configuration file (e.g., `http://localhost:8080`).
+Once running, you can connect to the server using a standard web browser, `curl`, `telnet` at the host and port specified in your configuration file (e.g., `http://localhost:8080`).
 
 ## Resources
 - [RFC 1945 - Hypertext Transfer Protocol -- HTTP/1.0](https://datatracker.ietf.org/doc/html/rfc1945)

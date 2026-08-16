@@ -6,7 +6,7 @@
 /*   By: yidemir <yidemir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 22:02:19 by yidemir           #+#    #+#             */
-/*   Updated: 2025/03/18 14:20:21 by yidemir          ###   ########.fr       */
+/*   Updated: 2025/03/19 13:53:17 by yidemir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ void	map_verify_path(t_sldata *sld, char **map);
 void	file_verify(char *s);
 int		str_clen(char *s, char c);
 void	verify_default_images(t_sldata *sld);
+void	scan_map(t_slverify_path *va, char **map, int x, int y);
 
 #endif

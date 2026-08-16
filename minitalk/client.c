@@ -76,12 +76,12 @@ static void	send_message(char *s)
 
 int	main(int argc, char *argv[])
 {
-	g_pid = ft_atoi(argv[1]);
-	if (!g_pid || argc != 3)
+	if (argc != 3)
 	{
 		write(1, "Usage: ./client <PID> <message>\n", 32);
 		return (1);
 	}
+	g_pid = ft_atoi(argv[1]);
 	send_message(argv[2]);
 	return (0);
 }
