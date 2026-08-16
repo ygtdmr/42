@@ -29,6 +29,10 @@ make re
 
 Use ordinary shell syntax supported by the implementation, for example pipelines and redirections. A heredoc is written with two less-than signs followed by a delimiter. The program can also be used non-interactively by piping input into it. The shell inherits the environment of its parent process and uses readline for the interactive prompt.
 
+## Known Build Issue
+
+On the current macOS system readline headers, the mandatory build stops because `rl_replace_line` and `rl_clear_history` are not declared by the installed header set. This is an existing portability/toolchain issue in the checked-in source and was not changed during the split. The Makefile command above is the intended build on a compatible readline installation.
+
 ## Resources
 
 - [POSIX Shell Command Language](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html)
@@ -40,4 +44,3 @@ Use ordinary shell syntax supported by the implementation, for example pipelines
 ### AI Usage
 
 AI was used during this repository reorganization to inspect the lexer, parser, expansion, redirection, builtin, and executor sources; verify the Makefile targets and dependencies; and draft this README. The shell implementation remains the checked-in project code.
-
