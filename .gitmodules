@@ -1,0 +1,4 @@
+[submodule "src/libft"]
+	path = src/libft
+	url = git@github.com:ygtdmr/42.git
+	branch = libft
