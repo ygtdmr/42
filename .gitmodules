@@ -1,0 +1,8 @@
+[submodule "get_next_line"]
+	path = get_next_line
+	url = git@github.com:ygtdmr/42.git
+	branch = get_next_line
+[submodule "libft"]
+	path = libft
+	url = git@github.com:ygtdmr/42.git
+	branch = libft
