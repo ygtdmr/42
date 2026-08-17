@@ -2,6 +2,8 @@
 
 This repository contains projects developed throughout my journey at 42, covering C, C++, algorithms, systems programming, networking, and software engineering. Each project is preserved in its own Git branch, while `main` serves as an evolving roadmap that can grow with future projects.
 
+![42_logo_banner](https://drive.google.com/uc?id=1f1cyhp1vk6u1uHlImAoJh2DfkUugpETZ)
+
 ## Project Roadmap
 
 Projects are presented in the progression represented by the 42 curriculum roadmap. Only projects currently present in this repository are included.
@@ -42,9 +44,9 @@ git switch <branch-name>
 
 ## 42 Profile
 
-| | |
-|---|---|
-| **Intra** | [yidemir](https://profile-v3.intra.42.fr/users/yidemir) |
-| **Email** | [yidemir@student.42istanbul.com.tr](mailto:yidemir@student.42istanbul.com.tr) |
-| **Kickoff** | October 7, 2024 |
-| **Piscine** | August 15, 2024 |
+| Information | Details | Description |
+|---|---|---|
+| **Intra** | [yidemir](https://profile-v3.intra.42.fr/users/yidemir) | My 42 Intra profile, where my curriculum progress and project activity can be followed. |
+| **Email** | [yidemir@student.42istanbul.com.tr](mailto:yidemir@student.42istanbul.com.tr) | My student email address at 42 Istanbul. |
+| **Kickoff** | October 7, 2024 | The date I officially started my 42 curriculum journey. |
+| **Piscine** | August 15, 2024 | The date I started the 42 Piscine selection process. |
